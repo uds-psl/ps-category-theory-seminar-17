@@ -1,0 +1,24 @@
+
+\newtoggle{isDraft} % Documents that have this set to false won't contain any todo's.
+
+\toggletrue{isDraft} % Diese Datei wurde aus einem anderen Projekt übernommen.
+					 % Solange wir noch nicht genau ausgeknobelt haben, wie das mit dem Drafting läuft, ignorieren wir es erst mal und zeigen TODO's immer an.
+
+% For todo's in text mode:
+%\newcommand{\todo}[2]{\iftoggle{isDraft}{\textcolor{red}  {\textbf{TODO\textsubscript{#1}: #2}}}{} \PackageWarning{TODO}{TODO: #2} }
+
+\usepackage{xargs} %use more than 1 argument
+%\usepackage[pdftex,dvipsnames]{xcolor} %colors and stuff
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes} %todo structure
+\newcommandx{\vtodo}[3][1=]{\todo[author=#2,#1]{#3}} %basic todo-note, only allowed to authors of this section
+\newcommandx{\figtodo}[3][1=]{\missingfigure[author=#2,figcolor=white,#1]{#3}}
+
+% For stuff that should only appear in a draft:
+\NewEnviron{draft}{\iftoggle{isDraft}{\textcolor{darkgray}\BODY}{}}
+
+% For margin todo's:
+\setlength{\marginparsep}{2mm}
+\newcommand{\mtodo}[2]{\iftoggle{isDraft}{\marginpar{\tiny\textcolor{red}  {(#1): #2}}}{} \PackageWarning{TODO}{TODO: #2}}
+% For indicating that the current version is a draft:
+\fancyfoot[L,R]{\iftoggle{isDraft}{\textcolor{red} {\textbf{E N T W U R F}}}{}}
+

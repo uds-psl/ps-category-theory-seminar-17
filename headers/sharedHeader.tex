@@ -1,0 +1,133 @@
+\usepackage{nag}
+\usepackage[small,compact]{titlesec}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{color}
+\usepackage{parskip}
+\usepackage{needspace}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage{xifthen}
+\usepackage{xpatch}
+\usepackage{enumitem}
+\usepackage{mdwlist}
+\usepackage{bussproofs}
+\EnableBpAbbreviations
+\usepackage{tabu}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+%grober hack, der den groben hack von parskip bei den amsthm sachen korrigiert
+\begingroup
+    \makeatletter
+       \@for\theoremstyle:=definition,remark,plain\do{%
+            \expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+                        \addtolength\thm@preskip\parskip
+             }%
+        }
+\endgroup
+\usepackage[UKenglish]{babel}
+\usepackage{xparse}
+\usepackage{adjustbox}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{soul}
+\usepackage{calc}
+\usepackage{textcase}
+\usepackage{stmaryrd}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\usepackage{tikz}
+\usetikzlibrary{trees, backgrounds, shapes, chains, decorations.text, decorations.pathreplacing, circuits.logic.IEC, patterns, matrix}
+\usepackage{tikz-qtree}
+\usepackage{tikzsymbols}
+\usepackage{fancyvrb}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{lastpage}
+\usepackage{pgfpages}
+\usepackage{csquotes}
+\usepackage{longtable}
+\usepackage{ragged2e}
+%\usepackage{stackengine}
+\usepackage{censor}
+\usepackage{expl3}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{environ}
+
+
+% Package for Cateogry diagrams:
+
+\usepackage{tikz-cd}
+
+
+
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+\renewcommand{\labelenumii}{(\roman{enumii})}
+
+\input{\pathToRoot headers/definitions}
+
+
+
+\tikzset{
+    normal/.style={draw, semithick},
+    n/.style={style=normal, circle, inner sep=1mm, minimum size=8mm},
+    l/.style={style=normal, rounded corners=1mm, inner sep=1mm, minimum size=6mm},
+    e/.style={style=normal, shorten >=1mm, shorten <=1mm, ->, >=stealth},
+    syntax/.style={style=normal, ellipse, minimum height=6mm, minimum width=8mm}, % nodes in syntax trees
+    inner/.style={style=normal, minimum size=4mm}, % inner leaves or root in normal trees
+    leaf/.style={style=normal, circle, minimum size=4mm}, % leaves in normal trees
+    te/.style={style=normal}, % edges in a tree
+    be/.style={style=e, dashed} % binding edge
+}
+
+\newcommand{\syntaxtree}[1]{ % DEPRECATED - use tikzsyntaxtree
+    \begin{tikzpicture}[baseline=(current bounding box.north)]
+        \tikzset{grow=down}
+        \tikzset{every node/.style={syntax}}
+        \tikzset{edge from parent/.style=
+            {te,
+                edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}}}
+        \Tree #1
+    \end{tikzpicture}
+}
+
+\newenvironment{tikzsyntaxtree}[1][]{
+    \begin{tikzpicture}[baseline=(current bounding box.north), #1]
+    \tikzset{grow=down}
+    \tikzset{every tree node/.style={syntax}}
+    \tikzset{edge from parent/.style={te, edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}}}
+}{
+    \end{tikzpicture}
+}
+
+
+\newcommand{\DisplayScaledProof}{\maxsizebox{\linewidth}{!}{\DisplayProof}}
+\newcommand{\DisplayTopProof}{\adjustbox{valign=t}{\DisplayProof}}
+\newcommand{\DisplayScaledTopProof}{\adjustbox{valign=t}{\maxsizebox{\linewidth}{!}{\DisplayProof}}}
+
+
+\newcolumntype{P}[1]{>{\RaggedRight\hspace{0pt}}p{#1}}
+
+\newenvironment{prooftable}
+{
+    \begin{longtable}{>{\footnotesize}p{0.33\textwidth}>{\footnotesize}p{0.33\textwidth}|>{\footnotesize}P{0.15\textwidth}}
+    \normalsize Textbeweis & \normalsize Erklärungen & \normalsize Schlussregel\\\hline
+    \endhead
+}
+{
+    \end{longtable}
+}
+
+
+\theoremstyle{definition}
+\newtheorem*{definition*}{Definition} % Definition ohne Nummer
+\newtheorem*{inferenceRule*}{Schlussregel}

@@ -1,0 +1,102 @@
+\documentclass{article}
+
+\input{\pathToRoot headers/sharedHeader}
+
+\geometry{a4paper,left=2cm,right=2cm,top=2cm,bottom=3cm}
+
+
+\newcommand{\licenseccjuliachristian}{\def\islicenseccjuliachristian{}}
+\newcommand{\suppresslicense}{\def\issuppresslicense{}}
+
+
+\AtBeginDocument{
+    \pagestyle{fancy}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{1pt}
+    \fancyhead{}
+    \fancyfoot[C]{\thepage~/~\pageref{LastPage}}
+}
+
+
+\newcommand{\pgbreakhere}{\Needspace*{4\baselineskip}}
+\newcommand{\pgbreakHere}{\Needspace*{10\baselineskip}}
+\newcommand{\pgbreakHERE}{\Needspace*{15\baselineskip}}
+
+\newcommand{\raisedrule}[2][0em]{\leavevmode\leaders\hbox{\rule[#1]{1pt}{#2}}\hfill\kern0pt}
+
+% inspired by http://tex.stackexchange.com/questions/242294/suppress-parskip-only-after-a-specific-paragraph
+\makeatletter
+\newlength\noparskip@parskip % used to store a backup of the parskip value
+\newboolean{noparskip@triggered} % flag to indicate that noparskip was run in the current paragraph
+\setboolean{noparskip@triggered}{false}
+\newboolean{noparskip@active} % flag to indicate that parskip should be restored after this paragraph
+\setboolean{noparskip@active}{false}
+\let\noparskip@par\par % store a backup of the \par command
+\@setpar{% redefine \par with the means of ltpar.dtx to stay compatible to enumerate and itemize
+    \ifhmode% since we're counting occurrences of \par, \par\par would be a problem, so check that we are actually ending a paragraph
+        \ifthenelse{\boolean{noparskip@active}}{%
+            \setlength\parskip\noparskip@parskip% restore parskip
+            \setboolean{noparskip@active}{false}% remember not the restore parskip again
+        }{}%
+        \ifthenelse{\boolean{noparskip@triggered}}{%
+            \ifthenelse{\boolean{noparskip@active}}{}{
+                % we are triggering noparskip and not currently in a noparskip already
+                \setlength\noparskip@parskip\parskip % copy the current parskip into the backup variable
+            }%
+            \setboolean{noparskip@triggered}{false}% paragraph is ending, so noparskip is no longer triggered
+            \setlength\parskip{0pt}% no parskip when the next paragraph begins
+            \setboolean{noparskip@active}{true}% parskip must be restored by the next par
+        }{}%
+    \fi%
+    \noparskip@par% run the original par command
+}
+\def\noparskip@backout{%
+    \ifthenelse{\boolean{noparskip@active}}{%
+        % a list is beginning and parskip is currently set to zero, wich would mess up the list
+        \setlength\parskip{\noparskip@parskip}% restore parskip before the list begins
+        \setboolean{noparskip@active}{false}%
+    }{}%
+    \setboolean{noparskip@triggered}{false}% there's no sense in keeping noparskip triggered throughout a list
+}
+\xpretocmd\begin{%
+    \ifstrequal{#1}{enumerate}{\noparskip@backout}{}%
+    \ifstrequal{#1}{itemize}{\noparskip@backout}{}%
+    \ifstrequal{#1}{list}{\noparskip@backout}{}%
+    \ifstrequal{#1}{proof}{\noparskip@backout}{}%
+}{}{}
+\def\noparskip{%
+    \leavevmode% ensure that we are within a paragraph
+    \setboolean{noparskip@triggered}{true}% trigger noparskip
+}
+\makeatother
+
+\newcommand{\noparskipworkaround}{} % DEPRECATED and no longer needed
+
+
+\newcommand{\head}[1]{
+    {
+        \setlength{\parskip}{0pt}
+        \hrule height 1pt
+        \vspace{.2cm}
+        Saarland University \hfill Category Theory Seminar 2017\par
+        Programming Systems Lab \hfill \small\url{https://courses.ps.uni-saarland.de/ct_ss17/}\par
+        \tiny\raisedrule[0mm]{1pt}
+        \vspace{2ex}
+        \begin{center}
+            \Large
+            \textbf{#1}\par
+            \raisedrule[2mm]{1pt}
+        \end{center}
+        \vspace{3ex}
+    }
+}
+
+\newenvironment{leftframedparagraph}{\begin{mdframed}[hidealllines = true, leftline = true, innerleftmargin = 2ex, innerrightmargin = 0pt,
+innertopmargin = 0pt, innerbottommargin = 2pt, skipabove=2ex, skipbelow=1ex, outerlinewidth = 0ex, innerlinewidth = 0.5ex]}{\end{mdframed}}
+\newenvironment{leftframed}{\begin{mdframed}[hidealllines = true, leftline = true, innerleftmargin = 2ex, innerrightmargin = 0pt,
+innertopmargin = 0pt, innerbottommargin = 0pt, skipabove=2ex, skipbelow=1ex, outerlinewidth = 0ex, innerlinewidth = 0.5ex]}{\end{mdframed}}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,78 @@
+\input{\pathToRoot headers/sheetHeader}
+
+\newcommand{\uebunghead}[3][Exercise sheet:]{\def\sheetid{#2}\head{#1 #2\ifthenelse{\isundefined{\issolution}}{}{ \ifthenelse{\isundefined{\ismarking}}{(Possible solutions)}{(Marking)}} \\ #3}}
+
+\licenseccjuliachristian
+
+
+\newcommand{\amountofpoints}[1]{\ifstrequal{#1}{1}{1~Punkt}{#1~Punkte}}
+
+
+% marking implies solution
+\ifthenelse{\isundefined{\ismarking}}{}{\def\issolution{}}
+
+
+%%%Environments
+\newcounter{ExamExerciseCounter} % will only be used in exams, but must be defined here so ExerciseCounter can be reset when ExamExericise counts
+\setcounter{ExamExerciseCounter}{0}
+\newcounter{ExerciseCounter}[ExamExerciseCounter]
+\setcounter{ExerciseCounter}{0}
+
+\newcommand{\ExerciseNumber}{\sheetid.\arabic{ExerciseCounter}}
+\renewcommand{\theExerciseCounter}{\ExerciseNumber}
+
+\newcommand{\ExercisePointHook}[1]{}
+
+%Aufgaben-Umgebung
+\NewDocumentEnvironment{exercise}{od<>}{
+    \refstepcounter{ExerciseCounter}
+    \pgbreakhere
+    \vspace{1ex}\textbf{Exercise\ \ExerciseNumber}%
+    \IfNoValueF{#1}{ \emph{(#1)}}%
+    \IfNoValueF{#2}{\hfill(\amountofpoints{#2})}%
+    \IfNoValueF{#2}{\ExercisePointHook{#2}}%
+    \noparskip\par\nopagebreak
+}{
+    \par
+    \vspace{2ex}
+}
+
+
+
+%Loesungs-Umgebung
+\newenvironment{answer}
+{
+    \ifthenelse{\isundefined{\issolution}}
+    {
+        \comment
+    }{
+        \vspace{1ex}\textsl{Lösungsvorschlag \ExerciseNumber}\noparskip\par\nopagebreak
+    }
+}{
+    \ifthenelse{\isundefined{\issolution}}
+    {
+    }{
+        \vspace{1ex}
+        \hspace*{\fill}
+    }
+}
+
+\newenvironment{marking}
+{%
+    \ifthenelse{\isundefined{\ismarking}}%
+    {%
+        \comment%
+    }{%
+        \color{red}
+    }%
+}{%
+    \ifthenelse{\isundefined{\ismarking}}%
+    {%
+    }{%
+    }%
+}
+
+\newenvironment{example}{\begin{leftframedparagraph}\paragraph{Example:}}{\end{leftframedparagraph}}
+\newenvironment{hint}{\paragraph{Hint:}}{}
+\newenvironment{caution}{\paragraph{Caution:}}{}
+\newenvironment{definition}[1]{\begin{leftframedparagraph}\paragraph{Definition (#1):}}{\end{leftframedparagraph}}

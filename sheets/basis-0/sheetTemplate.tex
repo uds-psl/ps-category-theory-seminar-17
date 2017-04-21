@@ -1,0 +1,80 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+
+\begin{document}
+
+% Use Basis x or Talk x, where x is the number of the session
+\uebunghead{Basis 0}{Sets, functions, groups and orders}
+
+\section{Sets and functions}
+
+\begin{exercise}
+  The composition of injective functions is injective.
+\end{exercise}
+
+\begin{exercise}
+  If $f \circ g$ is surjective, what do you know about $g$? Is it injective, surjective, bijective?
+\end{exercise}
+
+\section{Semigroups, monoids and groups}
+
+\begin{definition}{Semigroup}
+  A semigroup $(S, \cdot)$ consists out of a non-empty type $S$ with an operation $\cdot : S \to S \to S$ which is associative.
+  $S$ is called the carrier.
+\end{definition}
+
+\begin{definition}{Monoid}
+  A monoid is a semi-group with an identity $\alpha$, i.e. $\forall x : S, \alpha \cdot x = x = x \cdot \alpha$.
+\end{definition}
+
+\begin{exercise}
+  List semi-groups with the following carriers:
+  \begin{multicols}{3}
+    \begin{itemize}
+    \item $\mathbb{N}$
+    \item $\mathcal{P}(W)$ for a finite set $W$
+    \item $S$ for any non-empty set $S$
+    \end{itemize}
+  \end{multicols}
+
+  Which of them is a monoid?
+\end{exercise}
+
+\begin{definition}{Canonical pre-order}
+  A semi-group can be ordered in two canonical ways:
+  \begin{itemize}
+  \item $x \leq^R_\cdot y := \exists z, y = x \cdot z$
+  \item $x \leq^L_\cdot y := \exists z, y = z \cdot x$
+  \end{itemize}
+\end{definition}
+
+\begin{definition}{Canonically ordered semi-group}
+  A semi-group is canonically ordered if $\leq^R_\cdot$ and $\leq^L_\cdot$ are partial orders.
+\end{definition}
+
+\begin{definition}{Group}
+  A group is a monoid $(S, \cdot, \alpha)$ with inverse elements, i.e. $\forall x, \exists x^{-1}, x \cdot x^{-1} = \alpha$.
+  A group is trivial if $S$ is a singleton.
+\end{definition}
+
+\begin{exercise}
+  Only a trivial group is canonically ordered.
+\end{exercise}
+
+\section{Diagrams}
+
+\begin{hint}
+  This is how you can draw diagrams:
+  \[
+    \begin{tikzcd}
+                                    & A \arrow{dr}{g}    & \\
+      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
+    \end{tikzcd}
+  \]
+\end{hint}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
