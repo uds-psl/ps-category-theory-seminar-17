@@ -1,0 +1,72 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+
+\begin{document}
+
+% Use Basis x or Talk x, where x is the number of the session
+\uebunghead{Basis 1}{What is a Category?}
+
+\begin{hint}
+  Read Chapter 1.1. For initial and terminal objects refer to Definition 2.17 on pages 48ff. For Monics and Epics, see the respective sections in Chapters 5.1 and 5.2.
+\end{hint}
+
+%\section{Diagrams}
+%
+%\begin{hint}
+%  This is how you can draw diagrams:
+%  \[
+%    \begin{tikzcd}
+%                                    & A \arrow{dr}{g}    & \\
+%      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
+%    \end{tikzcd}
+%  \]
+%\end{hint}
+
+\section{Categories - Definition and Basics}
+
+\begin {exercise}
+We have to show that for $f \from A \to B$, there is at most one $g \from B \to A$ s.t. $gf = 1_A$ and $fg = 1_B$. 
+\\Assume that $g$ exists and that there is some $h \from B \to A$: $hf = 1_A$, $fh = 1_B$. 
+\\We know from the identity axiom: $1_A \of g = g$ and $h \of 1_B = h$. Using this, our assumtions and the associativity axiom, we get:
+ \[  1_A \of g = g \textiff (h \of f) \of g = g \textiff h \of (f \of g) = g \textiff h \of 1_B = g \textiff h=g. \]
+\end{exercise}
+
+\begin {definition}{Rel}
+The objects of the category \textbf{Rel} are sets, an arrow $f \from A \to B$ is a subset $f \sub A \times B$. 
+The identity arrow on set $A$ is the equality relation $\{\angles{a,a} \such a \in A\} := 1_A$. 
+Composition of two maps $f \sub A \times B$, $g \sub B \times C$ is defined as 
+\[ g \of f = \{ \angles{a, c} \in A \times C \such \exists b \emptybk (\angles {a, b} \in f \emptybk \& \emptybk \angles{b, c} \in g)\} \]
+\end{definition}
+
+\begin {exercise}
+\textbf{identity laws:} for $f \sub A \times B$, 
+\[f \of 1_A = \{ \angles{a, b} \in A \times B \such \exists a' \emptybk (\angles {a, a'} \in 1_A \emptybk \& \emptybk \angles{a', b} \in f)\} = \{ \angles{a, b} \in A \times B \such \exists a' \in A.  \emptybk \angles{a', b} \in f)\} = f.\] Analogously, $1_B \of f = f$.
+
+
+\textbf{associativity:} for $f \sub A \times B, g\sub B \times C, h \sub C \times D$, 
+\[
+h \of (g \of f) = h \of \{ \angles{a, c} \in A \times C \such \exists b \emptybk (\angles {a, b} \in f \emptybk \& \emptybk \angles{b, c} \in g)\}
+\]
+\[= \{ \angles{a, d} \in A \times D \such \exists b, c \emptybk (\angles {a, b} \in f \emptybk \& \emptybk \angles{b, c} \in g \& \angles{c, d} \in h \} = (h \of g) \of f\]
+
+\end{exercise}
+
+
+\begin{definition}{Pos} The objects of  \textbf{Pos} are partially ordered sets 
+(recall that a poset is a set $A$ equipped with a reflexive, transitive and antisymmetric binary relation $\leq^A_\cdot $ ) 
+An arrow $ m \from A \to B $ function that is monotone, i.e. $\forall a, a' \in A$, 
+\[a \leq^A_\cdot a' \implies m(a) \leq^A_\cdot m(a')\]
+\end{definition}
+
+\begin {exercise}
+\textbf{identity laws:} $1_A$ is the identity function, which is monotone since $a \leq^A_\cdot a' \implies a' \leq^A_\cdot a.$ 
+\\The axiom holds because for $f \from A \in B, f \of 1_A = f = 1_B \of f$ (same as in \textbf{Set}).
+\\
+\textbf{associativity:} If $ f \from A \to B, g \from B \to C $ are monotone, so is $g \of f$ because \[a \leq^A_\cdot a' \implies f(a) \leq^A_\cdot f(a') \implies  g(f(a)) \leq^A_\cdot g(f(a'))  .\] Associativity follows from assiociativity of function composition.
+\end{exercise}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
