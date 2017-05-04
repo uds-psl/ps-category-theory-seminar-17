@@ -5,21 +5,106 @@
 % Use Basis x or Talk x, where x is the number of the session
 \uebunghead{Basis 1}{What is a Category?}
 
+\author{Sarah Mameche, Andreas Meyer, Leonhard Staut}
+
 \begin{hint}
   Read Chapter 1.1. For initial and terminal objects refer to Definition 2.17 on pages 48ff. For Monics and Epics, see the respective sections in Chapters 5.1 and 5.2.
 \end{hint}
 
-\section{Diagrams}
+%\section{Diagrams}
+%
+%\begin{hint}
+%  This is how you can draw diagrams:
+%  \[
+%    \begin{tikzcd}
+%                                    & A \arrow{dr}{g}    & \\
+%      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
+%    \end{tikzcd}
+%  \]
+%\end{hint}
 
-\begin{hint}
-  This is how you can draw diagrams:
+\section{Categories - Definition and Basics}
+
+\begin {exercise}
+Show there can be at most one inverse for a map $f \from A \to B$.
+\end{exercise}
+
+\begin {definition}{Rel}
+The objects of the category \textbf{Rel} are sets, an arrow $f \from A \to B$ is a subset $f \sub A \times B$.
+The identity arrow on set $A$ is the equality relation $\{\angles{a,a} \such a \in A\} := 1_A$.
+Composition of two maps $f \sub A \times B$, $g \sub B \times C$ is defined as
+\[ g \of f = \{ \angles{a, c} \in A \times C \such \exists b. \angles {a, b} \in f \land \angles{b, c} \in g\} \]
+\end{definition}
+
+\begin {exercise}
+Show that \textbf{Rel} is a category.
+\end{exercise}
+
+
+\begin{definition}{Pos} The objects of  \textbf{Pos} are partially ordered sets
+(recall that a poset is a set $A$ equipped with a reflexive, transitive and antisymmetric binary relation $\leq^A $ )
+An arrow $ m \from A \to B $ is a monotone function, i.e. $\forall a, a' \in A$,
+\[a \leq^A a' \implies m(a) \leq^A m(a')\]
+\end{definition}
+
+\begin {exercise}
+Show that \textbf{Pos} is a category.
+\end{exercise}
+
+\begin{exercise}
+For a fixed set X with Powerset $\mathcal{P}(X)$, does $\mathcal{P}(X) \cong \mathcal{P}(X)^{op}$ hold?
+\end{exercise}
+
+
+\begin{exercise}
+  \begin{enumerate}
+  \item Show that \textbf{Rel} is a pointed category.
+  \item Show that the category \textbf{Grp} of groups has both an initial and a final object, and these are the same.
+  \item Show that the category \textbf{Ring} of unital rings has both an initial and a final object, and these are not the same.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Prove that any isomorphism is both monic and epic.
+\end{exercise}
+
+\newpage
+
+\begin{exercise}
+Let $A, B, C$ be objects in any category
+  and let $f : A \rightarrow B$ and $g : B \rightarrow C$
+  be maps in that category. Prove the following facts.
   \[
     \begin{tikzcd}
-                                    & A \arrow{dr}{g}    & \\
-      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
+      A \arrow{r}{f} \arrow{dr}{h} & B \arrow{d}{g} & \\
+                                   & C &
     \end{tikzcd}
   \]
-\end{hint}
+
+  \begin{enumerate}
+  \item If both $f$ and $g$ are isomorphisms,
+    then $h$ is also an isomorphism.
+  \item If $h$ is monic, $f$ is monic.
+  \item If $h$ is epic, $g$ is epic.
+  \end{enumerate}
+\end{exercise}
+\begin{exercise}
+  Prove the following for a map $f \from A \to B$
+  in the category \textbf{Set},
+  \begin{enumerate}
+  \item If $f$ is monic, it is injective.
+  \item If $f$ is epic, it is surjective. \textit{(Challenge 1)}
+  \end{enumerate}
+\end{exercise}
+\begin{exercise}[Challenge 2]
+  Prove that in the category \textbf{Ring}, there are maps
+  which are epic but not surjective.
+  \begin{hint}
+    Consider the inclusion map $\mathbb{Z} \to \mathbb{Q}$, and
+    use the properties of ring homomorphisms.
+  \end{hint}
+\end{exercise}
+
 
 \end{document}
 
