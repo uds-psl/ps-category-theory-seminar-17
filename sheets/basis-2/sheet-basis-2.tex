@@ -1,25 +1,128 @@
 \def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
 
+\DeclareMathOperator{\A}{\mathscr A}
+\DeclareMathOperator{\B}{\mathscr B}
+\DeclareMathOperator{\M}{\mathscr M}
+
 \begin{document}
 
 % Use Basis x or Talk x, where x is the number of the session
 \uebunghead{Basis 2}{Maps between Categories -- Functors}
 
+\author{Mostafa Ahmed Abdelfattah Abouhamra, Felix Rech, Dominik Wagner}
+
 \begin{hint}
   Read Chapter 1.2.
 \end{hint}
 
-\section{Diagrams}
+\section{Contravariant Functors and Presheaves}
 
-\begin{hint}
-  This is how you can draw diagrams:
+\begin{exercise}
+  Let $A$ and $B$ be posets, and $\A$ and $\B$ be the corresponding categories. Show that a contravariant functor $F:\A\rightarrow \B$ corresponds (uniquely) to a monotonically increasing function $f:A\rightarrow B$
+\end{exercise}
+
+\begin{exercise}
+  Determine which of the following holds, i.e.\ either provide an isomorphism in $\mathbf{CAT}$ or argue why there is none:
+
+  \begin{enumerate}
+  \item $\mathbf {Rel}^{\op}\cong \mathbf {Rel}$;
+  \item $\mathbf {Set}^{\op}\cong \mathbf {Set}$;
+  \item for an arbitrary monoid interpreted as a category $\M$ with one object:  $\M^{\op}\cong \M$; \textit{(Not entirely trivial 1)}
+  \item for $\mathbf{CAT_i}$, the subcategory of $\mathbf{CAT}$ consisting of all categories and functors that are isomorphisms: $\mathbf{CAT_i}^{op}\cong\mathbf{CAT_i}$.
+  \end{enumerate}
+
+\end{exercise}
+
+
+%\section{Diagrams}
+%
+%\begin{hint}
+%  This is how you can draw diagrams:
+%  \[
+%    \begin{tikzcd}
+%                                    & A \arrow{dr}{g}    & \\
+%      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
+%    \end{tikzcd}
+%  \]
+%\end{hint}
+
+\section{Categories - Definition and Basics}
+
+\begin {exercise}
+Show there can be at most one inverse for a morphism $f \from A \to B$.
+\end{exercise}
+
+\begin {definition}{Rel}
+The objects of the category \textbf{Rel} are sets. The morphisms $f \from A \to B$ are subsets $f \sub A \times B$.
+The identity morphism on set $A$ is the equality relation $\{\round{a,a} \such a \in A\} := 1_A$.
+Composition of two morphisms $f \sub A \times B$, $g \sub B \times C$ is defined as
+\[ g \of f = \{ \round{a, c} \in A \times C \such \exists b. \round{a, b} \in f \land \round{b, c} \in g\} \]
+\end{definition}
+
+\begin {exercise}
+Show that \textbf{Rel} is a category.
+\end{exercise}
+
+
+\begin{definition}{Pos} The objects of  \textbf{Pos} are partially ordered sets
+(recall that a poset is a set $A$ equipped with a reflexive, transitive and antisymmetric binary relation $\leq^A$). The morphisms $m \from A \to B $ are monotone functions: $a \leq^A a' \implies m(a) \leq^A m(a')$
+\end{definition}
+
+\begin {exercise}
+Show that \textbf{Pos} is a category.
+\end{exercise}
+
+% \begin{exercise}
+% For a fixed set X with Powerset $\mathcal{P}(X)$, does $\mathcal{P}(X) \cong \mathcal{P}(X)^{op}$ hold?
+% \end{exercise}
+
+\begin{definition}{Pointed Category} If an object is both \emph{initial} and \emph{terminal}, it is called a \emph{zero object}. A \emph{pointed category} is one with a zero object.
+\end{definition}
+
+\begin{exercise}
+  \begin{enumerate}
+  \item Show that \textbf{Rel} is a pointed category.
+  \item Show that the category \textbf{Grp} of groups has both an initial and a final object, and that these are the same.
+  \item Show that the category \textbf{Ring} of unital rings has both an initial and a final object, and that these are \emph{not} the same.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Show that any isomorphism is both monic and epic.
+\end{exercise}
+
+\newpage
+
+\begin{exercise}
+  Let $A, B, C$ be objects in a category and let $f \from A \to B$ and $g \from B \to C$ be morphisms such that the following diagram commutes:
   \[
     \begin{tikzcd}
-                                    & A \arrow{dr}{g}    & \\
-      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
+      A \arrow{r}{f} \arrow{dr}{h} & B \arrow{d}{g} & \\
+      & C &
     \end{tikzcd}
   \]
-\end{hint}
+  Show the following facts:
+  \begin{enumerate}
+  \item If both $f$ and $g$ are isomorphisms, then $h$ is also an isomorphism.
+  \item If $h$ is monic, then $f$ is monic.
+  \item If $h$ is epic, then $g$ is epic.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Show the following for a morphism $f \from A \to B$ in the category \textbf{Set}:
+  \begin{enumerate}
+  \item If $f$ is monic, then it is injective.
+  \item If $f$ is epic, then it is surjective. \textit{(Challenge 1)}
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Challenge 2]
+  Show that in the category \textbf{Ring}, there are morphisms which are epic but not surjective.
+  \begin{hint}
+    Consider the inclusion morphism $\mathbb{Z} \to \mathbb{Q}$, and use the properties of ring homomorphisms.
+  \end{hint}
+\end{exercise}
 
 \end{document}
 
