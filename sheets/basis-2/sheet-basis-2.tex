@@ -15,63 +15,12 @@
   Read Chapter 1.2.
 \end{hint}
 
-\section{Maps between Categories -- Functors}
-
-\begin{exercise}
-  Let $A$ and $B$ be posets, and $\A$ and $\B$ be the corresponding categories. Show that a contravariant functor $F:\A\rightarrow \B$ corresponds (uniquely) to a monotonically increasing function $f:A\rightarrow B$
-\end{exercise}
-
-\begin{exercise}
-  Determine which of the following holds, i.e.\ either provide an isomorphism in $\mathbf{CAT}$ or argue why there is none:
-
-  \begin{enumerate}
-  \item $\mathbf {Rel}^{\op}\cong \mathbf {Rel}$;
-  \item $\mathbf {Set}^{\op}\cong \mathbf {Set}$;
-  \item for an arbitrary monoid interpreted as a category $\M$ with one object:  $\M^{\op}\cong \M$; \textit{(Not entirely trivial 1)}
-  \item for $\mathbf{CAT_i}$, the subcategory of $\mathbf{CAT}$ consisting of all categories and functors that are isomorphisms: $\mathbf{CAT_i}^{op}\cong\mathbf{CAT_i}$.
-  \end{enumerate}
-
-\end{exercise}
-
-
-\begin{definition}{Coslice Category}
-  Let $\A$ be a category and $A\in\ob(\A)$ an object. The \emph{coslice category} $A/\A$ of $\A$ under $A$ consists of
-  \begin{itemize}
-  \item the arrows to $A$ (i.e. the codomain of which are $A$) as objects
-  \item and for $f\in \A(A,B)$, $g\in\A(A',B)$ (which are objects in $A/\A$) the arrows between $f$ and $g$ in $A/\A$ are arrows $h$ such that $h\of f=g$.
-  \end{itemize}
-\end{definition}
-
-\begin{definition}{$\mathbf{Sets_*}$}
-  The category $\mathbf{Sets_*}$ of \emph{pointed sets} consists of
-  \begin{itemize}
-  \item pairs $(A,a)$ such that $A$ is a set and $a\in A$ as objects and
-  \item arrows objects between objects $(A,a)$ and $(B,b)$ are functions $f\from A\to B$ such that $f(a)=b$.
-  \end{itemize}
-\end{definition}
-
-\begin{exercise}
-Show that $\mathbf{Sets_*\cong 1/\mathbf{Sets}}$ where $1$ is an arbitrary set with exactly one element.  
-\end{exercise}
-
-\begin{definition}{Slice Category}
-  Let $\A$ be a category and $A\in\ob(\A)$ an object. The \emph{slice category} $\A/A$ of $\A$ over $A$ consists of
-  \begin{itemize}
-  \item the arrows from $A$ (i.e. the domain of which are $A$) as objects
-  \item and for $f\in \A(A,B)$, $g\in\A(A',B)$ (which are objects in $A/\A$) the arrows between $f$ and $g$ in $A/\A$ are arrows $h$ such that $g\of h=f$.
-  \end{itemize}
-\end{definition}
-
-\begin{exercise}[\textit{Challenge}]
-  Let $\A$ be a category. Construct a functor $F\from \A\to\mathbf{Cat}$ such that $F(A)=\A/A$ and show that this indeed a functor. Is this also an isomorphism?
-
-  \begin{hint}
-    For arrows $f\in\A(A,B)$ consider functors $F_f\from\A/A\to\A/B$ that act on objects $g\in \A(C,A)$ by $F_f(g)=f\of g$. 
-  \end{hint}
-\end{exercise}
-
 \begin{exercise}
 Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to \cat{B}$ is a functor and $A, A' \in \cat{A}$ with $A \iso A'$, then $F(A) \iso F(A')$.
+\end{exercise}
+
+\begin{exercise}
+  Check that there is a category $\Cat$ with categories as objects and functors as arrows.
 \end{exercise}
 
 \begin{exercise}
@@ -79,7 +28,7 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 \end{exercise}
 
 \begin{exercise}
-  Find interesting examples for a functor that is both full and faithful, one that is full but not faithful, one that is fathful but not full, and one that is neither.
+  Find interesting examples for a functor that is both full and faithful, one that is full but not faithful, one that is faithful but not full, and one that is neither.
 \end{exercise}
 
 \begin{exercise}
@@ -93,16 +42,28 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 \begin{exercise}
   \begin{enumerate}
     \item Define an endofunctor on $\Set$ that maps every set to its powerset.
-      Check that is satisfies the functor laws.
+      Check that it satisfies the functor laws.
       Is it full/faithful?
     \item Define a contravariant endofunctor on $\Set$, i.e.\ a functor from $\Set^\op$ to $\Set$, that maps every set to its powerset.
-      Check that is satisfies the functor laws.
+      Check that it satisfies the functor laws.
       Is it full/faithful?
   \end{enumerate}
 \end{exercise}
 
 \begin{exercise}
-  Check that there is a category $\Cat$ with categories as objects and functors as arrows.
+  Let $A$ and $B$ be posets, and $\A$ and $\B$ be the corresponding categories. Consider a contravariant functor $F:\A\rightarrow \B$. Describe properties of the corresponding function $f:A\rightarrow B$.
+\end{exercise}
+
+\begin{exercise}
+  Determine which of the following holds, i.e.\ either provide an isomorphism in $\mathbf{CAT}$ or argue why there is none:
+
+  \begin{enumerate}
+  \item $\mathbf {Rel}^{\op}\cong \mathbf {Rel}$;
+  \item $\mathbf {Set}^{\op}\cong \mathbf {Set}$;
+  \item for an arbitrary monoid interpreted as a category $\M$ with one object:  $\M^{\op}\cong \M$; \textit{(Not entirely trivial 1)}
+  \item for $\mathbf{CAT_i}$, the subcategory of $\mathbf{CAT}$ consisting of all categories and functors that are isomorphisms: $\mathbf{CAT_i}^{op}\cong\mathbf{CAT_i}$.
+  \end{enumerate}
+
 \end{exercise}
 
 \begin{definition}{Free Monoid}
@@ -128,6 +89,44 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
     \item Define a category $\cat{B}$ such that the functors from $\cat{B}$ to $\Set$ correspond to injections between an arbitrary pair of sets.
   \end{enumerate}
 \end{exercise}
+
+
+\begin{definition}{Coslice Category}
+  Let $\A$ be a category and $A\in\ob(\A)$ an object. The \emph{coslice category} $A/\A$ of $\A$ under $A$ consists of
+  \begin{itemize}
+  \item the arrows to $A$ (i.e. the domain of which is $A$) as objects
+  \item and for $f\in \A(A,B)$, $g\in\A(A,B')$ (which are objects in $A/\A$) the arrows between $f$ and $g$ in $A/\A$ are arrows $h$ such that $h\of f=g$.
+  \end{itemize}
+\end{definition}
+
+\begin{definition}{$\mathbf{Sets_*}$}
+  The category $\mathbf{Sets_*}$ of \emph{pointed sets} consists of
+  \begin{itemize}
+  \item pairs $(A,a)$ such that $A$ is a set and $a\in A$ as objects and
+  \item arrows between objects $(A,a)$ and $(B,b)$ are functions $f\from A\to B$ such that $f(a)=b$.
+  \end{itemize}
+\end{definition}
+
+\begin{exercise}
+Show that $\mathbf{Sets_*\cong 1/\mathbf{Sets}}$ where $1$ is an arbitrary set with exactly one element.  
+\end{exercise}
+
+\begin{definition}{Slice Category}
+  Let $\A$ be a category and $A\in\ob(\A)$ an object. The \emph{slice category} $\A/A$ of $\A$ over $A$ consists of
+  \begin{itemize}
+  \item the arrows from $A$ (i.e. the codomain of which is $A$) as objects
+  \item and for $f\in \A(A,B)$, $g\in\A(A',B)$ (which are objects in $A/\A$) the arrows between $f$ and $g$ in $A/\A$ are arrows $h$ such that $g\of h=f$.
+  \end{itemize}
+\end{definition}
+
+\begin{exercise}[\textit{Not entirely trivial 2}]
+  Let $\A$ be a category. Construct a functor $F\from \A\to\mathbf{Cat}$ such that $F(A)=\A/A$ and show that this is indeed a functor. Is this also an isomorphism?
+
+  \begin{hint}
+    For arrows $f\in\A(A,B)$ consider functors $F_f\from\A/A\to\A/B$ that act on objects $g\in \A(C,A)$ by $F_f(g)=f\of g$. 
+  \end{hint}
+\end{exercise}
+
 
 \end{document}
 
