@@ -70,6 +70,67 @@ Show that $\mathbf{Sets_*\cong 1/\mathbf{Sets}}$ where $1$ is an arbitrary set w
   \end{hint}
 \end{exercise}
 
+\begin{exercise}
+Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to \cat{B}$ is a functor and $A, A' \in \cat{A}$ with $A \iso A'$, then $F(A) \iso F(A')$.
+\end{exercise}
+
+\begin{exercise}
+  Find an example of a functor $F : \cat{A} \to \cat{B}$ such that $F$ is faithful but there exist distinct maps $f_1$ and $f_2$ in $\cat{A}$ with $F(f_1) = F(f_2)$.
+\end{exercise}
+
+\begin{exercise}
+  Find interesting examples for a functor that is both full and faithful, one that is full but not faithful, one that is fathful but not full, and one that is neither.
+\end{exercise}
+
+\begin{exercise}
+  \begin{enumerate}
+    \item What are the subcategories of an ordered set? Which are full?
+    \item What are the subcategories of a group? (Careful!)
+      Which are full?
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  \begin{enumerate}
+    \item Define an endofunctor on $\Set$ that maps every set to its powerset.
+      Check that is satisfies the functor laws.
+      Is it full/faithful?
+    \item Define a contravariant endofunctor on $\Set$, i.e.\ a functor from $\Set^\op$ to $\Set$, that maps every set to its powerset.
+      Check that is satisfies the functor laws.
+      Is it full/faithful?
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Check that there is a category $\Cat$ with categories as objects and functors as arrows.
+\end{exercise}
+
+\begin{definition}{Free Monoid}
+  For every set $A$, we define the \emph{free monoid} $A^* \coloneqq \lbrace \text{words over $A$} \rbrace$.
+  We define the binary operation by $w \cdot w' \coloneqq ww'$ as the concatenation of words and use the empty word $\varepsilon$ as neutral element.
+\end{definition}
+
+\begin{exercise}
+  Show that for every set $A$, the free monoid $A^*$ satisfies the following \emph{universal mapping property}:
+  There is a function $i : A \to A^*$ and given any monoid $M$ and any function $j : A \to M$, there is a \emph{unique} monoid homomorphism $f : A^* \to M$ such that $f \circ i = j$.
+\end{exercise}
+
+\begin{exercise}
+  Denote by $\Mon$ the category of monoids with monoid morphisms as arrows.
+  Define a functor $F : \Set \to \Mon$ that maps every set $A$ to the free monoid $A^*$.
+  Is $F$ full/faithful?
+\end{exercise}
+
+\begin{exercise}
+  \begin{enumerate}
+    \item A directed graph consists of a set of vertices $V$, a set of edges $E$ and two functions $s, t : E \to V$ that assign a source and target vertex to each edge.
+      Define a category $\cat{A}$ such that functors from $\cat{A}$ to $\Set$ correspond to directed graphs.
+    \item Define a category $\cat{B}$ such that the functors from $\cat{B}$ to $\Set$ correspond to injections between an arbitrary pair of sets.
+  \end{enumerate}
+\end{exercise}
+
+\end{document}
+
 
 % \begin{exercise}[\textit{Challenge}]
 % Let $\A$ be a category. Consider again the functor $F_B\from \A\to\mathbf{Hom}(-,B)$ that is defined for a fixed $B\in\ob(A)$ by
