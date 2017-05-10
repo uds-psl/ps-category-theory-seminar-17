@@ -15,7 +15,7 @@
   Read Chapter 1.2.
 \end{hint}
 
-\section{Contravariant Functors and Presheaves}
+\section{Maps between Categories -- Functors}
 
 \begin{exercise}
   Let $A$ and $B$ be posets, and $\A$ and $\B$ be the corresponding categories. Show that a contravariant functor $F:\A\rightarrow \B$ corresponds (uniquely) to a monotonically increasing function $f:A\rightarrow B$
@@ -34,99 +34,184 @@
 \end{exercise}
 
 
-%\section{Diagrams}
-%
-%\begin{hint}
-%  This is how you can draw diagrams:
-%  \[
-%    \begin{tikzcd}
-%                                    & A \arrow{dr}{g}    & \\
-%      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
-%    \end{tikzcd}
-%  \]
-%\end{hint}
-
-\section{Categories - Definition and Basics}
-
-\begin {exercise}
-Show there can be at most one inverse for a morphism $f \from A \to B$.
-\end{exercise}
-
-\begin {definition}{Rel}
-The objects of the category \textbf{Rel} are sets. The morphisms $f \from A \to B$ are subsets $f \sub A \times B$.
-The identity morphism on set $A$ is the equality relation $\{\round{a,a} \such a \in A\} := 1_A$.
-Composition of two morphisms $f \sub A \times B$, $g \sub B \times C$ is defined as
-\[ g \of f = \{ \round{a, c} \in A \times C \such \exists b. \round{a, b} \in f \land \round{b, c} \in g\} \]
+\begin{definition}{Coslice Category}
+  Let $\A$ be a category and $A\in\ob(\A)$ an object. The \emph{coslice category} $A/\A$ of $\A$ under $A$ consists of
+  \begin{itemize}
+  \item the arrows to $A$ (i.e. the codomain of which are $A$) as objects
+  \item and for $f\in \A(A,B)$, $g\in\A(A',B)$ (which are objects in $A/\A$) the arrows between $f$ and $g$ in $A/\A$ are arrows $h$ such that $h\of f=g$.
+  \end{itemize}
 \end{definition}
 
-\begin {exercise}
-Show that \textbf{Rel} is a category.
-\end{exercise}
-
-
-\begin{definition}{Pos} The objects of  \textbf{Pos} are partially ordered sets
-(recall that a poset is a set $A$ equipped with a reflexive, transitive and antisymmetric binary relation $\leq^A$). The morphisms $m \from A \to B $ are monotone functions: $a \leq^A a' \implies m(a) \leq^A m(a')$
-\end{definition}
-
-\begin {exercise}
-Show that \textbf{Pos} is a category.
-\end{exercise}
-
-% \begin{exercise}
-% For a fixed set X with Powerset $\mathcal{P}(X)$, does $\mathcal{P}(X) \cong \mathcal{P}(X)^{op}$ hold?
-% \end{exercise}
-
-\begin{definition}{Pointed Category} If an object is both \emph{initial} and \emph{terminal}, it is called a \emph{zero object}. A \emph{pointed category} is one with a zero object.
+\begin{definition}{$\mathbf{Sets_*}$}
+  The category $\mathbf{Sets_*}$ of \emph{pointed sets} consists of
+  \begin{itemize}
+  \item pairs $(A,a)$ such that $A$ is a set and $a\in A$ as objects and
+  \item arrows objects between objects $(A,a)$ and $(B,b)$ are functions $f\from A\to B$ such that $f(a)=b$.
+  \end{itemize}
 \end{definition}
 
 \begin{exercise}
-  \begin{enumerate}
-  \item Show that \textbf{Rel} is a pointed category.
-  \item Show that the category \textbf{Grp} of groups has both an initial and a final object, and that these are the same.
-  \item Show that the category \textbf{Ring} of unital rings has both an initial and a final object, and that these are \emph{not} the same.
-  \end{enumerate}
+Show that $\mathbf{Sets_*\cong 1/\mathbf{Sets}}$ where $1$ is an arbitrary set with exactly one element.  
 \end{exercise}
 
-\begin{exercise}
-Show that any isomorphism is both monic and epic.
-\end{exercise}
+\begin{definition}{Slice Category}
+  Let $\A$ be a category and $A\in\ob(\A)$ an object. The \emph{slice category} $\A/A$ of $\A$ over $A$ consists of
+  \begin{itemize}
+  \item the arrows from $A$ (i.e. the domain of which are $A$) as objects
+  \item and for $f\in \A(A,B)$, $g\in\A(A',B)$ (which are objects in $A/\A$) the arrows between $f$ and $g$ in $A/\A$ are arrows $h$ such that $g\of h=f$.
+  \end{itemize}
+\end{definition}
 
-\newpage
+\begin{exercise}[\textit{Challenge}]
+  Let $\A$ be a category. Construct a functor $F\from \A\to\mathbf{Cat}$ such that $F(A)=\A/A$ and show that this indeed a functor. Is this also an isomorphism?
 
-\begin{exercise}
-  Let $A, B, C$ be objects in a category and let $f \from A \to B$ and $g \from B \to C$ be morphisms such that the following diagram commutes:
-  \[
-    \begin{tikzcd}
-      A \arrow{r}{f} \arrow{dr}{h} & B \arrow{d}{g} & \\
-      & C &
-    \end{tikzcd}
-  \]
-  Show the following facts:
-  \begin{enumerate}
-  \item If both $f$ and $g$ are isomorphisms, then $h$ is also an isomorphism.
-  \item If $h$ is monic, then $f$ is monic.
-  \item If $h$ is epic, then $g$ is epic.
-  \end{enumerate}
-\end{exercise}
-
-\begin{exercise}
-  Show the following for a morphism $f \from A \to B$ in the category \textbf{Set}:
-  \begin{enumerate}
-  \item If $f$ is monic, then it is injective.
-  \item If $f$ is epic, then it is surjective. \textit{(Challenge 1)}
-  \end{enumerate}
-\end{exercise}
-
-\begin{exercise}[Challenge 2]
-  Show that in the category \textbf{Ring}, there are morphisms which are epic but not surjective.
   \begin{hint}
-    Consider the inclusion morphism $\mathbb{Z} \to \mathbb{Q}$, and use the properties of ring homomorphisms.
+    For arrows $f\in\A(A,B)$ consider functors $F_f\from\A/A\to\A/B$ that act on objects $g\in \A(C,A)$ by $F_f(g)=f\of g$. 
   \end{hint}
 \end{exercise}
 
+
+% \begin{exercise}[\textit{Challenge}]
+% Let $\A$ be a category. Consider again the functor $F_B\from \A\to\mathbf{Hom}(-,B)$ that is defined for a fixed $B\in\ob(A)$ by
+% \begin{align*}
+%   F_B(A)&=\A(A,B)\\
+%   F_B(f)&=F_{B,f}
+% \end{align*}
+% for all $A,A'\in\ob(\A)$, $f\in \A(A,A')$ and
+% \begin{align*}
+%   F_{B,f}(g)=g\of f
+% \end{align*}
+% for all $g\in\A(A,B)$.
+
+% Fill in the details of the construction of the functor $F\from \A^{\op} \to \mathbf{CAT}$ that satisfies $F(B)=\mathbf{Hom}(-,B)$, i.e. define its behaviour on arrows and verify that this is indeed a functor.
+
+% \begin{hint}
+%   Consider the functors $F_f\from\mathbf{Hom}(-,B)\to\mathbf{Hom}(-,B')$ for $f\in\A(B',B)$ given by
+%   \begin{align*}
+%     F_f(\A(A,B))&=\{f\of g\mid g\in \A(A,B)\}\\
+%     F_f(g)&=F_{f,g}
+%   \end{align*}
+%   where $g\in\mathbf{Hom}(-,B)(\A(A,B),\A(A',B))$ and the function $F_{f,g}$ is defined by
+%   \begin{align*}
+%     F_{f,g}(h)= g(f\of h).
+%   \end{align*}
+%   for each arrow $h\from\A(A,B')$.
+% \end{hint}
+
+% % Is this functor also an isomorphism
+
+% % given by
+% %   \begin{align*}
+% %     F(B)&=\mathbf{Hom}(-,B)\\
+% %     F(f)&=F_f
+% %   \end{align*}
+% % where $A\in\ob(\A)$ and $f\in\A(B',B)$, each functor $F_f\from \mathbf{Hom}(-,B)\to\mathbf{Hom}(-,B')$ is given by
+% % \begin{align*}
+% %   F_f(\A(A,B))&=\{f\of g\mid g\in \A(A,B)\}\\
+% %   F_f(g)&=F_{f,g}
+% % \end{align*}
+% % where $g\in\mathbf{Hom}(-,B)(\A(A,B),\A(A',B))$ and
+% % \begin{align*}
+% %   F_{f,g}(h)= g(f\of h).
+% % \end{align*}
+% % for each function $h\from\A(A,B)\to\A(A',B)$
+% % Check that this is indeed a functor, i.e. satisfies the axioms, and determine whether it is also an isomorphism.
+% \end{exercise}
+
+
+% %\section{Diagrams}
+% %
+% %\begin{hint}
+% %  This is how you can draw diagrams:
+% %  \[
+% %    \begin{tikzcd}
+% %                                    & A \arrow{dr}{g}    & \\
+% %      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
+% %    \end{tikzcd}
+% %  \]
+% %\end{hint}
+
+% \section{Categories - Definition and Basics}
+
+% \begin {exercise}
+% Show there can be at most one inverse for a morphism $f \from A \to B$.
+% \end{exercise}
+
+% \begin {definition}{Rel}
+% The objects of the category \textbf{Rel} are sets. The morphisms $f \from A \to B$ are subsets $f \sub A \times B$.
+% The identity morphism on set $A$ is the equality relation $\{\round{a,a} \such a \in A\} := 1_A$.
+% Composition of two morphisms $f \sub A \times B$, $g \sub B \times C$ is defined as
+% \[ g \of f = \{ \round{a, c} \in A \times C \such \exists b. \round{a, b} \in f \land \round{b, c} \in g\} \]
+% \end{definition}
+
+% \begin {exercise}
+% Show that \textbf{Rel} is a category.
+% \end{exercise}
+
+
+% \begin{definition}{Pos} The objects of  \textbf{Pos} are partially ordered sets
+% (recall that a poset is a set $A$ equipped with a reflexive, transitive and antisymmetric binary relation $\leq^A$). The morphisms $m \from A \to B $ are monotone functions: $a \leq^A a' \implies m(a) \leq^A m(a')$
+% \end{definition}
+
+% \begin {exercise}
+% Show that \textbf{Pos} is a category.
+% \end{exercise}
+
+% % \begin{exercise}
+% % For a fixed set X with Powerset $\mathcal{P}(X)$, does $\mathcal{P}(X) \cong \mathcal{P}(X)^{op}$ hold?
+% % \end{exercise}
+
+% \begin{definition}{Pointed Category} If an object is both \emph{initial} and \emph{terminal}, it is called a \emph{zero object}. A \emph{pointed category} is one with a zero object.
+% \end{definition}
+
+% \begin{exercise}
+%   \begin{enumerate}
+%   \item Show that \textbf{Rel} is a pointed category.
+%   \item Show that the category \textbf{Grp} of groups has both an initial and a final object, and that these are the same.
+%   \item Show that the category \textbf{Ring} of unital rings has both an initial and a final object, and that these are \emph{not} the same.
+%   \end{enumerate}
+% \end{exercise}
+
+% \begin{exercise}
+% Show that any isomorphism is both monic and epic.
+% \end{exercise}
+
+% \newpage
+
+% \begin{exercise}
+%   Let $A, B, C$ be objects in a category and let $f \from A \to B$ and $g \from B \to C$ be morphisms such that the following diagram commutes:
+%   \[
+%     \begin{tikzcd}
+%       A \arrow{r}{f} \arrow{dr}{h} & B \arrow{d}{g} & \\
+%       & C &
+%     \end{tikzcd}
+%   \]
+%   Show the following facts:
+%   \begin{enumerate}
+%   \item If both $f$ and $g$ are isomorphisms, then $h$ is also an isomorphism.
+%   \item If $h$ is monic, then $f$ is monic.
+%   \item If $h$ is epic, then $g$ is epic.
+%   \end{enumerate}
+% \end{exercise}
+
+% \begin{exercise}
+%   Show the following for a morphism $f \from A \to B$ in the category \textbf{Set}:
+%   \begin{enumerate}
+%   \item If $f$ is monic, then it is injective.
+%   \item If $f$ is epic, then it is surjective. \textit{(Challenge 1)}
+%   \end{enumerate}
+% \end{exercise}
+
+% \begin{exercise}[Challenge 2]
+%   Show that in the category \textbf{Ring}, there are morphisms which are epic but not surjective.
+%   \begin{hint}
+%     Consider the inclusion morphism $\mathbb{Z} \to \mathbb{Q}$, and use the properties of ring homomorphisms.
+%   \end{hint}
+% \end{exercise}
+
 \end{document}
 
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
+% %%% Local Variables:
+% %%% mode: latex
+% %%% TeX-master: t
+% %%% End:
