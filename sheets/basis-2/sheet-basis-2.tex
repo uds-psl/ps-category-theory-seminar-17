@@ -94,7 +94,7 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 \begin{definition}{Coslice Category}
   Let $\A$ be a category and $A\in\ob(\A)$ an object. The \emph{coslice category} $A/\A$ of $\A$ under $A$ consists of
   \begin{itemize}
-  \item the arrows to $A$ (i.e. the domain of which is $A$) as objects
+  \item the arrows from $A$ (i.e. the domain of which is $A$) as objects
   \item and for $f\in \A(A,B)$, $g\in\A(A,B')$ (which are objects in $A/\A$) the arrows between $f$ and $g$ in $A/\A$ are arrows $h$ such that $h\of f=g$.
   \end{itemize}
 \end{definition}
@@ -114,8 +114,8 @@ Show that $\mathbf{Sets_*\cong 1/\mathbf{Sets}}$ where $1$ is an arbitrary set w
 \begin{definition}{Slice Category}
   Let $\A$ be a category and $A\in\ob(\A)$ an object. The \emph{slice category} $\A/A$ of $\A$ over $A$ consists of
   \begin{itemize}
-  \item the arrows from $A$ (i.e. the codomain of which is $A$) as objects
-  \item and for $f\in \A(A,B)$, $g\in\A(A',B)$ (which are objects in $A/\A$) the arrows between $f$ and $g$ in $A/\A$ are arrows $h$ such that $g\of h=f$.
+  \item the arrows to $A$ (i.e. the codomain of which is $A$) as objects
+  \item and for $f\in \A(B,A)$, $g\in\A(B',A)$ (which are objects in $A/\A$) the arrows between $f$ and $g$ in $A/\A$ are arrows $h$ such that $g\of h=f$.
   \end{itemize}
 \end{definition}
 
