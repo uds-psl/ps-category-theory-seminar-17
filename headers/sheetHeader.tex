@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \input{\pathToRoot headers/sharedHeader}
-
+\usepackage{titling}
 \geometry{a4paper,left=2cm,right=2cm,top=2cm,bottom=3cm}
 
 
@@ -15,6 +15,8 @@
     \renewcommand{\footrulewidth}{1pt}
     \fancyhead{}
     \fancyfoot[C]{\thepage~/~\pageref{LastPage}}
+    \fancyfoot[R]{\footnotesize exercise sheet from \\ \theauthor}
+
 }
 
 

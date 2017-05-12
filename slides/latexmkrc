@@ -1,0 +1,4 @@
+$pdf_mode = 1;
+@default_files = ('main.tex');
+$pdflatex="pdflatex -interaction=nonstopmode %O %S";
+$out_dir = 'build';

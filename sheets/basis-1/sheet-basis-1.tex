@@ -5,10 +5,13 @@
 % Use Basis x or Talk x, where x is the number of the session
 \uebunghead{Basis 1}{What is a Category?}
 
+\author{Sarah Mameche, Andreas Meyer, Leonhard Staut}
+
 \begin{hint}
-  Read Chapter 1.1. For initial and terminal objects refer to Definition 2.17 on pages 48ff. For Monics and Epics, see the respective sections in Chapters 5.1 and 5.2.
+  Read Chapter 1.1. For initial and terminal objects refer to Definition 2.17 on pages 48ff. For Monics and Epics, refer to the respective sections in Chapters 5.1 and 5.2.
 \end{hint}
 
+<<<<<<< HEAD
 %\section{Diagrams}
 %
 %\begin{hint}
@@ -32,22 +35,326 @@ The objects of the category \textbf{Rel} are sets, an arrow $f \from A \to B$ is
 The identity arrow on set $A$ is the equality relation $\{\angles{a,a} \such a \in A\}$. 
 Composition of two maps $f \sub A \times B$, $g \sub B \times C$ is defined as 
 \[ g \of f = \{ \angles{a, c} \in A \times C \such \exists b \emptybk (\angles {a, b} \in f \emptybk \& \emptybk \angles{b, c} \in g)\} \]
+=======
+\section{Categories - Definition and Basics}
+
+\begin {exercise}
+Show there can be at most one inverse for a morphism $f \from A \to B$.
+\end{exercise}
+
+\begin{answer}
+  We have to show that for $f \from A \to B$, there is at most one $g
+  \from B \to A$ s.t. $gf = 1_A$ and $fg = 1_B$.
+
+  Assume that $g$ exists and that there is some $h \from B \to A$: $hf = 1_A$, $fh = 1_B$.
+
+  We know from the identity axiom: $1_A \of g = g$ and $h \of 1_B = h$. Using this, our assumtions and the associativity axiom, we get:
+ \[  1_A \of g = g \textiff (h \of f) \of g = g \textiff h \of (f \of g) = g \textiff h \of 1_B = g \textiff h=g. \]
+\end{answer}
+
+\begin {definition}{Rel}
+The objects of the category \textbf{Rel} are sets. The morphisms $f \from A \to B$ are subsets $f \sub A \times B$.
+The identity morphism on set $A$ is the equality relation $\{\round{a,a} \such a \in A\} := 1_A$.
+Composition of two morphisms $f \sub A \times B$, $g \sub B \times C$ is defined as
+\[ g \of f = \{ \round{a, c} \in A \times C \such \exists b. \round{a, b} \in f \land \round{b, c} \in g\} \]
+>>>>>>> uds-psl/master
 \end{definition}
 
 \begin {exercise}
 Show that \textbf{Rel} is a category.
 \end{exercise}
 
+<<<<<<< HEAD
 
 \begin{definition}{Pos} The objects of  \textbf{Pos} are partially ordered sets 
 (recall that a poset is a set $A$ equipped with a reflexive, transitive and antisymmetric binary relation $\leq^A_\cdot $ ) 
 An arrow $ m \from A \to B $ function that is monotone, i.e. $\forall a, a' \in A$, 
 \[a \leq^A_\cdot a' \implies m(a) \leq^A_\cdot m(a')\]
+=======
+\begin{answer}
+  textbf{identity laws:} for $f \sub A \times B$,
+\[f \of 1_A = \{ \angles{a, b} \in A \times B \such \exists a' \emptybk (\angles {a, a'} \in 1_A \emptybk \& \emptybk \angles{a', b} \in f)\} = \{ \angles{a, b} \in A \times B \such \exists a' \in A.  \emptybk \angles{a', b} \in f)\} = f.\] Analogously, $1_B \of f = f$.
+
+
+\textbf{associativity:} for $f \sub A \times B, g\sub B \times C, h \sub C \times D$,
+\[
+h \of (g \of f) = h \of \{ \angles{a, c} \in A \times C \such \exists b \emptybk (\angles {a, b} \in f \emptybk \& \emptybk \angles{b, c} \in g)\}
+\]
+\[= \{ \angles{a, d} \in A \times D \such \exists b, c \emptybk (\angles {a, b} \in f \emptybk \& \emptybk \angles{b, c} \in g \& \angles{c, d} \in h \} = (h \of g) \of f\]
+
+\end{answer}
+
+
+\begin{definition}{Pos} The objects of  \textbf{Pos} are partially ordered sets
+(recall that a poset is a set $A$ equipped with a reflexive, transitive and antisymmetric binary relation $\leq^A$). The morphisms $m \from A \to B $ are monotone functions: $a \leq^A a' \implies m(a) \leq^A m(a')$
+>>>>>>> uds-psl/master
 \end{definition}
 
 \begin {exercise}
 Show that \textbf{Pos} is a category.
 \end{exercise}
+<<<<<<< HEAD
+=======
+
+\begin{answer}
+  \textbf{identity laws:} $1_A$ is the identity function, which is monotone since $a \leq^A_\cdot a' \implies a' \leq^A_\cdot a.$
+\\The axiom holds because for $f \from A \in B, f \of 1_A = f = 1_B \of f$ (same as in \textbf{Set}).
+\\
+\textbf{associativity:} If $ f \from A \to B, g \from B \to C $ are monotone, so is $g \of f$ because \[a \leq^A_\cdot a' \implies f(a) \leq^A_\cdot f(a') \implies  g(f(a)) \leq^A_\cdot g(f(a'))  .\] Associativity follows from assiociativity of function composition.
+\end{answer}
+
+% \begin{exercise}
+% For a fixed set X with Powerset $\mathcal{P}(X)$, does $\mathcal{P}(X) \cong \mathcal{P}(X)^{op}$ hold?
+% \end{exercise}
+
+\begin{definition}{Pointed Category} If an object is both \emph{initial} and \emph{terminal}, it is called a \emph{zero object}. A \emph{pointed category} is one with a zero object.
+\end{definition}
+
+\begin{exercise}
+  \begin{enumerate}
+  \item Show that \textbf{Rel} is a pointed category.
+  \item Show that the category \textbf{Grp} of groups has both an initial and a final object, and that these are the same.
+  \item Show that the category \textbf{Ring} of unital rings has both an initial and a final object, and that these are \emph{not} the same.
+  \end{enumerate}
+\end{exercise}
+
+\begin{answer}
+  \begin{enumerate}
+  \item $\emptyset$ is the zero object. Since there is nothing, that could be related, the null relation is unique relation from $\emptyset$ to any other set S and vice versa.
+  \item The trivial groups are zero objects.
+
+    Initial oject:
+
+    Let $\left({G, \circ}\right)$ be a group with identity element $e_G$ and $1={e}$ a trivial group, with operation $*: e*e := e$.
+
+    Since group homomorphism preserves identity, any hypothetical group homomorphism $\phi: 1 \to G$ must satisfy:
+
+    $\phi (e) = e_G$
+
+    Show  that $\phi$ is  a group homomorphism:
+
+    The initial object $1$ has only the element $e$,
+
+    $\phi (e) \circ \phi (e) = e_G \circ e_G $ , Definition of $\phi$
+    \\$= e_G$ , Definition of identity
+    \\$= \phi (e)$
+    \\$= \phi (e * e)$, Terminal object:
+
+    Because singleton is terminal object on sets, there is precisely one mapping:
+
+    $!: G \to \left\{{e}\right\}$
+
+    defined by:
+
+    $\forall g \in G: ! (g) = e$
+
+    Show that $!$ is a group homomorphism.
+
+    For any $g, h \in G$, we have:
+    $!(g)*!(h) = e_G \circ e_G $ , Definition of !
+    \\$= e$ , Definition of *
+    \\$= !(g \circ h$ Defintion of !
+
+  \item Initial is the ring of Integers $\mathbb{Z}$, terminal the zero ring consisting of only one element.
+
+    Initial: Assume some $ \phi: \mathbb{Z} \mapsto R $, where R is a Ring. Since $\phi$ is a ring homomorphism, $\phi(n) = \phi(n*1) = n*\phi(1)$ holds and therefore, $\phi$ is unique.
+
+    Terminal: Like in set, there is only the constant mapping between any ring and the one-element ring.
+  \end{enumerate}
+\end{answer}
+
+\section{Monomorphisms and Epimorphisms}
+
+
+\begin{exercise}
+Show that any isomorphism is both monic and epic.
+\end{exercise}
+
+\begin{answer}
+  Consider the diagram:
+  \[
+    \begin{tikzcd}
+      A \arrow[r,shift left, "y"] \arrow[r,shift right,swap,"x"] &
+      B \arrow[dr, shift left, "1"]  \arrow{r}{m}  &
+      C \arrow{d}{e} \arrow[r,shift left, "i"] \arrow[r,shift right,swap,"j"] & D\\
+     &  & B \arrow[ul, shift left, "1"]&
+    \end{tikzcd}
+  \]
+  $m \from B \to C$ is an isomorphism with inverse $e \from C \to B$.
+  Then:\\
+  \begin{minipage}{.5\linewidth}
+    \vspace{4mm}
+    \centering $m$ is monic
+    \[
+      \begin{aligned}
+        m \of x &= m \of y\\
+        e \of (m \of x) &= e \of (m \of y)\\
+        (e \of m) \of x &= (e \of m) \of y\\
+        1_B \of x &= 1_B \of y\\
+        x &= y
+      \end{aligned}
+    \]
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \vspace{4mm}
+    \centering $m$ is epic
+    \[
+      \begin{aligned}
+        i \of m &= j \of m \\
+        (i \of m) \of e &= (j \of m) \of e\\
+        i \of (m \of e) &= j \of (m \of e)\\
+        i \of 1_C &= j \of 1_C\\
+        i &= j
+      \end{aligned}
+    \]
+
+  \end{minipage}%
+\end{answer}
+
+\exercisesOnly{\newpage}
+
+\begin{exercise}
+  Let $A, B, C$ be objects in a category and let $f \from A \to B$ and $g \from B \to C$ be morphisms such that the following diagram commutes:
+  \[
+    \begin{tikzcd}
+      A \arrow{r}{f} \arrow{dr}{h} & B \arrow{d}{g} & \\
+      & C &
+    \end{tikzcd}
+  \]
+  Show the following facts:
+  \begin{enumerate}
+  \item If both $f$ and $g$ are isomorphisms, then $h$ is also an isomorphism.
+  \item If $h$ is monic, then $f$ is monic.
+  \item If $h$ is epic, then $g$ is epic.
+  \end{enumerate}
+\end{exercise}
+
+\begin{answer}
+    \begin{itemize}
+  \item If $f$ and $g$ are isomorphic, their inverses
+    $f^{-1}$ and $g^{-1}$ exist.
+    To show that $h = g \of f$ is also an isomorphism,
+    we need to provide an inverse.\\
+
+    \begin{minipage}{.5\linewidth}
+      \[
+      \begin{aligned}
+        & \ \ \ \ (g \of f) \of (f^{-1} \of g^{-1})\\
+        &= g \of (f \of f^{-1}) \of g^{-1} \\
+        &= (g \of 1_B) \of g^{-1} \\
+        &= g \of g^{-1} \\
+        &= 1_C
+      \end{aligned}
+      \]
+    \end{minipage}%
+    \begin{minipage}{.5\linewidth}
+      \[
+      \begin{aligned}
+        & \ \ \ \ (f^{-1} \of g^{-1}) \of (g \of f)\\
+        &= f^{-1} \of (g^{-1} \of g) \of f\\
+        &= (f^{-1} \of 1_B) \of f\\
+        &= f^{-1} \of f\\
+        &= 1_A
+      \end{aligned}
+      \]
+    \end{minipage}%
+    \vspace{4mm}
+    \\
+    $(f^{-1} \of g^{-1})$ is the inverse of $(g \of f)$.
+    Therefore $h = (g \of f)$ is an isomorphism.
+    \vspace{5mm}
+  \item
+    \raggedright Let $x, y \from D \to A$ be any morphisms
+    from any object $D$ in the category. \\
+    \centering
+      \[
+      \begin{aligned}
+        f \of x &= f \of y \\
+        g \of (f \of x) &= g \of (f \of y) \\
+        (g \of f) \of x &= (g \of f) \of y \\
+        x &= y \\
+      \end{aligned}
+      \]
+  \item
+    \raggedright Let $i, j \from C \to E$ be any morphisms
+    to any object $E$ in the category.\\
+    \centering
+      \[
+      \begin{aligned}
+        i \of g &= j \of g \\
+        (i \of g) \of f &= (j \of g) \of f \\
+        i \of (g \of f) &= j \of (g \of f) \\
+        i &= j \\
+      \end{aligned}
+      \]
+  \end{itemize}
+\end{answer}
+
+\begin{exercise}
+  Show the following for a morphism $f \from A \to B$ in the category \textbf{Set}:
+  \begin{enumerate}
+  \item If $f$ is monic, then it is injective.
+  \item If $f$ is epic, then it is surjective. \textit{(Challenge 1)}
+  \end{enumerate}
+\end{exercise}
+
+\begin{answer}
+  \begin{itemize}
+  \item Let $g,h \from \{x\} \to A$ two different functions
+    from the one element set
+    $\{x\}$ to $A$, with $g(x) = a_1$ and $g(x) = a_2$,
+    for any $a_1,a_2 \in A$, with $a_1 \neq a_2$.\\
+    We have: $g \neq h \xRightarrow{f \ mono} f \of g \neq f \of h$.
+    Therefore: $f(a_1) = f(g(x)) \neq f(h(x)) = f(a_2)$.\\
+    $\Rightarrow f$ is injective.
+  \item Let $B$ be a two element set, e.g.
+    $\{ \texttt{true}, \texttt{false}\}$.
+    Let $g$ be the characteristic function of \texttt{Im}$(f)$,
+    the image of f, which is defined by
+    $\forall y \in Y. \ g(y) = \texttt{true}
+    \Leftrightarrow y \in \texttt{Im}(f)$.
+    And let $h$ be the constant \texttt{true}-function.
+    $\forall y \in Y. \ h(y) = \texttt{true}$.
+    Note that $g = h$, exactly if $f$ is surjective.\\
+    We have: $g \of f = h \of f \xRightarrow{f \ epic} g = h$.\\
+    $\Rightarrow$ f is surjective.
+  \end{itemize}
+\end{answer}
+
+\begin{exercise}[Challenge 2]
+  Show that in the category \textbf{Ring}, there are morphisms which are epic but not surjective.
+  \begin{hint}
+    Consider the inclusion morphism $\mathbb{Z} \to \mathbb{Q}$, and use the properties of ring homomorphisms.
+  \end{hint}
+\end{exercise}
+
+\begin{answer}
+  The inclusion map $f \from \mathbb{Z} \to \mathbb{Q}$ is defined by
+  $f(x) = x$ and is clearly not surjective on $\mathbb{Q}$, because
+  the $\texttt{Im}(f)$ doesn't contain any fractions like $\frac{1}{2}$.
+  Let $g,h \from \mathbb{Q} \to \bf{R}$ be two morphisms from
+  $\mathbb{Q}$ to any ring $\bf{R}$.
+  $g,h$ agree on $\mathbb{Z}$, because there is exactly one ring
+  homomorphism $\mathbb{Z} \to \bf{R}$ (In other words $\mathbb{Z}$
+  is an initial object in the category \textbf{Ring}).
+  Then we have $\forall p,q \in \mathbb{Z}, q \neq 0$:
+  \[
+    \begin{aligned}
+      & \ \ \ \ g(\frac{p}{q})\\
+      &= g(p) g(p^{-1})\\
+      &= g(p) g(q)^{-1}\\
+      &= h(p) h(q)^{-1}\\
+      &= h(p) h(p^{-1})\\
+      &= h(\frac{p}{q})
+    \end{aligned}
+  \]
+  The first two steps are justified by the
+  properties of ring homomorphisms to respect the structure.
+  The third step uses the fact that $g$ and $h$ agree on
+  $\mathbb{Z}$.\\
+  Therefore: $g \of f = h \of f \Rightarrow g = h$, and $f$ is epic.
+\end{answer}
+>>>>>>> uds-psl/master
 
 \end{document}
 
