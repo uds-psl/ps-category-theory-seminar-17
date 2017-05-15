@@ -11,10 +11,6 @@
 
 \author{Mostafa Ahmed Abdelfattah Abouhamra, Felix Rech, Dominik Wagner}
 
-\begin{answer}
-  Since $A\cong B$ there are $f\in\mathscr A(A,B)$ and $g\in\mathscr B(B,A)$ such that $g$ if $h=id$
-\end{answer}
-
 \begin{hint}
   Read Chapter 1.2.
 \end{hint}
@@ -23,6 +19,10 @@
 Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to \cat{B}$ is a functor and $A, A' \in \cat{A}$ with $A \iso A'$, then $F(A) \iso F(A')$.
 \end{exercise}
 
+\begin{answer}
+  Since $A\cong A'$ there are $f\in\mathscr A(A,A')$ and $g\in\mathscr A(A',A)$ such that $g \of f=1_A$ and $f \of g=1_A'$. Hence, $F(g)\of F(f)=F(g\of f)=F(1_A)=1_{F(A)}$ and $F(f)\of F(g)=F(f\of g)=F(1_A')=1_{F(A')}$. As a consequence, $F(f)$ is an isomorphism between $F(A)$ and $F(A')$. In particular, $F(A)\cong F(A')$.
+\end{answer}
+
 \begin{exercise}
   Check that there is a category $\Cat$ with categories as objects and functors as arrows.
 \end{exercise}
@@ -30,6 +30,10 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 \begin{exercise}
   Find an example of a functor $F : \cat{A} \to \cat{B}$ such that $F$ is faithful but there exist distinct maps $f_1$ and $f_2$ in $\cat{A}$ with $F(f_1) = F(f_2)$.
 \end{exercise}
+
+\begin{answer}
+  Suppose the discrete categories $\A$ and $\B$ with two and one objects respectively. Then, any functor $F\from A\to B$ is trivially faithful but $F(1_A)=F(1_B)$ (where $A$ and $B$ are the only objects of $\A$).
+\end{answer}
 
 \begin{exercise}
   Find interesting examples for a functor that is both full and faithful, one that is full but not faithful, one that is faithful but not full, and one that is neither.
@@ -42,6 +46,13 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
       Which are full?
   \end{enumerate}
 \end{exercise}
+
+\begin{answer}
+  \begin{enumerate}
+  \item A subcategory of an ordered set $(S,\leq)$ is an ordered set $(S',\leq')$ such that $S'\subseteq S$ and $\leq'\;\subseteq\;\leq$.
+  \item The subcategories of a group are either the category with no objects or submonoids of the group (which is of course a monoid). The only full subcategories are the group itself and the category with no objects. 
+  \end{enumerate}
+\end{answer}
 
 \begin{exercise}
   \begin{enumerate}
@@ -80,6 +91,36 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
   There is a function $i : A \to A^*$ and given any monoid $M$ and any function $j : A \to M$, there is a \emph{unique} monoid homomorphism $f : A^* \to M$ such that $f \circ i = j$.
 \end{exercise}
 
+\begin{answer}
+  Define
+  \begin{align*}
+    i(a)&=a &(a\in A)
+  \end{align*}
+  and
+  \begin{align*}
+    f(\epsilon)&=0_M&\\
+    f(a_1\cdots a_{n-1}a_n)&=f(a_1\cdots a_{n-1})\of j(a_n) &\text{for }n>0.
+  \end{align*}
+  Clearly, for each $a\in A$, $f(i(a))=j(a)$, thus $f\of i=j$, and $f$ is a group homomorphism.
+
+  Now, suppose $g$ is a group homomorphism satisfying $g\of i=j$. 
+  Let $a_1\cdots a_n\in A^*$. Proof by induction on $n$ that $g(n)=f(n)$.
+
+  Base case: $g(\epsilon)=0_M$ because $\epsilon$ is the neutral element in $A^*$).
+
+  Inductive step: 
+  \begin{align*}
+    g(a_1\cdots a_{n-1}a_n)&=g(a_1\cdots a_{n-1})\of g(a_n)&g\text{ group homomorphism}\\
+                           &=f(a_1\cdots a_{n-1})\of g(a_n)&\text{inductive hypothesis}\\
+                           &=f(a_1\cdots a_{n-1})\of g(i(a_n)) & a_n\in A\\
+                           &=f(a_1\cdots a_{n-1})\of f(i(a_n)) & g\of i=j=f\of i\\
+                           &=f(a_1\cdots a_{n-1})\of f(a_n) & a_n\in A\\
+                           &=f(a_1\cdots a_{n-1}a_n)&f\text{ group homomorphism}
+  \end{align*}
+  Hence, $f=g$, so $f$ is indeed unique.
+  
+\end{answer}
+
 \begin{exercise}
   Denote by $\Mon$ the category of monoids with monoid morphisms as arrows.
   Define a functor $F : \Set \to \Mon$ that maps every set $A$ to the free monoid $A^*$.
@@ -93,6 +134,25 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
     \item Define a category $\cat{B}$ such that the functors from $\cat{B}$ to $\Set$ correspond to injections between an arbitrary pair of sets.
   \end{enumerate}
 \end{exercise}
+
+\begin{answer}
+  \begin{enumerate}
+  \item Consider $\A$ given by
+    \[
+      \begin{tikzcd}[column sep=huge,row sep=huge]
+        E\arrow[r,yshift=.85ex,"s"] \arrow[r,below,yshift=-.85ex,"e"]&V
+      \end{tikzcd}
+    \]
+    Then a functor $F\from \A\to\Set$ assigns to both $E$ and $V$ sets $E'$ and $V'$ (which correspond to the set of edges and vertices respectively) and to $s,e$ functions $s'$ and $e'$ that take edges $d$ from $E'$ and return elements $s'(d)$ and $e'(d)$ which correspond to the start and end node of the edge $d$ respectively.
+  \item Consider $\B$ given by
+    \[
+      \begin{tikzcd}[column sep=huge,row sep=huge]
+        A\arrow[r,yshift=.85ex,"f"] & B\arrow[l,below,yshift=-.85ex,"g"]
+      \end{tikzcd}
+    \]
+    such that $g\of f=1_A$ and $f\of g=1_B$.
+  \end{enumerate}
+\end{answer}
 
 
 \begin{definition}{Coslice Category}
