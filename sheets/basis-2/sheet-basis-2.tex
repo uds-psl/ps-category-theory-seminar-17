@@ -49,7 +49,7 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 
 \begin{answer}
   \begin{enumerate}
-  \item A subcategory of an ordered set $(S,\leq)$ is an ordered set $(S',\leq')$ such that $S'\subseteq S$ and $\leq'\;\subseteq\;\leq$.
+  \item A subcategory of an ordered set $(S,\leq)$ is an ordered set $(S',\leq')$ such that $S'\subseteq S$ and $\leq'\;\subseteq\;\leq$. In the case of full subcategories even $\leq'\;=\;\leq$ holds.
   \item The subcategories of a group are either the category with no objects or submonoids of the group (which is of course a monoid). The only full subcategories are the group itself and the category with no objects. 
   \end{enumerate}
 \end{answer}
@@ -66,7 +66,7 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 \end{exercise}
 
 \begin{exercise}
-  Let $A$ and $B$ be posets, and $\A$ and $\B$ be the corresponding categories. Consider a contravariant functor $F:\A\rightarrow \B$. Describe properties of the corresponding function $f:A\rightarrow B$.
+  Let $A$ and $B$ be posets, and $\A$ and $\B$ be the corresponding categories. Consider a contravariant functor $F:\A^{\op}\rightarrow \B$. Describe properties of the corresponding function $f:A\rightarrow B$.
 \end{exercise}
 
 \begin{exercise}
@@ -104,9 +104,9 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
   Clearly, for each $a\in A$, $f(i(a))=j(a)$, thus $f\of i=j$, and $f$ is a group homomorphism.
 
   Now, suppose $g$ is a group homomorphism satisfying $g\of i=j$. 
-  Let $a_1\cdots a_n\in A^*$. Proof by induction on $n$ that $g(n)=f(n)$.
+  Let $a_1\cdots a_n\in A^*$. Proof by induction on $n$ that $g(a_1\cdots a_n)=f(a_1\cdots a_n)$.
 
-  Base case: $g(\epsilon)=0_M$ because $\epsilon$ is the neutral element in $A^*$).
+  Base case: $g(\epsilon)=0_M=f(\epsilon)$ because $\epsilon$ is the neutral element in $A^*$).
 
   Inductive step: 
   \begin{align*}
@@ -152,7 +152,7 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
     \]
     (plus the identities) such that $g\of f=1_A$, $f\of g=h$, $g\of h=g$ and $h\of f=f$. Then any functor $F\from\A\to\Set$ maps $A$ and $B$ to sets $A'$ and $B'$ respectively and $f$ is mapped to a function $f'\from A'\to B'$ and $g$ is mapped to a function $g'\from B'\to A'$ such that for all $a\in A'$, $g'(f'(a))=a$. Thus $f'$ is an injection.
 
-    Indeed, the reverse is also true: given any injection $f'\from A'\to B'$ there is functor which $F\from \A\to\Set$ such that $f'$ corresponds to $F$ (in the way specified above).
+    Indeed, the reverse is also true: Given any injection $f'\from A'\to B'$ there is functor $F\from \A\to\Set$ such that $f'$ corresponds to $F$ (in the way specified above).
   \end{enumerate}
 \end{answer}
 
