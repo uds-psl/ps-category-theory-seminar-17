@@ -147,10 +147,10 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
   \item Consider $\B$ given by
     \[
       \begin{tikzcd}[column sep=huge,row sep=huge]
-        A\arrow[r,yshift=.85ex,"f"] & B\arrow[l,below,yshift=-.85ex,"g"]
+        A\arrow[r,yshift=.85ex,"f"] & B\arrow[l,below,yshift=-.85ex,"g"] \arrow[loop right,"h"]
       \end{tikzcd}
     \]
-    such that $g\of f=1_A$ and $f\of g=1_B$.
+    (plus the identities) such that $g\of f=1_A$, $f\of g=h$, $g\of h=g$ and $g\of f = h$. Then any functor $F\from\A\to\Set$ maps $A$ and $B$ to sets $A'$ and $B'$ respectively and $f$ is mapped to a function $f\from A'\to B'$ and $g$ is mapped to a function $g\from B'\to A'$ such that for all $a\in A'$, $g(f(a))=a$. Thus $f$ is an injection.
   \end{enumerate}
 \end{answer}
 
