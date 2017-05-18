@@ -1,8 +1,9 @@
 \def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
 
-\DeclareMathOperator{\A}{\mathscr A}
-\DeclareMathOperator{\B}{\mathscr B}
-\DeclareMathOperator{\M}{\mathscr M}
+\newcommand{\A}{\cat A}
+\newcommand{\B}{\cat B}
+\newcommand{\M}{\cat M}
+\newcommand{\Rel}{\fcat{Rel}}
 
 \begin{document}
 
@@ -19,6 +20,10 @@
 Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to \cat{B}$ is a functor and $A, A' \in \cat{A}$ with $A \iso A'$, then $F(A) \iso F(A')$.
 \end{exercise}
 
+\begin{answer}
+  Since $A\cong A'$ there are $f\in\mathscr A(A,A')$ and $g\in\mathscr A(A',A)$ such that $g \of f=1_A$ and $f \of g=1_A'$. Hence, $F(g)\of F(f)=F(g\of f)=F(1_A)=1_{F(A)}$ and $F(f)\of F(g)=F(f\of g)=F(1_A')=1_{F(A')}$. As a consequence, $F(f)$ is an isomorphism between $F(A)$ and $F(A')$. In particular, $F(A)\cong F(A')$.
+\end{answer}
+
 \begin{exercise}
   Check that there is a category $\Cat$ with categories as objects and functors as arrows.
 \end{exercise}
@@ -26,6 +31,10 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 \begin{exercise}
   Find an example of a functor $F : \cat{A} \to \cat{B}$ such that $F$ is faithful but there exist distinct maps $f_1$ and $f_2$ in $\cat{A}$ with $F(f_1) = F(f_2)$.
 \end{exercise}
+
+\begin{answer}
+  Suppose the discrete categories $\A$ and $\B$ with two and one objects respectively. Then, any functor $F\from A\to B$ is trivially faithful but $F(1_A)=F(1_B)$ (where $A$ and $B$ are the only objects of $\A$).
+\end{answer}
 
 \begin{exercise}
   Find interesting examples for a functor that is both full and faithful, one that is full but not faithful, one that is faithful but not full, and one that is neither.
@@ -39,6 +48,13 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
   \end{enumerate}
 \end{exercise}
 
+\begin{answer}
+  \begin{enumerate}
+  \item A subcategory of an ordered set $(S,\leq)$ is an ordered set $(S',\leq')$ such that $S'\subseteq S$ and $\leq'\;\subseteq\;\leq$. In the case of full subcategories even for all $s,t\in S'$, $s\leq t$ if and only if $s\leq' t$ holds.
+  \item The subcategories of a group are either the category with no objects or submonoids of the group (which is of course a monoid). The only full subcategories are the group itself and the category with no objects.
+  \end{enumerate}
+\end{answer}
+
 \begin{exercise}
   \begin{enumerate}
     \item Define an endofunctor on $\Set$ that maps every set to its powerset.
@@ -51,8 +67,14 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 \end{exercise}
 
 \begin{exercise}
-  Let $A$ and $B$ be posets, and $\A$ and $\B$ be the corresponding categories. Consider a contravariant functor $F:\A\rightarrow \B$. Describe properties of the corresponding function $f:A\rightarrow B$.
+  Let $A$ and $B$ be posets, and $\A$ and $\B$ be the corresponding categories. Consider a contravariant functor $F:\A^{\op}\rightarrow \B$. Describe properties of the corresponding function $f:A\rightarrow B$.
 \end{exercise}
+
+\begin{answer}
+  For every arrow $x \to y$ in $\A$, there is an arrow $f : y \to x$ in $\A^\op$ and hence an arrow $F(f) : F(y) \to F(x)$ in $\B$.
+  In the language of posets this means that $x \leq y$ implies $f(x) \geq f(y)$, i.e.\ $f$ is monotonically decreasing.
+  The functor laws hold tautologically in posets and don't tell us anything about $f$.
+\end{answer}
 
 \begin{exercise}
   Determine which of the following holds, i.e.\ either provide an isomorphism in $\mathbf{CAT}$ or argue why there is none:
@@ -66,6 +88,44 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 
 \end{exercise}
 
+\begin{answer}
+  \begin{enumerate}
+    \item The categories are isomorphic.
+      We define functors $F : \Rel^\op \to \Rel$ and $G : \Rel \to \Rel^\op$ in both directions by
+      \begin{align*}
+        F(X) &\coloneqq X  &  G(X) &\coloneqq X \\
+        F(R) &\coloneqq R^{-1}  &  G(R) &\coloneqq R^{-1}
+      \end{align*}
+      for all sets $X$ and $Y$ and relations $R \in X \times Y$.
+      Both functors are mutually inverse bacause $(R^{-1})^{-1} = R$.
+      Thus $\Rel^\op \iso \Rel$.
+
+    \item We refute the statement by contradiction.
+      Assume that we have an isomorphism $F : \Set^\op \to \Set$.
+      Let $1$ be a one-element set.
+      It is final in $\Set$ and hence initial in $\Set^\op$ and will be mapped to the initial object $\emptyset$ in $\Set$, because isomorphisms preserve initial objects.
+      We define $f : 1 \to X$ as a function to some set $X$ that is not isomorphic to $1$.
+      Then $F(X)$ is not isomorphic to $F(1) = \emptyset$, but there is a function $F(f) : F(X) \to \emptyset$, which leads to a contradiction.
+
+    \item Let $X$ be a finite set with at least two elements.
+      We define the monoid $\M \coloneqq \lbrace f : X \to X \rbrace$ with function composition as binary operation and the identity function as neutral element.
+      Let $c \in \M$ be some constant function.
+      Such a function is left-absorbing, which means that for all functions $f \in \M$, we have $c \circ f = c$.
+      Left-absorbing elements in the opposite monoid correspond to right-absorbing functions, i.e., fuctions $d \in \M$ such that for all $f \in M$, we have $f \circ d = d$.
+      Obviously such functions do not exist.
+      Since left-absorbing elements are preserved by isomorphisms, $\M$ cannot be isomorphic to its opposite monoid.
+
+    \item We define mutually inverse functors $F : \CAT_i^\op \to \CAT_i$ and $G : \CAT_i \to \CAT_i^\op$ by
+      \begin{align*}
+        F(\A) &\coloneqq \A  &  G(\A) &\coloneqq \A \\
+        F(H) &\coloneqq H^{-1}  &  G(H) &\coloneqq H^{-1}
+      \end{align*}
+      for all categories $\A$ and $\B$ and functors $H : \A \to B$.
+      The functors $F$ and $G$ are mutually inverse because $(H^{-1})^{-1} = H$.
+      Thus $\CAT_i^\op \iso \CAT_i$.
+  \end{enumerate}
+\end{answer}
+
 \begin{definition}{Free Monoid}
   For every set $A$, we define the \emph{free monoid} $A^* \coloneqq \lbrace \text{words over $A$} \rbrace$.
   We define the binary operation by $w \cdot w' \coloneqq ww'$ as the concatenation of words and use the empty word $\varepsilon$ as neutral element.
@@ -75,6 +135,36 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
   Show that for every set $A$, the free monoid $A^*$ satisfies the following \emph{universal mapping property}:
   There is a function $i : A \to A^*$ and given any monoid $M$ and any function $j : A \to M$, there is a \emph{unique} monoid homomorphism $f : A^* \to M$ such that $f \circ i = j$.
 \end{exercise}
+
+\begin{answer}
+  Define
+  \begin{align*}
+    i(a)&=a &(a\in A)
+  \end{align*}
+  and
+  \begin{align*}
+    f(\epsilon)&=0_M&\\
+    f(a_1\cdots a_{n-1}a_n)&=f(a_1\cdots a_{n-1})\of j(a_n) &\text{for }n>0.
+  \end{align*}
+  Clearly, for each $a\in A$, $f(i(a))=j(a)$, thus $f\of i=j$, and $f$ is a group homomorphism.
+
+  Now, suppose $g$ is a group homomorphism satisfying $g\of i=j$.
+  Let $a_1\cdots a_n\in A^*$. Proof by induction on $n$ that $g(a_1\cdots a_n)=f(a_1\cdots a_n)$.
+
+  Base case: $g(\epsilon)=0_M=f(\epsilon)$ because $\epsilon$ is the neutral element in $A^*$).
+
+  Inductive step:
+  \begin{align*}
+    g(a_1\cdots a_{n-1}a_n)&=g(a_1\cdots a_{n-1})\of g(a_n)&g\text{ group homomorphism}\\
+                           &=f(a_1\cdots a_{n-1})\of g(a_n)&\text{inductive hypothesis}\\
+                           &=f(a_1\cdots a_{n-1})\of g(i(a_n)) & a_n\in A\\
+                           &=f(a_1\cdots a_{n-1})\of f(i(a_n)) & g\of i=j=f\of i\\
+                           &=f(a_1\cdots a_{n-1})\of f(a_n) & a_n\in A\\
+                           &=f(a_1\cdots a_{n-1}a_n)&f\text{ group homomorphism}
+  \end{align*}
+  Hence, $f=g$, so $f$ is indeed unique.
+
+\end{answer}
 
 \begin{exercise}
   Denote by $\Mon$ the category of monoids with monoid morphisms as arrows.
@@ -89,6 +179,27 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
     \item Define a category $\cat{B}$ such that the functors from $\cat{B}$ to $\Set$ correspond to injections between an arbitrary pair of sets.
   \end{enumerate}
 \end{exercise}
+
+\begin{answer}
+  \begin{enumerate}
+  \item Consider $\A$ given by
+    \[
+      \begin{tikzcd}[column sep=huge,row sep=huge]
+        E\arrow[r,yshift=.85ex,"s"] \arrow[r,below,yshift=-.85ex,"e"]&V
+      \end{tikzcd}
+    \]
+    Then a functor $F\from \A\to\Set$ assigns to both $E$ and $V$ sets $E'$ and $V'$ (which correspond to the set of edges and vertices respectively) and to $s,e$ functions $s'$ and $e'$ that take edges $d$ from $E'$ and return elements $s'(d)$ and $e'(d)$ which correspond to the start and end node of the edge $d$ respectively.
+  \item Consider $\B$ given by
+    \[
+      \begin{tikzcd}[column sep=huge,row sep=huge]
+        A\arrow[r,yshift=.85ex,"f"] & B\arrow[l,below,yshift=-.85ex,"g"] \arrow[loop right,"h"]
+      \end{tikzcd}
+    \]
+    (plus the identities) such that $g\of f=1_A$, $f\of g=h$, $g\of h=g$ and $h\of f=f$. Then any functor $F\from\A\to\Set$ maps $A$ and $B$ to sets $A'$ and $B'$ respectively and $f$ is mapped to a function $f'\from A'\to B'$ and $g$ is mapped to a function $g'\from B'\to A'$ such that for all $a\in A'$, $g'(f'(a))=a$. Thus $f'$ is an injection.
+
+    Indeed, the reverse is also true: Given any injection $f'\from A'\to B'$ there is functor $F\from \A\to\Set$ such that $f'$ corresponds to $F$ (in the way specified above).
+  \end{enumerate}
+\end{answer}
 
 
 \begin{definition}{Coslice Category}
@@ -111,6 +222,48 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 Show that $\mathbf{Sets_*\cong 1/\mathbf{Sets}}$ where $1$ is an arbitrary set with exactly one element.
 \end{exercise}
 
+\begin{answer}
+  We define a functor $F : \Set_* \to 1/\Set$ by
+  \begin{align*}
+    F((A, a)) &\coloneqq (x \mapsto a) \\
+    F(h) &\coloneqq h
+  \end{align*}
+  for all pointed sets $(A, a)$ and $(B, b)$ and functions $h : A \to B$ with $f(a) = b$.
+  The second line is valid because
+  \[ \begin{split}
+    h \circ F((A, a))
+    &= (x \mapsto h(a)) \\
+    &= (x \mapsto b) \\
+    &= F((B, b)).
+  \end{split} \]
+  Now we define the inverse functor $G : 1/\Set \to \Set_*$ by
+  \begin{align*}
+    G(f) &\coloneqq (A, f(\star)) \\
+    G(h) &\coloneqq h
+  \end{align*}
+  for all functions $f : 1 \to A$, $g : 1 \to B$ and $h : A \to B$ with $h \circ f = g$.
+  The second line is valid because
+  \[ \begin{split}
+    h(f(\star))
+    &= (h \circ f)(\star) \\
+    &= g(\star).
+  \end{split} \]
+  Both functors are mutually inverse on objects because
+  \[ \begin{split}
+    F(G(f))
+    &= F((A, f(\star))) \\
+    &= (x \mapsto f(\star)) \\
+    &= f
+  \end{split} \]
+  and
+  \[ \begin{split}
+    G(F((A, a)))
+    &= G(x \mapsto a) \\
+    &= (A, a).
+  \end{split} \]
+  On arrows they are trivially inverse.
+\end{answer}
+
 \begin{definition}{Slice Category}
   Let $\A$ be a category and $A\in\ob(\A)$ an object. The \emph{slice category} $\A/A$ of $\A$ over $A$ consists of
   \begin{itemize}
@@ -126,6 +279,51 @@ Show that $\mathbf{Sets_*\cong 1/\mathbf{Sets}}$ where $1$ is an arbitrary set w
     For arrows $f\in\A(A,B)$ consider functors $F_f\from\A/A\to\A/B$ that act on objects $g\in \A(C,A)$ by $F_f(g)=f\of g$.
   \end{hint}
 \end{exercise}
+
+\begin{answer}
+  As suggested, we define
+  \begin{align*}
+    F(A) &\coloneqq \A / A \\
+    F(f) &\coloneqq F_f,
+  \end{align*}
+  where $F_f : \A / A \to \A / B$ is given by
+  \begin{align*}
+    F_f(g) &\coloneqq f \circ g \\
+    F_f(h) &\coloneqq h
+  \end{align*}
+  for all functions $g$, $g'$ and $h$ such that the following diagram commutes.
+  \[ \begin{tikzcd}[column sep=tiny]
+    C \arrow[dr, "g"'] && C' \arrow[ll, "h"] \arrow[dl, "g'"] \\
+    & A \arrow[d, "f"] \\
+    & B
+  \end{tikzcd} \]
+  The second line is valid because
+  \[ \begin{split}
+    F_f(g) \circ h
+    &= f \circ g \circ h \\
+    &= f \circ g' \\
+    &= F_f(g')
+  \end{split} \]
+  Our definition of $F$ satisfies both functor laws:
+  \begin{enumerate}
+    \item For $f : A_2 \to A_3$ and $f' : A_1 \to A_2$, we have $F(f \circ f') = F(f) \circ F(f')$:
+      \begin{align*}
+        F_{f \circ f'}(g)
+          &= f \circ f' \circ g \\
+          &= F_f(F_f'(g)) \\
+        F_{f \circ f'}(h)
+          &= h \\
+          &= F_f(F_f'(h))
+      \end{align*}
+    \item We have $F(1_A) = 1_{F(A)}$:
+      \begin{align*}
+        F_{1_A}(g) &= g \\
+        F_{1_A}(h) &= h
+      \end{align*}
+  \end{enumerate}
+  In general the functor $F$ is not an isomorphism.
+  For example, if $\A$ is the empty category then it is not isomorphic to $\Cat$.
+\end{answer}
 
 
 \end{document}
