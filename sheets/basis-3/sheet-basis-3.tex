@@ -40,19 +40,31 @@
   \end{itemize}
 \end{exercise}
 
+\begin{definition}{Product map application}
+  If $(A, C), (B, D)$ are elements of $ob(\cat{A} \times \cat{C})$, then for
+  every pair of arrows $f: A \to B$ and $g: C \to D$, the application of the
+  product map $(f, g): (A, C) \to (B, D)$ on any $(a, c): (A, C)$ is defined
+  as follows:
+  \begin{equation*}
+    (f, g) (a, c) := (f(a), g(c))
+  \end{equation*}
+\end{definition}
+
 \begin{exercise}
   For a fixed set $A$, the map taking $B$ to $B^A \times A$ can be extended to
   a functor $F_A:\mathbf{Set} \to \mathbf{Set}$ as follows:
   \begin{align*}
     F_A(B) & =  B^A \times A\\
-    F_A(f: B \to C) & =  (F \circ \_) \times id_A
+    F_A(f: B \to C) & =  (f \circ \_, 1_A)
   \end{align*}
-  The fact that $eval: F_A \to I_{\mathbf{Set}}$ is a natural transformation follows from the commutativity of the diagram
+  The fact that $eval: F_A \to 1_{\mathbf{Set}}$ (defined by the rule $eval(f,
+  a) = f(a)$) is a natural transformation follows from the commutativity of the
+  diagram
 \[
   \begin{tikzcd}
-    F_A(C) = C^A \times A \arrow{rrr}{eval_{AC}} \arrow{dd}{F_A(g)=(g\circ \_) \times id_A} & & & C = I_{\mathbf{Set}}(C) \arrow{dd}{g = I_{\mathbf{Set}(g)}} \\
+    F_A(C) = C^A \times A \arrow{rrr}{eval_{AC}} \arrow{dd}{F_A(g)=(g\circ \_, 1_A)} & & & C = 1_{\mathbf{Set}}(C) \arrow{dd}{g = 1_{\mathbf{Set}(g)}} \\
                                                                                            & & & \\
-    F_A(B) = B^A \times A \arrow{rrr}{eval_{AB}} & & & B = I_{\mathbf{Set}}(B)
+    F_A(B) = B^A \times A \arrow{rrr}{eval_{AB}} & & & B = 1_{\mathbf{Set}}(B)
   \end{tikzcd}
 \]
 for each $g: C \to B$.
