@@ -29,7 +29,17 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
 \end{exercise}
 
 \begin{answer}
-Mostafa
+In $\mathbf{CAT}$, objects are categories and the self loops are trivial endofunctors and so they trivially follow identity laws.\\
+This counts as a trivial answer to the question. However, we can also include all functors.\\
+For associativity, consider three functors $F:A\rightarrow B$, $G:B\rightarrow C$ and $H:C\rightarrow D$.\\
+\begin{itemize}
+\item $(H \of G) \of F(a)$ = $H \of G(F(a))$ = $H(G(F(a)))$
+\item $H \of (G \of F) (a)$ : $H \of (G \of F(a))$ = $G \of G(F(a))$ = H(G(F(a)))
+\item Therefore, $(H \of G) \of F(a) = H \of (G \of F) (a)$ and we satisfy associativity for objects.
+\item The same works for morphisms because $F(f' \of f)  = F(f') \of F(f)$ by definition. Therefore, we satisfy associativity for objects.
+\item Since identities are mapped to identities, we satisfy identity laws
+\item Therefore, $\mathbf{CAT}$ is a category
+\end{itemize}
 \end{answer}
 
 \begin{exercise}
@@ -45,7 +55,12 @@ Mostafa
 \end{exercise}
 
 \begin{answer}
-Mostafa
+\begin{itemize}
+\item Any bijective functor from a discrete category to another is a full and faithful functor.
+\item A functor that maps a category with two objects and two morphisms (both have the same domain and codomain) to a category with the same two objects and one morphism is full, but not faithful.
+\item A functor that maps a category with two objects and one morphism to a category with the same two objects and two morphisms is faithful, but not full.
+\item Combining the last two to have a category with four objects which are divided into two pairs as mentioned before which are mapped to another category with four objects that are divided into two pairs with the same mentioned structures.
+\end{itemize}
 \end{answer}
 
 \begin{exercise}
@@ -75,7 +90,17 @@ Mostafa
 \end{exercise}
 
 \begin{answer}
-Mostafa
+\begin{enumerate}
+\item
+\begin{itemize}
+\item Since every set is mapped to another set (its powerset), then all objects are mapped.
+\item A function $f: X \rightarrow Y$ is mapped to $F: P(X) \rightarrow P(Y)$, such that $F(x)  = \{x \in X\}$.
+\item This makes the axioms follow easily from composition in $\mathbf {Set}$. Therefore, it satisfies functor laws.
+\item It is faithful (A set has only one powerset) and not full (consider a function that takes the entire powerset as an element and maps it to the other powerset).
+\end{itemize}
+\item
+The only difference is mapping elements in the powerset to their preimage set. The rest of the argument is the same.
+\end{enumerate}
 \end{answer}
 
 \begin{exercise}
@@ -185,7 +210,11 @@ Mostafa
 \end{exercise}
 
 \begin{answer}
-Mostafa
+\begin{itemize}
+\item We assume mapping a function $f: X \rightarrow Y in$ $\mathbf {Set}$ to a free monoid morphism $F: MonX \rightarrow MonY$ such that $F(Z \in MonX) = (f(z) | z \in Z)$
+\item F is faithful since if two sets have the same free monoids (All the lists that can be generated from the elements of those sets), then the two sets are the same.
+\item F is not full because we can have a morphism $F(Z \in MonX) = (f(z)f(z) | z \in Z)$
+\end{itemize}
 \end{answer}
 
 \begin{exercise}
