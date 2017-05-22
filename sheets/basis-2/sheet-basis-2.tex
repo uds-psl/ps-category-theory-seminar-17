@@ -5,6 +5,8 @@
 \newcommand{\M}{\cat M}
 \newcommand{\Rel}{\fcat{Rel}}
 
+\newcommand{\const}[1]{\mathsf{const}_{#1}}
+
 \begin{document}
 
 % Use Basis x or Talk x, where x is the number of the session
@@ -225,17 +227,19 @@ Show that $\mathbf{Sets_*\cong 1/\mathbf{Sets}}$ where $1$ is an arbitrary set w
 \begin{answer}
   We define a functor $F : \Set_* \to 1/\Set$ by
   \begin{align*}
-    F((A, a)) &\coloneqq (x \mapsto a) \\
+    F((A, a)) &\coloneqq \const{a} \\
     F(h) &\coloneqq h
   \end{align*}
-  for all pointed sets $(A, a)$ and $(B, b)$ and functions $h : A \to B$ with $f(a) = b$.
+  for all pointed sets $(A, a)$ and $(B, b)$ and functions $h : A \to B$ with $h(a) = b$.
+  Here $\const{x}$ stands for the constant function with value $x$.
   The second line is valid because
   \[ \begin{split}
     h \circ F((A, a))
-    &= (x \mapsto h(a)) \\
-    &= (x \mapsto b) \\
-    &= F((B, b)).
+    &= \const{h(a)} \\
+    &= \const{b} \\
+    &= F((B, b))
   \end{split} \]
+  holds for $h$ as above.
   Now we define the inverse functor $G : 1/\Set \to \Set_*$ by
   \begin{align*}
     G(f) &\coloneqq (A, f(\star)) \\
@@ -252,13 +256,13 @@ Show that $\mathbf{Sets_*\cong 1/\mathbf{Sets}}$ where $1$ is an arbitrary set w
   \[ \begin{split}
     F(G(f))
     &= F((A, f(\star))) \\
-    &= (x \mapsto f(\star)) \\
+    &= \const{f(\star)} \\
     &= f
   \end{split} \]
   and
   \[ \begin{split}
     G(F((A, a)))
-    &= G(x \mapsto a) \\
+    &= G(\const{a}) \\
     &= (A, a).
   \end{split} \]
   On arrows they are trivially inverse.
