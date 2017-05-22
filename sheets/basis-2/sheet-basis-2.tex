@@ -148,21 +148,21 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
     f(\epsilon)&=0_M&\\
     f(a_1\cdots a_{n-1}a_n)&=f(a_1\cdots a_{n-1})\of j(a_n) &\text{for }n>0.
   \end{align*}
-  Clearly, for each $a\in A$, $f(i(a))=j(a)$, thus $f\of i=j$, and $f$ is a group homomorphism.
+  Clearly, for each $a\in A$, $f(i(a))=j(a)$, thus $f\of i=j$, and $f$ is a monoid homomorphism.
 
-  Now, suppose $g$ is a group homomorphism satisfying $g\of i=j$.
+  Now, suppose $g$ is a monoid homomorphism satisfying $g\of i=j$.
   Let $a_1\cdots a_n\in A^*$. Proof by induction on $n$ that $g(a_1\cdots a_n)=f(a_1\cdots a_n)$.
 
   Base case: $g(\epsilon)=0_M=f(\epsilon)$ because $\epsilon$ is the neutral element in $A^*$).
 
   Inductive step:
   \begin{align*}
-    g(a_1\cdots a_{n-1}a_n)&=g(a_1\cdots a_{n-1})\of g(a_n)&g\text{ group homomorphism}\\
+    g(a_1\cdots a_{n-1}a_n)&=g(a_1\cdots a_{n-1})\of g(a_n)&g\text{ monoid homomorphism}\\
                            &=f(a_1\cdots a_{n-1})\of g(a_n)&\text{inductive hypothesis}\\
                            &=f(a_1\cdots a_{n-1})\of g(i(a_n)) & a_n\in A\\
                            &=f(a_1\cdots a_{n-1})\of f(i(a_n)) & g\of i=j=f\of i\\
                            &=f(a_1\cdots a_{n-1})\of f(a_n) & a_n\in A\\
-                           &=f(a_1\cdots a_{n-1}a_n)&f\text{ group homomorphism}
+                           &=f(a_1\cdots a_{n-1}a_n)&f\text{ monoid homomorphism}
   \end{align*}
   Hence, $f=g$, so $f$ is indeed unique.
 
@@ -199,7 +199,7 @@ Show that functors preserve isomorphism. That is, prove that if $F : \cat{A} \to
     \]
     (plus the identities) such that $g\of f=1_A$, $f\of g=h$, $g\of h=g$ and $h\of f=f$. Then any functor $F\from\A\to\Set$ maps $A$ and $B$ to sets $A'$ and $B'$ respectively and $f$ is mapped to a function $f'\from A'\to B'$ and $g$ is mapped to a function $g'\from B'\to A'$ such that for all $a\in A'$, $g'(f'(a))=a$. Thus $f'$ is an injection.
 
-    Indeed, the reverse is also true: Given any injection $f'\from A'\to B'$ there is functor $F\from \A\to\Set$ such that $f'$ corresponds to $F$ (in the way specified above).
+    Indeed, assuming the axiom of choice the reverse is also true: Given any injection $f'\from A'\to B'$ there is functor $F\from \A\to\Set$ such that $f'$ corresponds to $F$ (in the way specified above). ($g$ is mapped to the left inverse of $f$, which can be constructed by picking for any $b'$ in the image of $f'$ an arbitrary preimage of $b'$ under $f'$ (axiom of choice!) and for any $b'$ not in the image of $f'$ an arbitrary element of $A'$ (again axiom of choice!)).
   \end{enumerate}
 \end{answer}
 
