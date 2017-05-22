@@ -15,6 +15,39 @@
   Define categories $\cat{A}$ and $\cat{B}$ such that either $\cat{A} \iso \cat{B}$ in $\CAT$ or $\cat{A} \eqv \cat{B}$, but not both.
   Do not use the example given during the lecture.
 \end{exercise}
+\begin{answer}
+    \begin{minipage}{0.5\textwidth}
+        $\cat{A}$:
+        \[
+            \begin{tikzcd}
+                A \arrow{d}{f}\\
+                B
+            \end{tikzcd}
+        \]
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        $\cat{B}$:
+        \[
+            \begin{tikzcd}
+                A' \arrow{dr}{f'} \arrow[bend left]{rr}{g} &    & A'' \arrow{dl}{f''} \arrow{ll}{g^{-1}} \\
+                                                           & B' &
+            \end{tikzcd}
+        \]
+    \end{minipage}
+    The identity morphisms have been left out for simplicity.
+    First of all note that there is no bijection between the objects of $\cat{A}$ and $\cat{B}$, so $\cat{A} \not\iso \cat{B}$.\\
+    We now show $\cat{A} \eqv \cat{B}$.
+    Therefore we define a functor $F$:
+    \begin{align*}
+        F(A) := A'\\
+        F(B) := B'\\
+        F(f) := f'
+    \end{align*}
+    In addition $F$ maps the identity morhisms to their respective identity morphisms.
+    It is easy to check that $F$ is full and faithful.
+    Furthermore $F$ is surjective on the objects, because $A'$ and $A''$ are isomorph in $\cat{B}$.
+    Thus $\cat{A} \eqv \cat{B}$.
+\end{answer}
 
 \begin{exercise}
         Let $\cat{A}$ and $\cat{B}$ be categories.  Prove that
@@ -39,6 +72,12 @@
   \item[(b)] a canonical function $A \times B^{A} \to B$.
   \end{itemize}
 \end{exercise}
+\begin{answer}
+    \begin{itemize}
+        \item[(a)] $\lambda\, a\, \lambda\,f.\, f\,a$
+        \item[(b)] $\lambda\, (a, f).\, f\,a$
+    \end{itemize}
+\end{answer}
 
 \begin{definition}{Product of Morphisms inside a Category}
   Let $\cat{A}$ be a category and $A, B, C, D \in \ob(\cat{A})$ with $f \from A \to C$ and $g \from B \to D$.
@@ -73,12 +112,38 @@ Check that this diagram commutes.
 \begin{exercise}
         Let $\xymatrix@1{\cat{A}\rtwocell^F_G{\alpha} &\cat{B}}$ be a natural transformation.
         \begin{itemize}
-                \item[(a)] Suppose $\alpha$ is a natural isomorphism.
+            \item[(a)] Suppose $\alpha$ is a natural isomorphism.
                 Show that $\alpha_A\from F(A) \to G(A)$ is an isomorphism for all $A \in \cat{A}$.
-                \item[(b)] Now assume that $\alpha_A\from F(A) \to G(A)$ is an isomorphism for all
+            \item[(b)] Now assume that $\alpha_A\from F(A) \to G(A)$ is an isomorphism for all
                 $A \in \cat{A}$. Prove that $\alpha$ is a natural isomorphism.
         \end{itemize}
 \end{exercise}
+\begin{answer}
+    \begin{itemize}
+        \item[(a)]
+            By definition of natural isomorphism we have a natural transformation $\beta: G \Rightarrow F$, such that
+            \[\beta \circ \alpha = 1_{F} \text{ and } \alpha \circ \beta = 1_{G}. \]
+            We show that $\forall A \in \cat{A}.\, \beta_A \circ \alpha_A = 1_{F(A)} \text{ and } \alpha_A \circ \beta_A = 1_{G(A)}$.
+            Suppose $A \in \cat{A}$.
+            We know by definition of the identity natural transformation that $(\beta \circ \alpha)_A = 1_{F(A)}$.
+            The claim $\beta_A \circ \alpha_A = 1_{F(A)}$ follows by definition of composition of natural transformations.
+            $\alpha_A \circ \beta_A = 1_{G(A)}$ is shown analogously.
+        \item[(ab)]
+            We know that for all $A \in \cat{A}$ there is a $\beta_A$ such that
+            \[\beta_A \circ \alpha_A = 1_{F(A)} \text{ and } \alpha_A \circ \beta_A = 1_{G(A)}.\]
+            First we prove that $\beta$ is a natural transformation.
+            Suppose $f\from A \to A'$.
+            We know that $\alpha$ is a natural transformation:
+            \begin{align*}
+                & G(f) \circ \alpha_A && = \alpha_{A'} \circ F(f)\\
+                \Rightarrow\, & G(f) \circ \alpha_A \circ \beta_A && = \alpha_{A'} \circ F(f) \circ \beta_A\\
+                \Rightarrow\, & \beta_{A'} \circ G(f) && = \beta_{A'} \circ \alpha_{A'} \circ F(f) \circ \beta_A\\
+                \Rightarrow\, & \beta_{A'} \circ G(f) && = F(f) \circ \beta_A
+            \end{align*}
+            By similar reasoning to (a) we get that $\beta$ is the inverse of $\alpha$.
+            Therefore $\alpha$ is a natural isomorpism.
+    \end{itemize}
+\end{answer}
 
 \begin{exercise}
 A \emph{permutation} of a set $X$ is a bijection $X \to X$.
@@ -140,6 +205,31 @@ Prove that $\Mt$ is equivalent to $\FDVect_K$, the category of
 finite-dimensional vector spaces over $K$.
 Does your equivalence involve a \emph{canonical} functor from $\Mt$ to $\FDVect_K$, or from $\FDVect_K$ to $\Mt$?
 \end{exercise}
+\begin{answer}
+    Define a functor $F: \Mt \to \FDVect_K$:
+    \begin{align*}
+        F(n) & := K^n && \forall n \in \NN\\
+        F(A) & := \lambda\, x. \, A \cdot x && \forall n \times m \text{ matrices } A
+    \end{align*}
+    Note that $F$ is indeed a functor, since matrix multiplication is associative.
+    \begin{description}
+        \item[$F$ is faithful:]
+            Let $A, B$ be two $n \times m$ matrices over $K$ such that $F(A) = F(B)$.
+            By using the standard basis in $K^m$ we get, that each column of $A$ and $B$ are the same.
+            Thus $A = B$.
+        \item[$F$ is full:]
+            Let $f: K^m \to K^n$ be a linear function.
+            We define the $n \times m$ matrix $A$ columnwise.
+            The $j$-th column of $A$ is $f(e_j)$, where $e_j$ is the $j$-th standard basis vector.
+            By this definition $F(A)$ and $f$ conincide on the standard basis.
+            Linear algebra tells us that in this case $F(A)$ and $f$ coincide on all vectors.
+            So $A$ is mapped to $f$ under $F$.
+        \item[$F$ is surjective on the objects:]
+            Let $V$ be a finite-dimensional $K$-vectorspace.
+            Then $V$ has some dimension $n \in \NN$.
+            Thus $V \iso K^n = F(n)$.
+    \end{description}
+\end{answer}
 
 \end{document}
 
