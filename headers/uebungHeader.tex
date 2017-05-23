@@ -37,7 +37,7 @@
     \vspace{2ex}
 }
 
-
+\newcommand{\exercisesOnly}[1]{\ifthenelse{\isundefined{\issolution}}{#1}{}}
 
 %Loesungs-Umgebung
 \newenvironment{answer}
@@ -46,7 +46,7 @@
     {
         \comment
     }{
-        \vspace{1ex}\textsl{Lösungsvorschlag \ExerciseNumber}\noparskip\par\nopagebreak
+        \vspace{1ex}\textsl{Sample solution \ExerciseNumber}\noparskip\par\nopagebreak
     }
 }{
     \ifthenelse{\isundefined{\issolution}}

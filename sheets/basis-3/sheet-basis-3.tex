@@ -2,6 +2,8 @@
 
 \begin{document}
 
+\author{Joachim Bard, Maximilian Wuttke, Nikita Ziuzin}
+
 % Use Basis x or Talk x, where x is the number of the session
 \uebunghead{Basis 3}{Maps between Functors -- Natural Transformations}
 
@@ -9,17 +11,135 @@
   Read Chapter 1.3.
 \end{hint}
 
-\section{Diagrams}
+\begin{exercise}
+  Define categories $\cat{A}$ and $\cat{B}$ such that either $\cat{A} \iso \cat{B}$ in $\CAT$ or $\cat{A} \eqv \cat{B}$, but not both.
+  Do not use the example given during the lecture.
+\end{exercise}
 
-\begin{hint}
-  This is how you can draw diagrams:
-  \[
-    \begin{tikzcd}
-                                    & A \arrow{dr}{g}    & \\
-      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
-    \end{tikzcd}
-  \]
-\end{hint}
+\begin{exercise}
+        Let $\cat{A}$ and $\cat{B}$ be categories.  Prove that
+        $\ftrcat{\cat{A}^\op}{\cat{B}^\op} \iso \ftrcat{\cat{A}}{\cat{B}}^\op$.
+\end{exercise}
+
+\begin{definition}{Canonical according to Leinster}
+  "Canonical is an informal word, meaning something like 'God-given' or
+  'defined without making arbitrary choices'.  For example, for any two sets
+  $A$ and $B$, there is a canonical bijection $A \times B \to B \times A$
+  defined by $(a, b) \mapsto (b, a)$, and there is a canonical function $A
+  \times B \to A$ defined by $(a, b) \mapsto a$.  But the function $B \to A$
+  defined by 'choose an element $a_0 \in A$ and send everything to $a_0$' is
+  not canonical, because the choice of $a_0$ is arbitrary."
+\end{definition}
+
+\begin{exercise}
+  Let $A$ and $B$ be sets, and denote by $B^A$ the set of functions from $A$
+  to $B$.  Write down:
+  \begin{itemize}
+  \item[(a)] a canonical function $A \to B^{(B^A)}$,
+  \item[(b)] a canonical function $A \times B^{A} \to B$.
+  \end{itemize}
+\end{exercise}
+
+\begin{definition}{Product of Morphisms inside a Category}
+  Let $\cat{A}$ be a category and $A, B, C, D \in \ob(\cat{A})$ with $f \from A \to C$ and $g \from B \to D$.
+  The product morphism of $f$ and $g$, written $f \times g$, is a function
+  \begin{align*}
+    A \times B &\qquad\to\qquad C \times D\\
+    (a, b) &\qquad\mapsto\qquad (f(a), g(b))
+  \end{align*}
+\end{definition}
+
+\newcommand{\eval}[1]{\ensuremath{\mathsf{eval}^{#1}\xspace}}
+
+\begin{exercise}
+  For a fixed set $A$, the map taking $B$ to $B^A \times A$ can be extended to
+  a functor $F_A:\mathbf{Set} \to \mathbf{Set}$ as follows:
+  \begin{align*}
+    F_A(B) & =  B^A \times A\\
+    F_A(f: B \to C) & =  (f \circ \_) \times 1_A
+  \end{align*}
+  The function $\eval{A} \from F_A \to 1_{\mathbf{Set}}$, defined as $\eval{A}(f,a) := f(a)$, is a natural transformation if the following diagram commutes for each $g \from B \to C$.
+\[
+  \begin{tikzcd}
+    F_A(B) = B^A \times A \arrow{rrr}{F_A(g)=(g\circ \_) \times 1_A} \arrow{dd}[swap]{\eval{A}_B} & & & 1_{\mathbf{Set}}(B) = B \arrow{dd}{\eval{A}_C} \\
+                                                                                           & & & \\
+    F_A(C) = C^A \times A \arrow{rrr}[swap]{1_{\mathbf{Set}}(g) = g} & & & 1_{\mathbf{Set}}(C) = C
+  \end{tikzcd}
+\]
+
+Check that this diagram commutes.
+\end{exercise}
+
+\begin{exercise}
+        Let $\xymatrix@1{\cat{A}\rtwocell^F_G{\alpha} &\cat{B}}$ be a natural transformation.
+        \begin{itemize}
+                \item[(a)] Suppose $\alpha$ is a natural isomorphism.
+                Show that $\alpha_A\from F(A) \to G(A)$ is an isomorphism for all $A \in \cat{A}$.
+                \item[(b)] Now assume that $\alpha_A\from F(A) \to G(A)$ is an isomorphism for all
+                $A \in \cat{A}$. Prove that $\alpha$ is a natural isomorphism.
+        \end{itemize}
+\end{exercise}
+
+\begin{exercise}
+A \emph{permutation} of a set $X$ is a bijection $X \to X$.
+Write $\Sym(X)$ for the set of permutations of $X$.
+A \emph{total order} on a set $X$ is an order $\leq$ such that for all $x, y \in X$,
+either $x \leq y$ or $y \leq x$.
+Write $\Ord(X)$ for the set of total orders on $X$.
+
+Let $\cat{B}$ denote the category of finite sets and bijections.
+
+        \begin{itemize}
+        \item[(a)]
+Give a definition of $\Sym$ on maps in $\cat{B}$ in such a way that $\Sym$
+becomes a functor $\cat{B} \to \Set$.  Do the same for $\Ord$.  Both your
+definitions should be canonical (no arbitrary choices).
+
+        \item[(b)]
+Show that there is no natural transformation $\Sym \to \Ord$.
+(Hint: consider identity permutations.)
+
+        \item[(c)]
+For an $n$-element set $X$, how many elements do the sets $\Sym(X)$
+and $\Ord(X)$ have?
+        \end{itemize}
+
+Conclude that $\Sym(X) \iso \Ord(X)$ for all $X \in \cat{B}$, but not
+\emph{naturally} in $X \in \cat{B}$.  (The moral is that for each finite
+set $X$, there are exactly as many permutations of $X$ as there are total
+orders on $X$, but there is no natural way of matching them up.)
+\end{exercise}
+
+\begin{exercise}
+Let $F\from \cat{A} \to \cat{B}$ be a functor.
+
+        \begin{itemize}
+        \item[(a)]
+Suppose that $F$ is an equivalence.  Prove that $F$ is full, faithful and
+essentially surjective on objects.  (Hint: prove faithfulness before
+fullness.)
+
+        \item[(b)]
+Now suppose instead that $F$ is full, faithful and essentially surjective
+on objects.  For each $B \in \cat{B}$, choose an object $G(B)$ of $\cat{A}$
+and an isomorphism $\varepsilon\from F(G(B)) \to B$.  Prove that $G$ extends
+to a functor in such a way that $(\varepsilon)_{B \in \cat{B}}$ is a natural
+isomorphism $F \circ G \to 1_{\cat{B}}$.  Then construct a natural isomorphism
+$1_{\cat{A}} \to G \circ F$, thus proving that $F$ is an equivalence.
+        \end{itemize}
+\end{exercise}
+
+\begin{exercise}
+This exercise makes precise the idea that linear algebra can equivalently
+be done with matrices or with linear maps.
+
+Fix a field $K$.  Let $\Mt$ be the category whose objects are the natural
+numbers and with
+\[ \Mt(m, n) = \{ n \times m \text{ matrices over } K \}. \]
+Prove that $\Mt$ is equivalent to $\FDVect_K$, the category of
+finite-dimensional vector spaces over $K$.
+Does your equivalence involve a \emph{canonical} functor from $\Mt$ to $\FDVect_K$, or from $\FDVect_K$ to $\Mt$?
+\end{exercise}
 
 \end{document}
 
