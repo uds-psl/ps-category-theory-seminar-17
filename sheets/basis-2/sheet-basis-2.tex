@@ -113,6 +113,16 @@ For associativity, consider three functors $F:A\rightarrow B$, $G:B\rightarrow C
 \end{answer}
 
 \begin{exercise}
+  Let $A$ and $B$ be posets, and $\A$ and $\B$ be the corresponding categories. Consider a contravariant functor $F:\A^{\op}\rightarrow \B$. Describe properties of the corresponding function $f:A\rightarrow B$.
+\end{exercise}
+
+\begin{answer}
+  For every arrow $x \to y$ in $\A$, there is an arrow $f : y \to x$ in $\A^\op$ and hence an arrow $F(f) : F(y) \to F(x)$ in $\B$.
+  In the language of posets this means that $x \leq y$ implies $f(x) \geq f(y)$, i.e.\ $f$ is monotonically decreasing.
+  The functor laws hold tautologically in posets and don't tell us anything about $f$.
+\end{answer}
+
+\begin{exercise} 
   Determine which of the following holds, i.e.\ either provide an isomorphism in $\mathbf{CAT}$ or argue why there is none:
 
   \begin{enumerate}
@@ -209,11 +219,28 @@ For associativity, consider three functors $F:A\rightarrow B$, $G:B\rightarrow C
 \end{exercise}
 
 \begin{answer}
-\begin{itemize}
-\item We assume mapping a function $f: X \rightarrow Y in$ $\mathbf {Set}$ to a free monoid morphism $F: MonX \rightarrow MonY$ such that $F(Z \in MonX) = (f(z) | z \in Z)$
-\item F is faithful since if two sets have the same free monoids (All the lists that can be generated from the elements of those sets), then the two sets are the same.
-\item F is not full because we can have a morphism $F(Z \in MonX) = (f(z)f(z) | z \in Z)$
-\end{itemize}
+
+We define $F\from\Set\to\Mon$ in the natural way:
+
+\begin{align*}
+  F(A)&=A^*\\
+  F(f)&=f^*
+\end{align*}
+where
+\begin{align*}
+  f^*(a_1\cdots a_n)=f(a_1)\cdots f(a_n).
+\end{align*}
+Clearly, this is a functor. 
+
+Now, suppose $A,A'\in\Set$ and $f,f'\from A\to A'$ such that $F(f)=F(f')$. In particular, for all $a\in A$
+\begin{align*}
+  f(a)=F(f)(a)=F(f')(a)=f'(a)
+\end{align*}
+Hence, $f=f'$ and $F$ is faithful.
+
+Next, suppose $A\in\Set$. Define $g\from F(A)\to F(A)$ by $g(a_1\cdots a_n)=a_1a_1\cdots a_na_n$ (i.e. each ``character'' is duplicated). $g$ is a monoid monomorphism but $F(f)\neq g$ for all $f\from A\to A$ since such $F(f)$ in particular preserve lengths of words.
+
+Ergo, $F$ is not full.
 \end{answer}
 
 \begin{exercise}
