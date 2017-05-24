@@ -55,12 +55,12 @@
 \end{exercise}
 
 \begin{definition}{Canonical according to Leinster}
-  "Canonical is an informal word, meaning something like 'God-given' or
-  'defined without making arbitrary choices'.  For example, for any two sets
+  "Canonical is an informal word, meaning something like `God-given' or
+  `defined without making arbitrary choices'.  For example, for any two sets
   $A$ and $B$, there is a canonical bijection $A \times B \to B \times A$
   defined by $(a, b) \mapsto (b, a)$, and there is a canonical function $A
   \times B \to A$ defined by $(a, b) \mapsto a$.  But the function $B \to A$
-  defined by 'choose an element $a_0 \in A$ and send everything to $a_0$' is
+  defined by `choose an element $a_0 \in A$ and send everything to $a_0$' is
   not canonical, because the choice of $a_0$ is arbitrary."
 \end{definition}
 
@@ -192,6 +192,36 @@ set $X$, there are exactly as many permutations of $X$ as there are total
 orders on $X$, but there is no natural way of matching them up.)
 \end{exercise}
 
+\begin{answer}
+  \begin{itemize}
+    \item[(a)]
+      $\Sym(f) = \lambda g.f \circ g$, where $g$ is a permutation\\
+      $\Ord(f) = \lambda (a, b).(f(a), f(b))$, where $a, b \in X$
+    \item[(b)]
+      Let's consider a non-identity permutation $h$. We can build an ordering
+      from it by taking $(x, h(x))$ as an element of ordering relation for
+      $\forall x \in \text{ some finite set } X$, then filling the gaps by
+      reflexivity and transitivity.
+
+      However, it's not the case for an identity permutation $i$, as for that
+      permutation the $i(x) = x$ which leaves us only with reflexivity pairs if
+      we try to build an ordering from that bijection. Thus, we cannot define
+      formation of an ordering from an identity permutation and therefore
+      there's no natural transformation from $\Sym$ to $\Ord$.
+    \item[(c)]
+      $|\Sym(X)| = n$!\\
+      $|\Ord(X)| = n$!
+  \end{itemize}
+  We have seen that there's no natural transformation $\Sym \to \Ord$.
+  Nonetheless, we have also seen that they have the same number of
+  elements and an isomorphism between them can actually be formed: it's not
+  hard to construct all permutations or orderings of some finite set knowing
+  its elements.
+
+  This leads us to the conclusion that $\Sym(X) \iso \Ord(X)$ for all $X \in
+  \cat{B}$, but not \emph{naturally} in $X \in \cat{B}$.
+\end{answer}
+
 \begin{exercise}
 Let $F\from \cat{A} \to \cat{B}$ be a functor.
 
@@ -226,7 +256,7 @@ Does your equivalence involve a \emph{canonical} functor from $\Mt$ to $\FDVect_
     Define a functor $F: \Mt \to \FDVect_K$:
     \begin{align*}
         F(n) & := K^n && \forall n \in \NN\\
-        F(A) & := \lambda\, x. \, A \cdot x && \forall n \times m \text{ matrices } A
+        F(A) & := \lambda\, x. \, A \cdot x && \forall n \times m \text{matrices} A
     \end{align*}
     Note that $F$ is indeed a functor, since matrix multiplication is associative.
     \begin{description}
