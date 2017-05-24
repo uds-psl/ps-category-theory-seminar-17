@@ -11,6 +11,7 @@
 \end{hint}
 
 
+
 %\section{Diagrams}
 %
 %\begin{hint}
@@ -34,6 +35,9 @@ The objects of the category \textbf{Rel} are sets, an arrow $f \from A \to B$ is
 The identity arrow on set $A$ is the equality relation $\{\angles{a,a} \such a \in A\}$. 
 Composition of two maps $f \sub A \times B$, $g \sub B \times C$ is defined as 
 \[ g \of f = \{ \angles{a, c} \in A \times C \such \exists b \emptybk (\angles {a, b} \in f \emptybk \& \emptybk \angles{b, c} \in g)\} \]
+
+\section{Categories - Definition and Basics}
+
 
 \section{Categories - Definition and Basics}
 
@@ -69,10 +73,12 @@ Show that \textbf{Rel} is a category.
 
 
 
+
 \begin{definition}{Pos} The objects of  \textbf{Pos} are partially ordered sets 
 (recall that a poset is a set $A$ equipped with a reflexive, transitive and antisymmetric binary relation $\leq^A_\cdot $ ) 
 An arrow $ m \from A \to B $ function that is monotone, i.e. $\forall a, a' \in A$, 
 \[a \leq^A_\cdot a' \implies m(a) \leq^A_\cdot m(a')\]
+
 
 \begin{answer}
   textbf{identity laws:} for $f \sub A \times B$,
