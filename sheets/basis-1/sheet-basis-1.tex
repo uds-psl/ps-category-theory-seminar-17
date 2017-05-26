@@ -1,8 +1,7 @@
 \def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
 
 \begin{document}
-
-% Use Basis x or Talk x, where x is the number of the session
+\[% Use Basis x or Talk x, where x is the number of the session
 \uebunghead{Basis 1}{What is a Category?}
 
 \author{Sarah Mameche, Andreas Meyer, Leonhard Staut}
@@ -11,7 +10,40 @@
   Read Chapter 1.1. For initial and terminal objects refer to Definition 2.17 on pages 48ff. For Monics and Epics, refer to the respective sections in Chapters 5.1 and 5.2.
 \end{hint}
 
+
+
+%\section{Diagrams}
+%
+%\begin{hint}
+%  This is how you can draw diagrams:
+%  \[
+%    \begin{tikzcd}
+%                                    & A \arrow{dr}{g}    & \\
+%      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
+%    \end{tikzcd}
+%  \]
+%\end{hint}
+
 \section{Categories - Definition and Basics}
+
+\begin {exercise}
+Show there can be at most one inverse for a map $f \from A \to B$.
+\end{exercise}
+
+\begin {definition}{Rel}
+The objects of the category \textbf{Rel} are sets, an arrow $f \from A \to B$ is a subset $f \sub A \times B$. 
+The identity arrow on set $A$ is the equality relation $\{\angles{a,a} \such a \in A\}$. 
+Composition of two maps $f \sub A \times B$, $g \sub B \times C$ is defined as 
+\[ g \of f = \{ \angles{a, c} \in A \times C \such \exists b \emptybk (\angles {a, b} \in f \emptybk \& \emptybk \angles{b, c} \in g)\} \]
+
+\section{Categories - Definition and Basics}
+
+
+\section{Categories - Definition and Basics}
+
+
+\section{Categories - Definition and Basics}
+
 
 \begin {exercise}
 Show there can be at most one inverse for a morphism $f \from A \to B$.
@@ -32,11 +64,21 @@ The objects of the category \textbf{Rel} are sets. The morphisms $f \from A \to 
 The identity morphism on set $A$ is the equality relation $\{\round{a,a} \such a \in A\} := 1_A$.
 Composition of two morphisms $f \sub A \times B$, $g \sub B \times C$ is defined as
 \[ g \of f = \{ \round{a, c} \in A \times C \such \exists b. \round{a, b} \in f \land \round{b, c} \in g\} \]
+
 \end{definition}
 
 \begin {exercise}
 Show that \textbf{Rel} is a category.
 \end{exercise}
+
+
+
+
+\begin{definition}{Pos} The objects of  \textbf{Pos} are partially ordered sets 
+(recall that a poset is a set $A$ equipped with a reflexive, transitive and antisymmetric binary relation $\leq^A_\cdot $ ) 
+An arrow $ m \from A \to B $ function that is monotone, i.e. $\forall a, a' \in A$, 
+\[a \leq^A_\cdot a' \implies m(a) \leq^A_\cdot m(a')\]
+
 
 \begin{answer}
   textbf{identity laws:} for $f \sub A \times B$,
@@ -54,11 +96,13 @@ h \of (g \of f) = h \of \{ \angles{a, c} \in A \times C \such \exists b \emptybk
 
 \begin{definition}{Pos} The objects of  \textbf{Pos} are partially ordered sets
 (recall that a poset is a set $A$ equipped with a reflexive, transitive and antisymmetric binary relation $\leq^A$). The morphisms $m \from A \to B $ are monotone functions: $a \leq^A a' \implies m(a) \leq^A m(a')$
+
 \end{definition}
 
 \begin {exercise}
 Show that \textbf{Pos} is a category.
 \end{exercise}
+
 
 \begin{answer}
   \textbf{identity laws:} $1_A$ is the identity function, which is monotone since $a \leq^A_\cdot a' \implies a' \leq^A_\cdot a.$
@@ -319,9 +363,6 @@ Show that any isomorphism is both monic and epic.
   Therefore: $g \of f = h \of f \Rightarrow g = h$, and $f$ is epic.
 \end{answer}
 
-\end{document}
 
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
+\]
+\end{document}
