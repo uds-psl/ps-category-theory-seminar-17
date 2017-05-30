@@ -269,9 +269,17 @@ $1_{\cat{A}} \to G \circ F$, thus proving that $F$ is an equivalence.
                           & = \eta_{A'}^{-1} \circ \eta_{A'} \circ f'\\
                           & = f'
                     \end{align*}
+                    By analogous reasoning using $\epsln$ we obtain that $G$ is also faithful.
                 \item[$F$ is full:]
-                    %TODO
                     Let $A, A' \in \cat{A}$ and $g \from F(A) \to F(A')$.
+                    We define $f := \eta_{A'}^{-1} \circ G(g) \circ \eta_A$ and use the naturality axiom for $\eta$ in order to get:
+                    \begin{align*}
+                        G(F(f)) & = \eta_A' \circ f \circ \eta_A^{-1}\\
+                                & = \eta_A' \circ \eta_{A'}^{-1} \circ G(g) \circ \eta_A \circ \eta_A^{-1}\\
+                                & = G(g)
+                    \end{align*}
+                    Since $G$ is faithful we obtain $F(f) = g$.
+                    Thus $F$ is full.
                 \item[$F$ is essentially surjective on objects:]
                     Let $B \in \cat{B}$.
                     Then $F(G(B)) \iso B$ by $\epsln_B$.
