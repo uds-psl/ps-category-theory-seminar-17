@@ -235,7 +235,7 @@ fullness.)
 Now suppose instead that $F$ is full, faithful and essentially surjective
 on objects.  For each $B \in \cat{B}$, choose an object $G(B)$ of $\cat{A}$
 and an isomorphism $\epsln_B\from F(G(B)) \to B$.  Prove that $G$ extends
-to a functor in such a way that $(\epsln)_{B \in \cat{B}}$ is a natural
+to a functor in such a way that $(\epsln_B)_{B \in \cat{B}}$ is a natural
 isomorphism $F \circ G \to 1_{\cat{B}}$.  Then construct a natural isomorphism
 $1_{\cat{A}} \to G \circ F$, thus proving that $F$ is an equivalence.
         \end{itemize}
@@ -261,7 +261,7 @@ $1_{\cat{A}} \to G \circ F$, thus proving that $F$ is an equivalence.
             \begin{description}
                 \item[$F$ is faithful:]
                     Let $A, A' \in \cat{A}$ and $f,f'\from A \to A'$ such that $F(f) = F(f')$.
-                    Using this commutativity for $\eta$ we obtain our goal.
+                    Using the naturality axiom for $\eta$ we obtain our goal.
                     \begin{align*}
                         f & = \eta_{A'}^{-1} \circ \eta_{A'} \circ f\\
                           & = \eta_{A'}^{-1} \circ G(F(f)) \circ \eta_A\\
@@ -269,16 +269,25 @@ $1_{\cat{A}} \to G \circ F$, thus proving that $F$ is an equivalence.
                           & = \eta_{A'}^{-1} \circ \eta_{A'} \circ f'\\
                           & = f'
                     \end{align*}
+                    By analogous reasoning using $\epsln$ we obtain that $G$ is also faithful.
                 \item[$F$ is full:]
-                    %TODO
+                    Let $A, A' \in \cat{A}$ and $g \from F(A) \to F(A')$.
+                    We define $f := \eta_{A'}^{-1} \circ G(g) \circ \eta_A$ and use the naturality axiom for $\eta$ in order to get:
+                    \begin{align*}
+                        G(F(f)) & = \eta_A' \circ f \circ \eta_A^{-1}\\
+                                & = \eta_A' \circ \eta_{A'}^{-1} \circ G(g) \circ \eta_A \circ \eta_A^{-1}\\
+                                & = G(g)
+                    \end{align*}
+                    Since $G$ is faithful we obtain $F(f) = g$.
+                    Thus $F$ is full.
                 \item[$F$ is essentially surjective on objects:]
                     Let $B \in \cat{B}$.
                     Then $F(G(B)) \iso B$ by $\epsln_B$.
             \end{description}
         \item[(b)]
-            $F$ is essentially surj. on obj. so $\forall B \in \cat{B}.\, \exists A \in \cat{A}.\, F(A) \iso B$.
-            We denote by $h(A, B) \from F(A) \to B$ this isomorphism.
-            For each $B \in \cat{B}$ we define $G(B)$ such that $F(G(B)) \iso B$ under $h(G(B), B)$ and $\epsln_B\from F(G(B)) \to B := h(G(B), B)$.
+            For each $B \in \cat{B}$ the class of objects $A \in \cat{A}$ which fulfill $F(A) \iso B$ is non empty, because $F$ is essentially surjective on objects.
+            We define $G(B)$ as such an $A$ using the axiom of choice.
+            In addition we have an isomorphism $\epsln_B\from F(G(B)) \to B$.
             Let $g\from B \to B'$ be a morphism in $\cat{B}$.
             Then $g' := \epsln_{B'}^{-1} \circ g \circ \epsln_{B} \from F(G(B)) \to F(G(B'))$ is a morphism in the image of $F$.
             We extend $G$ to a functor by mapping each morphism $g\from B \to B'$ to the morphism $f\from G(B) \to G(B')$ such that $g' = F(f)$.
@@ -304,7 +313,7 @@ $1_{\cat{A}} \to G \circ F$, thus proving that $F$ is an equivalence.
                            & = F(\eta_{A'}) \circ F(f) \circ F(\eta_A^{-1})\\
                            & = F(\eta_{A'} \circ f \circ \eta_A^{-1})
             \end{align*}
-            We obtain $G(F(f)) = \eta_{A'} \circ f \circ \eta_A^{-1}$ because $F$ is faithfull.
+            We obtain $G(F(f)) = \eta_{A'} \circ f \circ \eta_A^{-1}$ because $F$ is faithful.
             This shows that $\eta$ is a natural isomorphism.
             Therefore $F$ is an equivalence.
     \end{itemize}
