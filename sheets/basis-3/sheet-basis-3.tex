@@ -193,24 +193,24 @@ orders on $X$, but there is no natural way of matching them up.)
 \end{exercise}
 
 \begin{answer}
-  In the following we will consider a representation of the permutation as a
-  tuple of two elements $(a, b)$, where $a \mapsto b$ is an element of a
-  bijection.
+  In the following we will consider a graph representation of the permutation
+  function which is a tuple of two elements $(a, b)$, where $a \mapsto b$ is an
+  element of a bijection.
   \begin{itemize}
     \item[(a)]
       For any $A \in ob(\cat{B}), C \in ob(\Set), f: A \to C$
       \begin{align*}
-        \Sym(f) &= \lambda (a, b). (f(a), f(b))\\
-        \Ord(f) &= \lambda (a, b).(f(a), f(b))
+        \Sym(f) &= \lambda X. \{(f(a), f(b)) | (a, b) \in X \}\\
+        \Ord(f) &= \lambda X. \{(f(a), f(b)) | (a, b) \in X \}\\
       \end{align*}
     \item[(b)]
-      Let's fix a finite set $A$ and define $\Sym \to \Ord$ on it.\\
+      Let's fix a finite set $A$ and try to define $\Sym \to \Ord$ on it.\\
       \begin{align*}
         A &= \{a, b\}\\
         \Sym(A) &= \{\{(a, a), (b, b)\}, \{(a, b), (b, a)\}\}\\
         \Ord(A) &= \{\{(a, b), (a, a), (b, b)\}, \{(b, a), (a, a), (b, b)\}\},\\
       \end{align*}
-      Natural transformation $\alpha: \Sym(A) \to \Ord(A)$:\\
+      Natural transformation $\alpha_A: \Sym(A) \to \Ord(A)$:\\
       \begin{align*}
         \alpha_A(\{(a, a), (b, b)\}) &= \{(a, b), (a, a), (b, b)\}\\
         \alpha_A(\{(a, b), (b, a)\}) &= \{(b, a), (a, a), (b, b)\}
@@ -227,14 +227,18 @@ orders on $X$, but there is no natural way of matching them up.)
         &\alpha_A(f(\{(a, a), (b, b)\})) &= \alpha_A(\{(b, b), (a, a)\}) =&& \{(b, a), (b, b), (a, a)\}\\
         &\alpha_A(f(\{(a, b), (b, a)\})) &= \alpha_A(\{(b, a), (a, b)\}) =&& \{(a, b), (b, b), (a, a)\}
       \end{align*}
-      Here $\alpha_A$ contradicts our definition of it and we can conclude that
-      it is not a natural transformation. The only other possibility of
-      defining $\alpha_A$ would be to switch the images of sets in the
-      definition, but the applying $f$ will yield us a similar contradictory
-      result.  From this we see that no matter how we define $\alpha_A$, the
-      naturality axiom will not hold for our $f$, hence we cannot have a
-      natural transformation for $\Sym(A) \to \Ord(A)$ and, in general, a
-      natural transformation $\Sym \to \Ord$.
+      Here we get a contradiction with the definition of $\alpha_A$ and we can
+      therefore conclude that it is not a natural transformation (naturality
+      axiom doesn't hold). The only other possibility of defining $\alpha_A$
+      (we can define this natural transformation in only two ways, as there are
+      only two arrows possible between $\Sym(A)$ and $\Ord(A)$ in $\Set$) would
+      be to swap the images in the definition of $\alpha_A$, but the
+      application of $f$ will yield us a similar contradictory result. From
+      this we see that no matter how we define $\alpha_A$, the naturality axiom
+      will not hold for our $f$, hence we cannot have a natural transformation
+      for $\Sym(A) \to \Ord(A)$ and, since in general we need the naturality
+      axiom to hold for all objects and arrows between them, a natural
+      transformation $\Sym \to \Ord$.
     \item[(c)]
       From combinatorics we know that the number of all permutations of a
       finite set of size $n$ is exactly $n$!:\\
@@ -248,10 +252,10 @@ orders on $X$, but there is no natural way of matching them up.)
       \end{equation*}
   \end{itemize}
   So we know that $\Sym$ and $\Ord$ have exactly the same number of elements
-  and generally we can come up with a mapping between those elements, such that
-  $\Sym(X) \iso \Ord(X)$ for all $X \in \cat{B}$. However, we have also shown
-  that we cannot define a natural transformation $\Sym \to \Ord$ which gives
-  that there's no natural isomorphism between those categories.
+  and we can come up with a mapping between those elements, such that $\Sym(X)
+  \iso \Ord(X)$ for all $X \in \cat{B}$. However, we have also shown that we
+  cannot define a natural transformation $\Sym \to \Ord$ which gives that
+  there's no natural isomorphism between those categories.
 \end{answer}
 
 
