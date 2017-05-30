@@ -193,34 +193,67 @@ orders on $X$, but there is no natural way of matching them up.)
 \end{exercise}
 
 \begin{answer}
+  In the following we will consider a representation of the permutation as a
+  tuple of two elements $(a, b)$, where $a \mapsto b$ is an element of a
+  bijection.
   \begin{itemize}
     \item[(a)]
-      $\Sym(f) = \lambda g.f \circ g$, where $g$ is a permutation\\
-      $\Ord(f) = \lambda (a, b).(f(a), f(b))$, where $a, b \in X$
+      For any $A \in ob(\cat{B}), C \in ob(\Set), f: A \to C$
+      \begin{align*}
+        \Sym(f) &= \lambda (a, b). (f(a), f(b))\\
+        \Ord(f) &= \lambda (a, b).(f(a), f(b))
+      \end{align*}
     \item[(b)]
-      Let's consider a non-identity permutation $h$. We can build an ordering
-      from it by taking $(x, h(x))$ as an element of ordering relation for
-      $\forall x \in \text{ some finite set } X$, then filling the gaps by
-      reflexivity and transitivity.
-
-      However, it's not the case for an identity permutation $i$, as for that
-      permutation the $i(x) = x$ which leaves us only with reflexivity pairs if
-      we try to build an ordering from that bijection. Thus, we cannot define
-      formation of an ordering from an identity permutation and therefore
-      there's no natural transformation from $\Sym$ to $\Ord$.
+      Let's fix a finite set $A$ and define $\Sym \to \Ord$ on it.\\
+      \begin{align*}
+        A &= \{a, b\}\\
+        \Sym(A) &= \{\{(a, a), (b, b)\}, \{(a, b), (b, a)\}\}\\
+        \Ord(A) &= \{\{(a, b), (a, a), (b, b)\}, \{(b, a), (a, a), (b, b)\}\},\\
+      \end{align*}
+      Natural transformation $\alpha: \Sym(A) \to \Ord(A)$:\\
+      \begin{align*}
+        \alpha_A(\{(a, a), (b, b)\}) &= \{(a, b), (a, a), (b, b)\}\\
+        \alpha_A(\{(a, b), (b, a)\}) &= \{(b, a), (a, a), (b, b)\}
+      \end{align*}
+      And a permutation of $A$:
+      \begin{align*}
+        f(a) &= b\\
+        f(b) &= a
+      \end{align*}
+      Now, for $\alpha$ to indeed be a natural transformation, the  naturality
+      axiom should hold for all arrows $A \to A$, including $f$. Let's check if
+      it holds by applying $f$.\\
+      \begin{align*}
+        &\alpha_A(f(\{(a, a), (b, b)\})) &= \alpha_A(\{(b, b), (a, a)\}) =&& \{(b, a), (b, b), (a, a)\}\\
+        &\alpha_A(f(\{(a, b), (b, a)\})) &= \alpha_A(\{(b, a), (a, b)\}) =&& \{(a, b), (b, b), (a, a)\}
+      \end{align*}
+      Here $\alpha_A$ contradicts our definition of it and we can conclude that
+      it is not a natural transformation. The only other possibility of
+      defining $\alpha_A$ would be to switch the images of sets in the
+      definition, but the applying $f$ will yield us a similar contradictory
+      result.  From this we see that no matter how we define $\alpha_A$, the
+      naturality axiom will not hold for our $f$, hence we cannot have a
+      natural transformation for $\Sym(A) \to \Ord(A)$ and, in general, a
+      natural transformation $\Sym \to \Ord$.
     \item[(c)]
-      $|\Sym(X)| = n$!\\
-      $|\Ord(X)| = n$!
+      From combinatorics we know that the number of all permutations of a
+      finite set of size $n$ is exactly $n$!:\\
+      \begin{equation*}
+        |\Sym(X)| = n!
+      \end{equation*}
+      We can also notice that we may consider permutations as an order too,
+      hence the number of all orders is:
+      \begin{equation*}
+        |\Ord(X)| = n!
+      \end{equation*}
   \end{itemize}
-  We have seen that there's no natural transformation $\Sym \to \Ord$.
-  Nonetheless, we have also seen that they have the same number of
-  elements and an isomorphism between them can actually be formed: it's not
-  hard to construct all permutations or orderings of some finite set knowing
-  its elements.
-
-  This leads us to the conclusion that $\Sym(X) \iso \Ord(X)$ for all $X \in
-  \cat{B}$, but not \emph{naturally} in $X \in \cat{B}$.
+  So we know that $\Sym$ and $\Ord$ have exactly the same number of elements
+  and generally we can come up with a mapping between those elements, such that
+  $\Sym(X) \iso \Ord(X)$ for all $X \in \cat{B}$. However, we have also shown
+  that we cannot define a natural transformation $\Sym \to \Ord$ which gives
+  that there's no natural isomorphism between those categories.
 \end{answer}
+
 
 \begin{exercise}
 Let $F\from \cat{A} \to \cat{B}$ be a functor.
