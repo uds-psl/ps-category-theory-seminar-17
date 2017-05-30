@@ -66,37 +66,33 @@
   to objects of $\ftrcat{\cat{A}}{\cat{B}}^\op$ (being itself functors from $\cat{A}$ to $\cat{B}$).
 
   Let $F\from \cat{A}^\op \to \cat{B}^\op$ be an object of $\ftrcat{\cat{A}^\op}{\cat{B}^\op}$.
+  $H(F)$ should be a functor $\cat{A} \to \cat{B}$.
   Because every object $A : \cat{A}^\op$ is also an object of $\cat{A}$ we can define
   $H(F)(A) := F(A)$.
-  Now let $f \from A \to B$ be an morphism in $\cat{A}^\op$. We have $F(f^\op)=g^\op$ for some morphism $g$ in $\cat{B}^\op$.
-  We define $H(F)(f) := F(f^\op)^\op = g$.
+  For every $A, A' : \cat{A}^\op$ and $f \from A \to B$ in $\cat{A}^\op$,
+  $f$ is by definition of $(.)^\op$ also a morphism $A' \to A$ in $\cat{A}$ and
+  $F_{A,A'}(f)$ yields a morphism $F(A) \to F(A')$ in $\cat{B}^\op$, being a morphism $F(A') \to F(A)$ in $\cat{B}$.
+  For given objects $A, A' : \cat{A}$ and a morphism $f \from A \to A'$ in $\cat{A}$, $H(F)(f)_{A,A'}$ is
+  supposed to yield a morphism $H(F)(A) \to H(F)(A') = F(A) \to F(A')$ in $\cat{B}$.
+  We can define $H(F)(f)_{A,A'} := F_{A',A}(f)$.
+  Note that this definition is in particular well typed and that the indices of the functors are normally implicit.
 
-  Now let $F, G \from \cat{A}^\op \to \cat{B}^\op$ be objects and
-  $\alpha \from F \to G$ be an morphism of $\ftrcat{\cat{A}^\op}{\cat{B}^\op}$.
-  $\alpha = (F(A) \stackrel{\alpha_A}{\to} G(A))_A$ is an natural transformation.
-  We define $H(\alpha) := \beta \from H(G) \to H(F) := (\alpha_A^\op)_A$ and have to show that $\beta$ is indeed such a natural transformation.
-  Let $A, A' : \cat{A}$ and $f \from A \to A'$. We have to show that the following diagram commutes:
-  \[
-    \begin{tikzcd}
-      H(G)(A) \arrow{r}{H(G)(f)} \arrow{d}{H(\alpha)_A} & H(G)(A') \arrow{d}{H(\alpha)_A'} \\
-      H(F)(A) \arrow{r}{H(F)(f)} & H(F)(A')
-    \end{tikzcd}
-  \]
-  By unfolding the definition of $H$ this diagram commutes if and only if the following diagram commutes:
-  \[
-    \begin{tikzcd}
-      G(A) & G(A') \arrow{l}{G(f^\op)} \\
-      F(A) \arrow{u}{\alpha_A} & F(A') \arrow{l}{F(f^\op)} \arrow{u}{\alpha_{A'}}
-    \end{tikzcd}
-  \]
-  This diagram commutes because $\alpha$ is a natural transformation.
+  Now let $F, G \from \cat{A}^\op \to \cat{B}^\op$ be concidered as objects of $\ftrcat{\cat{A}^\op}{\cat{B}^\op}$ and
+  $\alpha \from F \to G$ be concidered as a morphism of $\ftrcat{\cat{A}^\op}{\cat{B}^\op}$ from $F$ to $G$.
+  Now $\alpha = (F(A) \stackrel{\alpha_A}{\to} G(A))_{A : \cat{A}^\op}$ is a natural transformation.
+  Note that for every object $A : \cat{A}^\op$ (and in particular for every object $A : \cat{A}$)
+  the morphism $\alpha_{A} \from F(A) \to G(A)$ in $\cat{B}^\op$ is also a morphism $G(A) \to F(A)$ in $\cat{B}$.
+  $H(\alpha) = \beta$ is supposed to be morphism in ${\ftrcat{\cat{A}}{\cat{B}}}^\op$ from $F$ to $G$ and thus a natural transformation $\beta \from G \to A$.
+  As we have noted we can just define $H(\alpha) := \beta := (G(A) \stackrel{\alpha_A}{\to} F(A))_{A : \cat{A}} = \alpha$.
 
-  Secondly we define $J$ using a similar construction as above and get
-  $H \circ J = 1_{\ftrcat{\cat{A}}{\cat{B}}^\op}$ and $J \circ H = 1_{\ftrcat{\cat{A}^\op}{\cat{B}^\op}}$.
+  Secondly we define $J$ using the same constructions as above.
+  We observe that the only non-identical part of the definition is the part $H(F)(f)_{A,A'} := F_{A',A}(f)$ were we swap the (implic) indices $A$ and $A'$.
+  Because we do the same swap in the definition of $J(F)(f)$, the identities hold:
+  $$H \circ J = 1_{\ftrcat{\cat{A}}{\cat{B}}^\op} \quad\land\quad  J \circ H = 1_{\ftrcat{\cat{A}^\op}{\cat{B}^\op}}.$$
 
   Now by definition of $\iso$,
   $\ftrcat{\cat{A}^\op}{\cat{B}^\op} \iso \ftrcat{\cat{A}}{\cat{B}}^\op$
-  holds.
+  holds. Note that the constructions of $H$ and $J$ are canonical in the sense of the following definition.
 \end{answer}
 
 \begin{definition}{Canonical according to Leinster}
