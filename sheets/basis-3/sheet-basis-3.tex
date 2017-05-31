@@ -54,6 +54,47 @@
         $\ftrcat{\cat{A}^\op}{\cat{B}^\op} \iso \ftrcat{\cat{A}}{\cat{B}}^\op$.
 \end{exercise}
 
+\begin{answer}
+  We have to give two functors
+  $H \from \ftrcat{\cat{A}^\op}{\cat{B}^\op} \to \ftrcat{\cat{A}}{\cat{B}}^\op$
+  and
+  $J \from \ftrcat{\cat{A}}{\cat{B}}^\op \to \ftrcat{\cat{A}^\op}{\cat{B}^\op}$
+  such that $H \circ J = 1_{\ftrcat{\cat{A}}{\cat{B}}^\op}$ and $J \circ H = 1_{\ftrcat{\cat{A}^\op}{\cat{B}^\op}}$.
+
+  First we define $H$. For that we first map objects of
+  $\ftrcat{\cat{A}^\op}{\cat{B}^\op}$ (being itself functors from $\cat{A}^\op$ to $\cat{B}^\op$)
+  to objects of $\ftrcat{\cat{A}}{\cat{B}}^\op$ (being itself functors from $\cat{A}$ to $\cat{B}$).
+
+  Let $F\from \cat{A}^\op \to \cat{B}^\op$ be an object of $\ftrcat{\cat{A}^\op}{\cat{B}^\op}$.
+  $H(F)$ should be a functor $\cat{A} \to \cat{B}$.
+  Because every object $A : \cat{A}^\op$ is also an object of $\cat{A}$ we can define
+  $H(F)(A) := F(A)$.
+  For every $A, A' : \cat{A}^\op$ and $f \from A \to B$ in $\cat{A}^\op$,
+  $f$ is by definition of $(.)^\op$ also a morphism $A' \to A$ in $\cat{A}$ and
+  $F_{A,A'}(f)$ yields a morphism $F(A) \to F(A')$ in $\cat{B}^\op$, being a morphism $F(A') \to F(A)$ in $\cat{B}$.
+  For given objects $A, A' : \cat{A}$ and a morphism $f \from A \to A'$ in $\cat{A}$, $H(F)(f)_{A,A'}$ is
+  supposed to yield a morphism $H(F)(A) \to H(F)(A') = F(A) \to F(A')$ in $\cat{B}$.
+  We can define $H(F)(f)_{A,A'} := F_{A',A}(f)$.
+  Note that this definition is in particular well typed and that the indices of the functors are normally implicit.
+
+  Now let $F, G \from \cat{A}^\op \to \cat{B}^\op$ be concidered as objects of $\ftrcat{\cat{A}^\op}{\cat{B}^\op}$ and
+  $\alpha \from F \to G$ be concidered as a morphism of $\ftrcat{\cat{A}^\op}{\cat{B}^\op}$ from $F$ to $G$.
+  Now $\alpha = (F(A) \stackrel{\alpha_A}{\to} G(A))_{A : \cat{A}^\op}$ is a natural transformation.
+  Note that for every object $A : \cat{A}^\op$ (and in particular for every object $A : \cat{A}$)
+  the morphism $\alpha_{A} \from F(A) \to G(A)$ in $\cat{B}^\op$ is also a morphism $G(A) \to F(A)$ in $\cat{B}$.
+  $H(\alpha) = \beta$ is supposed to be morphism in ${\ftrcat{\cat{A}}{\cat{B}}}^\op$ from $F$ to $G$ and thus a natural transformation $\beta \from G \to A$.
+  As we have noted we can just define $H(\alpha) := \beta := (G(A) \stackrel{\alpha_A}{\to} F(A))_{A : \cat{A}} = \alpha$.
+
+  Secondly we define $J$ using the same constructions as above.
+  We observe that the only non-identical part of the definition is the part $H(F)(f)_{A,A'} := F_{A',A}(f)$ were we swap the (implic) indices $A$ and $A'$.
+  Because we do the same swap in the definition of $J(F)(f)$, the identities hold:
+  $$H \circ J = 1_{\ftrcat{\cat{A}}{\cat{B}}^\op} \quad\land\quad  J \circ H = 1_{\ftrcat{\cat{A}^\op}{\cat{B}^\op}}.$$
+
+  Now by definition of $\iso$,
+  $\ftrcat{\cat{A}^\op}{\cat{B}^\op} \iso \ftrcat{\cat{A}}{\cat{B}}^\op$
+  holds. Note that the constructions of $H$ and $J$ are canonical in the sense of the following definition.
+\end{answer}
+
 \begin{definition}{Canonical according to Leinster}
   "Canonical is an informal word, meaning something like `God-given' or
   `defined without making arbitrary choices'.  For example, for any two sets
