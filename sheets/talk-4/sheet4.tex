@@ -1,7 +1,7 @@
 \def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
 
 \begin{document}
-\[\uebunghead{Talk 4}{Galois Connections and Adjunctions}
+\uebunghead{Talk 4}{Galois Connections and Adjunctions}
 \author {Sarah Mameche}
 \section{Galois connections}
 
@@ -15,8 +15,8 @@ Let $\mathscr{P} = (P, \preceq_P)$ and $\mathscr{Q} = (Q, \preceq_Q)$ be partial
 \item $p \preceq_P G (F (p)) \land q \preceq_Q F(G (q))$
 \item $p \preceq_P G(q) \Leftrightarrow q \preceq_Q F(p)$
 \end{enumerate}
-\item Show that the following property holds for $F \dashv G$. 
-\[  
+\item Show that the following property holds for $F \dashv G$.
+\[
 \begin{aligned}
  \forall q \in Q.\; G(q) = max\{p \in P \such F(p) \preceq_Q q\}
 \end{aligned}
@@ -35,7 +35,7 @@ Dual property: $\forall p \in P.\; F(p) = min\{q \in Q \such p \preceq_P G(q)\} 
 
 
 \begin{exercise}
-Consider the posets $\mathscr{N} = (\mathbb{N}, \leqslant), \mathscr{Q} = (\mathbb{Q}^+, \leqslant)$ 
+Consider the posets $\mathscr{N} = (\mathbb{N}, \leqslant), \mathscr{Q} = (\mathbb{Q}^+, \leqslant)$
 and the inclusion function $I : \mathscr{N} \to  \mathscr{Q}$.
 \begin{enumerate}
 \item Find Galois connections $H \dashv I$ and $I \dashv G$.
@@ -65,11 +65,11 @@ Show that (i) and (ii) can be replaced by (iii) $\forall f, q, p. \;\overline{G(
 (i), (ii) $\Rightarrow$ (iii)\\
 composing any $q \from B \to B'$ with (ii): $\forall f, p: \forall q: q \of \bar{f} \of F(p) = q \of \overline{f \of p} $ (by ii). \\Since $f \from p \to F(A') \to B$, its transpose $h=:\overline{f \of p} \from A' \to B.$ \\So from (i) and quantif. over A: $q \of \overline{f \of p}  = q \of h = \overline{G(q) \of \bar{h}} = \overline{G(q) \of f \of p}$\\
 (iii) $\Rightarrow$ (i)\\
-%(iii) quantifies over all $p$, so set $p = id_A$ (exists for each object). Then $f \of p \from A \to G(B)$, and $\bar{f} \of F(p) \from F(A) \to B.$ 
-Assume (i) is false. 
-Taking a $g \from F(A) \to B$, you get $h = g  \of id_B  \from F(A) \to B$. 
-Then the equality (i) does not hold for h, that is \\ 
-$\forall q, \overline{q \of h} \not= G(q) \of \bar{h}$ 
+%(iii) quantifies over all $p$, so set $p = id_A$ (exists for each object). Then $f \of p \from A \to G(B)$, and $\bar{f} \of F(p) \from F(A) \to B.$
+Assume (i) is false.
+Taking a $g \from F(A) \to B$, you get $h = g  \of id_B  \from F(A) \to B$.
+Then the equality (i) does not hold for h, that is \\
+$\forall q, \overline{q \of h} \not= G(q) \of \bar{h}$
 \\$ \Leftrightarrow \overline{q \of g  \of id_B} \not= G(q)  \of \overline{h}$ ( Def h)\\
 $\Leftrightarrow q \of g  \of id_B \not= \overline{G(q)  \of \overline{h}}$ (Def transposition)
 
@@ -102,10 +102,10 @@ Find a right adjunct to the forgetful functor $F \from $\textbf{Set }$ \to $\tex
 \end{answer}
 
 \begin{exercise}
-Show that adjunctions preserve initial objects. I.e., if  
+Show that adjunctions preserve initial objects. I.e., if
 \begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
-\mathscr{A} \arrow[r, shift left,"F"] 
-\& \mathscr{B} \arrow[l, shift left, "G"] 
+\mathscr{A} \arrow[r, shift left,"F"]
+\& \mathscr{B} \arrow[l, shift left, "G"]
 \end{tikzcd}
 with $F\dashv G$ and $I$ is initial in $ \mathscr{A}$, then $F(I)$ is initial in $\mathscr{B}$. Dualize the statement.
 \end{exercise}
@@ -117,7 +117,7 @@ Assume $I$ is initial in $ \mathscr{A}$, then maps $I \to A$ are unique $\forall
 For sets $X, Y$ and a function $f: X \to Y$, show that the following operations are adjunctions:\\
 $ \forall A \in \mathcal{P}(X).\; F \from \mathcal {P}(X) \to \mathcal {P}(Y ) $ with $ F(A) := \{f(a) \such a \in A \}$ and\\
 $\forall B\in \mathcal{P}(Y). \; F^{-1} \from \mathcal {P}(Y) \to \mathcal {P}(X)$ with $ F^{-1}(B):=\{a\in X \such f(a)\in B\}$
-\\Adapt the construction so that it works for groups (alternatively topological spaces) instead of sets. 
+\\Adapt the construction so that it works for groups (alternatively topological spaces) instead of sets.
 \end{exercise}
 
 \begin{answer}
@@ -136,7 +136,7 @@ Consider a functor $Ob \from $\textbf {CAT }$  \to $\textbf { Set} which maps a 
 \begin{answer}
 There is a left adjoint $D$, where $D(A)$ is a discrete category with objects $A$. There is also a right adjoint $I$, where $I(A)$ is the category with objects $A$ and a unique arrow $a \to b$ for each $a,b \in A$.
 \end{answer}
- 
+
 \begin{exercise}
 Let $G$ be a group. \begin{enumerate}
 \item Find functors between \textbf{Set} and the functor category $[G,$ \textbf{Set}$]$ of left $G$-sets. Which adjunnctions are there between them?
@@ -153,5 +153,8 @@ Let $G$ be a group. \begin{enumerate}
 \end{answer}
 
 
-\]
 \end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

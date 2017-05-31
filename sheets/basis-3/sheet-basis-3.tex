@@ -45,12 +45,12 @@
     \end{align*}
     In addition $F$ maps the identity morhisms to their respective identity morphisms.
     It is easy to check that $F$ is full and faithful.
-    Furthermore $F$ is surjective on the objects, because $A'$ and $A''$ are isomorph in $\cat{B}$.
+    Furthermore $F$ is essentially surjective on objects because $A'$ and $A''$ are isomorphic in $\cat{B}$.
     Thus $\cat{A} \eqv \cat{B}$.
 \end{answer}
 
 \begin{exercise}
-        Let $\cat{A}$ and $\cat{B}$ be categories.  Prove that
+        Let $\cat{A}$ and $\cat{B}$ be categories. Prove that
         $\ftrcat{\cat{A}^\op}{\cat{B}^\op} \iso \ftrcat{\cat{A}}{\cat{B}}^\op$.
 \end{exercise}
 
@@ -74,7 +74,7 @@
 \end{exercise}
 \begin{answer}
     \begin{itemize}
-        \item[(a)] $\lambda\, a\, \lambda\,f.\, f\,a$
+        \item[(a)] $\lambda\, a.\, \lambda\,f.\, f\,a$
         \item[(b)] $\lambda\, (a, f).\, f\,a$
     \end{itemize}
 \end{answer}
@@ -92,7 +92,7 @@
 
 \begin{exercise}
   For a fixed set $A$, the map taking $B$ to $B^A \times A$ can be extended to
-  a functor $F_A:\mathbf{Set} \to \mathbf{Set}$ as follows:
+  a functor $F_A\from \mathbf{Set} \to \mathbf{Set}$ as follows:
   \begin{align*}
     F_A(B) & =  B^A \times A\\
     F_A(f: B \to C) & =  (f \circ \_) \times 1_A
@@ -109,18 +109,17 @@
 Check that this diagram commutes.
 \end{exercise}
 \begin{answer}
-  Let $(x,y) \in B^A \times A.$ We have to show that $\eval{A}_C (F_A(g) (x,y)) = 1_{\mathbf {Set}}(g) (\eval{A}_B (x, y))$.
-  By unfolding the definitions of $\times$, $\eval{A}$ and $F_a$ we get:
+  Let $(x,y) \in B^A \times A$. We have to show that $\eval{A}_C (F_A(g) (x,y)) = 1_{\mathbf {Set}}(g) (\eval{A}_B (x, y))$.
+  By unfolding the definitions of $\times$, $\eval{A}$ and $F_A$ we get:
   \[
     \eval{A}_C (F_A(g) (x,y)) =
     \eval{A}_C ((g \circ \_)\,x, 1_A\,y) =
     \eval{A}_C ((g \circ x, y)) =
     g (x (y))
     \]
-  By unfolding the definitions of $1_{\mathbf {Set}}$ and $\eval{A}_C$ we get:
+  By unfolding the definitions of $1_{\mathbf {Set}}$ and $\eval{A}$ we get:
   \[
     1_{\mathbf {Set}}(g) (\eval{A}_B (x, y)) =
-    g (\eval{A}_B (x, y)) =
     g (\eval{A}_B (x, y)) =
     g (x (y))
     \]
@@ -138,25 +137,26 @@ Check that this diagram commutes.
 \begin{answer}
     \begin{itemize}
         \item[(a)]
-            By definition of natural isomorphism we have a natural transformation $\beta: G \Rightarrow F$, such that
+            By definition of natural isomorphism we have a natural transformation $\beta\from G \to F$, such that
             \[\beta \circ \alpha = 1_{F} \text{ and } \alpha \circ \beta = 1_{G}. \]
             We show that $\forall A \in \cat{A}.\, \beta_A \circ \alpha_A = 1_{F(A)} \text{ and } \alpha_A \circ \beta_A = 1_{G(A)}$.
             Suppose $A \in \cat{A}$.
             We know by definition of the identity natural transformation that $(\beta \circ \alpha)_A = 1_{F(A)}$.
             The claim $\beta_A \circ \alpha_A = 1_{F(A)}$ follows by definition of composition of natural transformations.
             $\alpha_A \circ \beta_A = 1_{G(A)}$ is shown analogously.
-        \item[(ab)]
+        \item[(b)]
             We know that for all $A \in \cat{A}$ there is a $\beta_A$ such that
             \[\beta_A \circ \alpha_A = 1_{F(A)} \text{ and } \alpha_A \circ \beta_A = 1_{G(A)}.\]
             First we prove that $\beta$ is a natural transformation.
             Suppose $f\from A \to A'$.
             We know that $\alpha$ is a natural transformation:
-            \begin{align*}
-                & G(f) \circ \alpha_A && = \alpha_{A'} \circ F(f)\\
-                \Rightarrow\, & G(f) \circ \alpha_A \circ \beta_A && = \alpha_{A'} \circ F(f) \circ \beta_A\\
-                \Rightarrow\, & \beta_{A'} \circ G(f) && = \beta_{A'} \circ \alpha_{A'} \circ F(f) \circ \beta_A\\
-                \Rightarrow\, & \beta_{A'} \circ G(f) && = F(f) \circ \beta_A
-            \end{align*}
+            \begin{alignat*}{2}
+                & & G(f) \circ \alpha_A & = \alpha_{A'} \circ F(f) \\
+                &\Rightarrow &\quad G(f) \circ \alpha_A \circ \beta_A & = \alpha_{A'} \circ F(f) \circ \beta_A\\
+                &\Rightarrow & G(f) & = \alpha_{A'} \circ F(f) \circ \beta_A\\
+                &\Rightarrow & \beta_{A'} \circ G(f) & = \beta_{A'} \circ \alpha_{A'} \circ F(f) \circ \beta_A\\
+                &\Rightarrow & \beta_{A'} \circ G(f) & = F(f) \circ \beta_A
+            \end{alignat*}
             By similar reasoning to (a) we get that $\beta$ is the inverse of $\alpha$.
             Therefore $\alpha$ is a natural isomorpism.
     \end{itemize}
@@ -193,34 +193,67 @@ orders on $X$, but there is no natural way of matching them up.)
 \end{exercise}
 
 \begin{answer}
+  In the following we will consider a representation of the permutation as a
+  tuple of two elements $(a, b)$, where $a \mapsto b$ is an element of a
+  bijection.
   \begin{itemize}
     \item[(a)]
-      $\Sym(f) = \lambda g.f \circ g$, where $g$ is a permutation\\
-      $\Ord(f) = \lambda (a, b).(f(a), f(b))$, where $a, b \in X$
+      For any $A \in ob(\cat{B}), C \in ob(\Set), f: A \to C$
+      \begin{align*}
+        \Sym(f) &= \lambda (a, b). (f(a), f(b))\\
+        \Ord(f) &= \lambda (a, b).(f(a), f(b))
+      \end{align*}
     \item[(b)]
-      Let's consider a non-identity permutation $h$. We can build an ordering
-      from it by taking $(x, h(x))$ as an element of ordering relation for
-      $\forall x \in \text{ some finite set } X$, then filling the gaps by
-      reflexivity and transitivity.
-
-      However, it's not the case for an identity permutation $i$, as for that
-      permutation the $i(x) = x$ which leaves us only with reflexivity pairs if
-      we try to build an ordering from that bijection. Thus, we cannot define
-      formation of an ordering from an identity permutation and therefore
-      there's no natural transformation from $\Sym$ to $\Ord$.
+      Let's fix a finite set $A$ and define $\Sym \to \Ord$ on it.\\
+      \begin{align*}
+        A &= \{a, b\}\\
+        \Sym(A) &= \{\{(a, a), (b, b)\}, \{(a, b), (b, a)\}\}\\
+        \Ord(A) &= \{\{(a, b), (a, a), (b, b)\}, \{(b, a), (a, a), (b, b)\}\},\\
+      \end{align*}
+      Natural transformation $\alpha: \Sym(A) \to \Ord(A)$:\\
+      \begin{align*}
+        \alpha_A(\{(a, a), (b, b)\}) &= \{(a, b), (a, a), (b, b)\}\\
+        \alpha_A(\{(a, b), (b, a)\}) &= \{(b, a), (a, a), (b, b)\}
+      \end{align*}
+      And a permutation of $A$:
+      \begin{align*}
+        f(a) &= b\\
+        f(b) &= a
+      \end{align*}
+      Now, for $\alpha$ to indeed be a natural transformation, the  naturality
+      axiom should hold for all arrows $A \to A$, including $f$. Let's check if
+      it holds by applying $f$.\\
+      \begin{align*}
+        &\alpha_A(f(\{(a, a), (b, b)\})) &= \alpha_A(\{(b, b), (a, a)\}) =&& \{(b, a), (b, b), (a, a)\}\\
+        &\alpha_A(f(\{(a, b), (b, a)\})) &= \alpha_A(\{(b, a), (a, b)\}) =&& \{(a, b), (b, b), (a, a)\}
+      \end{align*}
+      Here $\alpha_A$ contradicts our definition of it and we can conclude that
+      it is not a natural transformation. The only other possibility of
+      defining $\alpha_A$ would be to switch the images of sets in the
+      definition, but the applying $f$ will yield us a similar contradictory
+      result.  From this we see that no matter how we define $\alpha_A$, the
+      naturality axiom will not hold for our $f$, hence we cannot have a
+      natural transformation for $\Sym(A) \to \Ord(A)$ and, in general, a
+      natural transformation $\Sym \to \Ord$.
     \item[(c)]
-      $|\Sym(X)| = n$!\\
-      $|\Ord(X)| = n$!
+      From combinatorics we know that the number of all permutations of a
+      finite set of size $n$ is exactly $n$!:\\
+      \begin{equation*}
+        |\Sym(X)| = n!
+      \end{equation*}
+      We can also notice that we may consider permutations as an order too,
+      hence the number of all orders is:
+      \begin{equation*}
+        |\Ord(X)| = n!
+      \end{equation*}
   \end{itemize}
-  We have seen that there's no natural transformation $\Sym \to \Ord$.
-  Nonetheless, we have also seen that they have the same number of
-  elements and an isomorphism between them can actually be formed: it's not
-  hard to construct all permutations or orderings of some finite set knowing
-  its elements.
-
-  This leads us to the conclusion that $\Sym(X) \iso \Ord(X)$ for all $X \in
-  \cat{B}$, but not \emph{naturally} in $X \in \cat{B}$.
+  So we know that $\Sym$ and $\Ord$ have exactly the same number of elements
+  and generally we can come up with a mapping between those elements, such that
+  $\Sym(X) \iso \Ord(X)$ for all $X \in \cat{B}$. However, we have also shown
+  that we cannot define a natural transformation $\Sym \to \Ord$ which gives
+  that there's no natural isomorphism between those categories.
 \end{answer}
+
 
 \begin{exercise}
 Let $F\from \cat{A} \to \cat{B}$ be a functor.
@@ -234,12 +267,90 @@ fullness.)
         \item[(b)]
 Now suppose instead that $F$ is full, faithful and essentially surjective
 on objects.  For each $B \in \cat{B}$, choose an object $G(B)$ of $\cat{A}$
-and an isomorphism $\varepsilon\from F(G(B)) \to B$.  Prove that $G$ extends
-to a functor in such a way that $(\varepsilon)_{B \in \cat{B}}$ is a natural
+and an isomorphism $\epsln_B\from F(G(B)) \to B$.  Prove that $G$ extends
+to a functor in such a way that $(\epsln_B)_{B \in \cat{B}}$ is a natural
 isomorphism $F \circ G \to 1_{\cat{B}}$.  Then construct a natural isomorphism
 $1_{\cat{A}} \to G \circ F$, thus proving that $F$ is an equivalence.
         \end{itemize}
 \end{exercise}
+\begin{answer}
+    \begin{itemize}
+        \item[(a)]
+            Since $F$ is an equivalance there is a functor $G\from \cat{B} \to \cat{A}$ and a natural isomorphism $\eta\from 1_{\cat{A}} \to G \circ F$.
+            So the following diagram commutes for all $f\from A \to A'$:
+            \[
+                \begin{tikzcd}
+                    A \arrow{r}{f} \arrow{d}{\eta_A} & A' \arrow{d}{\eta_{A'}} \\
+                    G(F(A)) \arrow{r}{G(F(f))}       & G(F(A'))
+                \end{tikzcd}
+            \]
+            Also we have a natural isomorphism $\epsln\from F \circ G \to 1_{\cat{B}}$ such that for all $g\from B \to B'$ the diagram commutes:
+            \[
+                \begin{tikzcd}
+                    F(G(B)) \arrow{d}{\epsln_{B}} \arrow{r}{F(G(g))} & F(G(B')) \arrow{d}{\epsln_{B'}} \\
+                    B \arrow{r}{g}  & B'
+                \end{tikzcd}
+            \]
+            \begin{description}
+                \item[$F$ is faithful:]
+                    Let $A, A' \in \cat{A}$ and $f,f'\from A \to A'$ such that $F(f) = F(f')$.
+                    Using the naturality axiom for $\eta$ we obtain our goal.
+                    \begin{align*}
+                        f & = \eta_{A'}^{-1} \circ \eta_{A'} \circ f\\
+                          & = \eta_{A'}^{-1} \circ G(F(f)) \circ \eta_A\\
+                          & = \eta_{A'}^{-1} \circ G(F(f')) \circ \eta_A\\
+                          & = \eta_{A'}^{-1} \circ \eta_{A'} \circ f'\\
+                          & = f'
+                    \end{align*}
+                    By analogous reasoning using $\epsln$ we obtain that $G$ is also faithful.
+                \item[$F$ is full:]
+                    Let $A, A' \in \cat{A}$ and $g \from F(A) \to F(A')$.
+                    We define $f := \eta_{A'}^{-1} \circ G(g) \circ \eta_A$ and use the naturality axiom for $\eta$ in order to get:
+                    \begin{align*}
+                        G(F(f)) & = \eta_A' \circ f \circ \eta_A^{-1}\\
+                                & = \eta_A' \circ \eta_{A'}^{-1} \circ G(g) \circ \eta_A \circ \eta_A^{-1}\\
+                                & = G(g)
+                    \end{align*}
+                    Since $G$ is faithful we obtain $F(f) = g$.
+                    Thus $F$ is full.
+                \item[$F$ is essentially surjective on objects:]
+                    Let $B \in \cat{B}$.
+                    Then $F(G(B)) \iso B$ by $\epsln_B$.
+            \end{description}
+        \item[(b)]
+            For each $B \in \cat{B}$ the class of objects $A \in \cat{A}$ which fulfill $F(A) \iso B$ is non empty, because $F$ is essentially surjective on objects.
+            We define $G(B)$ as such an $A$ using the axiom of choice.
+            In addition we have an isomorphism $\epsln_B\from F(G(B)) \to B$.
+            Let $g\from B \to B'$ be a morphism in $\cat{B}$.
+            Then $g' := \epsln_{B'}^{-1} \circ g \circ \epsln_{B} \from F(G(B)) \to F(G(B'))$ is a morphism in the image of $F$.
+            We extend $G$ to a functor by mapping each morphism $g\from B \to B'$ to the morphism $f\from G(B) \to G(B')$ such that $g' = F(f)$.
+            This morphism $f$ exists and is unique because $F$ is full and faithful.
+            We have to show that $\epsln$ is a natural transformation.
+            \[
+                \begin{tikzcd}
+                    F(G(B)) \arrow{d}{\epsln_{B}} \arrow{r}{F(G(g))} & F(G(B')) \arrow{d}{\epsln_{B'}} \\
+                    B \arrow{r}{g}                                   & B'
+                \end{tikzcd}
+            \]
+            The diagram commutes since $F(G(g)) = g' = \epsln_{B'}^{-1} \circ g \circ \epsln_{B}$.\\
+            Next we define $\eta_A$ such that $F(\eta_A) = \epsln_{F(A)}^{-1}$.
+            Again this is possible because $\epsln_{F(A)}^{-1}\from F(A) \to F(G(F(A)))$ is in the image of $F$.
+            \[
+                \begin{tikzcd}
+                    A \arrow{d}{\eta_A} \arrow{r}{f} & A' \arrow{d}{\eta_{A'}} \\
+                    G(F(A)) \arrow{r}{G(F(f))}       & G(F(A'))
+                \end{tikzcd}
+            \]
+            \begin{align*}
+                F(G(F(f))) & = \epsln_{F(A')}^{-1} \circ F(f) \circ \epsln_{F(A)}\\
+                           & = F(\eta_{A'}) \circ F(f) \circ F(\eta_A^{-1})\\
+                           & = F(\eta_{A'} \circ f \circ \eta_A^{-1})
+            \end{align*}
+            We obtain $G(F(f)) = \eta_{A'} \circ f \circ \eta_A^{-1}$ because $F$ is faithful.
+            This shows that $\eta$ is a natural isomorphism.
+            Therefore $F$ is an equivalence.
+    \end{itemize}
+\end{answer}
 
 \begin{exercise}
 This exercise makes precise the idea that linear algebra can equivalently
@@ -253,29 +364,34 @@ finite-dimensional vector spaces over $K$.
 Does your equivalence involve a \emph{canonical} functor from $\Mt$ to $\FDVect_K$, or from $\FDVect_K$ to $\Mt$?
 \end{exercise}
 \begin{answer}
-    Define a functor $F: \Mt \to \FDVect_K$:
+    Define a functor $F\from \Mt \to \FDVect_K$:
     \begin{align*}
-        F(n) & := K^n && \forall n \in \NN\\
-        F(A) & := \lambda\, x. \, A \cdot x && \forall n \times m \text{matrices} A
+        F(n) & := K^n && n \in \NN\\
+        F(A\from m \to n) & := \lambda\, x. \, A \cdot x && A \text{ is a } n \times m \text{ matrix}
     \end{align*}
     Note that $F$ is indeed a functor, since matrix multiplication is associative.
     \begin{description}
         \item[$F$ is faithful:]
-            Let $A, B$ be two $n \times m$ matrices over $K$ such that $F(A) = F(B)$.
-            By using the standard basis in $K^m$ we get, that each column of $A$ and $B$ are the same.
+            Let $A, B\from m \to n$, that is $n \times m$ matrices over $K$, such that $F(A) = F(B)$.
+            By using the standard basis $(e_j)_{j = 1}^m$ in $K^m$ we get:
+            \[A \cdot e_j = F(A)(e_j) = F(B)(e_j) = B \cdot e_j \quad\forall 1 \le j \le m\]
+            So each column of $A$ and $B$ are the same.
             Thus $A = B$.
         \item[$F$ is full:]
-            Let $f: K^m \to K^n$ be a linear function.
+            Let $f\from K^m \to K^n$ be a linear function.
             We define the $n \times m$ matrix $A$ columnwise.
             The $j$-th column of $A$ is $f(e_j)$, where $e_j$ is the $j$-th standard basis vector.
             By this definition $F(A)$ and $f$ conincide on the standard basis.
             Linear algebra tells us that in this case $F(A)$ and $f$ coincide on all vectors.
             So $A$ is mapped to $f$ under $F$.
-        \item[$F$ is surjective on the objects:]
+        \item[$F$ is essentially surjective on objects:]
             Let $V$ be a finite-dimensional $K$-vectorspace.
             Then $V$ has some dimension $n \in \NN$.
             Thus $V \iso K^n = F(n)$.
     \end{description}
+    Thus $F$ is an equivalence and so $\Mt \eqv \FDVect_K$.
+    The functor $F$ is even canonical since we didn't make arbitrary choices.
+    But the functor from $\FDVect_K$ to $\Mt$ involves choosing a basis like in the case for showing that $F$ is full.
 \end{answer}
 
 \end{document}
