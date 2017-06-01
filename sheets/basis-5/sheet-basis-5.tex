@@ -27,26 +27,26 @@ Read Chapters 2.2 and 2.3.
 \end{exercise}
 
 \begin{exercise}
-Given a functor $F: \A \rightarrow \B$ and a category $\Sc$, there is a functor $F^*: [\B,\Sc] \rightarrow [\A, \Sc]$ defined on objects $Y \in [\B,\Sc]$ by $F^*(Y) = Y \of F$ and on maps $\alpha$ by $F^*(\alpha) = \alpha F$. Show that any adjunction 
+Given a functor $F: \A \rightarrow \B$ and a category $\Sc$, there is a functor $F^*: [\B,\Sc] \rightarrow [\A, \Sc]$ defined on objects $Y \in [\B,\Sc]$ by $F^*(Y) = Y \of F$ and on maps $\alpha$ by $F^*(\alpha) = \alpha F$. Show that any adjunction
 \begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
-	\A \arrow[r, shift left,"F"] 
-	\& \B \arrow[l, shift left, "G"] 
+        \A \arrow[r, shift left,"F"]
+        \& \B \arrow[l, shift left, "G"]
 \end{tikzcd}
-with  $F \dashv G$ and category $\Sc$ give rise to an adjunction 
+with  $F \dashv G$ and category $\Sc$ give rise to an adjunction
 \begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
-	[\A,\Sc] \arrow[r, shift left,"G^*"] 
-	\&  \arrow[l, shift left, "F^*"]  [\B,\Sc]
-\end{tikzcd} 
+        [\A,\Sc] \arrow[r, shift left,"G^*"]
+        \&  \arrow[l, shift left, "F^*"]  [\B,\Sc]
+\end{tikzcd}
 with $G^* \dashv F^*$.
 \end{exercise}
 
 \section{Adjunctions by Initial Objects}
 
 \begin{exercise}
-Given two functors $F: \A \rightarrow \B$ and $G: \B \rightarrow \A$ and a natural transformation $\eta: 1_{\A} \rightarrow GF$ such that $\eta_A: A \rightarrow GF(A)$ is initial in ($A \Rightarrow G$) for every $A \in \A$, prove there is an adjunction 
+Given two functors $F: \A \rightarrow \B$ and $G: \B \rightarrow \A$ and a natural transformation $\eta: 1_{\A} \rightarrow GF$ such that $\eta_A: A \rightarrow GF(A)$ is initial in ($A \Rightarrow G$) for every $A \in \A$, prove there is an adjunction
 \begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
-	\A \arrow[r, shift left,"F"] 
-	\& \B \arrow[l, shift left, "G"] 
+        \A \arrow[r, shift left,"F"]
+        \& \B \arrow[l, shift left, "G"]
 \end{tikzcd}
 with $F \dashv G$.
 \end{exercise}
@@ -65,13 +65,14 @@ Give an example of an adjunction and formalize it in 3 different ways:
 What can be said about adjunctions between groups (regarded as one-object categories)?
 \end{exercise}
 
-\textbf{Corollary}: Let $G: \B \rightarrow \A$ be a functor. Then G has a left adjoint if and only if for each $A \in \A$, the category ($A \Rightarrow G$) has an initial object.\\
+\textbf{Fact}: Let $G: \B \rightarrow \A$ be a functor. Then G has a left adjoint if and only if for each $A \in \A$, the category ($A \Rightarrow G$) has an initial object.\\
 
 \begin{exercise}
-State and prove the dual of this corollary.
+State and prove the dual of the above fact.
 \end{exercise}
 
 \begin{exercise}
+  Recall Definition 1.3.15 of the script, which states that an equivalence of categories $\A$ and $\B$ consists of two functors $F$ and $G$ and two natural isomorphisms $\eta$ and $\epsilon$ which relate their compositions to the respective identity functors.
 \begin{enumerate}
 \item Give an example of an adjunction that is not an equivalence.
 \item Let ($F, G, \eta, \epsilon$) be an equivalence of categories. Prove that F is left adjoint to G.
