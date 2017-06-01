@@ -1,0 +1,81 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+
+\DeclareMathOperator{\A}{\mathscr A}
+\DeclareMathOperator{\B}{\mathscr B}
+\DeclareMathOperator{\M}{\mathscr M}
+\DeclareMathOperator{\Sc}{\mathscr S}
+
+\begin{document}
+
+% Use Basis x or Talk x, where x is the number of the session
+\uebunghead{Basis 5}{Adjunctions 2}
+
+\author{Mostafa Abouhamra}
+
+\begin{hint}
+Read Chapters 2.2 and 2.3.
+\end{hint}
+
+\section{Units and Counits}
+
+
+\begin{exercise}
+\begin{enumerate}
+\item Show that for any adjunction, the right adjoint is full and faithful if and only if the counit is an isomorphism.
+\item An adjunction satisfying the equivalent conditions of part (a) is called a reflection. Can you give an example of a reflection?
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Given a functor $F: \A \rightarrow \B$ and a category $\Sc$, there is a functor $F^*: [\B,\Sc] \rightarrow [\A, \Sc]$ defined on objects $Y \in [\B,\Sc]$ by $F^*(Y) = Y \of F$ and on maps $\alpha$ by $F^*(\alpha) = \alpha F$. Show that any adjunction 
+\begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+	\A \arrow[r, shift left,"F"] 
+	\& \B \arrow[l, shift left, "G"] 
+\end{tikzcd}
+with  $F \dashv G$ and category $\Sc$ give rise to an adjunction 
+\begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+	[\A,\Sc] \arrow[r, shift left,"G^*"] 
+	\&  \arrow[l, shift left, "F^*"]  [\B,\Sc]
+\end{tikzcd} 
+with $G^* \dashv F^*$.
+\end{exercise}
+
+\section{Adjunctions by Initial Objects}
+
+\begin{exercise}
+Given two functors $F: \A \rightarrow \B$ and $G: \B \rightarrow \A$ and a natural transformation $\eta: 1_{\A} \rightarrow GF$ such that $\eta_A: A \rightarrow GF(A)$ is initial in ($A \Rightarrow G$) for every $A \in \A$, prove there is an adjunction 
+\begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+	\A \arrow[r, shift left,"F"] 
+	\& \B \arrow[l, shift left, "G"] 
+\end{tikzcd}
+with $F \dashv G$.
+\end{exercise}
+
+\begin{exercise}
+Give an example of an adjunction and formalize it in 3 different ways:
+\begin{enumerate}
+\item Define the adjunction according to definition 2.2.1.
+\item Give the unit and counit. Why do they satisfy the triangle identities?
+\item Define the adjunction via the initial object.
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}
+What can be said about adjunctions between groups (regarded as one-object categories)?
+\end{exercise}
+
+\textbf{Corollary}: Let $G: \B \rightarrow \A$ be a functor. Then G has a left adjoint if and only if for each $A \in \A$, the category ($A \Rightarrow G$) has an initial object.\\
+
+\begin{exercise}
+State and prove the dual of this corollary.
+\end{exercise}
+
+\begin{exercise}
+\begin{enumerate}
+\item Give an example of an adjunction that is not an equivalence.
+\item Let ($F, G, \eta, \epsilon$) be an equivalence of categories. Prove that F is left adjoint to G.
+\end{enumerate}
+\end{exercise}
+
+\end{document}
