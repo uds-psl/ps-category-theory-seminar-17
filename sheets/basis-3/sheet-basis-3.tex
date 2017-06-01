@@ -239,10 +239,10 @@ orders on $X$, but there is no natural way of matching them up.)
   element of a bijection.
   \begin{itemize}
     \item[(a)]
-      For any $A \in ob(\cat{B}), C \in ob(\Set), f: A \to C$
+      For any $A,C \in ob(\cat{B}), f: A \to C$
       \begin{align*}
-        \Sym(f) &= \lambda X. \{(f(a), f(b)) | (a, b) \in X \}\\
-        \Ord(f) &= \lambda X. \{(f(a), f(b)) | (a, b) \in X \}\\
+        \Sym(A) &= \{\sigma \subseteq A \times A \mid \sigma \text{ is a permutation} \} & \Sym(f) &= \lambda X. \{(f(a), f(b)) \mid (a, b) \in X \}\\
+        \Ord(A) &= \{{}\leq{} \subseteq A \times A \mid {}\leq{} \text{ is an order} \} & \Ord(f) &= \lambda X. \{(f(a), f(b)) \mid (a, b) \in X \}\\
       \end{align*}
     \item[(b)]
       Let's fix a finite set $A$ and try to define $\Sym \to \Ord$ on it.\\
