@@ -72,6 +72,22 @@
   Define the \emph{greatest lower bound} for an family of objects in a poset and proof that it is the arbitrary product of the family when the poset is seen as a category.
 \end{exercise}
 
+\begin{answer}
+  Let $(A, \le)$ be a poset concidered as a category and $I$ a set.
+  A \demph{lower bound} of a family $(x_i)_{i\in I}$ is an element $a \in A$, s.\,t. $\forall i \in I: a \le x_i$.
+  $z \in A$ is a \demph{greatest lower bound} of this family if $\forall a \in A: \text{$a$ is a lower bound} \Rightarrow a \le z$.
+
+  Let $z$ be a greatest lower bound of the family $(x_i)_{i\in I}$. We show that $z$ is a product of $(x_i)_{i\in I}$.
+  \begin{proof}
+    We first have to define a family of maps $\Bigl(z \toby{p_i} x_i\Bigr)_{i \in I}$.
+    This is trivial since we have $\forall i \in I: z \le x_i$.
+    Now let $a \in A$ be and objects and let $\Bigl(a \toby{f_i} x_i\Bigr)_{i \in I}$ be a family of maps from $a$.
+    The existing of this maps means that $a$ is a upper bound of $(x_i)_{i\in I}$.
+    Now by definition of least upper bound, $a \le z$, thus we have a arrow $\bar{f} \from a \to z$.
+    All arrows are unique, thus $\bar{f}$ is unique and the diagram commutes. \qedhere
+  \end{proof}
+\end{answer}
+
 \begin{definition}{Arbitrary\ coproduct}
   Let $\cat{A}$ be a category, $I$ a set, and $(X_i)_{i \in I}$ a family of objects of $\cat{A}$.
   A \demph{coproduct} of $(X_i)_{i \in I}$ consists of an object $S$ and a family of maps
@@ -86,6 +102,21 @@
   Define the \emph{least upper bound} for a class of objects in a poset and proof that it is the arbitrary binary coproduct of the poset seen as a category.
 \end{exercise}
 
+\begin{answer}
+  Let $(A, \le)$ be a poset concidered as a category and $I$ a set.
+  A \demph{upper bound} of a family $(x_i)_{i\in I}$ is an element $a \in A$, s.\,t. $\forall i \in I: x_i \le z$.
+  $z \in A$ is a \demph{least upper bound} of this family if $\forall a \in A: \text{$a$ is a upper bound} \Rightarrow z \le a$.
+
+  Let $z$ be a least upper bound of the family $(x_i)_{i\in I}$. We show that $z$ is a coproduct of $(x_i)_{i\in I}$.
+  \begin{proof}
+    We first have to define a family of maps $\Bigl(x_i \toby{p_i} z\Bigr)_{i \in I}$.
+    This is trivial since we have $\forall i \in I: x_i \le a$.
+    Now let $a \in A$ be and objects and let $\Bigl(x_i \toby{f_i} a\Bigr)_{i \in I}$ be a family of maps to $a$.
+    The existing of this maps means that $a$ is a lower bound of $(x_i)_{i\in I}$.
+    Now by definition of least lower bound, $z \le a$, thus we have a arrow $\bar{f} \from z \to a$.
+    All arrows are unique, thus $\bar{f}$ is unique and the diagram commutes. \qedhere
+  \end{proof}
+\end{answer}
 
 \begin{exercise}[Disjoint union]
   \begin{itemize}
