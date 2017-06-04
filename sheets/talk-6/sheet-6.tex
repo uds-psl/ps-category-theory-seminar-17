@@ -14,6 +14,50 @@
   Proof that for every category $\cat{A}$ all products are isomorphic. Thus we can speak of \emph{the} product.
 \end{exercise}
 
+\begin{answer}
+  \begin{proof}
+    Let $X, Y \in \cat{A}$ and $P$ be a product of $X$ and $Y$ together with $p_1 \from P \to X, p_2 \from P \to Y$
+    and $P'$ be a product of $X$ and $Y$ together with $p'_1 \from P' \to X, p'_2 \from P' \to Y$.
+
+    Lets reconcider the definition of the \emph{product}:
+    For every object $A \in \cat{A}$ and arrows $f_1 \from A \to X, f_2 \from A \to Y$ we get that there exists a unique map
+    $\bar{f} \from A \to P$, such that
+    \[ \xymatrix{
+        &A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}\vphantom{\bar{\bar{f}}}}
+        \ar[rdd]^{f_2}&       \\
+                &P \ar[ld]^{p_1} \ar[rd]_{p_2}                  &       \\
+        X       &                                               &Y
+    } \]
+    commutes.
+    Now we can instanciate $A$ with $P'$, $f_1$ with $p_1$, $f_2$ with $p_2$. By analogous instanciations we get the commuting diagramm
+    \[ \xymatrix{
+      & P \ar@/_/[ldd]_{p_1} \ar@/^/[rdd]^{p_2} & \\
+      & P \ar[ld]^{p_1} \ar@/_/@{.>}[dd]|{\bar{f}} \ar@{.>}[u]|{f} \ar[rd]_{p_2} & \\
+      X & & Y \\
+      & P' \ar[lu]_{p_1'} \ar@/_/@{.>}[uu]|{\tilde{f}} \ar@{.>}[d]|{f'} \ar[ru]^{p'_2} & \\
+      & P' \ar@/^/[luu]^{p'_1} \ar@/_/[ruu]_{p'_2} &
+    } \]
+    for exactly one $f, f', \tilde{f}, \bar{f}$. With the inner triangles we get:
+    \begin{alignat*}{2}
+      p_1  \of \tilde{f} &= p'_1 &\qquad p_2  \of \tilde{f} &= p'_2 \\
+      p'_1 \of \bar{f}   &= p_1  &       p'_2 \of \bar{f}   &= p_2
+    \end{alignat*}
+    By substitution we get
+    \begin{alignat*}{2}
+      p_1   \of (\tilde{f} \of \bar{f}) &= p_1  &\qquad p_2  \of (\tilde{f} \of \bar{f}) &= p_2 \\
+      p'_1  \of (\bar{f} \of \tilde{f}) &= p'_1 &       p'_2 \of (\bar{f} \of \tilde{f}) &= p'_2
+    \end{alignat*}
+    With the outer triangles we get:
+    \begin{alignat*}{5}
+      p_1  &\;\of&&\; f  &= p_1  &\qquad p_2  &\;\of&\; f  &= p_2 \\
+      p'_1 &\;\of&&\; f' &= p'_1 &\qquad p'_2 &\;\of&\; f' &= p'_2
+    \end{alignat*}
+    Note that $f$ and $f'$ are \emph{unique} and the first equations hold for $f = 1_P$ and $f = \tilde{f} \of \bar{f}$, thus $\tilde{f} \of \bar{f} = 1_P$.
+    The second equations holds for $f' = 1_{P'}$ and for $f' = \bar{f} \of \tilde{f}$, thus $\bar{f} \of \tilde{f} = 1_{P'}$.
+    Thus $P$ and $P'$ are isomorphic. \qedhere
+  \end{proof}
+\end{answer}
+
 \begin{definition}{Arbitrary\ product}
   Let $\cat{A}$ be a category, $I$ a set, and $(X_i)_{i \in I}$ a family of objects of $\cat{A}$.
   A \demph{product} of $(X_i)_{i \in I}$ consists of an object $P$ and a family of maps
