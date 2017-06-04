@@ -1,0 +1,163 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+
+\begin{document}
+
+% Use Basis x or Talk x, where x is the number of the session
+\uebunghead{Talk 6}{Special Constructions in Categories}
+\author{Maximilian Wuttke}
+
+\hint{Read the slides for the definitions of the six constructions}
+
+\section{Products and Coproducts}
+
+\begin{exercise}[Product is unique up-to isomorphism]
+  Proof that for every category $\cat{A}$ all products are isomorphic. Thus we can speak of \emph{the} product.
+\end{exercise}
+
+\begin{definition}{Arbitrary\ product}
+  Let $\cat{A}$ be a category, $I$ a set, and $(X_i)_{i \in I}$ a family of objects of $\cat{A}$.
+  A \demph{product} of $(X_i)_{i \in I}$ consists of an object $P$ and a family of maps
+  $\Bigl(P \toby{p_i} X_i\Bigr)_{i \in I}$
+  with the property that for all objects $A$ and families of maps
+  $\Bigl(A \toby{f_i} X_i\Bigr)_{i \in I}$
+  there exists a unique map $\bar{f}\from A \to P$ such that
+  $\forall i \in I: p_i \of \bar{f} = f_i$.
+\end{definition}
+
+\begin{exercise}[Greatest lower bound]
+  Define the \emph{greatest lower bound} for an family of objects in a poset and proof that it is the arbitrary product of the family when the poset is seen as a category.
+\end{exercise}
+
+\begin{definition}{Arbitrary\ coproduct}
+  Let $\cat{A}$ be a category, $I$ a set, and $(X_i)_{i \in I}$ a family of objects of $\cat{A}$.
+  A \demph{coproduct} of $(X_i)_{i \in I}$ consists of an object $S$ and a family of maps
+  $\Bigl(X_i \toby{p_i} S\Bigr)_{i \in I}$
+  with the property that for all objects $A$ and families of maps
+  $\Bigl(X_i \toby{f_i} A\Bigr)_{i \in I}$
+  there exists a unique map $\bar{f}\from S \to A$ such that
+  $\forall i \in I: \bar{f} \of p_i = f_i$.
+\end{definition}
+
+\begin{exercise}[Least upper bound]
+  Define the \emph{least upper bound} for a class of objects in a poset and proof that it is the arbitrary binary coproduct of the poset seen as a category.
+\end{exercise}
+
+
+\begin{exercise}[Disjoint union]
+  \begin{itemize}
+    \item[(a)]For an index set $I$ and a family of sets $(X_i)_{i \in I}$, refine the arbitrary disjoint union $\coprod_{i \in I}{X_i}$.
+    \item[(b)]Show that this arbitrary disjoint union is indeed the arbitrary coproduct in $\Set$.
+  \end{itemize}
+\end{exercise}
+
+\section{Equalizer and Coequalizer}
+
+\begin{definition}{Minus-Core of Vector Spaces}
+  Let $V, W$ be Vector Spaces over a field $K$. Let $s, t \from V \to W$ be linear functions.
+  We define the linear function $s - t := \lambda v\in V. \; v(s) - t(s)$.
+  Remember the definition $\forall g \from V \to W: core(g) := \set{ v \in V | g(v) = 0 }$.
+  Now $core (s - t) = \set{v \in V | s(v) = t (v) }$.
+\end{definition}
+
+\begin{exercise}[Equalizer of Vector Spaces]
+  Let
+  $\xymatrix{
+      X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  }$
+  be a diagramm in $Vect_K$ for a field $K$. Show that $core(s-t)$ is the equalizer for this diagramm.
+\end{exercise}
+
+\begin{definition}{Reflexive,\ symmetric\ and transitive\ closure}
+  Let $X$ be a arbitrary set and $R \subseteq X \times X$ a binary relation over $X$.
+  We define $R_0 := R \cup \set{ (y, x) | (x, y) \in R} \cup \set{ (x, x) | x \in X}$,
+  the the \emph{reflexive, symmetric closure} of R.
+  Now we define inductively $\forall n \in \nat$:
+  \[R_{n+1} := \set{(x_1, x_3) \in R \times R \; | \; \exists x_2 \in X, (x_1, x_2) \in R_n \land (x_2, x_3) \in R_n}.\]
+  Now $S := \bigcup_{n \in \nat}{R_n}$ is the reflexive, symmetric and transitive closure of $R$.
+\end{definition}
+
+\begin{exercise}[Coequalizer of sets]
+  In this exercise we will first define \emph{reflexive symmetric transitive closures} and will define the coequalizer of $\Set$.
+  \begin{itemize}
+    \item[(a)]First we will show that the reflexive, symmetric and transitive closure of a relation $R$ is the \emph{least} equivalence relation containing $R$.
+      Let $R$ be a relation over a set $X$ and $S$ be the reflexive, symmetric and transitive closure of $R$. Show following lemmas:
+      \begin{itemize}
+        \item[(i)]Show $\forall n\in\nat: R_n$ and $S$ are reflexive and symmetric.
+        \item[(ii)]Show $\forall n\in\nat: R \subseteq R_n$ and $R \subseteq S$.
+        \item[(iii)]Show that $R_n$ is \emph{monotone}, i.\,e. $\forall n,m\in\nat: n\le m \Rightarrow R_n \subseteq R_m$.
+        \item[(iv)]Now show that $S$ is transitive.
+          \begin{hint}
+            Let $m\in\nat$. Show $\forall x_1, x_2, x_3: (x_1, x_2) \in S \Rightarrow (x_2, x_3) \in R_m \Rightarrow (x_1, x_3) \in S$ via $\nat$-induction.
+          \end{hint}
+        \item[(v)]Now show that $R$ is the \emph{least} equivalence relation containing $R$, i.\,e.
+          $$\forall R': \text{$R'$ is a equivalence relation} \land R \subseteq R' \Rightarrow S \subseteq R'.$$
+      \end{itemize}
+    \item[(b)]Now we will define the coequalizer of $\Set$.
+      Let $X, Y \in \Set, s, t \from X \to Y$.
+      We make the following definitions:
+      \begin{alignat*}{2}
+        R    &:=& \set{(s(a), t(a)) | a\in Y} \\
+        \sim &:=& \text{reflexive, symmetric and transitive closure of $R$} \\
+        C    &:=& Y / \sim
+      \end{alignat*}
+      Note that $[y] := \set{ y' \in Y | (y, y') \in \sim}$ is the equivalence class of $y$ and $Y / \sim := \set{ [y] | y \in Y}$ is the set of all equivalence classes of $\sim$.
+      Also note that no equivalence class can be empty and for $[y]$ we call $y$ a representant of this class.
+      We define $i \from Y \to E$ with $i(y) := [y]$.
+      \begin{itemize}
+        \item[(i)]Show that the following diagramm commutes:
+          $\xymatrix{
+            X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+          }$
+        \item[(ii)]Let
+          $\xymatrix{
+            X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
+          }$
+          be a cummutative diagramm. Show that $f$ respects equivalence, i.\,e. $\forall (y_1, y_2) \in \sim: f(y_1) = f(y_2)$.
+          \begin{hint}
+            ``Destruct'' $(y_1, y_2) \in \sim$ and do a $\nat$-induction.
+          \end{hint}
+        \item[(iii)]Now define $\bar{f} \from C \to A$, such that the following diagramm commutes and show that there can only be one:
+          \[ \xymatrix{
+            & & A  \\
+            X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[ru]^f \ar[rd]_i \\
+            & & C \ar@{.>}[uu]|{\bar{f}}
+          } \]
+        \item[(iv)]Show that the fork
+          $\xymatrix{
+            X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+          }$.
+          is the coequalizer of
+          $\xymatrix{
+            X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+          }$.
+      \end{itemize}
+  \end{itemize}
+\end{exercise}
+
+\section{Pullbacks and Pushouts}
+
+\begin{exercise}[Pullbacks\,vs.\,producs]
+  Show that if $Z$ is terminal and
+  \[ \xymatrix{
+    P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+    X \ar[r]^s & Z
+  } \]
+  is the pullback square in $\cat{A}$ of $X, Y, Z, s, t$ then $X, Y$ is the product in $\cat{A}$.
+\end{exercise}
+
+\begin{exercise}[Pushouts\,vs.\,coproducs]
+  Show that if $Z$ is initial and
+  \[ \xymatrix{
+    Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \\
+    Y \ar[r]^{p_2} & P
+  } \]
+  is the pullback square in $\cat{A}$ of $X, Y, Z, s, t$, then $X + Y$ is the coproduct in $\cat{A}$.
+\end{exercise}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+% vim: ts=2 sts=2 sw=2 expandtab
