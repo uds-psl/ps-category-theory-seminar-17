@@ -182,7 +182,7 @@
 
 \section{Equalizer and Coequalizer}
 
-\begin{definition}{Minus-Core of Vector Spaces}
+\begin{definition}{Minus-Core of Linear Maps in Vector Spaces}
   Let $V, W$ be Vector Spaces over a field $K$. Let $s, t \from V \to W$ be linear functions.
   We define the linear function $s - t := \lambda v\in V. \; v(s) - t(s)$.
   Remember the definition $\forall g \from V \to W: core(g) := \set{ v \in V | g(v) = 0 }$.
@@ -196,6 +196,20 @@
   }$
   be a diagramm in $Vect_K$ for a field $K$. Show that $core(s-t)$ is the equalizer for this diagramm.
 \end{exercise}
+
+\begin{answer}
+  \begin{proof}
+    Let $i \from core(s-t) \to X$ be a inclusion function. Let
+    $\xymatrix{
+      A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+    }$
+    be a commuting diagramm. Note that $f A \subseteq core(s-t)$.
+    Thus we can define $\bar{f} \from A \to core(s-t)$ with $\bar{f}(a) := f(a)$.
+    We see that $\forall a \in A: i(\bar{f}(a))=\bar{f}(a)=f(a)$, thus $i \of \bar{f} = f$.
+    Let $\tilde{f} \from A \to core(s-t)$ be another map such that $i \of \tilde{f} = f$.
+    Now $\tilde{f}(a) = i(\tilde{f}(a)) = i(\bar{f}(a)) = \bar{f}(a)$.
+  \end{proof}
+\end{answer}
 
 \begin{definition}{Reflexive,\ symmetric\ and transitive\ closure}
   Let $X$ be a arbitrary set and $R \subseteq X \times X$ a binary relation over $X$.
