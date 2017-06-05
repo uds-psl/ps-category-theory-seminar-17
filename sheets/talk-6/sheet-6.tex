@@ -125,6 +125,38 @@
   \end{itemize}
 \end{exercise}
 
+\begin{exercise}[Direct Sum of Vector Spaces]
+  In the talk we have seen that the direct sum $V \oplus W$ of two vector spaces $V, W$ over a fixed field $K$ is the coproduct of $V$ and $W$.
+  Show that it is also the product.
+\end{exercise}
+
+\begin{answer}
+  \begin{proof}
+    We first define the projection functions $p_1 \from V \oplus W \to V, p_2 \from V \oplus W \to W$:
+    \begin{alignat*}{1}
+      p_1(x,y) &:= x \\
+      p_2(x,y) &:= y
+    \end{alignat*}
+    Now let $A$ be a vector space and $f_1 \from A \to V, f_2 \from A \to W$ be linear functions.
+    We define $\bar{f}(a) := (f_1(a), f_(2))$. We clearly have
+    \begin{alignat*}{2}
+      p_1(\bar{f}(a)) &= p_1(f_1(a), f_2(a)) = f_1(a) \\
+      p_2(\bar{f}(a)) &= p_2(f_1(a), f_2(a)) = f_2(a).
+    \end{alignat*}
+    Thus the diagramm
+    \[ \xymatrix{
+        & A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}\vphantom{\bar{\bar{f}}}} \ar[rdd]^{f_2} & \\
+        & {V \oplus W} \ar[ld]^{p_1} \ar[rd]_{p_2} & \\
+        V & & W
+    } \]
+    commutes. Now we have to show that $\bar{f}$ is the only map such that the above diagramm commutes.
+    Let $\tilde{f} \from A \to V \oplus W$ be a map such that $p_1 \of \tilde{f} = f_1 \land p_2 \of \tilde{f} = f_2$.
+    \[
+      \tilde{f}(a) = \bigl(p_1(\tilde{f}(a)), p_2(\tilde{f}(a))\bigr) = \bigl(p_1(\bar{f}(a)), p_2(\bar{f}(a))\bigr) = \bar{f}(a)\qedhere
+    \]
+  \end{proof}
+\end{answer}
+
 \section{Equalizer and Coequalizer}
 
 \begin{definition}{Minus-Core of Vector Spaces}
