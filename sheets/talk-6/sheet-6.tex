@@ -125,6 +125,27 @@
   \end{itemize}
 \end{exercise}
 
+\begin{answer}
+  First let define the arbitrary disjoint union:
+  \begin{definition}{Arbitrary disjoint union}
+    Let $I$ be an index set and let $(x_i)_{i \in I}$ be a family of sets.
+    We define the arbitrary disjoint union of $(x_i)_{i\in I}$:
+    $$\coprod_{i \in I} {x_i} := \bigcup_{i \in I} \set{ (x, i) \;\big|\; i \in I \land x \in x_i}$$
+  \end{definition}
+  Now let $I$ be an index set and let $(x_i)_{i\in I}$ be a family of sets. We show that $\coprod_{i \in I} {x_i}$ is the coproduct of $(x_i)_{i\in I}$.
+  \begin{proof}
+    We first define the projection maps: $p_i(a) := (a, i)$.
+    Now let $A$ be a set and $\Bigl(x_i \toby{f_i} A\Bigr)_{i \in I}$ be a family of functions to $A$.
+    We define $\bar{f} : \coprod_{i \in I} {x_i} \to A$ with $\bar{f}(a, i) := f_i(a)$.
+    We have to show that $\bar{f}$ is the only function such that
+    $\forall i \in I: \bar{f} \of p_i = f_i$.
+    Let $i \in I$ and we check $a \in x_i$. $\bar{f}(p_i(a)) = \bar{f}(a,i) = f_i(a)$.
+    Now let $\tilde{f} : \coprod_{i \in I} {x_i} \to A$ be another function sucht that
+    $\forall i \in I: \tilde{f} \of p_i = f_i$.
+    Let $(a, i) \in \coprod_{i \in I} {x_i}$. $\bar{f}(a,i)= f_i(a) = \tilde{f}(p_i(a)) = \tilde{f}(a,i)$.\qedhere
+  \end{proof}
+\end{answer}
+
 \begin{exercise}[Direct Sum of Vector Spaces]
   In the talk we have seen that the direct sum $V \oplus W$ of two vector spaces $V, W$ over a fixed field $K$ is the coproduct of $V$ and $W$.
   Show that it is also the product.
