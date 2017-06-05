@@ -220,193 +220,100 @@
   Now $S := \bigcup_{n \in \nat}{R_n}$ is the reflexive, symmetric and transitive closure of $R$.
 \end{definition}
 
+\newcommand{\choice}[1]{\{ #1 \}}
+\newcommand{\class} [1]{[ #1 ]}
+
 \begin{exercise}[Coequalizer of sets]
-  In this exercise we will first define \emph{reflexive symmetric transitive closures} and will define the coequalizer of $\Set$.
+  In this exercise we will will define the coequalizer of $\Set$ with the help of reflexive, symmetric and transitive closures.
+  Let $X, Y \in \Set, s, t \from X \to Y$.
+  We make the following definitions:
+  \begin{alignat*}{2}
+    R    &:= \set{(s(a), t(a)) | a\in Y} \\
+    \sim &:= \text{reflexive, symmetric and transitive closure of $R$} \\
+    C    &:= Y / \sim
+  \end{alignat*}
+  Note that $\class{y} := \set{ y' \in Y | (y, y') \in \sim}$ is the equivalence class of $y$ and $Y / \sim := \set{ \class{y} | y \in Y}$ is the set of all equivalence classes of $\sim$.
+  Also note that no equivalence class can be empty and for $[y]$ we call $y$ a representant of this class.
+  We define $i \from Y \to E$ with $i(y) := \class{y}$.
   \begin{itemize}
-    \item[(a)]First we will show that the reflexive, symmetric and transitive closure of a relation $R$ is the \emph{least} equivalence relation containing $R$.
-      Let $R$ be a relation over a set $X$ and $S$ be the reflexive, symmetric and transitive closure of $R$. Show following lemmas:
-      \begin{itemize}
-        \item[(i)]Show $\forall n\in\nat: R_n$ and $S$ are reflexive and symmetric.
-        \item[(ii)]Show $\forall n\in\nat: R \subseteq R_n$ and $R \subseteq S$.
-        \item[(iii)]Show that $R_n$ is \emph{monotone}, i.\,e. $\forall n,m\in\nat: n\le m \Rightarrow R_n \subseteq R_m$.
-        \item[(iv)]Now show that $S$ is transitive.
-          \begin{hint}
-            Let $m\in\nat$. Show $\forall x_1, x_2, x_3: (x_1, x_2) \in S \Rightarrow (x_2, x_3) \in R_m \Rightarrow (x_1, x_3) \in S$ via $\nat$-induction.
-          \end{hint}
-        \item[(v)]Now show that $R$ is the \emph{least} equivalence relation containing $R$, i.\,e.
-          $$\forall R': \text{$R'$ is a equivalence relation} \land R \subseteq R' \Rightarrow S \subseteq R'.$$
-      \end{itemize}
-    \item[(b)]Now we will define the coequalizer of $\Set$.
-      Let $X, Y \in \Set, s, t \from X \to Y$.
-      We make the following definitions:
-      \begin{alignat*}{2}
-        R    &:=& \set{(s(a), t(a)) | a\in Y} \\
-        \sim &:=& \text{reflexive, symmetric and transitive closure of $R$} \\
-        C    &:=& Y / \sim
-      \end{alignat*}
-      Note that $[y] := \set{ y' \in Y | (y, y') \in \sim}$ is the equivalence class of $y$ and $Y / \sim := \set{ [y] | y \in Y}$ is the set of all equivalence classes of $\sim$.
-      Also note that no equivalence class can be empty and for $[y]$ we call $y$ a representant of this class.
-      We define $i \from Y \to E$ with $i(y) := [y]$.
-      \begin{itemize}
-        \item[(i)]Show that the following diagramm commutes:
-          $\xymatrix{
-            X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
-          }$
-        \item[(ii)]Let
-          $\xymatrix{
-            X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
-          }$
-          be a cummutative diagramm. Show that $f$ respects equivalence, i.\,e. $\forall (y_1, y_2) \in \sim: f(y_1) = f(y_2)$.
-          \begin{hint}
-            ``Destruct'' $(y_1, y_2) \in \sim$ and do a $\nat$-induction.
-          \end{hint}
-        \item[(iii)]Now define $\bar{f} \from C \to A$, such that the following diagramm commutes and show that there can only be one:
-          \[ \xymatrix{
-            & & A  \\
-            X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[ru]^f \ar[rd]_i \\
-            & & C \ar@{.>}[uu]|{\bar{f}}
-          } \]
-        \item[(iv)]Show that the fork
-          $\xymatrix{
-            X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
-          }$
-          is the coequalizer of
-          $\xymatrix{
-            X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
-          }$.
-      \end{itemize}
+    \item[(a)]Show that $\sim$ is reflexive and symmetric and contains $R$.
+    \item[(b)]Show that the following diagramm commutes:
+      $\xymatrix{
+        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+      }$
+    \item[(c)]Let
+      $\xymatrix{
+        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
+      }$
+      be a cummutative diagramm. Show that $f$ respects equivalence, i.\,e. $\forall (y_1, y_2) \in \sim: f(y_1) = f(y_2)$.
+      \begin{hint}
+        ``Destruct'' $(y_1, y_2) \in \sim$ and do a $\nat$-induction.
+      \end{hint}
+    \item[(d)]Now define $\bar{f} \from C \to A$, such that the following diagramm commutes and show that there can only be one:
+      \[ \xymatrix{
+        & & A  \\
+        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[ru]^f \ar[rd]_i \\
+        & & C \ar@{.>}[uu]|{\bar{f}}
+      } \]
+      \hint{Assume the \demph{axiom of choice.}}
+    \item[(e)]Show that the fork
+      $\xymatrix{
+        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+      }$
+      is \emph{the} coequalizer of
+      $\xymatrix{
+        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+      }$.
   \end{itemize}
 \end{exercise}
 
 \begin{answer}
   \begin{itemize}
     \item[(a)]
-      \begin{itemize}
-        \item[(i)]
-          \begin{proof}
-            To show that $S$ is symmetric and reflexive, we choose $n := 0$. $R_0$ is by construction symmetric and reflexive.
-            We will show symmetrie and reflexivity of $S_n$ seperately.
-            \begin{itemize}
-              \item[\emph{Reflexivity:}]
-                Let $x \in X$. We show $\forall n\in\nat: (x, x) \in R_n$ by induction on $n\in\nat$.
-                \begin{itemize}
-                  \item[$n=0$:]
-                    $R_0$ is by construction reflexive.
-                  \item[$n \rightarrow n+1$:]
-                    We know $(x, x) \in R_n$ by the inductive hypositive and show $(x, x) \in R_{n+1}$. By applying the definition of $R_{n+1}$
-                    it is enough tow show $(x, x) \in R_n \land (x, x) \in R_n$ that is true with the inductive hypositive.
-                \end{itemize}
-                \item[\emph{Symmetrie:}]
-                We show $\forall n\in\nat: \forall x_1,x_2 \in X: (x_1, x_2) \in R \Rightarrow (x_2, x_1) \in R$ by induction on $n\in\nat$.
-                \begin{itemize}
-                  \item[$n=0$:]
-                    $R_0$ is by construction symmetric.
-                  \item[$n \rightarrow n+1$:]
-                    We know $\forall x_1,x_2 \in X: (x_1, x_2) \in R_{n} \Rightarrow (x_2, x_1) \in R$ by the inductive hypositive and have to show
-                    $\forall x_1, x_2 \in X: (x_1, x_2) \in R_{n+1} \Rightarrow (x_2, x_1) \in R_{n+1}$.
-                    Let $x_1, x_2 \in X$ with $(x_1, x_2) \in R_{n+1}$. By unfolding the definition of $R_{n+1}$ we get a $x$ with
-                    $(x_1, x) \in R_n \land (x, x_2) \in R_n$ and have to show $(x_2, x_1) \in R_{n+1}$.
-                    We apply the definition of $R_{n+1}$ and show $(x_2, y) \in R_n \land (x, x_1) \in R_n$.
-                    Applying the inductive hypositive we it is enough to show $(x, x_2) \in R_n \land (x_1, y) \in R_n$ that is true by assumption. \qedhere
-                \end{itemize}
-            \end{itemize}
-          \end{proof} % (a) (i)
+      This follows because for $n:=0$, $R_0$ is by construction reflexive, symmetric and cointains $R$.
 
-        \item[(ii)]
-          \begin{proof}
-            To show that $S$ contains $R$ we choose $n := 0$. $R_0$ contains $R$ by construction. \\
-            We show $\forall n\in\nat: \forall x_1,x_2\in X: (x_1, x_2) \in R \Rightarrow (x_1, x_2) \in R_n$ by induction on $n\in\nat$.
-            \begin{itemize}
-              \item[$n=0$:]
-                $R_0$ contains $R$ by construction.
-              \item[$n \rightarrow n+1$:]
-                We assume $\forall x_1, x_2 : X, (x_1, x_2) \in R \Rightarrow (x_1, x_2) \in R_n$ by the induction hypositive.
-                Let $x_1, x_2 \in X$ and $(x_1, x_2) \in R$. We show $(x_1, x_2) \in R_{n+1}$.
-                We apply the definition of $R_{n+1}$ and show $(x_1, x_1) \in R_n \land (x_1, x_2) \in R_n$.
-                The first we know with (a)(i) and the second by assumption. \qedhere
-            \end{itemize}
-          \end{proof} % (a) (ii)
-
-        \item[(iii)]
-          \begin{proof}
-            Let $m,n\in\nat$ and $x_1, x_2 \in X$. We show $n \le m \Rightarrow (x_1, x_2) \in R_n \Rightarrow (x_1, x_2) \in R_m$ by induction on $n\in\nat$.
-            \begin{itemize}
-              \item[$n=0$:]
-                We have $n \le 0$ and thus $n = 0$ and $(x_1, x_2) \in R_0$. We have to show $(x_1, x_2) \in R_0$ that is true by assumption.
-              \item[$n \rightarrow n+1$:]
-                We know $n \le m+1$ and $(x_1, x_2) \in R_n$. By the induction hypositive we also know
-                $n \le m \Rightarrow (x_1, x_2) \in R_n \Rightarrow (x_1, x_2) \in R_m$.
-                We have to show $(x_1, x_2) \in R_{m+1}$. We have two cases:
-                \begin{itemize}
-                  \item[$n = m+1$:]
-                    The goal follows with the assumption $(x_1, x_2) \in R_{n=m+1}$.
-                  \item[$n \le m$:]
-                    We show $(x_1, x_2) \in R_{m+1}$ by applying the definition of $R_{m+1}$ and have to show $(x_1, x_1) \in R_m \land (x_1, x_2) \in R_m$.
-                    The first we know with (a)(i) and the second by assumption. \qedhere
-                \end{itemize}
-            \end{itemize}
-          \end{proof} % (a) (iii)
-
-        \item[(iv)]
-          \begin{proof}
-          % TODO
-          \end{proof} % (a) (iv)
-
-        \item[(v)]
-          \begin{proof}
-          % TODO
-          \end{proof} % (a) (iv)
-
-      \end{itemize}
-
-      % TODO Do we need part (a) at all?
     \item[(b)]
-      \begin{itemize}
-        \item[(i)]
-          \begin{proof}
-            Let $x \in X$. We have $i(s(x)=[s(x)]$ and $i(t(x))=[t(x)]$. It remains to show that $[s(x)]=[t(x)]$. Therefore it is enough to show that $s(x) \sim t(x)$.
-            This is true since $\sim$ contains $R$ and $(s(x), t(x)) \in R$ by the construction of $R$.
-          \end{proof} % (b) (i)
+      \begin{proof}
+        Let $x \in X$. We have $i(s(x)=\class{s(x)}$ and $i(t(x))=\class{t(x)}$. It remains to show that $\class{s(x)}=\class{t(x)}$. Therefore it is enough to show that $s(x) \sim t(x)$.
+        This is true since $\sim$ contains $R$ and $(s(x), t(x)) \in R$ by the construction of $R$.
+      \end{proof} % (b) (i)
 
-        \item[(ii)]
-          \begin{proof}
-            Let $(y_1, y_2) \in \sim$. Then be definition of $\sim$ we have a $n\in\nat$ such that $(y_1, y_2) \in R_n$.
-            We show $\forall n\in\nat: \forall y_1,y_2 \in Y: (y_1, y_2) \in R_n \Rightarrow f (y_1) = f (y_2)$ by induction on $n\in\nat$.
+    \item[(c)]
+      \begin{proof}
+        Let $(y_1, y_2) \in \sim$. Then be definition of $\sim$ we have a $n\in\nat$ such that $(y_1, y_2) \in R_n$.
+        We show $\forall n\in\nat: \forall y_1,y_2 \in Y: (y_1, y_2) \in R_n \Rightarrow f (y_1) = f (y_2)$ by induction on $n\in\nat$.
+        \begin{itemize}
+          \item[$n=0$:]
+            We have $(y_1, y_2) \in R_0$. This means $(y_1, y_2) \in R \lor (y_2, y_1) \in R \lor y_1 = y_2)$.
+            We have to show $f(y_1) = f(y_2)$. Case analysis.
             \begin{itemize}
-              \item[$n=0$:]
-                We have $(y_1, y_2) \in R_0$. This means $(y_1, y_2) \in R \lor (y_2, y_1) \in R \lor y_1 = y_2)$.
-                We have to show $f(y_1) = f(y_2)$. Case analysis.
-                \begin{itemize}
-                  \item[1.] $(y_1,y_2) \in R$. Then we have $y_1 = s(a) \land y_2 = t(t)$ for some $a \in X$. $f (s (a)) = f (t (a))$ holds since $f$ commutes.
-                  \item[2.] $(y_1,y_2) \in R$. Then we have $y_2 = s(a) \land y_1 = t(t)$ for some $a \in X$. $f (t (a)) = f (s (a))$ holds since $f$ commutes.
-                  \item[3.] $y_1=y_2$. Then we have $f(y_1) = f(y_2)$.
-                \end{itemize}
-              \item[$n \rightarrow n+1$:]
-                We have $(y_1, y_2) \in R_{n+1}$. Therefore we have a $y$ such that $(y_1, y) \in R_n \land (y, y_2) \in R_n$.
-                With the inductive hypositive we know $\forall y_1, y_2 \in Y: (y_1, y_2) \in R_n \Rightarrow f (y_1) = f (y_2)$.
-                By instanciating the inductive hypositive we know $f (y_1) = f (y) \land f (y) = f (y_2)$.
-                Thus we get $f (y_1) = f (y_2)$ \qedhere
+              \item[1.] $(y_1,y_2) \in R$. Then we have $y_1 = s(a) \land y_2 = t(t)$ for some $a \in X$. $f (s (a)) = f (t (a))$ holds since $f$ commutes.
+              \item[2.] $(y_1,y_2) \in R$. Then we have $y_2 = s(a) \land y_1 = t(t)$ for some $a \in X$. $f (t (a)) = f (s (a))$ holds since $f$ commutes.
+              \item[3.] $y_1=y_2$. Then we have $f(y_1) = f(y_2)$.
             \end{itemize}
-          \end{proof} % (b) (ii)
+          \item[$n \rightarrow n+1$:]
+            We have $(y_1, y_2) \in R_{n+1}$. Therefore we have a $y$ such that $(y_1, y) \in R_n \land (y, y_2) \in R_n$.
+            With the inductive hypositive we know $\forall y_1, y_2 \in Y: (y_1, y_2) \in R_n \Rightarrow f (y_1) = f (y_2)$.
+            By instanciating the inductive hypositive we know $f (y_1) = f (y) \land f (y) = f (y_2)$.
+            Thus we get $f (y_1) = f (y_2)$ \qedhere
+        \end{itemize}
+      \end{proof} % (b) (ii)
 
-        \item[(iii)]
-          \newcommand{\choice}[1]{\set{#1}}
-          We have to assume the axiom of choice. Because every equivalence class is non-empty, we get a function
-          $\choice{ \_ } \from Y/\sim \to Y$ such that $\choice{ e } \sim x$ for every equivalence class $e$ and every object $x \in e$.
+    \item[(d)]
+      We have to assume the axiom of choice. Because every equivalence class is non-empty, we get a function
+      $\choice{ \_ } \from Y/\sim \to Y$ such that $\choice{ e } \sim x$ for every equivalence class $e$ and every object $x \in e$.
 
-          We now define $\bar{f}(e) := f (\choice e)$.
+      We now define $\bar{f}(e) := f (\choice e)$.
 
-          We have to show that the diagramm commutes. Note that commutativity of this diagramm is equivalent to $\bar{f} \of i =f$.
-          Let $y \in Y$. We have to show $\bar{f}(\choice{i (y)}) = f(y)$. With (ii) it is enough to show $\choice{i (y)} \sim y$.
-          This holds since $\choice{i (y)} = \choice{[y]} \sim y$, since $y \sim y$. \qedhere
+      We have to show that the diagramm commutes. Note that commutativity of this diagramm is equivalent to $\bar{f} \of i =f$.
+      Let $y \in Y$. We have to show $\bar{f}(\choice{i (y)}) = f(y)$. With (c) it is enough to show $\choice{i (y)} \sim y$.
+      This holds since $\choice{i (y)} = \choice{\class{y}} \sim y$, since $y \sim y$. \qedhere
 
-          We finally have to show that $\bar{f}$ is the only function with that property.
-          Let $\tilde{f} \from C \to A$ with $\tilde{f} \of i = f$. Let $c \in Y /\sim$.
-          Then $\bar{f}(c) = f(\choice{c}) = \tilde{f}(i(\choice{c}) = \tilde{f}([\choice{c}]) = \tilde{f}(c)$.
+      We finally have to show that $\bar{f}$ is the only function with that property.
+      Let $\tilde{f} \from C \to A$ with $\tilde{f} \of i = f$. Let $c \in Y /\sim$.
+      Then $\bar{f}(c) = f(\choice{c}) = \tilde{f}(i(\choice{c}) = \tilde{f}(\class{\choice{c}}) = \tilde{f}(c)$.
 
-        \item[(iv)]We know that there is only \emph{one} coequalizer (up-to isomorphism). By definition we have shown that our construction is \emph{a} coequalizer.
-      \end{itemize}
-
+    \item[(e)]We know that there is only \emph{one} coequalizer (up-to isomorphism). By definition we have shown that our construction is \emph{a} coequalizer.
   \end{itemize}
 \end{answer}
 
