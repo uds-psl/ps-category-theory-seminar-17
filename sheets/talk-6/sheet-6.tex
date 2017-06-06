@@ -6,12 +6,13 @@
 \uebunghead{Talk 6}{Special Constructions in Categories}
 \author{Maximilian Wuttke}
 
-\hint{Read the slides for the definitions of the six constructions}
+\hint{Read the slides for the definitions of the six constructions.}
 
 \section{Products and Coproducts}
 
 \begin{exercise}[Product is unique up-to isomorphism]
-  Proof that for every category $\cat{A}$ all products are isomorphic. Thus we can speak of \emph{the} product.
+  Prove that for every category $\cat{A}$ and every objects $X, Y \in \cat{A}$
+  all products of $X$ and $Y$ are isomorphic. Thus we can speak of \emph{the} product of $X$ and $Y$.
 \end{exercise}
 
 \begin{answer}
@@ -71,7 +72,7 @@
 \end{definition}
 
 \begin{exercise}[Greatest lower bound]
-  Define the \emph{greatest lower bound} for an family of objects in a poset and proof that it is the arbitrary product of the family when the poset is seen as a category.
+  Define the \emph{greatest lower bound} for a family of objects in a poset and prove that it is the arbitrary product of the family when the poset is seen as a category.
 \end{exercise}
 
 \begin{answer}
@@ -99,26 +100,6 @@
   there exists a unique map $\bar{f}\from S \to A$ such that
   $\forall i \in I: \bar{f} \of p_i = f_i$.
 \end{definition}
-
-\begin{exercise}[Least upper bound]
-  Define the \emph{least upper bound} for a class of objects in a poset and proof that it is the arbitrary binary coproduct of the poset seen as a category.
-\end{exercise}
-
-\begin{answer}
-  Let $(A, \le)$ be a poset concidered as a category and $I$ a set.
-  A \demph{upper bound} of a family $(x_i)_{i\in I}$ is an element $a \in A$, s.\,t. $\forall i \in I: x_i \le z$.
-  $z \in A$ is a \demph{least upper bound} of this family if $\forall a \in A: \text{$a$ is a upper bound} \Rightarrow z \le a$.
-
-  Let $z$ be a least upper bound of the family $(x_i)_{i\in I}$. We show that $z$ is a coproduct of $(x_i)_{i\in I}$.
-  \begin{proof}
-    We first have to define a family of maps $\Bigl(x_i \toby{p_i} z\Bigr)_{i \in I}$.
-    This is trivial since we have $\forall i \in I: x_i \le a$.
-    Now let $a \in A$ be and objects and let $\Bigl(x_i \toby{f_i} a\Bigr)_{i \in I}$ be a family of maps to $a$.
-    The existing of this maps means that $a$ is a lower bound of $(x_i)_{i\in I}$.
-    Now by definition of least lower bound, $z \le a$, thus we have a arrow $\bar{f} \from z \to a$.
-    All arrows are unique, thus $\bar{f}$ is unique and the diagram commutes. \qedhere
-  \end{proof}
-\end{answer}
 
 \begin{exercise}[Disjoint union]
   \begin{itemize}
@@ -185,7 +166,7 @@
 \begin{definition}{Minus-Core of Linear Maps in Vector Spaces}
   Let $V, W$ be Vector Spaces over a field $K$. Let $s, t \from V \to W$ be linear functions.
   We define the linear function $s - t := \lambda v\in V. \; v(s) - t(s)$.
-  Remember the definition $\forall g \from V \to W: core(g) := \set{ v \in V | g(v) = 0 }$.
+  Remember that for $g \from V \to W$ we have defined $core(g) := \set{ v \in V | g(v) = 0 }$.
   Now $core (s - t) = \set{v \in V | s(v) = t (v) }$.
 \end{definition}
 
@@ -220,121 +201,21 @@
   Now $S := \bigcup_{n \in \nat}{R_n}$ is the reflexive, symmetric and transitive closure of $R$.
 \end{definition}
 
-\newcommand{\choice}[1]{\{ #1 \}}
-\newcommand{\class} [1]{[ #1 ]}
-
-\begin{exercise}[Coequalizer of sets]
-  In this exercise we will will define the coequalizer of $\Set$ with the help of reflexive, symmetric and transitive closures.
-  Let $X, Y \in \Set, s, t \from X \to Y$.
-  We make the following definitions:
-  \begin{alignat*}{2}
-    R    &:= \set{(s(a), t(a)) | a\in Y} \\
-    \sim &:= \text{reflexive, symmetric and transitive closure of $R$} \\
-    C    &:= Y / \sim
-  \end{alignat*}
-  Note that $\class{y} := \set{ y' \in Y | (y, y') \in \sim}$ is the equivalence class of $y$ and $Y / \sim := \set{ \class{y} | y \in Y}$ is the set of all equivalence classes of $\sim$.
-  Also note that no equivalence class can be empty and for $[y]$ we call $y$ a representant of this class.
-  We define $i \from Y \to E$ with $i(y) := \class{y}$.
-  \begin{itemize}
-    \item[(a)]Show that $\sim$ is reflexive and symmetric and contains $R$.
-    \item[(b)]Show that the following diagramm commutes:
-      $\xymatrix{
-        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
-      }$
-    \item[(c)]Let
-      $\xymatrix{
-        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
-      }$
-      be a cummutative diagramm. Show that $f$ respects equivalence, i.\,e. $\forall (y_1, y_2) \in \sim: f(y_1) = f(y_2)$.
-      \begin{hint}
-        ``Destruct'' $(y_1, y_2) \in \sim$ and do a $\nat$-induction.
-      \end{hint}
-    \item[(d)]Now define $\bar{f} \from C \to A$, such that the following diagramm commutes and show that there can only be one:
-      \[ \xymatrix{
-        & & A  \\
-        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[ru]^f \ar[rd]_i \\
-        & & C \ar@{.>}[uu]|{\bar{f}}
-      } \]
-      \hint{Assume the \demph{axiom of choice.}}
-    \item[(e)]Show that the fork
-      $\xymatrix{
-        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
-      }$
-      is \emph{the} coequalizer of
-      $\xymatrix{
-        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
-      }$.
-  \end{itemize}
-\end{exercise}
-
-\begin{answer}
-  \begin{itemize}
-    \item[(a)]
-      This follows because for $n:=0$, $R_0$ is by construction reflexive, symmetric and cointains $R$.
-
-    \item[(b)]
-      \begin{proof}
-        Let $x \in X$. We have $i(s(x)=\class{s(x)}$ and $i(t(x))=\class{t(x)}$. It remains to show that $\class{s(x)}=\class{t(x)}$. Therefore it is enough to show that $s(x) \sim t(x)$.
-        This is true since $\sim$ contains $R$ and $(s(x), t(x)) \in R$ by the construction of $R$.
-      \end{proof} % (b) (i)
-
-    \item[(c)]
-      \begin{proof}
-        Let $(y_1, y_2) \in \sim$. Then be definition of $\sim$ we have a $n\in\nat$ such that $(y_1, y_2) \in R_n$.
-        We show $\forall n\in\nat: \forall y_1,y_2 \in Y: (y_1, y_2) \in R_n \Rightarrow f (y_1) = f (y_2)$ by induction on $n\in\nat$.
-        \begin{itemize}
-          \item[$n=0$:]
-            We have $(y_1, y_2) \in R_0$. This means $(y_1, y_2) \in R \lor (y_2, y_1) \in R \lor y_1 = y_2)$.
-            We have to show $f(y_1) = f(y_2)$. Case analysis.
-            \begin{itemize}
-              \item[1.] $(y_1,y_2) \in R$. Then we have $y_1 = s(a) \land y_2 = t(t)$ for some $a \in X$. $f (s (a)) = f (t (a))$ holds since $f$ commutes.
-              \item[2.] $(y_1,y_2) \in R$. Then we have $y_2 = s(a) \land y_1 = t(t)$ for some $a \in X$. $f (t (a)) = f (s (a))$ holds since $f$ commutes.
-              \item[3.] $y_1=y_2$. Then we have $f(y_1) = f(y_2)$.
-            \end{itemize}
-          \item[$n \rightarrow n+1$:]
-            We have $(y_1, y_2) \in R_{n+1}$. Therefore we have a $y$ such that $(y_1, y) \in R_n \land (y, y_2) \in R_n$.
-            With the inductive hypositive we know $\forall y_1, y_2 \in Y: (y_1, y_2) \in R_n \Rightarrow f (y_1) = f (y_2)$.
-            By instanciating the inductive hypositive we know $f (y_1) = f (y) \land f (y) = f (y_2)$.
-            Thus we get $f (y_1) = f (y_2)$ \qedhere
-        \end{itemize}
-      \end{proof} % (b) (ii)
-
-    \item[(d)]
-      We have to assume the axiom of choice. Because every equivalence class is non-empty, we get a function
-      $\choice{ \_ } \from Y/\sim \to Y$ such that $\choice{ e } \sim x$ for every equivalence class $e$ and every object $x \in e$.
-
-      We now define $\bar{f}(e) := f (\choice e)$.
-
-      We have to show that the diagramm commutes. Note that commutativity of this diagramm is equivalent to $\bar{f} \of i =f$.
-      Let $y \in Y$. We have to show $\bar{f}(\choice{i (y)}) = f(y)$. With (c) it is enough to show $\choice{i (y)} \sim y$.
-      This holds since $\choice{i (y)} = \choice{\class{y}} \sim y$, since $y \sim y$. \qedhere
-
-      We finally have to show that $\bar{f}$ is the only function with that property.
-      Let $\tilde{f} \from C \to A$ with $\tilde{f} \of i = f$. Let $c \in Y /\sim$.
-      Then $\bar{f}(c) = f(\choice{c}) = \tilde{f}(i(\choice{c}) = \tilde{f}(\class{\choice{c}}) = \tilde{f}(c)$.
-
-    \item[(e)]We know that there is only \emph{one} coequalizer (up-to isomorphism). By definition we have shown that our construction is \emph{a} coequalizer.
-  \end{itemize}
-\end{answer}
-
 \section{Pullbacks and Pushouts}
 
-\begin{exercise}[Pullbacks\,vs.\,producs]
-  Show that if $Z$ is terminal and
-  \[ \xymatrix{
-    P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
-    X \ar[r]^s & Z
-  } \]
-  is the pullback square in $\cat{A}$ of $X, Y, Z, s, t$ then $X, Y$ is the product in $\cat{A}$.
-\end{exercise}
-
-\begin{exercise}[Pushouts\,vs.\,coproducs]
-  Show that if $Z$ is initial and
+\begin{exercise}[Pushouts\,vs.\,coproducts]
+  Show that if $Z$ is initial and the pullback square
   \[ \xymatrix{
     Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \\
     Y \ar[r]^{p_2} & P
   } \]
-  is the pullback square in $\cat{A}$ of $X, Y, Z, s, t$, then $X + Y$ is the coproduct in $\cat{A}$.
+  is the pullback of
+  $ \xymatrix{
+    X & Z \ar[l]_s \ar[r]^t & Y \\
+  } $
+  then $P$ is the coproduct of $X$ and $Y$.
+
+  Remark: Note that the dual statement holds for pullbacks of terminal objects and products.
 \end{exercise}
 
 \end{document}
