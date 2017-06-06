@@ -1,0 +1,346 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+
+\begin{document}
+
+% Use Basis x or Talk x, where x is the number of the session
+\uebunghead{Talk 6}{Special Constructions in Categories}
+\author{Maximilian Wuttke}
+
+\hint{Read the slides for the definitions of the six constructions}
+
+\section{Products and Coproducts}
+
+\begin{exercise}[Product is unique up-to isomorphism]
+  Proof that for every category $\cat{A}$ all products are isomorphic. Thus we can speak of \emph{the} product.
+\end{exercise}
+
+\begin{answer}
+  \begin{proof}
+    Let $X, Y \in \cat{A}$ and $P$ be a product of $X$ and $Y$ together with $p_1 \from P \to X, p_2 \from P \to Y$
+    and $P'$ be a product of $X$ and $Y$ together with $p'_1 \from P' \to X, p'_2 \from P' \to Y$.
+
+    Lets reconcider the definition of the \emph{product}:
+    For every object $A \in \cat{A}$ and arrows $f_1 \from A \to X, f_2 \from A \to Y$ we get that there exists a unique map
+    $\bar{f} \from A \to P$, such that
+    \[ \xymatrix{
+        &A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}\vphantom{\bar{\bar{f}}}}
+        \ar[rdd]^{f_2}&       \\
+                &P \ar[ld]^{p_1} \ar[rd]_{p_2}                  &       \\
+        X       &                                               &Y
+    } \]
+    commutes.
+    Now we can instanciate $A$ with $P'$, $f_1$ with $p_1$, $f_2$ with $p_2$. By analogous instanciations we get the commuting diagramm
+    \[ \xymatrix{
+      & P \ar@/_/[ldd]_{p_1} \ar@/^/[rdd]^{p_2} & \\
+      & P \ar[ld]^{p_1} \ar@/_/@{.>}[dd]|{\bar{f}} \ar@{.>}[u]|{f} \ar[rd]_{p_2} & \\
+      X & & Y \\
+      & P' \ar[lu]_{p_1'} \ar@/_/@{.>}[uu]|{\tilde{f}} \ar@{.>}[d]|{f'} \ar[ru]^{p'_2} & \\
+      & P' \ar@/^/[luu]^{p'_1} \ar@/_/[ruu]_{p'_2} &
+    } \]
+    for exactly one $f, f', \tilde{f}, \bar{f}$. With the inner triangles we get:
+    \begin{alignat*}{2}
+      p_1  \of \tilde{f} &= p'_1 &\qquad p_2  \of \tilde{f} &= p'_2 \\
+      p'_1 \of \bar{f}   &= p_1  &       p'_2 \of \bar{f}   &= p_2
+    \end{alignat*}
+    By substitution we get
+    \begin{alignat*}{2}
+      p_1   \of (\tilde{f} \of \bar{f}) &= p_1  &\qquad p_2  \of (\tilde{f} \of \bar{f}) &= p_2 \\
+      p'_1  \of (\bar{f} \of \tilde{f}) &= p'_1 &       p'_2 \of (\bar{f} \of \tilde{f}) &= p'_2
+    \end{alignat*}
+    With the outer triangles we get:
+    \begin{alignat*}{5}
+      p_1  &\;\of&&\; f  &= p_1  &\qquad p_2  &\;\of&\; f  &= p_2 \\
+      p'_1 &\;\of&&\; f' &= p'_1 &\qquad p'_2 &\;\of&\; f' &= p'_2
+    \end{alignat*}
+    Note that $f$ and $f'$ are \emph{unique} and the first equations hold for $f = 1_P$ and $f = \tilde{f} \of \bar{f}$, thus $\tilde{f} \of \bar{f} = 1_P$.
+    The second equations holds for $f' = 1_{P'}$ and for $f' = \bar{f} \of \tilde{f}$, thus $\bar{f} \of \tilde{f} = 1_{P'}$.
+    Thus $P$ and $P'$ are isomorphic. \qedhere
+  \end{proof}
+\end{answer}
+
+\hint{We will now assume that all the 6 constructions are unique up-to isomorphism.}
+
+\begin{definition}{Arbitrary\ product}
+  Let $\cat{A}$ be a category, $I$ a set, and $(X_i)_{i \in I}$ a family of objects of $\cat{A}$.
+  A \demph{product} of $(X_i)_{i \in I}$ consists of an object $P$ and a family of maps
+  $\Bigl(P \toby{p_i} X_i\Bigr)_{i \in I}$
+  with the property that for all objects $A$ and families of maps
+  $\Bigl(A \toby{f_i} X_i\Bigr)_{i \in I}$
+  there exists a unique map $\bar{f}\from A \to P$ such that
+  $\forall i \in I: p_i \of \bar{f} = f_i$.
+\end{definition}
+
+\begin{exercise}[Greatest lower bound]
+  Define the \emph{greatest lower bound} for an family of objects in a poset and proof that it is the arbitrary product of the family when the poset is seen as a category.
+\end{exercise}
+
+\begin{answer}
+  Let $(A, \le)$ be a poset concidered as a category and $I$ a set.
+  A \demph{lower bound} of a family $(x_i)_{i\in I}$ is an element $a \in A$, s.\,t. $\forall i \in I: a \le x_i$.
+  $z \in A$ is a \demph{greatest lower bound} of this family if $\forall a \in A: \text{$a$ is a lower bound} \Rightarrow a \le z$.
+
+  Let $z$ be a greatest lower bound of the family $(x_i)_{i\in I}$. We show that $z$ is a product of $(x_i)_{i\in I}$.
+  \begin{proof}
+    We first have to define a family of maps $\Bigl(z \toby{p_i} x_i\Bigr)_{i \in I}$.
+    This is trivial since we have $\forall i \in I: z \le x_i$.
+    Now let $a \in A$ be and objects and let $\Bigl(a \toby{f_i} x_i\Bigr)_{i \in I}$ be a family of maps from $a$.
+    The existing of this maps means that $a$ is a upper bound of $(x_i)_{i\in I}$.
+    Now by definition of least upper bound, $a \le z$, thus we have a arrow $\bar{f} \from a \to z$.
+    All arrows are unique, thus $\bar{f}$ is unique and the diagram commutes. \qedhere
+  \end{proof}
+\end{answer}
+
+\begin{definition}{Arbitrary\ coproduct}
+  Let $\cat{A}$ be a category, $I$ a set, and $(X_i)_{i \in I}$ a family of objects of $\cat{A}$.
+  A \demph{coproduct} of $(X_i)_{i \in I}$ consists of an object $S$ and a family of maps
+  $\Bigl(X_i \toby{p_i} S\Bigr)_{i \in I}$
+  with the property that for all objects $A$ and families of maps
+  $\Bigl(X_i \toby{f_i} A\Bigr)_{i \in I}$
+  there exists a unique map $\bar{f}\from S \to A$ such that
+  $\forall i \in I: \bar{f} \of p_i = f_i$.
+\end{definition}
+
+\begin{exercise}[Least upper bound]
+  Define the \emph{least upper bound} for a class of objects in a poset and proof that it is the arbitrary binary coproduct of the poset seen as a category.
+\end{exercise}
+
+\begin{answer}
+  Let $(A, \le)$ be a poset concidered as a category and $I$ a set.
+  A \demph{upper bound} of a family $(x_i)_{i\in I}$ is an element $a \in A$, s.\,t. $\forall i \in I: x_i \le z$.
+  $z \in A$ is a \demph{least upper bound} of this family if $\forall a \in A: \text{$a$ is a upper bound} \Rightarrow z \le a$.
+
+  Let $z$ be a least upper bound of the family $(x_i)_{i\in I}$. We show that $z$ is a coproduct of $(x_i)_{i\in I}$.
+  \begin{proof}
+    We first have to define a family of maps $\Bigl(x_i \toby{p_i} z\Bigr)_{i \in I}$.
+    This is trivial since we have $\forall i \in I: x_i \le a$.
+    Now let $a \in A$ be and objects and let $\Bigl(x_i \toby{f_i} a\Bigr)_{i \in I}$ be a family of maps to $a$.
+    The existing of this maps means that $a$ is a lower bound of $(x_i)_{i\in I}$.
+    Now by definition of least lower bound, $z \le a$, thus we have a arrow $\bar{f} \from z \to a$.
+    All arrows are unique, thus $\bar{f}$ is unique and the diagram commutes. \qedhere
+  \end{proof}
+\end{answer}
+
+\begin{exercise}[Disjoint union]
+  \begin{itemize}
+    \item[(a)]For an index set $I$ and a family of sets $(X_i)_{i \in I}$, define the arbitrary disjoint union $\coprod_{i \in I}{X_i}$.
+    \item[(b)]Show that this arbitrary disjoint union is indeed the arbitrary coproduct in $\Set$.
+  \end{itemize}
+\end{exercise}
+
+\begin{answer}
+  First let define the arbitrary disjoint union:
+  \begin{definition}{Arbitrary disjoint union}
+    Let $I$ be an index set and let $(x_i)_{i \in I}$ be a family of sets.
+    We define the arbitrary disjoint union of $(x_i)_{i\in I}$:
+    $$\coprod_{i \in I} {x_i} := \bigcup_{i \in I} \set{ (x, i) \;\big|\; i \in I \land x \in x_i}$$
+  \end{definition}
+  Now let $I$ be an index set and let $(x_i)_{i\in I}$ be a family of sets. We show that $\coprod_{i \in I} {x_i}$ is the coproduct of $(x_i)_{i\in I}$.
+  \begin{proof}
+    We first define the projection maps: $p_i(a) := (a, i)$.
+    Now let $A$ be a set and $\Bigl(x_i \toby{f_i} A\Bigr)_{i \in I}$ be a family of functions to $A$.
+    We define $\bar{f} : \coprod_{i \in I} {x_i} \to A$ with $\bar{f}(a, i) := f_i(a)$.
+    We have to show that $\bar{f}$ is the only function such that
+    $\forall i \in I: \bar{f} \of p_i = f_i$.
+    Let $i \in I$ and we check $a \in x_i$. $\bar{f}(p_i(a)) = \bar{f}(a,i) = f_i(a)$.
+    Now let $\tilde{f} : \coprod_{i \in I} {x_i} \to A$ be another function sucht that
+    $\forall i \in I: \tilde{f} \of p_i = f_i$.
+    Let $(a, i) \in \coprod_{i \in I} {x_i}$. $\bar{f}(a,i)= f_i(a) = \tilde{f}(p_i(a)) = \tilde{f}(a,i)$.\qedhere
+  \end{proof}
+\end{answer}
+
+\begin{exercise}[Direct Sum of Vector Spaces]
+  In the talk we have seen that the direct sum $V \oplus W$ of two vector spaces $V, W$ over a fixed field $K$ is the coproduct of $V$ and $W$.
+  Show that it is also the product.
+\end{exercise}
+
+\begin{answer}
+  \begin{proof}
+    We first define the projection functions $p_1 \from V \oplus W \to V, p_2 \from V \oplus W \to W$:
+    \begin{alignat*}{1}
+      p_1(x,y) &:= x \\
+      p_2(x,y) &:= y
+    \end{alignat*}
+    Now let $A$ be a vector space and $f_1 \from A \to V, f_2 \from A \to W$ be linear functions.
+    We define $\bar{f}(a) := (f_1(a), f_(2))$. We clearly have
+    \begin{alignat*}{2}
+      p_1(\bar{f}(a)) &= p_1(f_1(a), f_2(a)) = f_1(a) \\
+      p_2(\bar{f}(a)) &= p_2(f_1(a), f_2(a)) = f_2(a).
+    \end{alignat*}
+    Thus the diagramm
+    \[ \xymatrix{
+        & A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}\vphantom{\bar{\bar{f}}}} \ar[rdd]^{f_2} & \\
+        & {V \oplus W} \ar[ld]^{p_1} \ar[rd]_{p_2} & \\
+        V & & W
+    } \]
+    commutes. Now we have to show that $\bar{f}$ is the only map such that the above diagramm commutes.
+    Let $\tilde{f} \from A \to V \oplus W$ be a map such that $p_1 \of \tilde{f} = f_1 \land p_2 \of \tilde{f} = f_2$.
+    \[
+      \tilde{f}(a) = \bigl(p_1(\tilde{f}(a)), p_2(\tilde{f}(a))\bigr) = \bigl(p_1(\bar{f}(a)), p_2(\bar{f}(a))\bigr) = \bar{f}(a)\qedhere
+    \]
+  \end{proof}
+\end{answer}
+
+\section{Equalizer and Coequalizer}
+
+\begin{definition}{Minus-Core of Linear Maps in Vector Spaces}
+  Let $V, W$ be Vector Spaces over a field $K$. Let $s, t \from V \to W$ be linear functions.
+  We define the linear function $s - t := \lambda v\in V. \; v(s) - t(s)$.
+  Remember the definition $\forall g \from V \to W: core(g) := \set{ v \in V | g(v) = 0 }$.
+  Now $core (s - t) = \set{v \in V | s(v) = t (v) }$.
+\end{definition}
+
+\begin{exercise}[Equalizer of Vector Spaces]
+  Let
+  $\xymatrix{
+      X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  }$
+  be a diagramm in $Vect_K$ for a field $K$. Show that $core(s-t)$ is the equalizer for this diagramm.
+\end{exercise}
+
+\begin{answer}
+  \begin{proof}
+    Let $i \from core(s-t) \to X$ be a inclusion function. Let
+    $\xymatrix{
+      A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+    }$
+    be a commuting diagramm. Note that $f A \subseteq core(s-t)$.
+    Thus we can define $\bar{f} \from A \to core(s-t)$ with $\bar{f}(a) := f(a)$.
+    We see that $\forall a \in A: i(\bar{f}(a))=\bar{f}(a)=f(a)$, thus $i \of \bar{f} = f$.
+    Let $\tilde{f} \from A \to core(s-t)$ be another map such that $i \of \tilde{f} = f$.
+    Now $\tilde{f}(a) = i(\tilde{f}(a)) = i(\bar{f}(a)) = \bar{f}(a)$.
+  \end{proof}
+\end{answer}
+
+\begin{definition}{Reflexive,\ symmetric\ and transitive\ closure}
+  Let $X$ be a arbitrary set and $R \subseteq X \times X$ a binary relation over $X$.
+  We define $R_0 := R \cup \set{ (y, x) | (x, y) \in R} \cup \set{ (x, x) | x \in X}$,
+  the the \emph{reflexive, symmetric closure} of R.
+  Now we define inductively $\forall n \in \nat$:
+  \[R_{n+1} := \set{(x_1, x_3) \in R \times R \; | \; \exists x_2 \in X, (x_1, x_2) \in R_n \land (x_2, x_3) \in R_n}.\]
+  Now $S := \bigcup_{n \in \nat}{R_n}$ is the reflexive, symmetric and transitive closure of $R$.
+\end{definition}
+
+\newcommand{\choice}[1]{\{ #1 \}}
+\newcommand{\class} [1]{[ #1 ]}
+
+\begin{exercise}[Coequalizer of sets]
+  In this exercise we will will define the coequalizer of $\Set$ with the help of reflexive, symmetric and transitive closures.
+  Let $X, Y \in \Set, s, t \from X \to Y$.
+  We make the following definitions:
+  \begin{alignat*}{2}
+    R    &:= \set{(s(a), t(a)) | a\in Y} \\
+    \sim &:= \text{reflexive, symmetric and transitive closure of $R$} \\
+    C    &:= Y / \sim
+  \end{alignat*}
+  Note that $\class{y} := \set{ y' \in Y | (y, y') \in \sim}$ is the equivalence class of $y$ and $Y / \sim := \set{ \class{y} | y \in Y}$ is the set of all equivalence classes of $\sim$.
+  Also note that no equivalence class can be empty and for $[y]$ we call $y$ a representant of this class.
+  We define $i \from Y \to E$ with $i(y) := \class{y}$.
+  \begin{itemize}
+    \item[(a)]Show that $\sim$ is reflexive and symmetric and contains $R$.
+    \item[(b)]Show that the following diagramm commutes:
+      $\xymatrix{
+        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+      }$
+    \item[(c)]Let
+      $\xymatrix{
+        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
+      }$
+      be a cummutative diagramm. Show that $f$ respects equivalence, i.\,e. $\forall (y_1, y_2) \in \sim: f(y_1) = f(y_2)$.
+      \begin{hint}
+        ``Destruct'' $(y_1, y_2) \in \sim$ and do a $\nat$-induction.
+      \end{hint}
+    \item[(d)]Now define $\bar{f} \from C \to A$, such that the following diagramm commutes and show that there can only be one:
+      \[ \xymatrix{
+        & & A  \\
+        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[ru]^f \ar[rd]_i \\
+        & & C \ar@{.>}[uu]|{\bar{f}}
+      } \]
+      \hint{Assume the \demph{axiom of choice.}}
+    \item[(e)]Show that the fork
+      $\xymatrix{
+        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+      }$
+      is \emph{the} coequalizer of
+      $\xymatrix{
+        X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+      }$.
+  \end{itemize}
+\end{exercise}
+
+\begin{answer}
+  \begin{itemize}
+    \item[(a)]
+      This follows because for $n:=0$, $R_0$ is by construction reflexive, symmetric and cointains $R$.
+
+    \item[(b)]
+      \begin{proof}
+        Let $x \in X$. We have $i(s(x)=\class{s(x)}$ and $i(t(x))=\class{t(x)}$. It remains to show that $\class{s(x)}=\class{t(x)}$. Therefore it is enough to show that $s(x) \sim t(x)$.
+        This is true since $\sim$ contains $R$ and $(s(x), t(x)) \in R$ by the construction of $R$.
+      \end{proof} % (b) (i)
+
+    \item[(c)]
+      \begin{proof}
+        Let $(y_1, y_2) \in \sim$. Then be definition of $\sim$ we have a $n\in\nat$ such that $(y_1, y_2) \in R_n$.
+        We show $\forall n\in\nat: \forall y_1,y_2 \in Y: (y_1, y_2) \in R_n \Rightarrow f (y_1) = f (y_2)$ by induction on $n\in\nat$.
+        \begin{itemize}
+          \item[$n=0$:]
+            We have $(y_1, y_2) \in R_0$. This means $(y_1, y_2) \in R \lor (y_2, y_1) \in R \lor y_1 = y_2)$.
+            We have to show $f(y_1) = f(y_2)$. Case analysis.
+            \begin{itemize}
+              \item[1.] $(y_1,y_2) \in R$. Then we have $y_1 = s(a) \land y_2 = t(t)$ for some $a \in X$. $f (s (a)) = f (t (a))$ holds since $f$ commutes.
+              \item[2.] $(y_1,y_2) \in R$. Then we have $y_2 = s(a) \land y_1 = t(t)$ for some $a \in X$. $f (t (a)) = f (s (a))$ holds since $f$ commutes.
+              \item[3.] $y_1=y_2$. Then we have $f(y_1) = f(y_2)$.
+            \end{itemize}
+          \item[$n \rightarrow n+1$:]
+            We have $(y_1, y_2) \in R_{n+1}$. Therefore we have a $y$ such that $(y_1, y) \in R_n \land (y, y_2) \in R_n$.
+            With the inductive hypositive we know $\forall y_1, y_2 \in Y: (y_1, y_2) \in R_n \Rightarrow f (y_1) = f (y_2)$.
+            By instanciating the inductive hypositive we know $f (y_1) = f (y) \land f (y) = f (y_2)$.
+            Thus we get $f (y_1) = f (y_2)$ \qedhere
+        \end{itemize}
+      \end{proof} % (b) (ii)
+
+    \item[(d)]
+      We have to assume the axiom of choice. Because every equivalence class is non-empty, we get a function
+      $\choice{ \_ } \from Y/\sim \to Y$ such that $\choice{ e } \sim x$ for every equivalence class $e$ and every object $x \in e$.
+
+      We now define $\bar{f}(e) := f (\choice e)$.
+
+      We have to show that the diagramm commutes. Note that commutativity of this diagramm is equivalent to $\bar{f} \of i =f$.
+      Let $y \in Y$. We have to show $\bar{f}(\choice{i (y)}) = f(y)$. With (c) it is enough to show $\choice{i (y)} \sim y$.
+      This holds since $\choice{i (y)} = \choice{\class{y}} \sim y$, since $y \sim y$. \qedhere
+
+      We finally have to show that $\bar{f}$ is the only function with that property.
+      Let $\tilde{f} \from C \to A$ with $\tilde{f} \of i = f$. Let $c \in Y /\sim$.
+      Then $\bar{f}(c) = f(\choice{c}) = \tilde{f}(i(\choice{c}) = \tilde{f}(\class{\choice{c}}) = \tilde{f}(c)$.
+
+    \item[(e)]We know that there is only \emph{one} coequalizer (up-to isomorphism). By definition we have shown that our construction is \emph{a} coequalizer.
+  \end{itemize}
+\end{answer}
+
+\section{Pullbacks and Pushouts}
+
+\begin{exercise}[Pullbacks\,vs.\,producs]
+  Show that if $Z$ is terminal and
+  \[ \xymatrix{
+    P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+    X \ar[r]^s & Z
+  } \]
+  is the pullback square in $\cat{A}$ of $X, Y, Z, s, t$ then $X, Y$ is the product in $\cat{A}$.
+\end{exercise}
+
+\begin{exercise}[Pushouts\,vs.\,coproducs]
+  Show that if $Z$ is initial and
+  \[ \xymatrix{
+    Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \\
+    Y \ar[r]^{p_2} & P
+  } \]
+  is the pullback square in $\cat{A}$ of $X, Y, Z, s, t$, then $X + Y$ is the coproduct in $\cat{A}$.
+\end{exercise}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+% vim: ts=2 sts=2 sw=2 expandtab

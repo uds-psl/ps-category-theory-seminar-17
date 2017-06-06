@@ -1,0 +1,227 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}{
+	\raisebox{0.5em}{\makebox[\paperwidth-0.5em][r]{
+		\color{gray}\scriptsize\insertframenumber}}}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{cd, shapes, tikzmark}
+\def\pathToRoot{../../}\input{\pathToRoot headers/sharedHeader}
+
+
+\title{Special Constructions in Categories}
+\subtitle{Examples for limits and colimits}
+\author{Maximilian Wuttke}
+\date{June 7, 2017}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Table of contents}
+    \begin{table}
+    \begin{tabular}{l | l}
+      Limit & Colimit \\ \hline
+      Product & Coproduct \\
+      Equalizer & Coequalizer \\
+      Pullback & Pushout
+    \end{tabular}
+    \end{table}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Product}
+
+  \begin{tabular}{l p{7cm}}
+
+    \[ \xymatrix{
+      X & Y
+    } \]
+
+    & Let $\cat{A}$ be a category and $X, Y \in \cat{A}$.
+    A \demph{product} of $X$ and $Y$ consists of an object $P$ and maps \\
+
+    \[ \xymatrix{
+              &P \ar[ld]_{p_1} \ar[rd]^{p_2}  &       \\
+      X       &                               &Y
+    } \]
+    & with the property that for all objects and maps \\
+    \[ \xymatrix{
+              &A \ar[ld]_{f_1} \ar[rd]^{f_2}  &       \\
+      X       &                               &Y
+    } \]
+    & in $\cat{A}$, there exists a unique map $\bar{f}\from A \to P$ such that \\
+    \[ \xymatrix{
+        &A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}\vphantom{\bar{\bar{f}}}}
+        \ar[rdd]^{f_2}&       \\
+                &P \ar[ld]^{p_1} \ar[rd]_{p_2}                  &       \\
+        X       &                                               &Y
+    } \]
+    & commutes.  The maps $p_1$ and $p_2$ are called the \demph{projections}.%
+  \end{tabular}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Coproduct}
+
+  \begin{tabular}{l p{7cm}}
+    \[ \xymatrix{
+      X & Y
+    } \]
+
+    & Let $\cat{A}$ be a category and $X, Y \in \cat{A}$.
+    A \demph{coproduct} of $X$ and $Y$ consists of an object $S$ and maps \\
+
+    \[ \xymatrix{
+      X \ar[dr]_{p_1} & & Y \ar[dl]^{p_2} \\
+      & S &
+    } \]
+    & with the property that for all objects and maps \\
+    \[ \xymatrix{
+      X \ar[dr]_{f_1} & & Y \ar[dl]^{f_2} \\
+      & A &
+    } \]
+    & in $\cat{A}$, there exists a unique map $\bar{f}\from P \to A$ such that \\
+    \[ \xymatrix{
+      X \ar[rdd]_{f_1}\ar[rd]^{p_1} & & Y \ar[ldd]^{f_2} \ar[ld]_{p_2} \\
+      &  P \ar@{.>}[d]|{\bar{f}} \\
+      & A &
+    } \]
+    & commutes.  % The maps $p_1$ and $p_2$ are called the \demph{projections}.%
+  \end{tabular}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Equalizer}
+
+  \begin{tabular}{l p{7cm}}
+
+    \[ \xymatrix{
+      X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+    } \]
+    & Let $\cat{A}$ be a category and $X, Y \in \cat{A}, s, t \from X \to Y$.
+    A \demph{equalizer} of this diagram is a \demph{fork} \\
+
+    \[ \xymatrix{
+      E \ar[r]^i & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+    } \]
+    & with the property that for all other forks \\
+
+    \[ \xymatrix{
+      A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+    } \]
+    & in $\cat{A}$, there exists a unique map $\bar{f}\from A \to E$ such that \\
+    \[ \xymatrix{
+      A \ar[rd]^f \ar@{.>}[dd]|{\bar{f}} & & \\
+      & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \\
+      E \ar[ru]_i & &
+    } \]
+    & commutes.
+  \end{tabular}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Coequalizer}
+
+  \begin{tabular}{l p{7cm}}
+
+    \[ \xymatrix{
+      X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+    } \]
+    & Let $\cat{A}$ be a category and $X, Y \in \cat{A}, s, t \from X \to Y$.
+    A \demph{coequalizer} of this diagram is a \demph{cofork} \\
+
+    \[ \xymatrix{
+      X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+    } \]
+    & with the property that for all other coforks \\
+
+    \[ \xymatrix{
+      X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
+    } \]
+    & in $\cat{A}$, there exists a unique map $\bar{f}\from C \to A$ such that \\
+    \[ \xymatrix{
+      & & A  \\
+      X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[ru]^f \ar[rd]_i \\
+      & & C \ar@{.>}[uu]|{\bar{f}}
+    } \]
+    & commutes.
+  \end{tabular}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pullback}
+
+  \begin{tabular}{l p{7cm}}
+
+    \[ \xymatrix{
+      X \ar[r]^s & Z & Y\ar[l]_t \\
+    } \]
+    & Let $\cat{A}$ be a category and $X, Y, Z \in \cat{A}, s \from X \to Z, t \from Y \to Z$.
+    A \demph{pullback} of this diagram is a \demph{pullback square} \\
+
+    \[ \xymatrix{
+      P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+      X \ar[r]^s & Z
+    } \]
+    & with the property that for all other pull back squares \\
+
+    \[ \xymatrix{
+      A \ar[r]_{f_2} \ar[d]^{f_1} & Y \ar[d]_{t} \\
+      X \ar[r]^s & Z
+    } \]
+    & in $\cat{A}$, there exists a unique map $\bar{f}\from A \to P$ such that \\
+
+    \[ \xymatrix{
+      A \ar[drr]^{f_2} \ar[ddr]_{f_1} \ar@{.>}[dr]|{\bar{f}} & & \\
+      & P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+      & X \ar[r]^s & Z
+    } \]
+    & commutes.
+  \end{tabular}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pushout}
+
+  \begin{tabular}{l p{7cm}}
+
+    \[ \xymatrix{
+      X & Z \ar[l]_s \ar[r]^t & Y \\
+    } \]
+    & Let $\cat{A}$ be a category and $X, Y, Z \in \cat{A}, s \from Z \to X, t \from Y \to Z$.
+    A \demph{pushout} of this diagram is a \demph{pushout square} \\
+
+    \[ \xymatrix{
+      Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \\
+      Y \ar[r]^{p_2} & P
+    } \]
+    & with the property that for all other pushout squares \\
+
+    \[ \xymatrix{
+      Z \ar[r]_s \ar[d]^t & X \ar[d]_{f_1} \\
+      Y \ar[r]^{f_2} & P
+    } \]
+    & in $\cat{A}$, there exists a unique map $\bar{f}\from P \to A$ such that \\
+
+    \[ \xymatrix{
+      Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \ar[ddr]_{f_1} & \\
+      Y \ar[r]^{p_2} \ar[drr]^{f_2}& P \ar@{.>}[dr]|{\bar{f}} & \\
+      & & A  \\
+    } \]
+    & commutes.
+  \end{tabular}
+\end{frame}
+
+\end{document}
+
+
+% vim mode line:
+% vim: ts=2 sts=2 sw=2 expandtab
