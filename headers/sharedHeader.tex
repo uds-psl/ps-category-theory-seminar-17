@@ -1,5 +1,8 @@
 \usepackage{nag}
-\usepackage[small,compact]{titlesec}
+\makeatletter
+\@ifclassloaded{beamer}{}
+{\usepackage[small,compact]{titlesec}}
+\makeatother
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -69,9 +72,10 @@
 
 
 
-
+\ifcsdef{labelenumi}{
 \renewcommand{\labelenumi}{(\alph{enumi})}
 \renewcommand{\labelenumii}{(\roman{enumii})}
+}{}
 
 \input{\pathToRoot headers/definitions}
 
