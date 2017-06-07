@@ -201,6 +201,17 @@
   Now $S := \bigcup_{n \in \nat}{R_n}$ is the reflexive, symmetric and transitive closure of $R$.
 \end{definition}
 
+\begin{exercise}
+  Let $\parpair{X}{Y}{s}{t}$ be maps in some category.  Prove that $s = t$ if
+  and only if the equalizer of $s$ and $t$ exists and is an isomorphism, if
+  and only if the coequalizer of $s$ and $t$ exists and is an isomorphism.
+\end{exercise}
+
+\begin{exercise}
+  Let $X$ be a set and $f\from X \to X$ a map.  Describe the coequalizer of
+  $\parpairi{X}{X}{f}{1}$ in $\Set$ as explicitly as possible.
+\end{exercise}
+
 \section{Pullbacks and Pushouts}
 
 \begin{exercise}[Pushouts\,vs.\,coproducts]
@@ -216,6 +227,31 @@
   then $P$ is the coproduct of $X$ and $Y$.
 
   Remark: Note that the dual statement holds for pullbacks of terminal objects and products.
+\end{exercise}
+
+\begin{exercise}
+  Take objects and maps $\xymatrix@1{E \ar[r]^i &X \ar@<.5ex>[r]^{f}
+  \ar@<-.5ex>[r]_g &Y}$ in some category.  If this is an equalizer, is the
+  square
+  \[ \xymatrix{
+    E \ar[r]^i \ar[d]_i &
+    X \ar[d]^g \\
+    X \ar[r]_f &
+    Y
+  } \]
+  necessarily a pullback?
+  What about the converse?  Give proofs or counterexamples.
+\end{exercise}
+
+\begin{exercise}
+  Take a commutative diagram
+  \[ \xymatrix{
+    \cdot \ar[r] \ar[d] & \cdot \ar[r] \ar[d] & \cdot \ar[d] \\
+    \cdot \ar[r] & \cdot \ar[r] & \cdot
+  } \]
+  in some category.  Suppose that the right-hand square is a pullback.  Show
+  that the left-hand square is a pullback if and only if the outer rectangle is
+  a pullback.
 \end{exercise}
 
 \end{document}
