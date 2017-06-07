@@ -129,7 +129,7 @@
   \end{proof}
 \end{answer}
 
-\begin{exercise}[Direct Sum of Vector Spaces]
+\begin{exercise}[Direct sum of vector spaces]
   In the talk we have seen that the direct sum $V \oplus W$ of two vector spaces $V, W$ over a fixed field $K$ is the coproduct of $V$ and $W$.
   Show that it is also the product.
 \end{exercise}
@@ -163,14 +163,14 @@
 
 \section{Equalizer and Coequalizer}
 
-\begin{definition}{Minus-Core of Linear Maps in Vector Spaces}
-  Let $V, W$ be Vector Spaces over a field $K$. Let $s, t \from V \to W$ be linear functions.
+\begin{definition}{Minus-core of linear maps in vector spaces}
+  Let $V, W$ be vector spaces over a field $K$. Let $s, t \from V \to W$ be linear functions.
   We define the linear function $s - t := \lambda v\in V. \; v(s) - t(s)$.
   Remember that for $g \from V \to W$ we have defined $core(g) := \set{ v \in V | g(v) = 0 }$.
   Now $core (s - t) = \set{v \in V | s(v) = t (v) }$.
 \end{definition}
 
-\begin{exercise}[Equalizer of Vector Spaces]
+\begin{exercise}[Equalizer of vector spaces]
   Let
   $\xymatrix{
       X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
@@ -191,15 +191,6 @@
     Now $\tilde{f}(a) = i(\tilde{f}(a)) = i(\bar{f}(a)) = \bar{f}(a)$.
   \end{proof}
 \end{answer}
-
-\begin{definition}{Reflexive,\ symmetric\ and transitive\ closure}
-  Let $X$ be a arbitrary set and $R \subseteq X \times X$ a binary relation over $X$.
-  We define $R_0 := R \cup \set{ (y, x) | (x, y) \in R} \cup \set{ (x, x) | x \in X}$,
-  the the \emph{reflexive, symmetric closure} of R.
-  Now we define inductively $\forall n \in \nat$:
-  \[R_{n+1} := \set{(x_1, x_3) \in R \times R \; | \; \exists x_2 \in X, (x_1, x_2) \in R_n \land (x_2, x_3) \in R_n}.\]
-  Now $S := \bigcup_{n \in \nat}{R_n}$ is the reflexive, symmetric and transitive closure of $R$.
-\end{definition}
 
 \begin{exercise}
   Let $\parpair{X}{Y}{s}{t}$ be maps in some category.  Prove that $s = t$ if
