@@ -279,6 +279,81 @@
   What about the converse?  Give proofs or counterexamples.
 \end{exercise}
 
+\begin{answer}
+  \begin{itemize}
+    \item[``$\Rightarrow$'']
+      \emph{Counterexample:}
+      Let $\cat{A} := \Set, E := \emptyset, X := \nat, Y := \mathbb{B}$.
+      Define $f(n) := \text{even}(n)$ and $g(n) := \text{odd}(n)$. $i$ is the (empty) inclusion function.
+      Then
+      \[ \xymatrix{
+        E \ar[r]^i \ar[d]_i &
+        X \ar[d]^g \\
+        X \ar[r]_f &
+        Y
+      } \]
+      is clearly a pullback because no number is even and odd at the same time.
+      Now let $A := \nat$, $f_1(n) := n$ and $f_2(n) := n+1$.
+      Then the diagram
+      \[ \xymatrix{
+        A \ar[r]_{f_2} \ar[d]^{f_1} & Y \ar[d]_{g} \\
+        X \ar[r]^f & Z
+      } \]
+      commutes because $\text{even}(n) \Leftrightarrow \text{odd}(n+1)$.
+      But there exists no function $\bar{f} \from \nat \to \emptyset$ at all.
+    \item[``$\Leftarrow$'']
+      \begin{proof}
+        Let
+        \[ \xymatrix{
+          E \ar[r]^i \ar[d]_i &
+          X \ar[d]^g \\
+          X \ar[r]_f &
+          Y
+        } \]
+        be the pullback of the diagram
+        $ \xymatrix{
+          X \ar[r]^f & Y & X\ar[l]_g \\
+        } $.
+        We show that $\xymatrix@1{E \ar[r]^i &X \ar@<.5ex>[r]^{f} \ar@<-.5ex>[r]_g &Y}$ is the equalizer of $\xymatrix@1{X \ar@<.5ex>[r]^{f} \ar@<-.5ex>[r]_g &Y}$.
+        First we note that the diagramm $\xymatrix@1{E \ar[r]^i &X \ar@<.5ex>[r]^{f} \ar@<-.5ex>[r]_g &Y}$ is indeed a fork as it commutes by assumption.
+        Let
+        $ \xymatrix{
+          A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+        } $
+        be a fork. Then
+        \[ \xymatrix{
+          A \ar[r]_{f} \ar[d]^{f} & X \ar[d]_{t} \\
+          X \ar[r]^s & Y
+        } \]
+        commutes. Therefore exists a unique map $\bar{f}\from A \to P$ such that
+        \[ \xymatrix{
+          A \ar[drr]^{f} \ar[ddr]_{f} \ar@{.>}[dr]|{\bar{f}} & & \\
+          & P \ar[r]_{i} \ar[d]^{i} & X \ar[d]_{t} \\
+          & X \ar[r]^s & Y
+        } \]
+        commutes. We show that this $\bar{f}$ is the only map such that
+        \[ \xymatrix{
+          A \ar[rd]^f \ar@{.>}[dd]|{\bar{f}} & & \\
+          & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \\
+          P \ar[ru]_i & &
+        } \]
+        commutes. First it is clear that this diagramm commutes for $\bar{f}$. Now let $\tilde{f}$ be another map such that
+        \[ \xymatrix{
+          A \ar[rd]^f \ar@{.>}[dd]|{\tilde{f}} & & \\
+          & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \\
+          P \ar[ru]_i & &
+        } \]
+        commutes. But then
+        \[ \xymatrix{
+          A \ar[drr]^{f} \ar[ddr]_{f} \ar@{.>}[dr]|{\tilde{f}} & & \\
+          & P \ar[r]_{i} \ar[d]^{i} & X \ar[d]_{t} \\
+          & X \ar[r]^s & Y
+        } \]
+        also commutes. By the assumption that $\bar{f}$ is unique we have $\bar{f} = \tilde{f}$. \qedhere
+      \end{proof}
+  \end{itemize}
+\end{answer}
+
 \begin{exercise}
   Take a commutative diagram
   \[ \xymatrix{
