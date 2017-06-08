@@ -30,7 +30,7 @@
         X       &                                               &Y
     } \]
     commutes.
-    Now we can instanciate $A$ with $P'$, $f_1$ with $p_1$, $f_2$ with $p_2$. By analogous instanciations we get the commuting diagramm
+    Now we can instanciate $A$ with $P'$, $f_1$ with $p_1$, $f_2$ with $p_2$. By analogous instanciations we get the commuting diagram
     \[ \xymatrix{
       & P \ar@/_/[ldd]_{p_1} \ar@/^/[rdd]^{p_2} & \\
       & P \ar[ld]^{p_1} \ar@/_/@{.>}[dd]|{\bar{f}} \ar@{.>}[u]|{f} \ar[rd]_{p_2} & \\
@@ -147,13 +147,13 @@
       p_1(\bar{f}(a)) &= p_1(f_1(a), f_2(a)) = f_1(a) \\
       p_2(\bar{f}(a)) &= p_2(f_1(a), f_2(a)) = f_2(a).
     \end{alignat*}
-    Thus the diagramm
+    Thus the diagram
     \[ \xymatrix{
         & A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}\vphantom{\bar{\bar{f}}}} \ar[rdd]^{f_2} & \\
         & {V \oplus W} \ar[ld]^{p_1} \ar[rd]_{p_2} & \\
         V & & W
     } \]
-    commutes. Now we have to show that $\bar{f}$ is the only map such that the above diagramm commutes.
+    commutes. Now we have to show that $\bar{f}$ is the only map such that the above diagram commutes.
     Let $\tilde{f} \from A \to V \oplus W$ be a map such that $p_1 \of \tilde{f} = f_1 \land p_2 \of \tilde{f} = f_2$.
     \[
       \tilde{f}(a) = \bigl(p_1(\tilde{f}(a)), p_2(\tilde{f}(a))\bigr) = \bigl(p_1(\bar{f}(a)), p_2(\bar{f}(a))\bigr) = \bar{f}(a)\qedhere
@@ -175,7 +175,7 @@
   $\xymatrix{
       X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
   }$
-  be a diagramm in $Vect_K$ for a field $K$. Show that $core(s-t)$ is the equalizer for this diagramm.
+  be a diagram in $Vect_K$ for a field $K$. Show that $core(s-t)$ is the equalizer for this diagram.
 \end{exercise}
 
 \begin{answer}
@@ -184,7 +184,7 @@
     $\xymatrix{
       A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
     }$
-    be a commuting diagramm. Note that $f A \subseteq core(s-t)$.
+    be a commuting diagram. Note that $f A \subseteq core(s-t)$.
     Thus we can define $\bar{f} \from A \to core(s-t)$ with $\bar{f}(a) := f(a)$.
     We see that $\forall a \in A: i(\bar{f}(a))=\bar{f}(a)=f(a)$, thus $i \of \bar{f} = f$.
     Let $\tilde{f} \from A \to core(s-t)$ be another map such that $i \of \tilde{f} = f$.
