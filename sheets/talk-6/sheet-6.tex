@@ -220,6 +220,51 @@
   Remark: Note that the dual statement holds for pullbacks of terminal objects and products.
 \end{exercise}
 
+\begin{answer}
+  \begin{proof}
+    We show that $S := P$ is the coproduct of $X$ and $Y$ together with the projection functions $p_1$ and $p_2$.
+    First note that because $Z$ is initial $s$ and $t$ are unique maps.
+    Let
+    $ \xymatrix{
+      X \ar[r]^{f_1} & A & Y \ar[l]_{f_2}
+    } $
+    be a diagramm in $\cat{A}$.
+    We have to show that there is a unique map $\bar{f}' \from P \to A$ shuch that
+    \[ \xymatrix{
+      X \ar[rdd]_{f_1}\ar[rd]^{p_1} & & Y \ar[ldd]^{f_2} \ar[ld]_{p_2} \\
+      & P \ar@{.>}[d]|{\bar{f}'} & \\
+      & A &
+    } \]
+    commutes. We know that the diagramm
+    \[ \xymatrix{
+      Z \ar[r]_s \ar[d]^t & X \ar[d]_{f_1} \\
+      Y \ar[r]^{f_2} & A
+    } \]
+    commutes because $Z$ is initial.
+    Now because this square is then a pushout square there exists a unique map $\bar{f}\from P \to A$ such that
+    \[ \xymatrix{
+      Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \ar[ddr]^{f_1} & \\
+      Y \ar[r]^{p_2} \ar[drr]_{f_2}& P \ar@{.>}[dr]|{\bar{f}} & \\
+      & & A  \\
+    } \]
+    commutes. We see that we can choose $\bar{f}' := \bar{f}$.
+    Suppose we have another $\tilde{f} \from P \to A$ such that
+    \[ \xymatrix{
+      X \ar[rdd]_{f_1}\ar[rd]^{p_1} & & Y \ar[ldd]^{f_2} \ar[ld]_{p_2} \\
+      & P \ar@{.>}[d]|{\tilde{f}} & \\
+      & A &
+    } \]
+    commutes. Then
+    \[ \xymatrix{
+      Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \ar[ddr]^{f_1} & \\
+      Y \ar[r]^{p_2} \ar[drr]_{f_2}& P \ar@{.>}[dr]|{\tilde{f}} & \\
+      & & A  \\
+    } \]
+    would also commute (because $S$ is initial) but $\bar{f}$ is unique, hence $\bar{f} = \tilde{f}$.
+  \end{proof}
+
+\end{answer}
+
 \begin{exercise}
   Take objects and maps $\xymatrix@1{E \ar[r]^i &X \ar@<.5ex>[r]^{f}
   \ar@<-.5ex>[r]_g &Y}$ in some category.  If this is an equalizer, is the
