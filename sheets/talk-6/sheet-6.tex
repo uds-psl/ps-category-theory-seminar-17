@@ -248,6 +248,23 @@
   $\parpairi{X}{X}{f}{1}$ in $\Set$ as explicitly as possible.
 \end{exercise}
 
+\begin{answer}
+  The coequalizer follows the scheme like in the talk.
+  We define the relation $R := \set{ (1_X (x), f(x) \;\big|\; x \in X} = \set{ (x, f(x) \;\big|\; x \in X} = f$ defined as a set.
+  Now $\sim$ is the reflexive symmetric transitive closure of $R$.
+  We define $i(x) := [x] := \set{ x' \in X | x \sim x'}$
+  and the quotient $C := X / \sim \;=\; i(X)$.
+  Now
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^f \ar@<-.5ex>[r]_{1_X} & X \ar[r]^i & C
+  } $
+  is the coequalizer of $\parpairi{X}{X}{f}{1}$.
+  The equivalence $\sim$ has the property:
+  $\forall x_1, x_2 \in X, (x_1, x_2) \in \sim \;\Leftrightarrow\; f(x_1) = f(x_2).$
+  Thus we have $[x] = \set{x' \in X \;\big|\; f(x) = f(x')}$.
+
+\end{answer}
+
 \section{Pullbacks and Pushouts}
 
 \begin{exercise}[Pushouts\,vs.\,coproducts]
