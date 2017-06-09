@@ -198,6 +198,51 @@
   and only if the coequalizer of $s$ and $t$ exists and is an isomorphism.
 \end{exercise}
 
+\begin{answer}
+  \begin{proof}
+    We numerate the statements:
+    \begin{itemize}
+      \item  [I:]$s=t$
+      \item [II:]The qualizer of $s$ and $t$ exists and is an isomorphism.
+      \item[III:]The coequalizer of $s$ and $t$ exists and is an isomorphism.
+    \end{itemize}
+    We show that all statements are equivalent by showing $I \Leftrightarrow II$ and $I \Leftrightarrow III$.
+    Note that $I \Leftrightarrow III$ is the dualized result of $I \Leftrightarrow II$, so we only need to show $I \Leftrightarrow II$.
+
+    \begin{itemize}
+      \item[``$\Rightarrow$'']
+        Let $s=t$. Then the fork
+        $\xymatrix{
+          X \ar[r]^{1_X} & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+        }$
+        $1_X$ is an isomorphism.
+        Let
+        $\xymatrix{
+          A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+        }$
+        be a fork.
+        Clearly $\bar{f} := f$ is the only map $\bar{f} \from A \to X$ such that the diagram
+        \[ \xymatrix{
+          A \ar[rd]^f \ar@{.>}[dd]|{\bar{f}} & & \\
+          & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \\
+          X \ar[ru]_{1_X} & &
+        } \]
+        commutes.
+      \item[``$\Leftarrow$'']
+        Let
+        $\xymatrix{
+          E \ar[r]^i & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+        }$
+        be the equalizer and $i$ a isomorphism. Then by commutativity we get:
+        \begin{alignat*}{4}
+          && s \of i &= t \of i \\
+          \Rightarrow  &\qquad& s \of i \of i^{-1} &= t \of i \of i^{-1} \\
+          \Rightarrow  &      & s &= t
+        \end{alignat*}\qedhere
+    \end{itemize}
+  \end{proof}
+\end{answer}
+
 \begin{exercise}
   Let $X$ be a set and $f\from X \to X$ a map.  Describe the coequalizer of
   $\parpairi{X}{X}{f}{1}$ in $\Set$ as explicitly as possible.
