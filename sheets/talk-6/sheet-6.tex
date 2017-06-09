@@ -30,7 +30,7 @@
         X       &                                               &Y
     } \]
     commutes.
-    Now we can instanciate $A$ with $P'$, $f_1$ with $p_1$, $f_2$ with $p_2$. By analogous instanciations we get the commuting diagram
+    Now we can instantiate $A$ with $P'$, $f_1$ with $p_1$, $f_2$ with $p_2$. By analogous instantiations we get the commuting diagram
     \[ \xymatrix{
       & P \ar@/_/[ldd]_{p_1} \ar@/^/[rdd]^{p_2} & \\
       & P \ar[ld]^{p_1} \ar@/_/@{.>}[dd]|{\bar{f}} \ar@{.>}[u]|{f} \ar[rd]_{p_2} & \\
@@ -84,7 +84,7 @@
   \begin{proof}
     We first have to define a family of maps $\Bigl(z \toby{p_i} x_i\Bigr)_{i \in I}$.
     This is trivial since we have $\forall i \in I: z \le x_i$.
-    Now let $a \in A$ be and objects and let $\Bigl(a \toby{f_i} x_i\Bigr)_{i \in I}$ be a family of maps from $a$.
+    Now let $a \in A$ be an object and let $\Bigl(a \toby{f_i} x_i\Bigr)_{i \in I}$ be a family of maps from $a$.
     The existing of this maps means that $a$ is a upper bound of $(x_i)_{i\in I}$.
     Now by definition of least upper bound, $a \le z$, thus we have a arrow $\bar{f} \from a \to z$.
     All arrows are unique, thus $\bar{f}$ is unique and the diagram commutes. \qedhere
@@ -109,11 +109,11 @@
 \end{exercise}
 
 \begin{answer}
-  First let define the arbitrary disjoint union:
+  First we define the arbitrary disjoint union:
   \begin{definition}{Arbitrary disjoint union}
     Let $I$ be an index set and let $(x_i)_{i \in I}$ be a family of sets.
     We define the arbitrary disjoint union of $(x_i)_{i\in I}$:
-    $$\coprod_{i \in I} {x_i} := \bigcup_{i \in I} \set{ (x, i) \;\big|\; i \in I \land x \in x_i}$$
+    $$\coprod_{i \in I} {x_i} := \bigcup_{i \in I} \set{ (x, i) \;\big|\; x \in x_i}$$
   \end{definition}
   Now let $I$ be an index set and let $(x_i)_{i\in I}$ be a family of sets. We show that $\coprod_{i \in I} {x_i}$ is the coproduct of $(x_i)_{i\in I}$.
   \begin{proof}
@@ -123,7 +123,7 @@
     We have to show that $\bar{f}$ is the only function such that
     $\forall i \in I: \bar{f} \of p_i = f_i$.
     Let $i \in I$ and we check $a \in x_i$. $\bar{f}(p_i(a)) = \bar{f}(a,i) = f_i(a)$.
-    Now let $\tilde{f} : \coprod_{i \in I} {x_i} \to A$ be another function sucht that
+    Now let $\tilde{f} : \coprod_{i \in I} {x_i} \to A$ be another function such that
     $\forall i \in I: \tilde{f} \of p_i = f_i$.
     Let $(a, i) \in \coprod_{i \in I} {x_i}$. $\bar{f}(a,i)= f_i(a) = \tilde{f}(p_i(a)) = \tilde{f}(a,i)$.\qedhere
   \end{proof}
@@ -156,7 +156,7 @@
     commutes. Now we have to show that $\bar{f}$ is the only map such that the above diagram commutes.
     Let $\tilde{f} \from A \to V \oplus W$ be a map such that $p_1 \of \tilde{f} = f_1 \land p_2 \of \tilde{f} = f_2$.
     \[
-      \tilde{f}(a) = \bigl(p_1(\tilde{f}(a)), p_2(\tilde{f}(a))\bigr) = \bigl(p_1(\bar{f}(a)), p_2(\bar{f}(a))\bigr) = \bar{f}(a)\qedhere
+      \tilde{f}(a) = \bigl(p_1(\tilde{f}(a)), p_2(\tilde{f}(a))\bigr) = \bigl(f_1(a), f_2(A)\bigr) = \bigl(p_1(\bar{f}(a)), p_2(\bar{f}(a))\bigr) = \bar{f}(a)\qedhere
     \]
   \end{proof}
 \end{answer}
@@ -291,7 +291,7 @@
       X \ar[r]^{f_1} & A & Y \ar[l]_{f_2}
     } $
     be a diagram in $\cat{A}$.
-    We have to show that there is a unique map $\bar{f}' \from P \to A$ shuch that
+    We have to show that there is a unique map $\bar{f}' \from P \to A$ such that
     \[ \xymatrix{
       X \ar[rdd]_{f_1}\ar[rd]^{p_1} & & Y \ar[ldd]^{f_2} \ar[ld]_{p_2} \\
       & P \ar@{.>}[d]|{\bar{f}'} & \\
@@ -348,13 +348,8 @@
       Let $\cat{A} := \Set, E := \emptyset, X := \nat, Y := \mathbb{B}$.
       Define $f(n) := \text{even}(n)$ and $g(n) := \text{odd}(n)$. $i$ is the (empty) inclusion function.
       Then
-      \[ \xymatrix{
-        E \ar[r]^i \ar[d]_i &
-        X \ar[d]^g \\
-        X \ar[r]_f &
-        Y
-      } \]
-      is clearly a pullback because no number is even and odd at the same time.
+      $\xymatrix@1{E \ar[r]^i &X \ar@<.5ex>[r]^{f}\ar@<-.5ex>[r]_g &Y}$
+      is clearly a equalizer because no number is even and odd at the same time.
       Now let $A := \nat$, $f_1(n) := n$ and $f_2(n) := n+1$.
       Then the diagram
       \[ \xymatrix{
@@ -459,7 +454,7 @@
           Z \ar[r]^{f_1} \ar[d]^{f_2} & B \ar[r]^{i} \ar[d]^k & C \ar[d]^l \\
           D \ar[r]^{m} & E \ar[r]^n & F
         } \]
-        commutes. Now because the outer square is a pullback there is a unique map $\bar{f} \from Z \to A$, such that
+        commutes. Now because the outer rectangle is a pullback there is a unique map $\bar{f} \from Z \to A$, such that
         \[ \xymatrix{
           Z \ar@/^/[drrr]^{i \of f_1}
             \ar@{.>}[dr]|{\bar{f}}
@@ -527,7 +522,7 @@
           & A \ar[r]^h \ar[d]^j & B \ar[d]^k \\
           & D \ar[r]^m & E
         } \]
-        commutes. But than we have another map such that the diagram for the outer square commutes:
+        commutes. But than we have another map such that the diagram for the outer rectangle commutes:
         \[ \xymatrix{
           Z \ar@/^/[drrr]^{i \of f_1}
             \ar@{.>}[dr]|{\tilde{f}}
@@ -549,17 +544,22 @@
         $ \xymatrix{
           D & Z \ar[l]_{f_2} \ar[r]^{f_1} & C
         } $
-        be a diagram. We note that
+        be a diagram such that
         \[ \xymatrix{
-          Z \ar[r]^{f_1} \ar[d]^{f_2} & C \ar[d]^l \\
-          E \ar[r]_l & F
+          Z \ar[r]^{f_1} \ar[d]_{f_2} & C \ar[d]^l \\
+          D \ar[r]^{n\of m} & F
         } \]
-        is a pullback square of the right-hand square.
+        commutes. We note that
+        \[ \xymatrix{
+          Z \ar[r]^{f_1} \ar[d]_{m \of f_2} & C \ar[d]^l \\
+          E \ar[r]_n & F
+        } \]
+        is thus a pullback square of the right-hand square.
         Thus we have a unique map $\bar{f} \from Z \to B$ such that
         \[ \xymatrix{
           Z \ar@/^/[drr]^{f_1}
             \ar@{.>}[dr]|{\bar{f}}
-            \ar@/_/[ddr]_{f_2} \\
+            \ar@/_/[ddr]_{m \of f_2} \\
           & B \ar[r]^i \ar[d]^k & C \ar[d]^l \\
           & E \ar[r]^n & F
         } \]
@@ -586,7 +586,7 @@
           & D \ar[r]^{n \of m} & F
         } \]
         commutes.
-        The diagram comutes:
+        The diagram comutes for $\bar{g}$:
         \begin{align*}
           i \of h \of \bar{g} = i \of \bar{f} = f_1 \\
           j \of \bar{g} = f_2
@@ -612,7 +612,7 @@
         Because of $\bar{f} = h \of \bar{g}$ it suffices to show $h \of \tilde{g} = h \of \bar{g}$.
         The commuting square
         \[ \xymatrix{
-          Z \ar[r]^{i \of h \of \tilde{g}} \ar[d]_{m \of j \of \tilde{g}} & C \ar[d]^f \\
+          Z \ar[r]^{i \of h \of \tilde{g}} \ar[d]_{m \of j \of \tilde{g}} & C \ar[d]^l \\
           E \ar[r]^n & F
         } \]
         is another pullback square for the right-hand square.
@@ -631,7 +631,7 @@
           \item[1.]$\bar{x} = h \of \tilde{g}$:
             We have $i \of h \of \tilde{g} = i \of h \of \tilde{g}$ and $m \of j \of \tilde{g} = k \of h \of \tilde{g}$.
           \item[2.]$\bar{x} = h \of \bar{g}$:
-            We have $i \of h \of h = i \of f_1 = i \of h \of \tilde{g}$. Furthermore we have
+            We have $i \of h \of \bar{g} = i \of f_1 = i \of h \of \tilde{g}$. Furthermore we have
             \begin{alignat*}{3}
               & &\quad&  m \of j \of \tilde{g} \\
               &=&& m \of f_2 \of \tilde{g} \\
@@ -639,7 +639,7 @@
               &=&& k \of h \of \bar{g}.
             \end{alignat*}
         \end{itemize}
-        Thus $h \of \tilde{g} = h \of \bar{g}$. Hence the outer square is a pullback.\qedhere
+        Thus $h \of \tilde{g} = h \of \bar{g}$. Hence the outer rectangle is a pullback.\qedhere
     \end{itemize}
   \end{proof}
 \end{answer}
