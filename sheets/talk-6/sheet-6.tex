@@ -444,8 +444,8 @@
         commutes.
         By showing that this diagram comutes for $\bar{g} = f_1$ and for $\bar{g} = h \of \bar{f}$ we show $h \of \bar{f} = f_2$.
         \begin{itemize}
-          \item[1.]We have $i \of f_1 = g_1$ by definition and $k \of f_1 = m \of f_2 = m \of j \of \bar{f} = g_2$.
-          \item[2.]We have $(i \of h) \of \bar{f} = i \of f_2$ and $(k \of h) \of \bar{f} = (m \of j) \of \bar{f}$.
+          \item[1.]$\bar{g} = f_1$: We have $i \of f_1 = g_1$ by definition and $k \of f_1 = m \of f_2 = m \of j \of \bar{f} = g_2$.
+          \item[2.]$\bar{g} = h \of \bar{f}$: We have $(i \of h) \of \bar{f} = i \of f_2$ and $(k \of h) \of \bar{f} = (m \of j) \of \bar{f}$.
         \end{itemize}
 
         We have shown that the diagram
@@ -474,7 +474,110 @@
             & D \ar[r]^{m} & E \ar[r]^n & F
         } \]
         We conclude that $\bar{f} = \tilde{f}$.
+
+
       \item[``$\Leftarrow$'']
+        Let the pullback square
+        \[ \xymatrix{
+          A \ar[r]^h \ar[d]^j & B \ar[d]^k \\
+          D \ar[r]^m & E
+        } \]
+        be the pullback of $\xymatrix{D \ar[r]^m & E & B \ar[l]_k}$.
+        Let
+        $ \xymatrix{
+          D & Z \ar[l]_{f_2} \ar[r]^{f_1} & C
+        } $
+        be a diagram. We note that
+        \[ \xymatrix{
+          Z \ar[r]^{f_1} \ar[d]^{f_2} & C \ar[d]^l \\
+          E \ar[r]_l & F
+        } \]
+        is a pullback square of the right-hand square.
+        Thus we have a unique map $\bar{f} \from Z \to B$ such that
+        \[ \xymatrix{
+          Z \ar@/^/[drr]^{f_1}
+            \ar@{.>}[dr]|{\bar{f}}
+            \ar@/_/[ddr]_{f_2} \\
+          & B \ar[r]^i \ar[d]^k & C \ar[d]^l \\
+          & E \ar[r]^n & F
+        } \]
+        commutes. Then
+        \[ \xymatrix{
+          Z \ar[r]^{\bar{f}} \ar[d]^{f_2} & B \ar[d]^k \\
+          D \ar[r]^m && E
+        } \]
+        is a pullback square of the left-hand square.
+        Thus we have a unique map $\bar{g} \from Z \to A$ such that
+        \[ \xymatrix{
+          Z \ar@/^/[drr]^{\bar{f}}
+            \ar@{.>}[dr]|{\bar{g}}
+            \ar@/_/[ddr]_{f_2} \\
+          & A \ar[r]^h \ar[d]^j & B \ar[d]^k \\
+          & D \ar[r]^m & E
+        } \]
+        commutes. We show that this $\bar{g}$ is the unique map such that
+        \[ \xymatrix{
+          Z \ar@/^/[drr]^{f_1}
+            \ar@{.>}[dr]|{\bar{g}}
+            \ar@/_/[ddr]_{f_2} \\
+          & A \ar[r]^{i \of h} \ar[d]^j & C \ar[d]^l \\
+          & D \ar[r]^{n \of m} & F
+        } \]
+        commutes.
+        The diagram comutes:
+        \begin{align*}
+          i \of h \of \bar{g} = i \of \bar{f} = f_1 \\
+          j \of \bar{g} = f_2
+        \end{align*}
+        Let $\tilde{g}$ be another map such that
+        \[ \xymatrix{
+          Z \ar@/^/[drr]^{f_1}
+            \ar@{.>}[dr]|{\tilde{g}}
+            \ar@/_/[ddr]_{f_2} \\
+          & A \ar[r]^{i \of h} \ar[d]^j & C \ar[d]^l \\
+          & D \ar[r]^{n \of m} & F
+        } \]
+        commutes. To show $\bar{g} = \tilde{g}$ it is because of the uniqueness enough to show that
+        \[ \xymatrix{
+          Z \ar@/^/[drr]^{\bar{f}}
+            \ar@{.>}[dr]|{\tilde{g}}
+            \ar@/_/[ddr]_{f_2} \\
+          & A \ar[r]^h \ar[d]^j & B \ar[d]^k \\
+          & D \ar[r]^m & E
+        } \]
+        commutes.
+        We already have $j \of \tilde{g} = f_2$ and only have to show $h \of \tilde{g} = \bar{f}$.
+        Because of $\bar{f} = h \of \bar{g}$ it suffices to show $h \of \tilde{g} = h \of \bar{g}$.
+        The commuting square
+        \[ \xymatrix{
+          Z \ar[r]^{i \of h \of \tilde{g}} \ar[d]_{m \of j \of \tilde{g}} & C \ar[d]^f \\
+          E \ar[r]^n & F
+        } \]
+        is another pullback square for the right-hand square.
+        Thus we have a unique map $\bar{x} \from Z \to B$ such that
+        \[ \xymatrix{
+          Z \ar@/^/[drr]^{i \of h \of \tilde{g}}
+            \ar@{.>}[dr]|{\bar{x}}
+            \ar@/_/[ddr]_{m \of j \of \tilde{g}} \\
+          & B \ar[r]^i \ar[d]^k & C \ar[d]^l \\
+          & E \ar[r]^n & F
+        } \]
+        commutes.
+        We get $h \of \tilde{g} = h \of \bar{g}$ when we show that this diagram commutes for $\bar{x} = h \of \tilde{g}$ and $\bar{x} = h \of \bar{g}$.
+
+        \begin{itemize}
+          \item[1.]$\bar{x} = h \of \tilde{g}$:
+            We have $i \of h \of \tilde{g} = i \of h \of \tilde{g}$ and $m \of j \of \tilde{g} = k \of h \of \tilde{g}$.
+          \item[2.]$\bar{x} = h \of \bar{g}$:
+            We have $i \of h \of h = i \of f_1 = i \of h \of \tilde{g}$. Furthermore we have
+            \begin{alignat*}{3}
+              & &\quad&  m \of j \of \tilde{g} \\
+              &=&& m \of f_2 \of \tilde{g} \\
+              &=&& m \of j \of \bar{g} \\
+              &=&& k \of h \of \bar{g}.
+            \end{alignat*}
+        \end{itemize}
+        Thus $h \of \tilde{g} = h \of \bar{g}$. Hence the outer square is a pullback.\qedhere
     \end{itemize}
   \end{proof}
 \end{answer}
