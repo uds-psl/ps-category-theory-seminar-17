@@ -249,8 +249,8 @@
 \end{exercise}
 
 \begin{answer}
-  The coequalizer follows the scheme like in the talk.
-  We define the relation $R := \set{ (1_X (x), f(x) \;\big|\; x \in X} = \set{ (x, f(x) \;\big|\; x \in X} = f$ defined as a set.
+  The definition of the coequalizer follows the scheme like in the talk.
+  We define the relation $R := \set{ (1_X (x), f(x) \;\big|\; x \in X} = \set{ (x, f(x) \;\big|\; x \in X} = f$ seen as a functional relation.
   Now $\sim$ is the reflexive symmetric transitive closure of $R$.
   We define $i(x) := [x] := \set{ x' \in X | x \sim x'}$
   and the quotient $C := X / \sim \;=\; i(X)$.
@@ -259,10 +259,15 @@
     X \ar@<.5ex>[r]^f \ar@<-.5ex>[r]_{1_X} & X \ar[r]^i & C
   } $
   is the coequalizer of $\parpairi{X}{X}{f}{1}$.
-  The equivalence $\sim$ has the property:
-  $\forall x_1, x_2 \in X, (x_1, x_2) \in \sim \;\Leftrightarrow\; f(x_1) = f(x_2).$
-  Thus we have $[x] = \set{x' \in X \;\big|\; f(x) = f(x')}$.
 
+  We discover that $(x, y) \in \sim$ means that we can ``draw a line of forward and backward steps'' between $x$ and $y$.
+  A ``forward step'' means that if we have $(x, y) \in \sim$ and $f(y)=z$ then $(x, z) \in \sim$.
+  A ``backward step'' means that if we have $(x, y) \in \sim$ and $f(z)=y$ then $(x, z) \in \sim$.
+  We also have $(x, x) \in \sim$ for every $x \in X$.
+  More formally:
+  With $\hat{R} := R \cup R^{-1}$ we have
+  $\sim = \bigcup_{n\in\nat} {(\hat{R})^n}$
+  where $(\hat{R})^n = \underbrace{\hat{R} \of \cdots \of \hat{R}}_{\text{$n$ times}}$ is the $n$th power relation over $\hat{R}$.
 \end{answer}
 
 \section{Pullbacks and Pushouts}
