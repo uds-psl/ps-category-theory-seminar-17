@@ -85,9 +85,9 @@
     We first have to define a family of maps $\Bigl(z \toby{p_i} x_i\Bigr)_{i \in I}$.
     This is trivial since we have $\forall i \in I: z \le x_i$.
     Now let $a \in A$ be an object and let $\Bigl(a \toby{f_i} x_i\Bigr)_{i \in I}$ be a family of maps from $a$.
-    The existing of this maps means that $a$ is a upper bound of $(x_i)_{i\in I}$.
-    Now by definition of least upper bound, $a \le z$, thus we have a arrow $\bar{f} \from a \to z$.
-    All arrows are unique, thus $\bar{f}$ is unique and the diagram commutes. \qedhere
+    The existence of this maps means that $a$ is an upper bound of $(x_i)_{i\in I}$.
+    Now by definition of least upper bound, $a \le z$, thus we have an arrow $\bar{f} \from a \to z$.
+    All arrows are unique, thus $\bar{f}$ is the only map making the diagram commute. \qedhere
   \end{proof}
 \end{answer}
 
@@ -141,8 +141,9 @@
       p_1(x,y) &:= x \\
       p_2(x,y) &:= y
     \end{alignat*}
+    Clearly $p_1$ and $p_2$ are linear functions.
     Now let $A$ be a vector space and $f_1 \from A \to V, f_2 \from A \to W$ be linear functions.
-    We define $\bar{f}(a) := (f_1(a), f_(2))$. We clearly have
+    We define $\bar{f}(a) := (f_1(a), f_2(a))$. We clearly have
     \begin{alignat*}{2}
       p_1(\bar{f}(a)) &= p_1(f_1(a), f_2(a)) = f_1(a) \\
       p_2(\bar{f}(a)) &= p_2(f_1(a), f_2(a)) = f_2(a).
@@ -156,7 +157,7 @@
     commutes. Now we have to show that $\bar{f}$ is the only map such that the above diagram commutes.
     Let $\tilde{f} \from A \to V \oplus W$ be a map such that $p_1 \of \tilde{f} = f_1 \land p_2 \of \tilde{f} = f_2$.
     \[
-      \tilde{f}(a) = \bigl(p_1(\tilde{f}(a)), p_2(\tilde{f}(a))\bigr) = \bigl(f_1(a), f_2(A)\bigr) = \bigl(p_1(\bar{f}(a)), p_2(\bar{f}(a))\bigr) = \bar{f}(a)\qedhere
+      \tilde{f}(a) = \bigl(p_1(\tilde{f}(a)), p_2(\tilde{f}(a))\bigr) = \bigl(f_1(a), f_2(A)\bigr) = \bar{f}(a)\qedhere
     \]
   \end{proof}
 \end{answer}
@@ -180,7 +181,7 @@
 
 \begin{answer}
   \begin{proof}
-    Let $i \from core(s-t) \to X$ be a inclusion function. Let
+    Let $i \from core(s-t) \to X$ be the inclusion function. Let
     $\xymatrix{
       A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
     }$
@@ -211,12 +212,11 @@
 
     \begin{itemize}
       \item[``$\Rightarrow$'']
-        Let $s=t$. Then the fork
+        Let $s=t$. $1_X$ is an isomorphism and we show that the fork
         $\xymatrix{
           X \ar[r]^{1_X} & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
         }$
-        $1_X$ is an isomorphism.
-        Let
+        is the equalizer. Let
         $\xymatrix{
           A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
         }$
@@ -284,8 +284,7 @@
 
 \begin{answer}
   \begin{proof}
-    We show that $S := P$ is the coproduct of $X$ and $Y$ together with the projection functions $p_1$ and $p_2$.
-    First note that because $Z$ is initial $s$ and $t$ are unique maps.
+    We show that $S := P$ is the coproduct of $X$ and $Y$ together with the coprojection functions $p_1$ and $p_2$.
     Let
     $ \xymatrix{
       X \ar[r]^{f_1} & A & Y \ar[l]_{f_2}
@@ -322,7 +321,7 @@
       Y \ar[r]^{p_2} \ar[drr]_{f_2}& P \ar@{.>}[dr]|{\tilde{f}} & \\
       & & A  \\
     } \]
-    would also commute (because $S$ is initial) but $\bar{f}$ is unique, hence $\bar{f} = \tilde{f}$.
+    would also commute (because $Z$ is initial) but $\bar{f}$ is unique, hence $\bar{f} = \tilde{f}$.
   \end{proof}
 
 \end{answer}
@@ -349,7 +348,7 @@
       Define $f(n) := \text{even}(n)$ and $g(n) := \text{odd}(n)$. $i$ is the (empty) inclusion function.
       Then
       $\xymatrix@1{E \ar[r]^i &X \ar@<.5ex>[r]^{f}\ar@<-.5ex>[r]_g &Y}$
-      is clearly a equalizer because no number is even and odd at the same time.
+      is clearly the equalizer because no number is even and odd at the same time.
       Now let $A := \nat$, $f_1(n) := n$ and $f_2(n) := n+1$.
       Then the diagram
       \[ \xymatrix{
@@ -357,7 +356,7 @@
         X \ar[r]^f & Z
       } \]
       commutes because $\text{even}(n) \Leftrightarrow \text{odd}(n+1)$.
-      But there exists no function $\bar{f} \from \nat \to \emptyset$ at all.
+      But there exists no function $\bar{f} \from \nat \to \emptyset = E$ at all.
     \item[``$\Leftarrow$'']
       \begin{proof}
         Let
@@ -382,7 +381,7 @@
           A \ar[r]_{f} \ar[d]^{f} & X \ar[d]_{t} \\
           X \ar[r]^s & Y
         } \]
-        commutes. Therefore exists a unique map $\bar{f}\from A \to P$ such that
+        commutes. Therefore there exists a unique map $\bar{f}\from A \to P$ such that
         \[ \xymatrix{
           A \ar[drr]^{f} \ar[ddr]_{f} \ar@{.>}[dr]|{\bar{f}} & & \\
           & P \ar[r]_{i} \ar[d]^{i} & X \ar[d]_{t} \\
@@ -449,7 +448,7 @@
           Z \ar[r]^{f_1} \ar[d]^{f_2} & B \ar[d]^k \\
           D \ar[r]^{m} & E
         } \]
-        be another pullback square. Now
+        be another pullback square for the left-hand square. Now
         \[ \xymatrix{
           Z \ar[r]^{f_1} \ar[d]^{f_2} & B \ar[r]^{i} \ar[d]^k & C \ar[d]^l \\
           D \ar[r]^{m} & E \ar[r]^n & F
