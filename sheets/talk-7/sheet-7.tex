@@ -1,0 +1,88 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+
+\usepackage{upgreek}
+
+\begin{document}
+
+\uebunghead{Talk 7}{General Limits}
+\author{Leonhard Staut}
+
+\section{Limits}
+
+\begin{exercise}[Limit definition]
+  \begin{enumerate}
+  \item Verify that terminal objects are a valid instance of the general limit definition.
+  \item Verify that equalizers are a valid instance of the general limit definition.
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Pullback monic]
+  Let $\mathscr{C}$ be any category and $X, Y$ objects.
+  Show that a map $X \overset{f}{\to} Y$ is monic iff the following square is a pullback.
+  \[
+    \begin{tikzcd}
+      X \arrow{r}{1}  \arrow{d}{1}  & X \arrow{d}{f}    \\
+      X \arrow{r}{f}                & Y                  
+    \end{tikzcd}
+  \]
+\end{exercise}
+
+\begin{exercise}[Contained limit]
+  Let $D$ be a diagram.
+  Find an example of a limit $L$ that is completely contained in $D$,
+  meaning the vertex of $L$ is in the image of $D$.
+\end{exercise}
+
+\begin{exercise}[Cone category]
+  Let $\mathscr{C}$ be any category. Let \texttt{Cone} be the category of cones
+  in $\mathscr{C}$ over a fixed diagram.
+  What are the limits of $\mathscr{C}$ in \texttt{Cone}? What are the colimits?
+\end{exercise}
+
+\begin{definition}
+  {Constant Functor}
+  For any two categories $\mathscr{C}$ and $\mathscr{D}$,
+  the constant functor $\Updelta _ V : \mathscr{C} \to \mathscr{D} $ for some object $V \in \mathscr{D}$
+  is defined by:
+  \begin{itemize}
+    \item $\forall A \in \mathscr{C}. \ \Updelta _ V (A) = V$
+    \item $\forall A \overset{f}{\to} B \in \mathscr{C}. \ \Updelta _ V (f) = 1_V$
+  \end{itemize}
+  
+\end{definition}
+
+\begin{exercise}[Cones as natural transformations]
+  Let $\mathscr{C}$ and $\bf{I}$ be any categories, $D : \bf{I} \to \mathscr{C}$ a diagram.
+  Verify that a natural transformation $\pi : \Updelta_v \to D(\bf{I})$ is a cone over $D$ with vertex $V$.
+\end{exercise}
+
+\begin{exercise}[Uniqueness of limits]
+  Let $\mathscr{C}$ be any category. Show that limits in $\mathscr{C}$ are unique up to isomorphism.
+\end{exercise}
+
+\begin{exercise}[Limit construction]
+  Recall the construction:
+  \[
+    \begin{tikzcd}
+      E \arrow{r}{e} &
+      \displaystyle \prod_{I \in \bf{I}} D(I) \arrow[r,shift left, "s"] \arrow[r,shift right,swap,"t"] &
+      \displaystyle \prod_{J \overset{q}{\to} K \in \bf{I}} D(K)
+    \end{tikzcd}
+  \]
+  where $E$ is the equalizer of $s$ and $t$.
+  We have shown that $E$ is a cone for any diagram $D$. Show that $E$ is also the limit,
+  i.e. a universal cone over $D$.
+\end{exercise}
+\begin{hint}
+  \begin{itemize}
+  \item You may use the fact that $E$ is a cone iff $E$ is an equalizer of $s$ and $t$.
+  \item You do not need the concrete definitions of $s$ and $t$.
+  \end{itemize}
+\end{hint}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
