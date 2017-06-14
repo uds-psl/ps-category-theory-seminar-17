@@ -25,10 +25,25 @@
   \]
 \end{exercise}
 
+\begin{definition}
+  {Cone Category}
+  Let $\mathscr{C}$ be any category, $D : \bf{I} \to \mathscr{C}$ a diagram.
+  \texttt{Cone(D)} is the category of cones in $\mathscr{C}$ over $D$.
+  \begin{itemize}
+  \item The objects of \texttt{Cone(D)} are cones in $\mathscr{C}$ over $D$, that is, if
+    $(U \overset{f_I}{\to} D(I))_{I \in \bf{I}}$ is a cone in $\mathscr{C}$, then there is a corresponding object
+    in \texttt{Cone(D)}.
+  \item The morphisms of \texttt{Cone(D)} are morphisms between two cones in $\mathscr{C}$, that is,
+    if $(U \overset{f_I}{\to} D(I))_{I \in \bf{I}}, (V \overset{g_I}{\to}~ D(I))_{I \in \bf{I}}$
+    are two cones in $\mathscr{C}$ and there is a morphism $V \overset{m}{\to} U$, then there
+    is a corresponding morphism in \texttt{Cone(D)}.
+  \end{itemize}
+\end{definition}
+
 \begin{exercise}[Cone category]
-  Let $\mathscr{C}$ be any category. Let \texttt{Cone} be the category of cones
-  in $\mathscr{C}$ over a fixed diagram.
-  What are the limits of $\mathscr{C}$ in \texttt{Cone}? What are the colimits?
+  Consider an object $L \in$ \texttt{Cone(D)} that corresponds to a limit in $\mathscr{C}$ over $D$.
+  What kind of object is $L$?\\
+  What about an object $L' \in$ \texttt{Cone(D)} that corresponds to a colimit in $\mathscr{C}$ over $D$?
 \end{exercise}
 
 \begin{definition}
@@ -51,6 +66,8 @@
 \begin{exercise}[Uniqueness of limits]
   Let $\mathscr{C}$ be any category. Show that limits in $\mathscr{C}$ are unique up to isomorphism.
 \end{exercise}
+
+\newpage
 
 \begin{exercise}[Limit construction]
   Recall the construction:
