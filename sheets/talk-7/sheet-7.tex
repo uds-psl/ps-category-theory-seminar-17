@@ -28,7 +28,7 @@
     Any other cone $V$ is also just an object in $\mathscr{C}$.
     Therefore $U$ is a terminal object.
   \item
-    As the shape $\bf{I}$ we choose the following diagram.
+    As the shape $\bf{I}$ we choose the following category.
     \[
       \begin{tikzcd}
         I \arrow[r,shift left, "m"] \arrow[r,shift right,swap,"n"] & J
@@ -138,7 +138,6 @@
 \begin{exercise}[Cone category]
   Consider an object $L \in$ \texttt{Cone(D)} that corresponds to a limit in $\mathscr{C}$ over $D$.
   What kind of object is $L$?\\
-  What about an object $L' \in$ \texttt{Cone(D)} that corresponds to a colimit in $\mathscr{C}$ over $D$?
 \end{exercise}
 \begin{answer}
   If $L$ corresponds to a limit, then by definition any other cone with vertex $V$ in $\mathscr{C}$ has a unique map
@@ -146,7 +145,8 @@
   Because the cones in $\mathscr{C}$ are exactly the objects in \texttt{Cone(D)},
   $L$ has a unique arrow from every object \texttt{Cone(D)}.
   Therefore $L$ is a terminal object.\\
-  By duality $L'$ is an initial object.
+  There is also a dual category $\texttt{Cone(D)}^{Op}$, the category of cocones. By duality,
+  an object $L'$ corresponding to a colimit in $\mathscr{C}$ is an initial object in $\texttt{Cone(D)}^{Op}$.
 \end{answer}
 
 \begin{definition}
@@ -163,10 +163,10 @@
 
 \begin{exercise}[Cones as natural transformations]
   Let $\mathscr{C}$ and $\bf{I}$ be any categories, $D : \bf{I} \to \mathscr{C}$ a diagram.
-  Verify that a natural transformation $\pi : \Updelta_V \to D(\bf{I})$ is a cone over $D$ with vertex $V$.
+  Verify that a natural transformation $\pi : \Updelta_V \to D$ is a cone over $D$ with vertex $V$.
 \end{exercise}
 \begin{answer}
-  Recall that a natural transformation $\pi : \Updelta_V \to D(\bf{I})$ has components for every object $I \in \bf{I}$
+  Recall that a natural transformation $\pi : \Updelta_V \to D$ has components for every object $I \in \bf{I}$
   and for every morphism $m : I \to J \in \bf{I}$ the following square commutes.
   \[
     \begin{tikzcd}
@@ -194,7 +194,7 @@
   To summarize, the natural transformation $\pi$ has maps $\pi_I$ for all $I \in \bf{I}$,
   and the above triangle commutes for all maps $m : I \to J$.
   This is exactly the definition of a cone with vertex $V$.
-  In fact this yields an alternative equivalent definition of cones.
+  In fact this yields an alternative equivalent characterization of cones.
 \end{answer}
 
 \begin{exercise}[Uniqueness of limits]
@@ -222,14 +222,14 @@
 \end{exercise}
 \begin{hint}
   \begin{itemize}
-  \item You may use the fact that $E$ is a cone iff $E$ is an equalizer of $s$ and $t$.
+  \item You may use the fact that $E$ is a cone iff $E$ is a fork of $s$ and $t$.
   \item You do not need the concrete definitions of $s$ and $t$.
   \end{itemize}
 \end{hint}
 \begin{answer}
   To show that $E$ is a universal cone, we need to show that for any other cone $F$, there is a unique 
   morphism $h : F \to E$.
-  If $F$ is a cone, then it is also an equalizer of $s$ and $t$.
+  If $F$ is a cone, then it is also a fork of $s$ and $t$.
   \[
     \begin{tikzcd}
       E \arrow{r}{e} &
