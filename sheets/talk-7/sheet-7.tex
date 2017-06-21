@@ -13,6 +13,55 @@
   \item Verify that equalizers are a valid instance of the general limit definition.
   \end{enumerate}
 \end{exercise}
+\begin{answer}
+  Recall that general limits are universal cones over a diagram.
+  Therefore, instances of general limits are defined by the shape of their diagram.
+  In the following let $\mathscr{C}$ be any category.
+  \begin{enumerate}
+  \item
+    We choose the empty category as the shape $\bf{I}$.
+    Let $D : \bf{I} \to \mathscr{C}$ a diagram. A cone over $D$ is an object $U$ with
+    maps to every object in the diagram. Since the diagram is empty, the cone is just
+    the object $U$.
+    $U$ is universal if for any other cone $V$ in $\mathscr{C}$, there is a unique map
+    $h : V \to U$.
+    Any other cone $V$ is also just an object in $\mathscr{C}$.
+    Therefore $U$ is a terminal object.
+  \item
+    As the shape $\bf{I}$ we choose the following diagram.
+    \[
+      \begin{tikzcd}
+        I \arrow[r,shift left, "m"] \arrow[r,shift right,swap,"n"] & J
+      \end{tikzcd}
+    \]
+    Let $D : \bf{I} \to \mathscr{C}$ a diagram.
+    A cone over $D$ is an object $U$ with maps to every object in the diagram, such that all triangles commute.
+    \[
+      \begin{tikzcd}
+        U \arrow{d}{f_I} \arrow{dr}{f_J} & \\
+        D(I) \arrow[r,shift left, "Dm"] \arrow[r,shift right,swap,"Dn"] & D(J)
+      \end{tikzcd}
+    \]
+    Specifically, the commuting condition says that $Dm \circ f_I = f_J = Dn \circ f_I$.
+    Since $f_J$ is already completely determined by $f_I$, we can ignore the arrow
+    and state equivalently that the following diagram commutes.
+    \[
+      \begin{tikzcd}
+        U \arrow{r}{f_I} & D(I) \arrow[r,shift left, "Dm"] \arrow[r,shift right,swap,"Dn"] & D(J)
+      \end{tikzcd}
+    \]
+    The arrow $f_J$ is simply left implicit.\\
+    $U$ is a universal cone, i.e. a limit, if for any other cone $V$ in $\mathscr{C}$, there is a unique map
+    $h : V \to U$.
+    \[
+      \begin{tikzcd}
+        U \arrow{r}{f_I} & D(I) \arrow[r,shift left, "Dm"] \arrow[r,shift right,swap,"Dn"] & D(J) \\
+        V \arrow{ur}{g_I} \arrow[dashed]{u}{h}& &
+      \end{tikzcd}
+    \]
+    This is exactly the definition of an equalizer.
+  \end{enumerate}
+\end{answer}
 
 \begin{exercise}[Pullback monic]
   Let $\mathscr{C}$ be any category and $X, Y$ objects.
@@ -24,6 +73,52 @@
     \end{tikzcd}
   \]
 \end{exercise}
+
+\begin{answer}
+  $"\Leftarrow":$ \\
+  Let $g_1, g_2 : Z \to X$ be two maps. If $f \circ g_1 = f \circ g_2$
+  we have the following commuting diagram.
+  \[
+    \begin{tikzcd}
+      Z \arrow[bend right=30]{ddr}{g_1} \arrow[bend left=30]{drr}{g_2}&   &\\
+             & X \arrow{r}{1}  \arrow{d}{1}  & X \arrow{d}{f}    \\
+             & X \arrow{r}{f}                & Y
+    \end{tikzcd}
+  \]
+  Therefore $Z$ is a cone. Since is $X$ is a pullback we have a unique map $h : Z \to X$,
+  such that the following diagram commutes.
+  \[
+    \begin{tikzcd}
+      Z \arrow[bend right=30]{ddr}{g_1} \arrow[bend left=30]{drr}{g_2} \arrow[dashed]{dr}{h}&   &\\
+             & X \arrow{r}{1}  \arrow{d}{1}  & X \arrow{d}{f}    \\
+             & X \arrow{r}{f}                & Y
+    \end{tikzcd}
+  \]
+  It follows that $1 \circ h = h = g_1 = g_2$.
+  Because there is only one map $Z \to X$, $f$ is trivially monic.\\
+  $"\Rightarrow":$ \\
+  The following square certainly commutes because $f \circ 1 = f \circ 1$.
+  \[
+    \begin{tikzcd}
+      X \arrow{r}{1}  \arrow{d}{1}  & X \arrow{d}{f}    \\
+      X \arrow{r}{f}                & Y
+    \end{tikzcd}
+  \]
+  Therefore it is a cone and we only need to show its universality.
+  We have to show that, assuming f is monic, for any other cone $Z$ there is a unique map
+  $h : Z \to X$ making the following diagram commute.
+  \[
+    \begin{tikzcd}
+      Z \arrow[bend right=30]{ddr}{g_1} \arrow[bend left=30]{drr}{g_2} \arrow[dashed]{dr}{h}&   &\\
+             & X \arrow{r}{1}  \arrow{d}{1}  & X \arrow{d}{f}    \\
+             & X \arrow{r}{f}                & Y
+    \end{tikzcd}
+  \]
+  We know the outer diagram commutes because $Z$ is a cone, so $f \circ g_1 = f \circ g_2$
+  Therefore we have $g_1 = g_2$ because $f$ is monic.
+  Since all the maps $Z \to X$
+  are the same there is exactly one map which is unique.
+\end{answer}
 
 \begin{definition}
   {Cone Category}
@@ -45,6 +140,14 @@
   What kind of object is $L$?\\
   What about an object $L' \in$ \texttt{Cone(D)} that corresponds to a colimit in $\mathscr{C}$ over $D$?
 \end{exercise}
+\begin{answer}
+  If $L$ corresponds to a limit, then by definition any other cone with vertex $V$ in $\mathscr{C}$ has a unique map
+  from $V$ to the limit that corresponds to a map in \texttt{Cone(D)}.
+  Because the cones in $\mathscr{C}$ are exactly the objects in \texttt{Cone(D)},
+  $L$ has a unique arrow from every object \texttt{Cone(D)}.
+  Therefore $L$ is a terminal object.\\
+  By duality $L'$ is an initial object.
+\end{answer}
 
 \begin{definition}
   {Constant Functor}
@@ -62,12 +165,47 @@
   Let $\mathscr{C}$ and $\bf{I}$ be any categories, $D : \bf{I} \to \mathscr{C}$ a diagram.
   Verify that a natural transformation $\pi : \Updelta_V \to D(\bf{I})$ is a cone over $D$ with vertex $V$.
 \end{exercise}
+\begin{answer}
+  Recall that a natural transformation $\pi : \Updelta_V \to D(\bf{I})$ has components for every object $I \in \bf{I}$
+  and for every morphism $m : I \to J \in \bf{I}$ the following square commutes.
+  \[
+    \begin{tikzcd}
+      \Updelta_V (I) \arrow{r}{\pi_I}  \arrow{d}{\Updelta_V (m)}  & D(I) \arrow{d}{D(m)}    \\
+      \Updelta_V (J) \arrow{r}{\pi_J}                & D(J)
+    \end{tikzcd}
+  \]
+  Now we unfold the definition of $\Updelta_V$.
+  \[
+    \begin{tikzcd}
+      \Updelta_V (I) \arrow{r}{\pi_I}  \arrow{d}{\Updelta_V (m)}  & D(I) \arrow{d}{D(m)}    \\
+      \Updelta_V (J) \arrow{r}{\pi_J}                & D(J)
+    \end{tikzcd}
+    \ = \
+    \begin{tikzcd}
+      V \arrow{r}{\pi_I}  \arrow{d}{1_V}  & D(I) \arrow{d}{D(m)}    \\
+      V \arrow{r}{\pi_J}                & D(J)
+    \end{tikzcd}
+    \ = \
+    \begin{tikzcd}
+      V \arrow{r}{\pi_I} \arrow{dr}{\pi_J} & D(I) \arrow{d}{D(m)}    \\
+                     & D(J)
+    \end{tikzcd}
+  \]
+  To summarize, the natural transformation $\pi$ has maps $\pi_I$ for all $I \in \bf{I}$,
+  and the above triangle commutes for all maps $m : I \to J$.
+  This is exactly the definition of a cone with vertex $V$.
+  In fact this yields an alternative equivalent definition of cones.
+\end{answer}
 
 \begin{exercise}[Uniqueness of limits]
   Let $\mathscr{C}$ be any category. Show that limits in $\mathscr{C}$ are unique up to isomorphism.
 \end{exercise}
-
-\newpage
+\begin{answer}
+  Let $U, V$ be two limits. Then there are unique morphisms $f : U \to V$ and $g : V \to U$.
+  Consider the morphism $g \circ f : U \to U$. As there is a unique morphism $U \to U$, it has to be
+  the identity $g \circ f = 1_U$.
+  Similarly $f \circ g = 1_V$, so $U$ and $V$ are isomorphic.
+\end{answer}
 
 \begin{exercise}[Limit construction]
   Recall the construction:
@@ -88,6 +226,30 @@
   \item You do not need the concrete definitions of $s$ and $t$.
   \end{itemize}
 \end{hint}
+\begin{answer}
+  To show that $E$ is a universal cone, we need to show that for any other cone $F$, there is a unique 
+  morphism $h : F \to E$.
+  If $F$ is a cone, then it is also an equalizer of $s$ and $t$.
+  \[
+    \begin{tikzcd}
+      E \arrow{r}{e} &
+      \displaystyle \prod_{I \in \bf{I}} D(I) \arrow[r,shift left, "s"] \arrow[r,shift right,swap,"t"] &
+      \displaystyle \prod_{J \overset{q}{\to} K \in \bf{I}} D(K) \\
+      F \arrow{ur}{f} & &
+    \end{tikzcd}
+  \]
+  Since $E$ is an equalizer, and $F$ is a cone over the same diagram, we have a unique map $h : F \to E$.
+  \[
+    \begin{tikzcd}
+      E \arrow{r}{e} &
+      \displaystyle \prod_{I \in \bf{I}} D(I) \arrow[r,shift left, "s"] \arrow[r,shift right,swap,"t"] &
+      \displaystyle \prod_{J \overset{q}{\to} K \in \bf{I}} D(K) \\
+      F \arrow{ur}{f} \arrow[dashed]{u}{h} & &
+    \end{tikzcd}
+  \]
+
+
+\end{answer}
 
 \end{document}
 
