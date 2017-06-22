@@ -1,0 +1,105 @@
+
+\def\pathToRoot{../}\input{\pathToRoot headers/uebungHeader}
+
+\begin{document}
+
+% Use Basis x or Talk x, where x is the number of the session
+\uebunghead{Talk 8}{Cartesian Closed Categories}
+
+
+\begin{hint}
+  Read Awodey Chapter 6 and Leinster Chapter 6.3. 
+\end{hint}
+
+%\section{Diagrams}
+%
+%\begin{hint}
+%  This is how you can draw diagrams:
+%  \[
+%    \begin{tikzcd}
+%                                    & A \arrow{dr}{g}    & \\
+%      B \arrow{ur}{f} \arrow{rr}{h} &                    & C
+%    \end{tikzcd}
+%  \]
+%\end{hint}
+
+
+\begin{exercise}
+  Show that the following identites hold for any cartesian closed category $\mathcal{A}$ with X,Y,Z $\in \ ob(\mathcal{A})$ and terminal object 1:
+  \textit{(Hint: it suffices to show, that both sides satisfy the same universal property.)}
+  \begin{itemize}
+  \item $1^X \cong 1$
+  \item $X^1 \cong X$
+  \item $(X^Y)^Z \cong X^{Y\times Z}$
+  \end{itemize}
+\end{exercise}
+
+\begin{definition}{Bicartesian Closed Category}
+A category $\mathcal{A}$ is called \emph{bicartesian closed} if it is cartesian closed and has in addition an initial object 0 and binary coproducts A + B, $\forall A,B \in \mathcal{A}$.
+\end{definition}
+
+\begin{exercise}
+  Assume a bicartesian closed category $\mathcal{A}$. Show $\forall X,Y,Z \in ob(\mathcal{A})$:
+  \begin{itemize}
+  \item $(X+Y) \times Z \cong (X \times Z) + (Y \times Z)$
+  \item $X^0 \cong 1$
+  \item $X^{Y+Z} \cong X^Y \times X^Z$
+  \end{itemize}
+\end{exercise}
+
+\begin{definition}{Pointed Category}
+  A pointed category $\mathcal{A}$ is one, that has a terminal object 1 and an initial object 0 and 1 = 0.
+\end{definition}
+
+\begin{exercise}
+  Show that a pointed category $\mathcal{A}$ is cartesian closed if and only it A is trivial, i.e. all its objects are isomorphic.
+\end{exercise}
+
+\begin{exercise}
+  Is the category of monoids cartesian closed?
+\end{exercise}
+
+\begin{exercise}
+  Is the category of relations cartesian closed? What are its products?
+\end{exercise}
+
+\begin{definition}{Heyting Algebra}
+  A Heyting Algebra $\mathcal{H}$ is a partially ordered set with
+  \begin{itemize}
+  \item Finite meets: 1 and $p\land q$
+  \item Finite joins: 0 and $p \lor q$
+  \item Exponentials: for each a,b an element $a \Rightarrow b$ such that $a \land b \leq c$ iff $a \leq (b \rightarrow c)$.
+  \end{itemize}
+\end{definition}
+
+\begin{exercise}
+  Show that every Heyting Algebra, seen as a category is cartesian closed.  
+\end{exercise}
+
+%\begin{definition}{Downsets}
+%  A subset M of A is called a downset of A, if $\forall \ x,y \in A, x \leq y \rightarrow y \in M \rightarrow x \in M $.
+%\end{definition}
+
+\begin{exercise}
+  Let A be a set with a preoder $\le$. Show that the downsets of A $P^{\downarrow}(A) := \{M \subseteq A \mid \forall \ x,y \in A, x \leq y \rightarrow y \in M \rightarrow x \in M \}$ ordered by inclusion form a Heyting Algebra.
+\end{exercise}
+
+\begin{exercise}
+  Let $\mathcal{A}$ be a (small) category. Show that the functor category $\textbf{Set}^{A^{op}}$, that is the category of presheaves on A, is cartesian closed. 
+\end{exercise}
+
+\begin{definition}{G-Sets}
+  A G-set for a group \textbf{G} is a Set \textbf{A} with a G-action g: $A \rightarrow G \rightarrow A \ , (x,a) \mapsto x\cdot a$ such that $\forall x \in A, a,b \in G \ x\cdot 1=x, x\cdot a \cdot b = x\cdot (ab)$.
+  The \emph{category} of G-sets for a fixed group \textbf{G} has G-sets as objects and G-equivariant functions as morphisms. $ Hom(A,B) = \{ f:A \rightarrow B \mid \forall (a \in A)(x \in G), f(a\cdot x) = f(a)\cdot x\}. $
+\end{definition}
+
+\begin{exercise}
+  Show that the category of G-sets is cartesian closed.
+\end{exercise}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
