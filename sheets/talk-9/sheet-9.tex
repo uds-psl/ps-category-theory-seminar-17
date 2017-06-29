@@ -1,0 +1,104 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+
+\usepackage{semantic}
+
+\begin{document}
+
+% Use Basis x or Talk x, where x is the number of the session
+\uebunghead{Talk 9}{Cartesian Closed Categories as a model for the STLC}
+\author{Joachim Bard}
+
+\begin{hint}
+    Read Andrew Pitt's lecture notes on categorical semantics for the STLC.
+\end{hint}
+
+\begin{exercise}
+    Let $\cat{C}$ be a cartesian closed category and let $M$ map ground types and constants into $\cat{C}$ as defined in chapter 4 of Andrew Pitt's lecture notes.
+    What morphism does $M |[x: A, y: B \vdash \lambda f: A \to B.\,\mathsf{fst}(f\,x, y) : B|]$ correspond to?
+    Simplify your answer as much as possible.
+\end{exercise}
+
+\begin{exercise}
+    \label{ex:exp}
+    \begin{itemize}
+        \item[a)] Let $A, B, C$ be simple types.
+            Define lamda terms $cas$ and $car$ with the following types and $\beta\eta$-equivalences:
+            \begin{align*}
+                & \vdash cas: (A \times B \to C) \to A \to B \to C \\
+                & \vdash car: (A \to B \to C) \to A \times B \to C\\
+                & f: A \times B \to C \vdash car\, (cas\, f) =_{\beta\eta} f : A \times B \to C \\
+                & g: A \to B \to C \vdash cas\, (car\, g) =_{\beta\eta} g : A \to B \to C
+            \end{align*}
+        \item[b)] Let $\cat{C}$ be an arbitrary cartesian closed category and $X, Y, Z \in \cat{C}$.
+            Use part a) to show that $Z^{X \times Y} \iso (Z^Y)^X$.
+    \end{itemize}
+\end{exercise}
+
+\begin{exercise}
+    Let $X$ be an object in a cartesian closed category and let $1$ be the terminal object.
+    Use a similar construction to exercise \ref{ex:exp} to show $X^1 \iso X$.
+\end{exercise}
+
+\begin{exercise}
+    Recall the soundness theorem:\\
+    If $\Gamma \vdash s =_{\beta\eta} t : A$, then $M |[ \Gamma \vdash s: A |] = M |[ \Gamma \vdash t: A |]$.\\
+    It is proven by induction on $\beta\eta$-equivalence.
+    Show the case for $\inference{\Gamma \vdash s: A \times B}{\Gamma \vdash s =_{\beta\eta} (\mathsf{fst}\,s, \mathsf{snd}\,s): A \times B}$.
+\end{exercise}
+
+\begin{exercise}
+    \label{ex:pure-peirce}
+    A term in the lambda calculus is \textit{pure} if it contains no constants.
+    Show that there is no \textit{pure} term $s$ such that $ \vdash s: ((G \to H) \to G) \to G$ for two different ground types $G$ and $H$.\\
+    Hint: $([0, 1], \le)$ regarded as a category is cartesian closed.
+    What is the exponential $Y^X$ of $X$ and $Y$ where $X, Y \in [0, 1]$?
+\end{exercise}
+
+\begin{definition}{Cartesian Closed Pre-order}
+    Let $(X, \le)$ be a pre-ordered set.
+    The corresponding category is cartesian closed iff it has:
+    \begin{itemize}
+        \item a greatest element $\top$ such that $\forall x \in X: x \le \top$,
+        \item binary meets $x \land y$ such that $\forall z \in X: z \le x \land y <=> z \le x \land z \le y$ and
+        \item Heyting implications $x -> y$ such that $\forall z \in X: z \le x -> y <=> z \land x \le y$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{Intuitionistic Propositional Logic (IPL)}
+    Formulas in IPL are defined on the following grammar:
+    \[\varphi, \psi ::= p \mid \top \mid \varphi \land \psi \mid \varphi => \psi\]
+    where $p$ corresponds to propositional variables, $\top$ to the proposition which is always true,
+    $\varphi \land \psi$ to conjunction and $\varphi => \psi$ to implication.
+    We define an entailment relation $\Phi \vdash \varphi$ where $\varphi$ is a formula and $\Phi$ is a list of formulas:
+    \begin{align*}
+        & \qquad\quad \inference{}{\Phi, \varphi \vdash \varphi}\qquad\qquad
+        \inference{\Phi \vdash \varphi}{\Phi, \psi \vdash \varphi}\qquad\qquad
+        \inference{}{\Phi \vdash \top}\\[1em]
+        & \inference{\Phi \vdash \varphi \quad \Phi \vdash \psi}{\Phi \vdash \varphi \land \psi}\qquad\qquad
+        \inference{\Phi \vdash \varphi \land \psi}{\Phi \vdash \varphi}\qquad\qquad
+        \inference{\Phi \vdash \varphi \land \psi}{\Phi \vdash \psi}\\[1em]
+        & \qquad\qquad \inference{\Phi, \varphi \vdash \psi}{\Phi \vdash \varphi => \psi}\qquad\qquad
+        \inference{\Phi \vdash \varphi => \psi \quad \Phi \vdash \varphi}{\Phi \vdash \psi}
+    \end{align*}
+\end{definition}
+
+\begin{exercise}
+    Let $(X, \le)$ be a cartesian closed pre-order and assume a function $M$ which assigns to each propositional variable $p$ an element of $X$, i.e. $M(p) \in X$.
+    \begin{itemize}
+        \item[a)] Lift $M$ to arbitrary formulas $\varphi$ by defining $M|[\varphi|] \in X$ and to lists of variables $\Phi$ such that:
+            \begin{itemize}
+                \item If $\Phi \vdash \varphi$, then $M|[\Phi|] \le M|[\varphi|]$ (Soundness).
+                \item If $M|[\Phi|] \le M|[\varphi|]$ holds for every cartesian closed pre-order $\cat{C}$ and every choice of $M$, then $\Phi \vdash \varphi$ (Completeness).
+            \end{itemize}
+            You don't have to prove the above statements.
+        \item[b)] Show that Peirce's law $\emptyset \vdash ((\varphi => \psi) => \varphi) => \varphi$ is not provable in IPL.
+            How is this related to exercise \ref{ex:pure-peirce}? Why?
+    \end{itemize}
+\end{exercise}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
