@@ -1,0 +1,83 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}{
+	\raisebox{0.5em}{\makebox[\paperwidth-0.5em][r]{
+		\color{gray}\scriptsize\insertframenumber}}}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{cd, shapes, tikzmark}
+\def\pathToRoot{../../}\input{\pathToRoot headers/sharedHeader}
+
+\title{Presheaves, Representables and\\the Yoneda Lemma}
+\author{Dominik Wagner}
+%\date{June 7, 2017}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Contravariant Representable Functors}
+  
+  Let $\cat A$ be a locally small category and $A\in \cat A$. The \emph{contravariant representable functor} of $A$
+  \begin{align*}
+    H_A=\cat A(-,A)\from \cat A^\op\to \Set
+  \end{align*}
+  is defined by
+  \begin{itemize}
+  \item $H_A(B)=\cat A(B,A)$ for objects $B\in\cat A$ and
+  \item for maps $B'\xrightarrow{f} B$:
+    \begin{align*}
+      H_A(f)=-\of f\from \cat A(B,A)&\to \cat A(B',A)\\
+                                      g &\mapsto g\of f\\\\
+      \xymatrix{B' \ar[r]^{f} & B \ar[r]^{g} & A }
+    \end{align*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Yoneda Embedding}
+  Let $\cat A$ be locally small. The \emph{Yoneda embedding} of $\cat A$ is the functor
+  \begin{align*}
+    H_-\from \cat A\to[\cat A^\op,\Set]
+  \end{align*}
+  defined by
+  \begin{itemize}
+  \item $H_-(A)=H_A$ for objects $A\in\cat A$ and
+  \item for maps $A\xrightarrow{f}A'$, $H_-(f)$ is the natural transformation defined for $B\in \cat A$ by
+    \begin{align*}
+      H_A(B)=\cat A(B,A)&\to H_{A'}(B)=\cat A(B,A')\\
+      g&\mapsto  f\of g\\
+    \end{align*}
+  \end{itemize}
+  \vspace{-0.8cm}
+  \includegraphics{nattrans.pdf}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Yoneda Lemma and Yoneda Principle}
+  \begin{lemma}[Yoneda]
+    Let $\cat A$ be locally small. Then
+    \begin{align*}
+      [\cat A^\op,\Set](H_A,F)\iso F(A)
+    \end{align*}
+    naturally in $A\in\cat A$ and $F\in [\cat A^\op,\Set]$.
+  \end{lemma}
+  \begin{theorem}
+    The Yoneda embedding $H_-\from \cat A\to[\cat A^\op,\Set]$ is full and faithful.
+  \end{theorem}
+  \begin{corollary}[Yoneda Principle]
+    Let $\cat A$ be locally small and $A,A'\in\cat A$. Then
+    \begin{align*}
+      H_A\iso H_{A'} \iff A\iso A'
+    \end{align*}
+  \end{corollary}
+\end{frame}
+\end{document}
+
+% vim mode line:
+% vim: ts=2 sts=2 sw=2 expandtab
