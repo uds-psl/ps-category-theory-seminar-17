@@ -77,6 +77,36 @@
     \end{align*}
   \end{corollary}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Cartesian Closedness of Presheaf Category}
+  \begin{lemma}
+    For any small category $\cat A$, any functor $F\from\cat A^\op\to\Set$ is a colimit of representable functors,
+    \begin{align*}
+      \lim_{\to I\in\mathbf I} H_{\pi(I)}\iso F
+    \end{align*}
+    for some small category $\mathbf I$ and functor $\pi\from \mathbf I\to \cat A$.
+  \end{lemma}
+  \begin{lemma}
+    For any $A\in\cat A$, $H_A$ preserves colimits. In particular $$H_A(\lim_{\to\mathbf I} D)\iso \lim_{\to\mathbf I}(H_A\of D)$$ 
+    for any small category $\mathbf I$ and functor $D\from\mathbf I\to [\cat A^\op,\Set]$.
+  \end{lemma}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Cartesian Closedness of Presheaf Category (Cont.)}
+  \begin{lemma}
+    Let $F\from \cat A\to\Set$ be a presheaf. The functor $-\times F\from [\cat A^\op,\Set]\to[\cat A^\op,\Set]$ preserves colomits. That is:
+    \begin{align*}
+      \lim_{\to \mathbf I} (D\times F)\iso (\lim_{\to \mathbf I} D)\times F
+    \end{align*}
+    for any small category $\mathbf I$ and functor $D\from\mathbf I\to [\cat A^\op,\Set]$.
+  \end{lemma}
+
+  \begin{theorem}
+    For any small category $\cat A$, the category of presheaves $\cat A^\op,\Set$ is cartesian closed.
+  \end{theorem}
+\end{frame}
 \end{document}
 
 % vim mode line:
