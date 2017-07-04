@@ -59,14 +59,26 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Yoneda Lemma and Yoneda Principle}
-  \begin{lemma}[Yoneda]
-    Let $\cat A$ be locally small. Then
-    \begin{align*}
-      [\cat A^\op,\Set](H_A,F)\iso F(A)
-    \end{align*}
-    naturally in $A\in\cat A$ and $F\in [\cat A^\op,\Set]$.
-  \end{lemma}
+  \frametitle{Yoneda Lemma}
+  Let $\cat A$ be locally small. Then
+  \begin{align*}
+    [\cat A^\op,\Set](H_A,F)\iso F(A)
+  \end{align*}
+  naturally in $A\in\cat A$ and $F\in [\cat A^\op,\Set]$. That is for each $B\xrightarrow{f}A$ in $\cat A$ and for each natural transformation $\theta \from F\to F'$ the following commute
+  \begin{align*}
+    \xymatrix{
+    [\cat A^\op,\Set](H_A,F) \ar[r]^{-\of H_f} & [\cat A^\op,\Set](H_B,F) \\
+    F(A) \ar[r]^{F(f)} \ar[u]^{\iso}& F(B) \ar[u]_{\iso}
+                         } 
+  \end{align*}
+  \begin{align*}
+    \xymatrix{
+    [\cat A^\op,\Set](H_A,F) \ar[r]^{\theta\of -} & [\cat A^\op,\Set](H_A,F') \\
+    F(A) \ar[r]^{\theta_A} \ar[u]^{\iso} & F'(A) \ar[u]^{\iso}
+                             } 
+  \end{align*}
+\end{frame}
+\begin{frame}
   \begin{theorem}
     The Yoneda embedding $H_-\from \cat A\to[\cat A^\op,\Set]$ is full and faithful.
   \end{theorem}
@@ -76,6 +88,7 @@
       H_A\iso H_{A'} \iff A\iso A'
     \end{align*}
   \end{corollary}
+
 \end{frame}
 
 \begin{frame}

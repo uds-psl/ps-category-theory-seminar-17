@@ -1,0 +1,288 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+% \beamertemplatenavigationsymbolsempty
+% \setbeamertemplate{footline}{
+% 	\raisebox{0.5em}{\makebox[\paperwidth-0.5em][r]{
+% 		\color{gray}\scriptsize\insertframenumber}}}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{cd, shapes, tikzmark}
+\def\pathToRoot{../../}\input{\pathToRoot headers/sharedHeader}
+
+\title{Presheaves, Representables and\\the Yoneda Lemma}
+\author{Dominik Wagner}
+%\date{June 7, 2017}
+
+\begin{document}
+
+\section{Introduction}
+In this chapter we prove the following three propositions, which we mentioned earlier but failed to prove directly:
+\begin{itemize}
+\item Left adjoints are unique up to isomorphisms;
+\item If $\cat A$ is cartesian closed and has coproducts, then for all $A,B,C\in\cat A$
+  \begin{align*}
+    (A\times B)+(A\times C)\iso A\times (B+C);
+  \end{align*}
+\item For any small category $\cat A$, the category of presheaves $[\cat A^\op,\Set]$ is cartesian closed.
+\end{itemize}
+Along the way, we prove a very important technical lemma called ``Yoneda lemma''. One of its consequences is that two obects are isomorphic if and only if they ``look the same from all other objects''.
+
+In order to get a first understanding what this is supposed to mean we consider the example of a partially order set $(P,\leq)$. Let $p,p'\in P$ be arbitrary. Then we clearly have 
+\begin{align*}
+  (p\leq p')\iff (\forall q\in P\ldotp q\leq p\rightarrow q\leq p')
+\end{align*}
+or in other terms
+\begin{align*}
+  (p\leq p')\iff \downarrow(p)=\{q\in P\mid q\leq p\}\subseteq \{q\in P\mid q\leq p'\}=\downarrow(p'). *
+\end{align*}
+
+How can we lift this to arbitrary categories? We can do so by noting that the two sets correspond to the maps into $p$ and $q$ respectively. However, since maps are not unique in general categories we have to do a little bit more work. Recall the following special functor introduced in \ref[?]: 
+
+\begin{definition}[Contravariant Representable Functor]
+  Let $\cat A$ be a locally small category and $A\in \cat A$. The \emph{contravariant representable functor} of $A$
+  \begin{align*}
+    H_A=\cat A(-,A)\from \cat A^\op\to \Set
+  \end{align*}
+  is defined by
+  \begin{itemize}
+  \item $H_A(B)=\cat A(B,A)$ for objects $B\in\cat A$ and
+  \item for maps $B'\xrightarrow{f} B$:
+    \begin{align*}
+      H_A(f)=-\of f\from \cat A(B,A)&\to \cat A(B',A)\\
+      g &\mapsto g\of f\\\\
+      \xymatrix{B' \ar[r]^{f} & B \ar[r]^{g} & A }
+    \end{align*}
+  \end{itemize}
+\end{definition}
+
+Clearly, for each $p$ in a preorder regarded as a category $\downarrow(p)$ is essentially the same as $H_p$. Furthermore, inclusion are essentially natural transformations. Then, * corresponds to the fact that the following functor is full and faithful:
+
+\begin{definition}[Yoneda Embedding]
+  Let $\cat A$ be locally small. The \emph{Yoneda embedding} of $\cat A$ is the functor
+  \begin{align*}
+    H_-\from \cat A\to[\cat A^\op,\Set]
+  \end{align*}
+  defined by
+  \begin{itemize}
+  \item $H_-(A)=H_A$ for objects $A\in\cat A$ and
+  \item for maps $A\xrightarrow{f}A'$, $H_-(f)$ is the natural transformation defined for $B\in \cat A$ by
+    \begin{align*}
+      H_A(B)=\cat A(B,A)&\to H_{A'}(B)=\cat A(B,A')\\
+      g&\mapsto  f\of g **\\
+    \end{align*}
+  \end{itemize}
+  \vspace{-0.8cm}
+  \includegraphics{nattrans.pdf}
+\end{definition}
+Basically, for preorders ** constructs a proof from $p\leq p'$ that for all $q\leq p$ also $q\leq p'$ holds.
+
+In what follows we prove that this is indeed an embedding, i.e. full and faithful.
+
+\section{Yoneda Lemma}
+To do so we state the following technical lemma due to Yoneda:
+\begin{lemma}[Yoneda]
+  Let $\cat A$ be locally small. Then
+  \begin{align*}
+    [\cat A^\op,\Set](H_A,F)\iso F(A)
+  \end{align*}
+  naturally in $A\in\cat A$ and $F\in [\cat A^\op,\Set]$. That is for each $B\xrightarrow{f}A$ in $\cat A$ and for each natural transformation $\theta \from F\to F'$ the following commute
+  \begin{align*}
+    \xymatrix{
+    [\cat A^\op,\Set](H_A,F) \ar[r]^{-\of H_f} & [\cat A^\op,\Set](H_B,F) \\
+    F(A) \ar[r]^{F(f)} \ar[u]^{\iso}& F(B) \ar[u]_{\iso}
+                         } 
+  \end{align*}
+  \begin{align*}
+    \xymatrix{
+    [\cat A^\op,\Set](H_A,F) \ar[r]^{\theta\of -} & [\cat A^\op,\Set](H_A,F') \\
+    F(A) \ar[r]^{\theta_A} \ar[u]^{\iso} & F'(A) \ar[u]^{\iso}
+                             } 
+  \end{align*}
+\end{lemma}
+It is going to help us understand what the arrows $F_A\to F_{A'}$ are (in the presheaf category). More generally, it states that an element of $F(A)$ ``is the same'' as a natural transformation $H_A\to F$.
+\begin{proof}
+  In order to show the isomorphism in $\Set$, which is supposed to be natural in both $A$ and $F$, we can proceed by:
+  \begin{enumerate}
+  \item Define a function $(\widehat{-})\from[\cat A^\op,\Set](H_A,F)\to F(A)$.
+  \item Define a function $(\widetilde{-})\from F(A)\to[\cat A^\op,\Set](H_A,F)$.
+  \item Show that $(\widehat{\widetilde{-}})=1_{F(A)}$.
+  \item Show that $(\widetilde{\widehat{-}})=1_{[\cat A^\op,\Set](H_A,F)}$.
+  \item Show that $(\widehat{-})$ is natural in $A$.
+  \item Show that $(\widehat{-})$ is natural in $F$.
+  \end{enumerate}
+  It turns out that the definitions of $(\widehat{-})$ and $(\widetilde{-})$ are straight-forward as there is only one canonical choice that can possibly be made:
+  \begin{enumerate}
+  \item Let $\alpha\from H_A\to F$ be arbitrary. In order to define $(\widehat{-})\from[\cat A^\op,\Set](H_A,F)\to F(A)$, we have to come up with an element $\widehat\alpha\in F(A)$. However, $\alpha$ gives us a function $\alpha_A\from H_A(A)\to F(A)$ in $\Set$. Hence, we only have to come up with an element of $H_A(A)=\cat A(A,A)$ to obtain an element of $F(A)$ and we can simply choose $1_A$. Thus, we define $\widehat\alpha=\alpha_A(1_A)$.
+  \item Let $a\in F(A)$. This time, we have to define a natural transformation $\widetilde a\from H_A\to F$, i.e. for each $B\in\cat A$ we have to define a function $\widetilde a_B\from H_A(B)\to F(B)$ in $\Set$ and show that the naturality condition is satisfied.
+
+    In order to define $\tilde a_B$, let $f\in H_A(B)=\cat A(B,A)$ be arbitrary. We have to construct an element of $F(B)$. However, we have a functor $F\from\cat A^\op\to\Set$ and $F(f)\from F(A)\to F(B)$. This is perfect since we already have $a\in F(A)$. Thus, $F(f)(a)\in F(A)$ and we can define 
+    \begin{align*}
+      \widetilde a_B(f)=F(f)(a).
+    \end{align*}
+
+    We still have to check naturality, i.e. that for any $B'\xrightarrow{g}B$ the following commutes:
+    \begin{align*}
+    \xymatrix{
+    F_A(B)=\cat A(B,A) \ar[r]^{H_A(g)=-\of g} \ar[d]^{\widetilde a_B} & F_A(B')=\cat A(B',A) \ar[d]_{\widetilde a_B'} \\
+    F(B) \ar[r]^{F(g)} & F(B').
+                         } 
+  \end{align*}
+  Since this square is in $\Set$, it suffices to check $(\widetilde a_B'\of H_A(g))(f)=(F(g)\of\widetilde a_B)(f)$ for every $f\in F_A(B)=\cat A(B,A)$. Indeed, this holds:
+  \begin{align*}
+    (\widetilde a_B'\of H_A(g))(f)&=(F(f\of g))(a)\\
+    &=(F(f)\of F(g))(a)&F \text{ functor}\\
+    &=F(f)(F(g)(a))\\
+    &=(F(g)\of\widetilde a_B)(f).
+  \end{align*}
+\item Let $a\in F(A)$. Clearly, we get $\widehat{\widetilde a}=a$:
+  \begin{align*}
+    \widehat{\widetilde a}=\widetilde a_A(1_A)=F(1_A)(a)=1_{F(A)}(a)=a.
+  \end{align*}
+\item[(d)-(f)] The remaining proof obligations are quite straight-forward to show and are thus left as an exercise.
+  \end{enumerate}
+\end{proof}
+
+Now, it is easy to show that $H_-$ is full and faithful by instantiating $F$ with a covariant representable functor.
+\begin{theorem}
+  The Yoneda embedding $H_-\from \cat A\to[\cat A^\op,\Set]$ is full and faithful.
+\end{theorem}
+\begin{proof}
+  We have 
+  \begin{align*}
+    \widetilde H_f=(H_f)_A(1_A)=f\of 1_A=f.
+  \end{align*}
+  Hence,
+  \begin{align*}
+    \cat A(A,A')&\to[\cat A^\op,\Set](H_A,H_A')\\
+    f&\mapsto H_f
+  \end{align*}
+  and
+  \begin{align*}
+    (\widetilde{-})\from F(A)\to[\cat A^\op,\Set](H_A,F)
+  \end{align*}
+  are the same function, which are bijective due to the proof of the Yoneda lemma (instantiating $F$ with $H_{A'}$).
+\end{proof}
+
+By a previous exercise we know the following:
+\begin{lemma}
+  Let $F\from\cat A\to\cat B$ be a functor and $A\xrightarrow{f} A'$ in $\cat A$.
+
+  Then $f$ is an isomorphism in $\cat A$ if and only if $F(f)$ is an isomorphism in $\cat B$.
+\end{lemma}
+Thus, we immediately get:
+\begin{corollary}[Yoneda Principle]
+  Let $\cat A$ be locally small and $A,A'\in\cat A$. Then
+  \begin{align*}
+    H_A\iso H_{A'} \iff A\iso A'
+  \end{align*}
+\end{corollary}
+Note that the direction from right to left is trivial. Thus, the important consequence of this result is that
+\begin{align*}
+  H_A(B)=\cat A(B,A)\iso \cat  A(B,A')=H_A'(B) \text{ naturally in } B\in\cat A
+\end{align*}
+implies $A\iso A'$. Consequently, the following slogan is justified:
+\begin{quote}
+  \textit{``Two objects are the same if and only if they look the same from all viewpoints.''}
+\end{quote}
+Note that it is really necessary for the isomorphism to be natural in $B\in\cat A$. As the following example illustrates:
+TODO
+\section{Consequences of the Yoneda Lemma/Principle}
+Next, we use the insights just gained and we consider (further) consequences of the Yoneda lemma/principle. In particular, we are going to proof the facts mentioned in the introduction.
+
+We start by proving the following:
+
+\begin{proposition}
+  Let $\cat A$ be cartesian closed such that it has coproducts, then for all $A,B,C\in\cat A$
+  \begin{align*}
+    (A\times B)+(A\times C)\iso A\times (B+C).
+  \end{align*}
+\end{proposition}
+\begin{proof}
+  We have 
+  \begin{align*}
+    \cat A(A\times (B+C),X)&\iso\cat A(B+C,X^A)\\
+                           &\iso\cat A(B,X^A)\times \cat A(C,X^A) &\text{needs justification}\\
+                           &\iso\cat A(A\times B,X)\times \cat A(A\times C,X) \\
+                           &\iso\cat A((A\times B)+(A\times C),X).&\text{needs justification}
+  \end{align*}
+  
+  All these isomorphisms are natural in $X\in\cat A$. Hence, we have 
+  \begin{align*}
+    \cat A^\op(X,A\times (B+C))\iso\cat A^\op(X,(A\times B)+(A\times C))
+  \end{align*}
+ naturally in $X\in\cat A$ and thus we have $(A\times B)+(A\times C)\iso A\times (B+C)$.
+\end{proof}
+
+Another rather easy consequence is that left adjoints are unique:
+
+\begin{proposition}
+  Let $F,F'\from \cat A\to\cat B$ and $G\from\cat B\to\cat A$ such that $F\dashv G$ and $F'\dashv G$. Then $F\iso F'$
+\end{proposition}
+\begin{proof}
+  By adjointness we have 
+  \begin{align*}
+    \cat B^\op(B,F(A))\iso\cat B(F(A),B)\iso\cat A(A,G(B))\iso\cat B(F'(A),B)\iso\cat B^\op(B,F'(A))
+  \end{align*}
+  naturally in $B\in\cat B$. Hence, by what was stated above we have $F(A)\iso F'(A)$ for all $A\in\cat A$. It can be easily shown that this isomorphsim is natural in $A$ (why?), hence $F\iso F'$.
+\end{proof}
+
+\section{Presheaf Category is Cartesian Closed}
+In this section we show that for any small category $\cat A$ the presheaf category $[\cat A^\op,\Set]$ is cartesian closed. It is easy to see that it has terminal objects and binary products by defining them ``pointwise''. Showing that exponentials exist is still non-trivial. However the Yoneda lemma provides a straight-forward definition of exponentials and in a special case verifying that this is indeed an exponential is simple. In the general case we need a couple of additional lemmas.
+
+Thus, we are left to show that exponentials exists, i.e. that for functors $G,H\in[\cat A^\op,\Set]$, there is a functor $H^G\in[\cat A^\op,\Set]$ such that
+\begin{align*}
+  [\cat A^\op,\Set](F,H^G)\iso [\cat A^\op,\Set](F\times G,H)***
+\end{align*}
+naturally in $F\in[\cat A^\op,\Set]$.
+
+To define $H^G$ on objects $A\in\cat A$ note that by the Yoneda lemma we have
+\begin{align*}
+  H^G(A)\iso [\cat A^\op,\Set](H_A,H^G)
+\end{align*}
+and if $H^G$ is the exponential of $G$ and $H$ we certainly have
+\begin{align*}
+  [\cat A^\op,\Set](H_A,H^G)\iso [\cat A^\op,\Set](H_A\times G,H).
+\end{align*}
+Clearly this set exists and we can thus define
+\begin{align*}
+  H^G(A)=[\cat A^\op,\Set](H_A\times G,H)
+\end{align*}
+on objects.
+For maps $A\xrightarrow{f}A'$ we define $H^G(f)=H^G_f\from [\cat A^\op,\Set](H_{A'}\times G,H)\to[\cat A^\op,\Set](H_A\times G,H)$ by
+$H^G_f(\alpha)\in[\cat A^\op,\Set](H_A\times G,H)$ for $\alpha\in [\cat A^\op,\Set](H_{A'}\times G,H)$ by
+\begin{align*}
+  H^G_f(\alpha)_B = (H_g\times 1)\of \alpha_B\from (H_{A}\times G)(B)\to H(B)
+\end{align*}
+for $B\in\cat A$, which is of course natural.
+
+Therefore, we are left to verify that (***) holds and that it is natural in $F\in[\cat A^\op,\Set]$.
+In order to understand the proof better let us first consider the special case where $F=H_A$ is a covariant representable functor for some $A\in\cat A$. Then we immediately have
+\begin{align*}
+  [\cat A^\op,\Set](H_A,H^G)&\iso H^G(A)&\text{Yoneda lemma}\\
+  &=[\cat A^\op,\Set](H_A\times G,H)&\text{definition of }H^G
+\end{align*}
+naturally in $A\in\cat A$.
+
+Unfortunately, we have to show that this natural in \emph{all} $F\in[\cat A^\op,\Set]$, not just covariant representable functors, and not every functor is isomorphic to some $H_A$. However, it turns out that each presheaf is a \emph{colimit} of representable functors:
+
+\begin{lemma}
+  For any small category $\cat A$, any functor $F\from\cat A^\op\to\Set$ is a colimit of representable functors,
+  \begin{align*}
+    \lim_{\to I\in\mathbf I} H_{\pi(I)}\iso F
+  \end{align*}
+  for some small category $\mathbf I$ and functor $\pi\from \mathbf I\to \cat A$.
+\end{lemma}
+
+\end{document}
+
+% vim mode line:
+% vim: ts=2 sts=2 sw=2 expandtab
