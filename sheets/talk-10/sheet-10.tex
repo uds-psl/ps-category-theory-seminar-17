@@ -88,14 +88,22 @@
 \end{answer}
 
 \begin{exercise}
+  Recall the following re-formulation of the Yoneda principle: For any locally small category $\cat A$ and objects $A,A'\in\cat A$:
+  \begin{align*}
+    \cat A(B,A)\iso \cat  A(B,A')\text{ naturally in } B\in\cat A
+  \end{align*}
+implies $A\iso A'$. Show that naturality is really necessary.
+\hint{There is a counterexample with two objects.}
+\end{exercise}
+
+\begin{exercise}
   Let $\cat A$ be a locally small CCC. Use the Yoneda embedding to show that for any objects $A,B,C\in\cat A$,
   \begin{align*}
     (A\times B)^C\iso A^C\times B^C
   \end{align*}
   If $\cat A$ also has binary coproducts, show that also
   \begin{align*}
-    A^{B+C}&\iso A^B\times A^C\\
-    (A\times B)+(A\times C)&\iso A\times (B+C)
+    A^{B+C}&\iso A^B\times A^C
   \end{align*}
 \end{exercise}
 
@@ -111,6 +119,10 @@
   \item Now deduce that right adjoints are unique: if $F\from \cat A\to\cat B$ and $G,G'\from\cat B\to \cat A$ with $F\dashv G$ and $F\dashv G'$ then $G\iso G'$. 
     \hint{The Yoneda embedding is full and faithful.}
   \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Let $\cat A$ be a small category. Prove that the representable functors \emph{generate} the presheaf category $[\cat A^\op,\Set]$ in the folowing sense: Given any objects $F,G\in[\cat A^\op,\Set]$ and natural transformations $\alpha,\beta\from F\to G$, if for every representable functor $H_A$ and natural transformation $\gamma\from H_A\to F$, one has $\alpha\of\gamma=\beta\of\gamma$, then $\alpha=\gamma$. Thus, the arrows in $[\cat A^\op,\Set]$ are determined by their effect on generalized elements based at representables.
 \end{exercise}
 
 \begin{definition}{Preservation of Limits}
@@ -132,27 +144,9 @@
       \lim_{\to \mathbf I} (D\times F)\iso (\lim_{\to \mathbf I} D)\times F.
     \end{align*}
     You may assume that $[\cat A^\op,\Set]$ has all limits. (In particular limits, which are functors $\cat A^\op\to\Set$, are taken ``pointwise'': $$\left(\lim_{\to I\in\mathbf I} D(I)\right)(A) \iso \lim_{\to I\in\mathbf I} \left(D(I)(A)\right)$$ for all shapes and diagrams.)
-    \hint{TODO}
+    \hint{Use the fact that $[\cat A^\op,\Set]$ has all limits to deduce that there is an arrow $\lim_{\to \mathbf I} (D\times F)\to (\lim_{\to \mathbf I} D)\times F$ and use the Yoneda principle to show that this is an isomorphism.}
   \end{enumerate}
 \end{exercise}
-
-\begin{exercise}
-  Let $\cat A$ be a small category. Prove that the representable functors \emph{generate} the presheaf category $[\cat A^\op,\Set]$ in the folowing sense: Given any objects $F,G\in[\cat A^\op,\Set]$ and natural transformations $\alpha,\beta\from F\to G$, if for every representable functor $H_A$ and natural transformation $\gamma\from H_A\to F$, one has $\alpha\of\gamma=\beta\of\gamma$, then $\alpha=\gamma$. Thus, the arrows in $[\cat A^\op,\Set]$ are determined by their effect on generalized elements based at representables.
-\end{exercise}
-
-\begin{exercise}
-  special case of yoneda embedding: groups vs. Caley-representation
-\end{exercise}
-
-% \begin{exercise}
-%   A presheaf X:C op→SetX : C^{op} \to Set is representable precisely if the comma category (Y,const X)(Y,const_X) has a terminal object. If a terminal object is (d,f:Y(d)→X)≃(d,f∈X(d))(d, f : Y(d) \to X) \simeq (d, f \in X(d)) then X≃Y(d)X \simeq Y(d).
-
-% This follows from unwrapping the definition of morphisms in the comma category (Y,const X)(Y,const_X) and applying the Yoneda lemma to find
-% (Y,const X)((c,f∈X(c)),(d,g∈X(d)))≃{u∈C(c,d):X(u)(g)=f}. (Y,const_X)((c,f \in X(c)), (d, g \in X(d))) \simeq \{ u \in C(c,d) : X(u)(g) = f \} \,.
-
-% Hence (Y,const X)((c,f∈X(c),(d,g∈X(d)))≃pt(Y,const_X)((c,f \in X(c), (d, g \in X(d))) \simeq pt says precisely that X(−)(f):C(c,d)→X(c)X(-)(f) : C(c,d) \to X(c) is a bijection.
-% \end{exercise}
-
 
 \end{document}
 
