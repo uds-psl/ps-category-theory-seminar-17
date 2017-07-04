@@ -281,6 +281,50 @@ Unfortunately, we have to show that this natural in \emph{all} $F\in[\cat A^\op,
   \end{align*}
   for some small category $\mathbf I$ and functor $\pi\from \mathbf I\to \cat A$.
 \end{lemma}
+\begin{proof}
+  First of all, we have to define the shape of the limit, i.e. a small category $\mathbf I$. We take the category of elements of $F$, $F(\cat A)$ with
+  \begin{itemize}
+  \item objects being pairs $(a,A)$ such that $A\in\cat A$ and $a\in F(A)$;
+  \item arrows $f\from(a,A)\to(b,B)$ being arrows $f\from A\to B$ in $\cat A$ such that $F(f)(a)=b$.
+  \end{itemize}
+  TODO: figure
+
+  and identities and composites defined in the natural way. Clearly, $F(\cat A)$ is small since $\cat A$ is small.
+
+  Next, we have to define a diagram $F(\cat A)\to[\cat A^\op,\Set]$ such that $F$ is the corresponding limit. We simply take $H_-\of\pi$ where $\pi\from F(\cat A)\to\cat A$ is the projection on $\cat A$ defined by 
+  \begin{itemize}
+  \item $\pi(a,A)=A$ on objects and
+  \item $\pi(h)=h$ on arrows in $\cat A$ .
+  \end{itemize}
+
+  Now, we have to verify that $F$ is indeed the limit of $H_-\of\pi$ under $F(\cat A)$, i.e. we have to specify a cocone
+  \begin{align*}
+    (H_{\pi(a,A)}\to F)_{(a,A)\in F(\cat A)}
+  \end{align*}
+  and show that it is universal amongst all cocones.
+
+  To define $H_{\pi(a,A)}=H_A\to F$ for any $(a,A)\in F(\cat A)$ we recall that $[\cat A^\op,\Set](H_A,F)\iso F(A)$, where the isomorphism from the right to the left is given by $(\widetilde -)$ (as defined in the proof of the Yoneda lemma). Thus, we define the $(a,A)$-component of the cocone to be $\widetilde a$. For this to be a cocone we still have to verify that for each $(b,B)\xrightarrow{f}(a,A)$ (i.e. $B\xrightarrow{f}A$ such that $F(f)(b)=a$)
+  \begin{align*}
+    \xymatrix{
+      H_{\pi(b,B)}=H_B \ar[r]^{\widetilde b} \ar[d]_{H_{\pi(f)}=H_f} & F \\
+      H_{\pi(a,A)}=H_A \ar[ru]_{\widetilde a} & 
+                         } 
+  \end{align*}
+  commutes. However, by the naturality statement for $A\in\cat A$ in the Yondea lemma we have that 
+  \begin{align*}
+    \xymatrix{
+    [\cat A^\op,\Set](H_A,F) \ar[r]^{-\of H_f} & [\cat A^\op,\Set](H_B,F) \\
+    F(A) \ar[r]^{F(f)} \ar[u]^{(\widetilde-)}& F(B) \ar[u]_{(\widetilde -)}
+                         } 
+  \end{align*}
+  commutes. In particular for any $a\in F(A)$ we have
+  \begin{align*}
+    \widetilde a\of H_f=\widetilde{F(f)(a)}=\widetilde b
+  \end{align*}
+  by definition of arrows in $F(\cat A)$.
+
+  Thus, we have shown that this indeed constitues a cocone. Similarly, it can be shown that this cocone is universal, i.e. that $F$ is the limit of $H_-\of\pi$ under $F(\cat A)$.
+\end{proof}
 
 \end{document}
 
