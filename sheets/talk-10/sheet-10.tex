@@ -125,20 +125,20 @@ implies $A\iso A'$. Show that naturality is really necessary.
   Let $\cat A$ be a small category. Prove that the representable functors \emph{generate} the presheaf category $[\cat A^\op,\Set]$ in the folowing sense: Given any objects $F,G\in[\cat A^\op,\Set]$ and natural transformations $\alpha,\beta\from F\to G$, if for every representable functor $H_A$ and natural transformation $\gamma\from H_A\to F$, one has $\alpha\of\gamma=\beta\of\gamma$, then $\alpha=\gamma$. Thus, the arrows in $[\cat A^\op,\Set]$ are determined by their effect on generalized elements based at representables.
 \end{exercise}
 
-\begin{definition}{Preservation of Limits}
-  Let $\mathbf I$ be a small category. A functor $F\from \cat A\to\cat B$ \emph{preserves colimits of shape $\mathbf I$} if for all diagrams $D\from\mathbf I\to\cat A$ and all cocones $(D(I)\xrightarrow{p_I}A)_{I\in \mathbf I}$ on $D$,
-  \begin{align*}
-    &(D(I)\xrightarrow{p_I}A)_{I\in \mathbf I} \text{ is a limit cone on $D$ in } \cat A\\
-    \Longrightarrow&(F\of D(I)\xrightarrow{F(p_I)}F(A))_{I\in \mathbf I} \text{ is a limit cone on $F\of D$ in } \cat A
-  \end{align*}
+% \begin{definition}{Preservation of Limits}
+%   Let $\mathbf I$ be a small category. A functor $F\from \cat A\to\cat B$ \emph{preserves colimits of shape $\mathbf I$} if for all diagrams $D\from\mathbf I\to\cat A$ and all cocones $(D(I)\xrightarrow{p_I}A)_{I\in \mathbf I}$ on $D$,
+%   \begin{align*}
+%     &(D(I)\xrightarrow{p_I}A)_{I\in \mathbf I} \text{ is a limit cone on $D$ in } \cat A\\
+%     \Longrightarrow&(F\of D(I)\xrightarrow{F(p_I)}F(A))_{I\in \mathbf I} \text{ is a limit cone on $F\of D$ in } \cat A
+%   \end{align*}
 
-  A functor $F\from \cat A\to\cat B$ \emph{preserves limits} if it preserves limits of shape $\mathbf I$ for all small categories $\mathbf I$.
-\end{definition}
+%   A functor $F\from \cat A\to\cat B$ \emph{preserves limits} if it preserves limits of shape $\mathbf I$ for all small categories $\mathbf I$.
+% \end{definition}
 \begin{exercise}
   Fill in some of the missing details in the proof that for any small category $\cat A$ the presheaf category $[A^\op,\Set]$ is cartesian closed:
   \begin{enumerate}
-  \item Show that for any $A\in\cat A$, $H_A$ preserves colimits. As a consequence $$H_A(\lim_{\to\mathbf I} D)\iso \lim_{\to\mathbf I}(H_A\of D)$$ for all shapes and diagrams.
-    \hint{It suffices to show that it preserves all products and equalizers.}
+  \item Show that for any $A\in\cat A$, $H_A$ maps all colimits to limits such that $$H_A(\lim_{\to\mathbf I} D)\iso \lim_{\leftarrow\mathbf I}(H_A\of D)$$ for all small categories $\mathbf I$ and diagrams $D\from \mathbf I\to\cat A$. What is the dual statement?
+    \hint{It suffices to show that this holds for all coproducts and coequalizers.}
   \item Let $F\from \cat A\to\Set$ be a presheaf. Show that the functor $-\times F\from [\cat A^\op,\Set]\to[\cat A^\op,\Set]$ preserves colomits. That is: For any small category $\mathbf I$ and functor $D\from\mathbf I\to [\cat A^\op,\Set]$,
     \begin{align*}
       \lim_{\to \mathbf I} (D\times F)\iso (\lim_{\to \mathbf I} D)\times F.

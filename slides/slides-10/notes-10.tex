@@ -27,11 +27,11 @@
 \section{Introduction}
 In this chapter we prove the following three propositions, which we mentioned earlier but failed to prove directly:
 \begin{itemize}
-\item Left adjoints are unique up to isomorphisms;
 \item If $\cat A$ is cartesian closed and has coproducts, then for all $A,B,C\in\cat A$
   \begin{align*}
     (A\times B)+(A\times C)\iso A\times (B+C);
   \end{align*}
+\item Left adjoints are unique up to isomorphisms;
 \item For any small category $\cat A$, the category of presheaves $[\cat A^\op,\Set]$ is cartesian closed.
 \end{itemize}
 Along the way, we prove a very important technical lemma called ``Yoneda lemma''. One of its consequences is that two obects are isomorphic if and only if they ``look the same from all other objects''.
@@ -198,24 +198,33 @@ TODO
 \section{Consequences of the Yoneda Lemma/Principle}
 Next, we use the insights just gained and we consider (further) consequences of the Yoneda lemma/principle. In particular, we are going to proof the facts mentioned in the introduction.
 
-We start by proving the following:
+We start by proving the following ``distributivity''-lemma:
 
 \begin{proposition}
+  \label{prop:dis}
   Let $\cat A$ be cartesian closed such that it has coproducts, then for all $A,B,C\in\cat A$
   \begin{align*}
     (A\times B)+(A\times C)\iso A\times (B+C).
   \end{align*}
 \end{proposition}
-\begin{proof}
+
+For the proof we need the following lemma, which we are also going to use in the proof that presheaf categories are cartesian closed:
+\begin{lemma}
+  \label{lem:HApres}
+  For any locally small category $\cat A$ and $A\in\cat A$, $H_A$ maps all colimits to limits such that $$H_A(\lim_{\to\mathbf I} D)\iso \lim_{\leftarrow\mathbf I}(H_A\of D)$$ for all small categories $\mathbf I$ and diagrams $D\from \mathbf I\to\cat A$.
+\end{lemma}
+Now the proof of proposition \ref{prop:dis} goes through smoothly:
+\begin{proof}[Proof of proposition \ref{prop:dis}]
   We have 
   \begin{align*}
-    \cat A(A\times (B+C),X)&\iso\cat A(B+C,X^A)\\
-                           &\iso\cat A(B,X^A)\times \cat A(C,X^A) &\text{needs justification}\\
-                           &\iso\cat A(A\times B,X)\times \cat A(A\times C,X) \\
-                           &\iso\cat A((A\times B)+(A\times C),X).&\text{needs justification}
+    \cat A(A\times (B+C),X)&\iso\cat A((B+C)\times A,X)\\
+                           &\iso\cat A(B+C,X^A)&\cat A\text{ cartesian closed}\\
+                           &\iso\cat A(B,X^A)\times \cat A(C,X^A) &\text{by lemma \ref{lem:HApres}}\\
+                           &\iso\cat A(A\times B,X)\times \cat A(A\times C,X) &\cat A\text{ cartesian closed}\\
+                           &\iso\cat A((A\times B)+(A\times C),X).&\text{by the dual of lemma \ref{lem:HApres}}
   \end{align*}
   
-  All these isomorphisms are natural in $X\in\cat A$. Hence, we have 
+  All these isomorphisms are natural in $X\in\cat A$. E.g. the second isomorphism is natural in $X\in\cat A$ because it is induced by a transposition. Hence, we have 
   \begin{align*}
     \cat A^\op(X,A\times (B+C))\iso\cat A^\op(X,(A\times B)+(A\times C))
   \end{align*}
@@ -232,7 +241,7 @@ Another rather easy consequence is that left adjoints are unique:
   \begin{align*}
     \cat B^\op(B,F(A))\iso\cat B(F(A),B)\iso\cat A(A,G(B))\iso\cat B(F'(A),B)\iso\cat B^\op(B,F'(A))
   \end{align*}
-  naturally in $B\in\cat B$. Hence, by what was stated above we have $F(A)\iso F'(A)$ for all $A\in\cat A$. It can be easily shown that this isomorphsim is natural in $A$ (why?), hence $F\iso F'$.
+  naturally in $B\in\cat B$. Hence, by what was stated above we have $F(A)\iso F'(A)$ for all $A\in\cat A$. It can be shown that this isomorphsim is natural in $A$ (why?), hence $F\iso F'$.
 \end{proof}
 
 \section{Presheaf Category is Cartesian Closed}
@@ -268,13 +277,13 @@ Therefore, we are left to verify that (***) holds and that it is natural in $F\i
 In order to understand the proof better let us first consider the special case where $F=H_A$ is a covariant representable functor for some $A\in\cat A$. Then we immediately have
 \begin{align*}
   [\cat A^\op,\Set](H_A,H^G)&\iso H^G(A)&\text{Yoneda lemma}\\
-  &=[\cat A^\op,\Set](H_A\times G,H)&\text{definition of }H^G
+  &=[\cat A^\op,\Set](H_A\times G,H)&\text{definition of }H^G.
 \end{align*}
-naturally in $A\in\cat A$.
 
 Unfortunately, we have to show that this natural in \emph{all} $F\in[\cat A^\op,\Set]$, not just covariant representable functors, and not every functor is isomorphic to some $H_A$. However, it turns out that each presheaf is a \emph{colimit} of representable functors:
 
 \begin{lemma}
+  \label{lem:lim}
   For any small category $\cat A$, any functor $F\from\cat A^\op\to\Set$ is a colimit of representable functors,
   \begin{align*}
     \lim_{\to I\in\mathbf I} H_{\pi(I)}\iso F
@@ -324,6 +333,43 @@ Unfortunately, we have to show that this natural in \emph{all} $F\in[\cat A^\op,
   by definition of arrows in $F(\cat A)$.
 
   Thus, we have shown that this indeed constitues a cocone. Similarly, it can be shown that this cocone is universal, i.e. that $F$ is the limit of $H_-\of\pi$ under $F(\cat A)$.
+\end{proof}
+
+Now, are almost in a position where we can prove that presheaf categories are cartesian closed. All we need is the following lemma which states that we can ``pull limits out of products'':
+\begin{lemma}
+  \label{lem:pull}
+  Let $F\from \cat A\to\Set$ be a presheaf. The functor $-\times F\from [\cat A^\op,\Set]\to[\cat A^\op,\Set]$ preserves colomits. That is:
+  \begin{align*}
+    \lim_{\to \mathbf I} (D\times F)\iso (\lim_{\to \mathbf I} D)\times F
+  \end{align*}
+  for any small category $\mathbf I$ and functor $D\from\mathbf I\to [\cat A^\op,\Set]$.
+\end{lemma}
+Finally, we can prove
+\begin{proposition}
+  For any small category $\cat A$, the category of presheaves $[\cat A^\op,\Set]$ is cartesian closed.
+\end{proposition}
+\begin{proof}
+  It easy to prove that $[\cat A^\op,\Set]$ has terminal objects and binary products (by defining them ``pointwise'').
+
+  With the previous definitions we are left to verify that 
+  \begin{align*}
+    [\cat A^\op,\Set](F,H^G)\iso [\cat A^\op,\Set](F\times G,H)
+  \end{align*}
+  naturally in $F\in[\cat A^\op,\Set]$. Using lemma \ref{lem:lim} we have
+  \begin{align*}
+    F\iso\lim_{\to I\in\mathbf I} H_{\pi(I)}.
+  \end{align*}
+Hence, we conclude:
+  \begin{align*}
+    [\cat A^\op,\Set](F,H^G)&\iso [\cat A^\op,\Set](\lim_{\to I\in\mathbf I} H_{\pi(I)},H^G)&\\
+                            &\iso \lim_{\leftarrow I\in\mathbf I} [\cat A^\op,\Set](H_{\pi(I)},H^G)&\text{by lemma \ref{lem:HApres}}\\
+                            &\iso \lim_{\leftarrow I\in\mathbf I} H^G(\pi(I))&\text{by the Yoneda lemma}\\
+                            &\iso \lim_{\leftarrow I\in\mathbf I} [\cat A^\op,\Set](H_{\pi(I)}\times G,H)&\text{by definition of } H^G\\
+                            &\iso [\cat A^\op,\Set](\lim_{\to I\in\mathbf I}(H_{\pi(I)}\times G),H)&\text{by lemma \ref{lem:HApres}}\\
+                            &\iso [\cat A^\op,\Set](\lim_{\to I\in\mathbf I}(H_{\pi(I)})\times G,H)&\text{by lemma \ref{lem:pull}}\\
+                            &\iso[\cat A^\op,\Set](F\times G,H).
+  \end{align*}
+  All the isomorphisms are natural in $F$. Thus $H^G$ is indeed the exponential of $G$ and $H$.
 \end{proof}
 
 \end{document}
