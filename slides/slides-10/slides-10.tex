@@ -95,7 +95,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Consequences of the Yoneda Lemma/Principle}
+  \frametitle{Consequences of the Yoneda Principle}
   \begin{proposition}
     Let $\cat A$ be cartesian closed such that it has coproducts, then for all $A,B,C\in\cat A$
     \begin{align*}
@@ -110,7 +110,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Consequences of the Yoneda Lemma/Principle (Cont.)}
+  \frametitle{Consequences of the Yoneda Principle (Cont.)}
   \begin{proposition}
     Let $F,F'\from \cat A\to\cat B$ and $G\from\cat B\to\cat A$ such that $F\dashv G$ and $F'\dashv G$. Then $F\iso F'$
   \end{proposition}
@@ -133,6 +133,10 @@
 
 \begin{frame}
   \frametitle{Cartesian Closedness of Presheaf Category (Cont.)}  
+  \begin{proposition}
+    For any small category $\cat A$, the category of presheaves $[\cat A^\op,\Set]$ is cartesian closed.
+  \end{proposition}
+  \pause
   \begin{lemma}
     Let $F\from \cat A\to\Set$ be a presheaf. Then
     \begin{align*}
@@ -140,10 +144,6 @@
     \end{align*}
     for any small category $\mathbf I$ and functor $D\from\mathbf I\to [\cat A^\op,\Set]$.
   \end{lemma}
-  \pause
-  \begin{proposition}
-    For any small category $\cat A$, the category of presheaves $[\cat A^\op,\Set]$ is cartesian closed.
-  \end{proposition}
 \end{frame}
 \end{document}
 

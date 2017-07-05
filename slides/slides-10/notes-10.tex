@@ -139,8 +139,8 @@ It is going to help us understand what the arrows $F_A\to F_{A'}$ are (in the pr
   Since this square is in $\Set$, it suffices to check $(\widetilde a_B'\of H_A(g))(f)=(F(g)\of\widetilde a_B)(f)$ for every $f\in F_A(B)=\cat A(B,A)$. Indeed, this holds:
   \begin{align*}
     (\widetilde a_B'\of H_A(g))(f)&=(F(f\of g))(a)\\
-    &=(F(f)\of F(g))(a)&F \text{ functor}\\
-    &=F(f)(F(g)(a))\\
+    &=(F(g)\of F(f))(a)&F \text{ contravariant functor}\\
+    &=F(g)(F(f)(a))\\
     &=(F(g)\of\widetilde a_B)(f).
   \end{align*}
 \item Let $a\in F(A)$. Clearly, we get $\widehat{\widetilde a}=a$:
@@ -158,7 +158,7 @@ Now, it is easy to show that $H_-$ is full and faithful by instantiating $F$ wit
 \begin{proof}
   We have 
   \begin{align*}
-    \widetilde H_f=(H_f)_A(1_A)=f\of 1_A=f.
+    \widehat H_f=(H_f)_A(1_A)=f\of 1_A=f.
   \end{align*}
   Hence,
   \begin{align*}
@@ -195,7 +195,7 @@ implies $A\iso A'$. Consequently, the following slogan is justified:
 \end{quote}
 Note that it is really necessary for the isomorphism to be natural in $B\in\cat A$. As the following example illustrates:
 TODO
-\section{Consequences of the Yoneda Lemma/Principle}
+\section{Consequences of the Yoneda Principle}
 Next, we use the insights just gained and we consider (further) consequences of the Yoneda lemma/principle. In particular, we are going to proof the facts mentioned in the introduction.
 
 We start by proving the following ``distributivity''-lemma:
@@ -294,7 +294,7 @@ Unfortunately, we have to show that this natural in \emph{all} $F\in[\cat A^\op,
   First of all, we have to define the shape of the limit, i.e. a small category $\mathbf I$. We take the category of elements of $F$, $F(\cat A)$ with
   \begin{itemize}
   \item objects being pairs $(a,A)$ such that $A\in\cat A$ and $a\in F(A)$;
-  \item arrows $f\from(a,A)\to(b,B)$ being arrows $f\from A\to B$ in $\cat A$ such that $F(f)(a)=b$.
+  \item arrows $f\from(a,A)\to(b,B)$ being arrows $f\from A\to B$ in $\cat A$ such that $F(f)(b)=a$.
   \end{itemize}
   TODO: figure
 
@@ -312,7 +312,7 @@ Unfortunately, we have to show that this natural in \emph{all} $F\in[\cat A^\op,
   \end{align*}
   and show that it is universal amongst all cocones.
 
-  To define $H_{\pi(a,A)}=H_A\to F$ for any $(a,A)\in F(\cat A)$ we recall that $[\cat A^\op,\Set](H_A,F)\iso F(A)$, where the isomorphism from the right to the left is given by $(\widetilde -)$ (as defined in the proof of the Yoneda lemma). Thus, we define the $(a,A)$-component of the cocone to be $\widetilde a$. For this to be a cocone we still have to verify that for each $(b,B)\xrightarrow{f}(a,A)$ (i.e. $B\xrightarrow{f}A$ such that $F(f)(b)=a$)
+  To define $H_{\pi(a,A)}=H_A\to F$ for any $(a,A)\in F(\cat A)$ we recall that $[\cat A^\op,\Set](H_A,F)\iso F(A)$, where the isomorphism from the right to the left is given by $(\widetilde -)$ (as defined in the proof of the Yoneda lemma). Thus, we define the $(a,A)$-component of the cocone to be $\widetilde a$. For this to be a cocone we still have to verify that for each $(b,B)\xrightarrow{f}(a,A)$ (i.e. $B\xrightarrow{f}A$ such that $F(f)(a)=b$)
   \begin{align*}
     \xymatrix{
       H_{\pi(b,B)}=H_B \ar[r]^{\widetilde b} \ar[d]_{H_{\pi(f)}=H_f} & F \\
