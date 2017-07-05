@@ -1,0 +1,156 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+
+\begin{document}
+
+% Use Basis x or Talk x, where x is the number of the session
+\uebunghead{Talk 10}{Presheaves, Representables and the Yoneda Lemma}
+\author{Dominik Wagner}
+
+\begin{hint}
+  Read chapter 4 in Leinster and chapter 8 in Awodey.
+\end{hint}
+
+\begin{definition}{Right $M$-Sets}
+  Let $M$ be a monoid. 
+  \begin{itemize}
+  \item A \emph{right $M$-set} is a set $S$ together with a function
+    \begin{align*}
+      \cdot\from S\times M&\to S\\
+      (s,m)&\mapsto s\cdot m
+    \end{align*}
+    such that $s\cdot (mm')=(s\cdot m)\cdot m'$ and $s\cdot 1_M=s$ for all $m,m'\in M$ and $s\in S$.
+    \item A homomorphism between two right $M$-sets $S_1$ and $S_2$ is a mapping $\alpha\from S_1\to S_2$ satisfying $\alpha(s\cdot_{S_1} m)=\alpha(s)\cdot_{S_2}m$.
+    \item The \emph{right regular representation} $\underline{M}$ is the $M$-set $M$ together with the right-operation $s\cdot m=sm$, i.e. the underlying monoid-operation.
+  \end{itemize}
+
+\end{definition}
+
+\begin{exercise}[Not difficult despite its length]
+  In this exercise we prove the Yoneda Lemma for the special case of one-object categories, i.e. monoids regarded as categories.
+  We exploit the correspondence between presheaves on one-object categories (monoids $M$) and right $M$-sets.
+
+  \begin{enumerate}
+  \item Make yourself familiar again with this correspondence (e.g. by reading the examples 1.2.14 and 1.2.8 in Leinster).
+  \item Let $M$ be a monoid. Show that the $M$-set corresponding to the unique(!) representable functor $M^\op\to \Set$ is the right regular representation $\underline M$.
+  \item Now let $S$ be any right $M$-set. Show that for each $s\in S$ there is a unique homomorphism $\alpha\from\underline M\to S$ of $M$-sets such that $\alpha(1)=s$. Deduce that 
+    \begin{align*}
+      \{\text{homomorphisms }\underline M\to S\}\iso S
+    \end{align*}
+  \item Deduce that
+    \begin{align*}
+      [M^\op,\Set](H_A, F)\iso F(A)
+    \end{align*}
+    holds for all presheaves $F\from M^\op\to\Set$.
+  \end{enumerate}
+\end{exercise}
+
+\begin{answer}
+  \begin{enumerate}
+  \item Done!
+  \item Let $A$ be the unique object corresponding to $M$. In what follows we identify elements $m$ of the monoid $M$ with arrows $A\xrightarrow{m}A$. Then, $H_A(A)=\{\text{maps } A\to A\}= M$. Furthermore, for all $m,m'\in M$, $m\cdot m'=H_A(m')(m)=m\of m'=mm'$. Hence, $H_A$ contains exactly the same information as $\underline M$.
+  \item Let $S$ be a right $M$-set. Assume there is a homomorphism $\alpha\from \underline M\to S$. Then for each $s\in S$, 
+    \begin{align*}
+      \label{eq:defa}
+      \alpha(s)=\alpha(1\cdot_M s)=\alpha(1)\cdot_S s.
+    \end{align*}
+    Thus, $\alpha$ is completely defined by its action on $1$ if it exists. At the same time, this equation completely defines a homomorphism since
+    \begin{align*}
+      \alpha(s)\cdot m=(\alpha(1)\cdot s)\cdot m=\alpha(1)\cdot(s\cdot m)=\alpha(s\cdot m)
+    \end{align*}
+    as required.
+    Therefore, the function
+    \begin{align*}
+      \{\text{homomorphisms }\underline M\to S\}&\to S\\
+      \alpha&\mapsto \alpha(1)
+    \end{align*}
+    is an isomorphism.
+  \item To conclude the Yoneda lemma we still have to show that natural transformations $F_1\to F_2$ are the same as homomorphisms between $S_1$ and $S_2$ where $S_1,S_2$ are the $M$-sets corresponding to the presheaves $F_1$ and $F_2$. 
+
+    To see this let us instantiate the definition of naturality for our special case. It states that for each arrow $A\xrightarrow{m}A$ the following diagram commutes:
+
+    \begin{align*}
+      \xymatrix{
+      F_1(A)=S_1 \ar[r]^{F_1(m)=-\cdot m} \ar[d]^{\alpha} & F_1(A)=S_1 \ar[d]_{\alpha} \\
+      F_2(A)=S_2 \ar[r]^{F_2(m)=-\cdot m} & F_2(A)=S_2
+                   }
+    \end{align*}
+    (since there is only one object) or more concretely for each $s\in S_1$,
+    \begin{align*}
+      \alpha(s\cdot m)=\alpha(s)\cdot m.
+    \end{align*}
+
+    Now the Yoneda lemma (for our special case) is an easy consequence:
+    \begin{align*}
+      [M^\op,\Set](H_A, F)\iso \{\text{homomorphisms }\underline M\to S\}\iso S= F(A)
+    \end{align*}
+    where $S$ is the $M$-Set corresponding to $F$.
+  \end{enumerate}
+\end{answer}
+
+\begin{exercise}
+  Recall the following re-formulation of the Yoneda principle: For any locally small category $\cat A$ and objects $A,A'\in\cat A$:
+  \begin{align*}
+    \cat A(B,A)\iso \cat  A(B,A')\text{ naturally in } B\in\cat A
+  \end{align*}
+implies $A\iso A'$. Show that naturality is really necessary.
+\hint{There is a counterexample with two objects.}
+\end{exercise}
+
+\begin{exercise}
+  Let $\cat A$ be a locally small CCC. Use the Yoneda embedding to show that for any objects $A,B,C\in\cat A$,
+  \begin{align*}
+    (A\times B)^C\iso A^C\times B^C
+  \end{align*}
+  If $\cat A$ also has binary coproducts, show that also
+  \begin{align*}
+    A^{B+C}&\iso A^B\times A^C
+  \end{align*}
+\end{exercise}
+
+\begin{exercise}
+  Let $\cat B$ be a category and $J\from\cat C\to D$ a functor. There is an induced functor
+  \begin{align*}
+    J\of -\from[\cat B,\cat C]\to [\cat B,\cat D]
+  \end{align*}
+  defined by composition with $J$.
+  \begin{enumerate}
+  \item Show that if $J$ is full and faithful then so is $J\of -$.
+  \item Deduce that if $J$ is full and faithful and $G,G'\from\cat B\to\cat C$ with $J\of G\iso J\of G'$ then $G\iso G'$.
+  \item Now deduce that right adjoints are unique: if $F\from \cat A\to\cat B$ and $G,G'\from\cat B\to \cat A$ with $F\dashv G$ and $F\dashv G'$ then $G\iso G'$. 
+    \hint{The Yoneda embedding is full and faithful.}
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+  Let $\cat A$ be a small category. Prove that the representable functors \emph{generate} the presheaf category $[\cat A^\op,\Set]$ in the folowing sense: Given any objects $F,G\in[\cat A^\op,\Set]$ and natural transformations $\alpha,\beta\from F\to G$, if for every representable functor $H_A$ and natural transformation $\gamma\from H_A\to F$, one has $\alpha\of\gamma=\beta\of\gamma$, then $\alpha=\beta$. Thus, the arrows in $[\cat A^\op,\Set]$ are determined by their effect on generalized elements based at representables.
+\end{exercise}
+
+% \begin{definition}{Preservation of Limits}
+%   Let $\mathbf I$ be a small category. A functor $F\from \cat A\to\cat B$ \emph{preserves colimits of shape $\mathbf I$} if for all diagrams $D\from\mathbf I\to\cat A$ and all cocones $(D(I)\xrightarrow{p_I}A)_{I\in \mathbf I}$ on $D$,
+%   \begin{align*}
+%     &(D(I)\xrightarrow{p_I}A)_{I\in \mathbf I} \text{ is a limit cone on $D$ in } \cat A\\
+%     \Longrightarrow&(F\of D(I)\xrightarrow{F(p_I)}F(A))_{I\in \mathbf I} \text{ is a limit cone on $F\of D$ in } \cat A
+%   \end{align*}
+
+%   A functor $F\from \cat A\to\cat B$ \emph{preserves limits} if it preserves limits of shape $\mathbf I$ for all small categories $\mathbf I$.
+% \end{definition}
+\begin{exercise}
+  Fill in some of the missing details in the proof that for any small category $\cat A$ the presheaf category $[A^\op,\Set]$ is cartesian closed:
+  \begin{enumerate}
+  \item Show that for any $A\in\cat A$, $H_A$ maps all colimits to limits such that $$H_A(\lim_{\to\mathbf I} D)\iso \lim_{\leftarrow\mathbf I}(H_A\of D)$$ for all small categories $\mathbf I$ and diagrams $D\from \mathbf I\to\cat A$. What is the dual statement?
+    \hint{It suffices to show that this holds for all coproducts and coequalizers.}
+  \item Let $F\from \cat A\to\Set$ be a presheaf. Show that the functor $-\times F\from [\cat A^\op,\Set]\to[\cat A^\op,\Set]$ preserves colimits. That is: For any small category $\mathbf I$ and functor $D\from\mathbf I\to [\cat A^\op,\Set]$,
+    \begin{align*}
+      \lim_{\to \mathbf I} (D\times F)\iso (\lim_{\to \mathbf I} D)\times F.
+    \end{align*}
+    You may assume that $[\cat A^\op,\Set]$ has all limits. (In particular limits, which are functors $\cat A^\op\to\Set$, are taken ``pointwise'': $$\left(\lim_{\to I\in\mathbf I} D(I)\right)(A) \iso \lim_{\to I\in\mathbf I} \left(D(I)(A)\right)$$ for all shapes and diagrams.)
+    \hint{Use the fact that $[\cat A^\op,\Set]$ has all limits to deduce that there is an arrow $\lim_{\to \mathbf I} (D\times F)\to (\lim_{\to \mathbf I} D)\times F$ and use the Yoneda principle to show that this is an isomorphism.}
+  \end{enumerate}
+\end{exercise}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
