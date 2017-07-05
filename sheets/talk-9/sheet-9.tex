@@ -25,12 +25,12 @@
           & M |[x: A, y: B \vdash \lambda f: A \to B.\,\mathsf{fst}(f\,x, y) : (A \to B) \to B|]\\
         = &\, \mathsf{cur}(M |[x: A, y: B,f: A \to B \vdash \mathsf{fst}(f\,x, y) : B|])\\
         = &\,\mathsf{cur}(\pi_1 \circ M|[x: A, y: B, f: A \to B \vdash (f\,x, y) : B \times B|])\\
-        = &\, \mathsf{cur}(\pi_1 \circ (M|[x: A, y: B,f: A \to B \vdash f\,x : B|], M|[x: A, y: B,f: A \to B \vdash y: B|]))\\
-        = &\, \mathsf{cur}(\pi_1 \circ (\mathsf{app} \circ (M|[x: A, y: B,f: A \to B \vdash f : A \to B|], M|[\Gamma \vdash x: A|]), M|[x: A, y: B \vdash y: B|] \circ \pi_1))\\
-        = &\, \mathsf{cur}(\pi_1 \circ (\mathsf{app} \circ (\pi_2, M|[x:A, y:B \vdash x:A|] \circ \pi_1), \pi_2 \circ \pi_1))\\
-        = &\, \mathsf{cur}(\pi_1 \circ (\mathsf{app} \circ (\pi_2, M|[x:A \vdash x:A|] \circ \pi_1 \circ \pi_1), \pi_2 \circ \pi_1))\\
-        = &\, \mathsf{cur}(\pi_1 \circ (\mathsf{app} \circ (\pi_2, \pi_2 \circ \pi_1 \circ \pi_1), \pi_2 \circ \pi_1))\\
-        = &\, \mathsf{cur}(\mathsf{app} \circ (\pi_2, \pi_2 \circ \pi_1 \circ \pi_1))
+        = &\, \mathsf{cur}(\pi_1 \circ \langle M|[x: A, y: B,f: A \to B \vdash f\,x : B|], M|[x: A, y: B,f: A \to B \vdash y: B|]\rangle)\\
+        = &\, \mathsf{cur}(\pi_1 \circ \langle \mathsf{app} \circ \langle M|[x: A, y: B,f: A \to B \vdash f : A \to B|], M|[\Gamma \vdash x: A|]\rangle, M|[x: A, y: B \vdash y: B|] \circ \pi_1\rangle )\\
+        = &\, \mathsf{cur}(\pi_1 \circ \langle \mathsf{app} \circ \langle\pi_2, M|[x:A, y:B \vdash x:A|] \circ \pi_1\rangle, \pi_2 \circ \pi_1\rangle)\\
+        = &\, \mathsf{cur}(\pi_1 \circ \langle \mathsf{app} \circ \langle\pi_2, M|[x:A \vdash x:A|] \circ \pi_1 \circ \pi_1\rangle, \pi_2 \circ \pi_1\rangle)\\
+        = &\, \mathsf{cur}(\pi_1 \circ \langle \mathsf{app} \circ \langle\pi_2, \pi_2 \circ \pi_1 \circ \pi_1\rangle, \pi_2 \circ \pi_1\rangle)\\
+        = &\, \mathsf{cur}(\mathsf{app} \circ \langle \pi_2, \pi_2 \circ \pi_1 \circ \pi_1 \rangle)
     \end{align*}
 \end{answer}
 
@@ -38,7 +38,7 @@
     \label{ex:exp}
     \begin{itemize}
         \item[a)] Let $A, B, C$ be simple types.
-            Define lamda terms $cas$ and $car$ with the following types and $\beta\eta$-equivalences:
+            Define lambda terms $cas$ and $car$ with the following types and $\beta\eta$-equivalences:
             \begin{align*}
                 & \vdash cas: (A \times B \to C) \to A \to B \to C \\
                 & \vdash car: (A \to B \to C) \to A \times B \to C\\
@@ -56,9 +56,36 @@
                 & cas := \lambda f: A \times B \to C.\,\lambda x: A.\,\lambda y: B.\,f(x, y) \\
                 & car := \lambda g: A \to B \to C.\,\lambda p: A \times B.\,g\,(\mathsf{fst}\,p)\,(\mathsf{snd}\,p)
             \end{align*}
-            It is clear that $cas$ and $car$ have the demanded types.
         \item[b)] We consider the internal language of $\cat{C}$.
-            \todo{todo}
+            We define $h := M|[f: X \times Y \to Z \vdash cas\,f: X \to Y \to Z|]$ and $h' := M|[g: X \to Y \to Z \vdash car\,g: X \times Y \to Z|]$.
+            Note that $\langle\rangle \circ h = \pi_1$ and thus
+            \[ (\mathsf{cur}\,h' \times 1_{\top}) \circ \langle \langle\rangle, 1_{(Z^Y)^X} \rangle \circ h = \langle \mathsf{cur}\,h' \circ \pi_1, h \rangle. \]
+            We obtain
+            \begin{align*}
+                & h' \circ \langle\langle\rangle, 1_{(Z^Y)^X}\rangle \circ h \\
+                = \,& \mathsf{app} \circ (\mathsf{cur}\,h' \times 1_\top) \circ \langle\langle\rangle, 1_{(Z^Y)^X}\rangle \circ h \\
+                = \,& \mathsf{app} \circ \langle \mathsf{cur}\,h' \circ \pi_1, h \rangle \\
+                = \,& \mathsf{app} \circ \langle M|[\ \vdash car: (X \to Y \to Z) \to X \times Y \to Z|] \circ \pi_1, h \rangle \\
+                = \,& \mathsf{app} \circ \langle M|[f: X \times Y \to Z \vdash car: (X \to Y \to Z) \to X \times Y \to Z|] , h \rangle \\
+                = \,& M|[f: X \times Y \to Z \vdash car\,(cas \,f): X \times Y \to Z|] \\
+                = \,& M|[f: X \times Y \to Z \vdash f: X \times Y \to Z|] \\
+                = \,& \pi_2
+            \end{align*}
+            and therefore:
+            \begin{align*}
+                & h' \circ \langle\langle\rangle, 1_{(Z^Y)^X}\rangle \circ h \circ \langle \langle\rangle, 1_{Z^{X \times Y}} \rangle \\
+                =\, & \pi_2 \circ \langle \langle\rangle, 1_{Z^{X \times Y}} \rangle \\
+                =\, & 1_{Z^{X \times Y}}.
+            \end{align*}
+            Analogously we obtain
+            \[ h \circ \langle \langle\rangle, 1_{Z^{X \times Y}} \rangle \circ h' = \pi_2 \]
+            and thus
+            \begin{align*}
+                & h \circ \langle \langle\rangle, 1_{Z^{X \times Y}} \rangle \circ h' \circ \langle\langle\rangle, 1_{(Z^Y)^X}\rangle = 1_{(Z^Y)^X} \\
+                =\, & \pi_2 \circ \langle\langle\rangle, 1_{(Z^Y)^X}\rangle \\
+                =\, & 1_{(Z^Y)^X}.
+            \end{align*}
+            This shows $Z^{X \times Y} \iso (Z^Y)^X$.
     \end{itemize}
 \end{answer}
 
@@ -67,7 +94,50 @@
     Use a similar construction to exercise \ref{ex:exp} to show $X^1 \iso X$.
 \end{exercise}
 \begin{answer}
-    %todo
+    \begin{itemize}
+        \item[a)] For an arbitrary type $A$ we define:
+            \begin{align*}
+                s & := \lambda f: \mathsf{unit} \to A.\, f\,()\\
+                t & := \lambda x: A.\,\lambda u: \mathsf{unit}.\,x
+            \end{align*}
+            These terms $s$ and $t$ have the following types and $\beta\eta$-equivalences:
+            \begin{align*}
+                & \vdash s: (\mathsf{unit} \to A) \to A\\
+                & \vdash t: A \to \mathsf{unit} \to A\\
+                & f: \mathsf{unit} \to A \vdash t\,(s\,f) =_{\beta\eta} f: \mathsf{unit} \to A\\
+                & x: A \vdash s\,(t\,x) =_{\beta\eta} x: A\\
+            \end{align*}
+        \item[b)] We again consider the internal language.
+            We define $h := M|[f: \mathsf{unit} \to X \vdash s\,f: X|]$ and $h':= M|[x: X \vdash t\,x : \mathsf{unit} \to X|]$.
+            Note that $\langle\rangle \circ h = \pi_1$ and thus
+            \[ (\mathsf{cur}\,h' \times 1_1) \circ \langle \langle\rangle, 1_{X^1} \rangle \circ h = \langle \mathsf{cur}\,h' \circ \pi_1, h \rangle. \]
+            We obtain
+            \begin{align*}
+                    & h' \circ \langle \langle\rangle, 1_{X^1}\rangle \circ h\\
+                =\, & \mathsf{app} \circ (\mathsf{cur}\,h' \times 1_1) \circ \langle\langle\rangle, 1_{X^1} \rangle \circ h\\
+                =\, & \mathsf{app} \circ \langle \mathsf{cur}\,h' \circ \pi_1, h \rangle \\
+                =\, & \mathsf{app} \circ \langle M|[\ \vdash t: X \to \mathsf{unit} \to X|] \circ \pi_1, h \rangle \\
+                =\, & \mathsf{app} \circ \langle M|[f: \mathsf{unit} \to X \vdash t: X \to \mathsf{unit} \to X|] \circ \pi_1, h \rangle \\
+                =\, & M|[f: \mathsf{unit} \to X \vdash t\,(s\,f): \mathsf{unit} \to X|] \\
+                =\, & M|[f: \mathsf{unit} \to X \vdash f: \mathsf{unit} \to X|] \\
+                =\, & \pi_2
+            \end{align*}
+            and therefore:
+            \begin{align*}
+                    & h' \circ \langle \langle\rangle, 1_{X^1}\rangle \circ h \circ \langle\langle\rangle, 1_{X} \rangle\\
+                =\, & \pi_2 \circ \langle\langle\rangle, 1_{X} \rangle\\
+                =\, & 1_X.
+            \end{align*}
+            Analogously we obtain
+            \[ h \circ \langle\langle\rangle, 1_X \rangle \circ h' = \pi_2 \]
+            and thus
+            \begin{align*}
+                    & h \circ \langle\langle\rangle, 1_X \rangle \circ h' \circ \langle\langle\rangle, 1_{X^1}\rangle \\
+                =\, & \pi_2 \circ \langle\langle\rangle, 1_{X^1}\rangle \\
+                =\, & 1_{X^1}
+            \end{align*}
+            This shows $X^1 \iso X$.
+    \end{itemize}
 \end{answer}
 
 \begin{exercise}
@@ -81,11 +151,27 @@
     We start with the right side and simplify:
     \begin{align*}
           & M|[\Gamma \vdash (\mathsf{fst}\,s, \mathsf{snd}\,s): A \times B |]\\
-        = \,& (M|[ \Gamma \vdash \mathsf{fst}\,s: A|], M|[\Gamma \vdash \mathsf{snd}\,s: B|])\\
-        = \,& (\pi_1 \circ M|[ \Gamma \vdash s: A \times B |], \pi_2 \circ M|[\Gamma \vdash s: A \times B|])\\
+        = \,& \langle M|[ \Gamma \vdash \mathsf{fst}\,s: A|], M|[\Gamma \vdash \mathsf{snd}\,s: B|]\rangle \\
+        = \,& \langle \pi_1 \circ M|[ \Gamma \vdash s: A \times B |], \pi_2 \circ M|[\Gamma \vdash s: A \times B|]\rangle \\
         = \,& M|[ \Gamma \vdash s: A \times B |]
     \end{align*}
-    \todo{show diagram}
+    The last step can be seen in a diagram:
+    \[
+        \begin{tikzcd}
+            & M \llbracket \Gamma \rrbracket \arrow[bend left]{d}{f} \arrow[bend right]{d}{g} \arrow[bend right]{ddl}{g_1} \arrow[bend left]{ddr}{g_2} &\\
+            & M \llbracket A \rrbracket \times M \llbracket B \rrbracket \arrow{dl}{\pi_1} \arrow{dr}{\pi_2} &\\
+            M \llbracket A \rrbracket & & M \llbracket B \rrbracket
+        \end{tikzcd}
+    \]
+    We used the following abbreviations:
+    \begin{align*}
+        f & := M |[\Gamma \vdash s : A \times B|] \\
+        g & := M |[\Gamma \vdash (\mathsf{fst}\,s, \mathsf{snd}\,s) : A \times B|] \\
+        g_1 & := M |[\Gamma \vdash \mathsf{fst}\,s : A|] \\
+        g_2 & := M |[\Gamma \vdash \mathsf{snd}\,s : B|] \\
+    \end{align*}
+    The diagram communtes by definition.
+    By the uniqueness of $g$ we obtain $f = g$.
 \end{answer}
 
 \begin{exercise}
@@ -96,14 +182,20 @@
     What is the exponential $Y^X$ of $X$ and $Y$ where $X, Y \in [0, 1]$?
 \end{exercise}
 \begin{answer}
-    The exponential $Y^X$ is defined as:
+    The exponential $Y^X$ in the category is defined as:
     \begin{align*}
         Y^X := \begin{cases}
             1, \text{ if } X \le Y\\
             Y, \text{ if } Y < X
                \end{cases}
     \end{align*}
-    We write $X -> Y$ for $Y^X$.
+    In order to see that this is actually the exponential we need to show
+    \begin{itemize}
+        \item $\mathsf{min}(Y^X, X) \le Y$ and
+        \item $Z \le Y^X$, if $\mathsf{min}(Z, X) \le Y$.
+    \end{itemize}
+    Both follow by a simple case analysis.
+    For simplicity we write $X -> Y$ instead of $Y^X$.
     Let us assume a pure term $s$ such that $ \vdash s: ((G \to H) \to G) \to G$ for two different ground types $G$ and $H$.
     We define $M$ as:
     \begin{align*}
@@ -114,7 +206,7 @@
     \end{align*}
     We obtain for $M|[\ \vdash s: ((G \to H) \to G) \to G|]$:
     \begin{align*}
-            & 1 \le M|[((G \to H) \to G) \to G|] \\
+              & M|[\emptyset|] \le M|[((G \to H) \to G) \to G|] \\
         <=>\, & 1 \le M|[(G \to H) \to G|] -> M|[G|] \\
         <=>\, & 1 \le (M|[G \to H|] -> M|[G|]) -> M|[G|] \\
         <=>\, & 1 \le ((M|[G|] -> M|[H|]) -> M|[G|]) -> M|[G|] \\
@@ -123,8 +215,11 @@
         <=>\, & 1 \le 1 -> \frac{1}{2} \\
         <=>\, & 1 \le \frac{1}{2}
     \end{align*}
-    But $1 \nleq \frac{1}{2}$ and therefore the assumption of the existence of such a pure term $s$ is false.
+    But $1 \nleq \frac{1}{2}$ and we arrived at a contradiction.
+    Therefore the assumption of the existence of such a pure term $s$ is false.
 \end{answer}
+
+\pagebreak
 
 \begin{definition}{Cartesian Closed Pre-order}
     Let $(X, \le)$ be a pre-ordered set.
@@ -162,7 +257,7 @@
                 \item If $\Phi \vdash \varphi$, then $M|[\Phi|] \le M|[\varphi|]$ (Soundness).
                 \item If $M|[\Phi|] \le M|[\varphi|]$ holds for every cartesian closed pre-order $\cat{C}$ and every choice of $M$, then $\Phi \vdash \varphi$ (Completeness).
             \end{itemize}
-            You don't have to prove the above statements.
+            You do not have to prove the above statements.
         \item[b)] Show that Peirce's law $\emptyset \vdash ((\varphi => \psi) => \varphi) => \varphi$ is not provable in IPL.
             How is this related to exercise \ref{ex:pure-peirce}? Why?
     \end{itemize}
@@ -180,7 +275,7 @@
                 M|[\Phi, \varphi|] & := M|[\Phi|] \land M|[\varphi|] && (\text{binary meet})
             \end{align*}
         \item[b)] Let us consider the cartesian closed pre-order $([0,1], \le)$.
-            The Heyting implication $x -> y$ is defined as:
+            The Heyting implication $x -> y$ in the category is defined as:
             \begin{align*}
                 x -> y := \begin{cases}
                     1, \text{ if } x \le y\\
@@ -208,7 +303,8 @@
                 <=>\, & 1 \le \frac{1}{2}
             \end{align*}
             Peirce's law $\emptyset \vdash ((\varphi => \psi) => \varphi) => \varphi$ is not provable in IPL since $1 \nleq \frac{1}{2}$.
-            \todo{connection to previous exercise}
+            We used the same proof as in exercise \ref{ex:pure-peirce}.
+            This is due to the fact that IPL and STLC are connected via the Curry-Howard correspondence.
     \end{itemize}
 \end{answer}
 
