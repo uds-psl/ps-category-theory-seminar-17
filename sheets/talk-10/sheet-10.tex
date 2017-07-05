@@ -122,7 +122,7 @@ implies $A\iso A'$. Show that naturality is really necessary.
 \end{exercise}
 
 \begin{exercise}
-  Let $\cat A$ be a small category. Prove that the representable functors \emph{generate} the presheaf category $[\cat A^\op,\Set]$ in the folowing sense: Given any objects $F,G\in[\cat A^\op,\Set]$ and natural transformations $\alpha,\beta\from F\to G$, if for every representable functor $H_A$ and natural transformation $\gamma\from H_A\to F$, one has $\alpha\of\gamma=\beta\of\gamma$, then $\alpha=\gamma$. Thus, the arrows in $[\cat A^\op,\Set]$ are determined by their effect on generalized elements based at representables.
+  Let $\cat A$ be a small category. Prove that the representable functors \emph{generate} the presheaf category $[\cat A^\op,\Set]$ in the folowing sense: Given any objects $F,G\in[\cat A^\op,\Set]$ and natural transformations $\alpha,\beta\from F\to G$, if for every representable functor $H_A$ and natural transformation $\gamma\from H_A\to F$, one has $\alpha\of\gamma=\beta\of\gamma$, then $\alpha=\beta$. Thus, the arrows in $[\cat A^\op,\Set]$ are determined by their effect on generalized elements based at representables.
 \end{exercise}
 
 % \begin{definition}{Preservation of Limits}
@@ -139,7 +139,7 @@ implies $A\iso A'$. Show that naturality is really necessary.
   \begin{enumerate}
   \item Show that for any $A\in\cat A$, $H_A$ maps all colimits to limits such that $$H_A(\lim_{\to\mathbf I} D)\iso \lim_{\leftarrow\mathbf I}(H_A\of D)$$ for all small categories $\mathbf I$ and diagrams $D\from \mathbf I\to\cat A$. What is the dual statement?
     \hint{It suffices to show that this holds for all coproducts and coequalizers.}
-  \item Let $F\from \cat A\to\Set$ be a presheaf. Show that the functor $-\times F\from [\cat A^\op,\Set]\to[\cat A^\op,\Set]$ preserves colomits. That is: For any small category $\mathbf I$ and functor $D\from\mathbf I\to [\cat A^\op,\Set]$,
+  \item Let $F\from \cat A\to\Set$ be a presheaf. Show that the functor $-\times F\from [\cat A^\op,\Set]\to[\cat A^\op,\Set]$ preserves colimits. That is: For any small category $\mathbf I$ and functor $D\from\mathbf I\to [\cat A^\op,\Set]$,
     \begin{align*}
       \lim_{\to \mathbf I} (D\times F)\iso (\lim_{\to \mathbf I} D)\times F.
     \end{align*}
