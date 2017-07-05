@@ -1,0 +1,149 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}{
+	\raisebox{0.5em}{\makebox[\paperwidth-0.5em][r]{
+		\color{gray}\scriptsize\insertframenumber}}}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{cd, shapes, tikzmark}
+\def\pathToRoot{../../}\input{\pathToRoot headers/sharedHeader}
+
+\title{Presheaves, Representables and\\the Yoneda Lemma}
+\author{Dominik Wagner}
+%\date{June 7, 2017}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Contravariant Representable Functors}
+  
+  Let $\cat A$ be a locally small category and $A\in \cat A$. The \emph{contravariant representable functor} of $A$
+  \begin{align*}
+    H_A=\cat A(-,A)\from \cat A^\op\to \Set
+  \end{align*}
+  is defined by
+  \begin{itemize}
+  \item $H_A(B)=\cat A(B,A)$ for objects $B\in\cat A$ and
+  \item for maps $B'\xrightarrow{f} B$:
+    \begin{align*}
+      H_A(f)=-\of f\from \cat A(B,A)&\to \cat A(B',A)\\
+                                      g &\mapsto g\of f\\\\
+      \xymatrix{B' \ar[r]^{f} & B \ar[r]^{g} & A }
+    \end{align*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Yoneda Embedding}
+  Let $\cat A$ be locally small. The \emph{Yoneda embedding} of $\cat A$ is the functor
+  \begin{align*}
+    H_-\from \cat A\to[\cat A^\op,\Set]
+  \end{align*}
+  defined by
+  \begin{itemize}
+  \item $H_-(A)=H_A$ for objects $A\in\cat A$ and
+  \item for maps $A\xrightarrow{f}A'$, $H_f$ is the natural transformation defined for $B\in \cat A$ by
+    \begin{align*}
+      H_A(B)=\cat A(B,A)&\to H_{A'}(B)=\cat A(B,A')\\
+      g&\mapsto  f\of g\\
+    \end{align*}
+  \end{itemize}
+  \vspace{-0.8cm}
+  \includegraphics{nattrans.pdf}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Yoneda Lemma}
+  Let $\cat A$ be locally small. Then
+  \begin{align*}
+    [\cat A^\op,\Set](H_A,F)\iso F(A)
+  \end{align*}
+  naturally in $A\in\cat A$ and $F\in [\cat A^\op,\Set]$. That is for each $B\xrightarrow{f}A$ in $\cat A$ and for each natural transformation $\theta \from F\to F'$ the following commute
+  \begin{align*}
+    \xymatrix{
+    [\cat A^\op,\Set](H_A,F) \ar[r]^{-\of H_f} & [\cat A^\op,\Set](H_B,F) \\
+    F(A) \ar[r]^{F(f)} \ar[u]^{\iso}& F(B) \ar[u]_{\iso}
+                         } 
+  \end{align*}
+  \begin{align*}
+    \xymatrix{
+    [\cat A^\op,\Set](H_A,F) \ar[r]^{\theta\of -} & [\cat A^\op,\Set](H_A,F') \\
+    F(A) \ar[r]^{\theta_A} \ar[u]^{\iso} & F'(A) \ar[u]^{\iso}
+                             } 
+  \end{align*}
+\end{frame}
+\begin{frame}
+\frametitle{The Yoneda Principle}
+  \begin{theorem}
+    The Yoneda embedding $H_-\from \cat A\to[\cat A^\op,\Set]$ is full and faithful.
+  \end{theorem}
+  \pause
+  \begin{corollary}[Yoneda Principle]
+    Let $\cat A$ be locally small and $A,A'\in\cat A$. Then
+    \begin{align*}
+      H_A\iso H_{A'} \iff A\iso A'
+    \end{align*}
+  \end{corollary}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Consequences of the Yoneda Principle}
+  \begin{theorem}
+    Let $\cat A$ be cartesian closed such that it has coproducts, then for all $A,B,C\in\cat A$
+    \begin{align*}
+      (A\times B)+(A\times C)\iso A\times (B+C).
+    \end{align*}
+  \end{theorem}
+  \pause
+  \begin{lemma}
+    For any locally small category $\cat A$ and $A\in\cat A$, $H_A$ maps
+ all colimits to limits such that $$H_A(\lim_{\to\mathbf I} D)\iso \lim_{\leftarrow\mathbf I}(H_A\of D)$$ for all small categories $\mathbf I$ and diagrams $D\from \mathbf I\to\cat A$.
+  \end{lemma}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Consequences of the Yoneda Principle (Cont.)}
+  \begin{theorem}
+    Let $F,F'\from \cat A\to\cat B$ and $G\from\cat B\to\cat A$ such that $F\dashv G$ and $F'\dashv G$. Then $F\iso F'$.
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Cartesian Closedness of Presheaf Category}
+  \begin{theorem}
+    For any small category $\cat A$, the category of presheaves $[\cat A^\op,\Set]$ is cartesian closed.
+  \end{theorem}
+  \pause
+  \begin{lemma}
+    For any small category $\cat A$, any functor $F\from\cat A^\op\to\Set$ is a colimit of representable functors,
+    \begin{align*}
+      \lim_{\to I\in\mathbf I} H_{\pi(I)}\iso F
+    \end{align*}
+    for some small category $\mathbf I$ and functor $\pi\from \mathbf I\to \cat A$.
+  \end{lemma}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Cartesian Closedness of Presheaf Category (Cont.)}  
+  \begin{theorem}
+    For any small category $\cat A$, the category of presheaves $[\cat A^\op,\Set]$ is cartesian closed.
+  \end{theorem}
+  \pause
+  \begin{lemma}
+    Let $F\from \cat A\to\Set$ be a presheaf. Then
+    \begin{align*}
+      \lim_{\to \mathbf I} (D\times F)\iso (\lim_{\to \mathbf I} D)\times F
+    \end{align*}
+    for any small category $\mathbf I$ and functor $D\from\mathbf I\to [\cat A^\op,\Set]$.
+  \end{lemma}
+\end{frame}
+\end{document}
+
+% vim mode line:
+% vim: ts=2 sts=2 sw=2 expandtab
