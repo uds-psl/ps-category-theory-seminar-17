@@ -74,7 +74,7 @@ Clearly, for each $p$ in a preorder regarded as a category $\downarrow(p)$ is es
   defined by
   \begin{itemize}
   \item $H_-(A)=H_A$ for objects $A\in\cat A$ and
-  \item for maps $A\xrightarrow{f}A'$, $H_-(f)$ is the natural transformation defined for $B\in \cat A$ by
+  \item for maps $A\xrightarrow{f}A'$, $H_f$ is the natural transformation defined for $B\in \cat A$ by
     \begin{align*}
       H_A(B)=\cat A(B,A)&\to H_{A'}(B)=\cat A(B,A')\\
       g&\mapsto  f\of g **\\
@@ -108,7 +108,7 @@ To do so we state the following technical lemma due to Yoneda:
                              } 
   \end{align*}
 \end{lemma}
-It is going to help us understand what the arrows $F_A\to F_{A'}$ are (in the presheaf category). More generally, it states that an element of $F(A)$ ``is the same'' as a natural transformation $H_A\to F$.
+It is going to help us understand what the arrows $H_A\to H_{A'}$ are (in the presheaf category). More generally, it states that an element of $F(A)$ ``is the same'' as a natural transformation $H_A\to F$.
 \begin{proof}
   In order to show the isomorphism in $\Set$, which is supposed to be natural in both $A$ and $F$, we can proceed by:
   \begin{enumerate}
@@ -132,11 +132,11 @@ It is going to help us understand what the arrows $F_A\to F_{A'}$ are (in the pr
     We still have to check naturality, i.e. that for any $B'\xrightarrow{g}B$ the following commutes:
     \begin{align*}
     \xymatrix{
-    F_A(B)=\cat A(B,A) \ar[r]^{H_A(g)=-\of g} \ar[d]^{\widetilde a_B} & F_A(B')=\cat A(B',A) \ar[d]_{\widetilde a_B'} \\
+    H_A(B)=\cat A(B,A) \ar[r]^{H_A(g)=-\of g} \ar[d]^{\widetilde a_B} & H_A(B')=\cat A(B',A) \ar[d]_{\widetilde a_B'} \\
     F(B) \ar[r]^{F(g)} & F(B').
                          } 
   \end{align*}
-  Since this square is in $\Set$, it suffices to check $(\widetilde a_B'\of H_A(g))(f)=(F(g)\of\widetilde a_B)(f)$ for every $f\in F_A(B)=\cat A(B,A)$. Indeed, this holds:
+  Since this square is in $\Set$, it suffices to check $(\widetilde a_B'\of H_A(g))(f)=(F(g)\of\widetilde a_B)(f)$ for every $f\in H_A(B)=\cat A(B,A)$. Indeed, this holds:
   \begin{align*}
     (\widetilde a_B'\of H_A(g))(f)&=(F(f\of g))(a)\\
     &=(F(f)\of F(g))(a)&F \text{ functor}\\
@@ -158,7 +158,7 @@ Now, it is easy to show that $H_-$ is full and faithful by instantiating $F$ wit
 \begin{proof}
   We have 
   \begin{align*}
-    \widetilde H_f=(H_f)_A(1_A)=f\of 1_A=f.
+    \widehat H_f=(H_f)_A(1_A)=f\of 1_A=f.
   \end{align*}
   Hence,
   \begin{align*}
@@ -174,7 +174,7 @@ Now, it is easy to show that $H_-$ is full and faithful by instantiating $F$ wit
 
 By a previous exercise we know the following:
 \begin{lemma}
-  Let $F\from\cat A\to\cat B$ be a functor and $A\xrightarrow{f} A'$ in $\cat A$.
+  Let $F\from\cat A\to\cat B$ be a full and faithful functor and $A\xrightarrow{f} A'$ in $\cat A$.
 
   Then $f$ is an isomorphism in $\cat A$ if and only if $F(f)$ is an isomorphism in $\cat B$.
 \end{lemma}
@@ -198,11 +198,11 @@ TODO
 \section{Consequences of the Yoneda Lemma/Principle}
 Next, we use the insights just gained and we consider (further) consequences of the Yoneda lemma/principle. In particular, we are going to proof the facts mentioned in the introduction.
 
-We start by proving the following ``distributivity''-lemma:
+We start by proving the following ``distributivity''-property:
 
 \begin{proposition}
   \label{prop:dis}
-  Let $\cat A$ be cartesian closed such that it has coproducts, then for all $A,B,C\in\cat A$
+  Let $\cat A$ be cartesian closed such that it has coproducts. Then for all $A,B,C\in\cat A$
   \begin{align*}
     (A\times B)+(A\times C)\iso A\times (B+C).
   \end{align*}
