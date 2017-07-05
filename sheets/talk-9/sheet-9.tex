@@ -1,6 +1,8 @@
 \def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
 
 \usepackage{semantic}
+\usepackage{todonotes}
+
 
 \begin{document}
 
@@ -14,9 +16,23 @@
 
 \begin{exercise}
     Let $\cat{C}$ be a cartesian closed category and let $M$ map ground types and constants into $\cat{C}$ as defined in chapter 4 of Andrew Pitt's lecture notes.
-    What morphism does $M |[x: A, y: B \vdash \lambda f: A \to B.\,\mathsf{fst}(f\,x, y) : B|]$ correspond to?
+    What morphism does $M |[x: A, y: B \vdash \lambda f: A \to B.\,\mathsf{fst}(f\,x, y) : (A \to B) \to B|]$ correspond to?
     Simplify your answer as much as possible.
 \end{exercise}
+\begin{answer}
+    Define $\Gamma := x: A, y: B, f: A \to B$.
+    \begin{align*}
+          & M |[x: A, y: B \vdash \lambda f: A \to B.\,\mathsf{fst}(f\,x, y) : (A \to B) \to B|]\\
+        = &\, \mathsf{cur}(M |[x: A, y: B,f: A \to B \vdash \mathsf{fst}(f\,x, y) : B|])\\
+        = &\,\mathsf{cur}(\pi_1 \circ M|[x: A, y: B, f: A \to B \vdash (f\,x, y) : B \times B|])\\
+        = &\, \mathsf{cur}(\pi_1 \circ (M|[x: A, y: B,f: A \to B \vdash f\,x : B|], M|[x: A, y: B,f: A \to B \vdash y: B|]))\\
+        = &\, \mathsf{cur}(\pi_1 \circ (\mathsf{app} \circ (M|[x: A, y: B,f: A \to B \vdash f : A \to B|], M|[\Gamma \vdash x: A|]), M|[x: A, y: B \vdash y: B|] \circ \pi_1))\\
+        = &\, \mathsf{cur}(\pi_1 \circ (\mathsf{app} \circ (\pi_2, M|[x:A, y:B \vdash x:A|] \circ \pi_1), \pi_2 \circ \pi_1))\\
+        = &\, \mathsf{cur}(\pi_1 \circ (\mathsf{app} \circ (\pi_2, M|[x:A \vdash x:A|] \circ \pi_1 \circ \pi_1), \pi_2 \circ \pi_1))\\
+        = &\, \mathsf{cur}(\pi_1 \circ (\mathsf{app} \circ (\pi_2, \pi_2 \circ \pi_1 \circ \pi_1), \pi_2 \circ \pi_1))\\
+        = &\, \mathsf{cur}(\mathsf{app} \circ (\pi_2, \pi_2 \circ \pi_1 \circ \pi_1))
+    \end{align*}
+\end{answer}
 
 \begin{exercise}
     \label{ex:exp}
@@ -33,11 +49,26 @@
             Use part a) to show that $Z^{X \times Y} \iso (Z^Y)^X$.
     \end{itemize}
 \end{exercise}
+\begin{answer}
+    \begin{itemize}
+        \item[a)] We define $cas$ and $car$ as follows:
+            \begin{align*}
+                & cas := \lambda f: A \times B \to C.\,\lambda x: A.\,\lambda y: B.\,f(x, y) \\
+                & car := \lambda g: A \to B \to C.\,\lambda p: A \times B.\,g\,(\mathsf{fst}\,p)\,(\mathsf{snd}\,p)
+            \end{align*}
+            It is clear that $cas$ and $car$ have the demanded types.
+        \item[b)] We consider the internal language of $\cat{C}$.
+            \todo{todo}
+    \end{itemize}
+\end{answer}
 
 \begin{exercise}
     Let $X$ be an object in a cartesian closed category and let $1$ be the terminal object.
     Use a similar construction to exercise \ref{ex:exp} to show $X^1 \iso X$.
 \end{exercise}
+\begin{answer}
+    %todo
+\end{answer}
 
 \begin{exercise}
     Recall the soundness theorem:\\
@@ -45,6 +76,17 @@
     It is proven by induction on $\beta\eta$-equivalence.
     Show the case for $\inference{\Gamma \vdash s: A \times B}{\Gamma \vdash s =_{\beta\eta} (\mathsf{fst}\,s, \mathsf{snd}\,s): A \times B}$.
 \end{exercise}
+\begin{answer}
+    We have to show $M |[ \Gamma \vdash s: A \times B |] = M |[ \Gamma \vdash (\mathsf{fst}\,s, \mathsf{snd}\,s): A \times B |]$.
+    We start with the right side and simplify:
+    \begin{align*}
+          & M|[\Gamma \vdash (\mathsf{fst}\,s, \mathsf{snd}\,s): A \times B |]\\
+        = \,& (M|[ \Gamma \vdash \mathsf{fst}\,s: A|], M|[\Gamma \vdash \mathsf{snd}\,s: B|])\\
+        = \,& (\pi_1 \circ M|[ \Gamma \vdash s: A \times B |], \pi_2 \circ M|[\Gamma \vdash s: A \times B|])\\
+        = \,& M|[ \Gamma \vdash s: A \times B |]
+    \end{align*}
+    \todo{show diagram}
+\end{answer}
 
 \begin{exercise}
     \label{ex:pure-peirce}
@@ -53,6 +95,36 @@
     Hint: $([0, 1], \le)$ regarded as a category is cartesian closed.
     What is the exponential $Y^X$ of $X$ and $Y$ where $X, Y \in [0, 1]$?
 \end{exercise}
+\begin{answer}
+    The exponential $Y^X$ is defined as:
+    \begin{align*}
+        Y^X := \begin{cases}
+            1, \text{ if } X \le Y\\
+            Y, \text{ if } Y < X
+               \end{cases}
+    \end{align*}
+    We write $X -> Y$ for $Y^X$.
+    Let us assume a pure term $s$ such that $ \vdash s: ((G \to H) \to G) \to G$ for two different ground types $G$ and $H$.
+    We define $M$ as:
+    \begin{align*}
+        M(G') := \begin{cases}
+                \frac{1}{2}, \text{ if } G' = G\\
+                0, \text{ else}
+            \end{cases}
+    \end{align*}
+    We obtain for $M|[\ \vdash s: ((G \to H) \to G) \to G|]$:
+    \begin{align*}
+            & 1 \le M|[((G \to H) \to G) \to G|] \\
+        <=>\, & 1 \le M|[(G \to H) \to G|] -> M|[G|] \\
+        <=>\, & 1 \le (M|[G \to H|] -> M|[G|]) -> M|[G|] \\
+        <=>\, & 1 \le ((M|[G|] -> M|[H|]) -> M|[G|]) -> M|[G|] \\
+        <=>\, & 1 \le ((\frac{1}{2} -> 0) -> \frac{1}{2}) -> \frac{1}{2} \\
+        <=>\, & 1 \le (0 -> \frac{1}{2}) -> \frac{1}{2} \\
+        <=>\, & 1 \le 1 -> \frac{1}{2} \\
+        <=>\, & 1 \le \frac{1}{2}
+    \end{align*}
+    But $1 \nleq \frac{1}{2}$ and therefore the assumption of the existence of such a pure term $s$ is false.
+\end{answer}
 
 \begin{definition}{Cartesian Closed Pre-order}
     Let $(X, \le)$ be a pre-ordered set.
@@ -95,6 +167,50 @@
             How is this related to exercise \ref{ex:pure-peirce}? Why?
     \end{itemize}
 \end{exercise}
+\begin{answer}
+    \begin{itemize}
+        \item[a)]
+            \begin{align*}
+                M|[p|] & := M(p)\\
+                M|[\top|] & := \top && (\text{greatest element})\\
+                M|[\varphi \land \psi|] & := M|[\varphi|] \land M|[\psi|] && (\text{binary meet})\\
+                M|[\varphi => \psi|] & := M|[\varphi|] -> M|[\psi|] && (\text{Heyting implication})\\
+                \\
+                M|[\emptyset|] & := \top && (\text{greatest element})\\
+                M|[\Phi, \varphi|] & := M|[\Phi|] \land M|[\varphi|] && (\text{binary meet})
+            \end{align*}
+        \item[b)] Let us consider the cartesian closed pre-order $([0,1], \le)$.
+            The Heyting implication $x -> y$ is defined as:
+            \begin{align*}
+                x -> y := \begin{cases}
+                    1, \text{ if } x \le y\\
+                    y, \text{ if } y < x
+                       \end{cases}
+            \end{align*}
+            We assume Peirce's law $\emptyset \vdash ((\varphi => \psi) => \varphi) => \varphi$ for two formulas $\varphi$ and $\psi$.
+            We define $M$ as:
+            \begin{align*}
+                M(\varphi') := \begin{cases}
+                        \frac{1}{2}, \text{ if } \varphi' = \varphi\\
+                        0, \text{ else}
+                    \end{cases}
+            \end{align*}
+            By soundness we obtain:
+            \begin{align*}
+                      & M|[\emptyset|] \le M|[((\varphi \to \psi) \to \varphi) \to \varphi|] \\
+                <=>\, & 1 \le M|[((\varphi \to \psi) \to \varphi) \to \varphi|] \\
+                <=>\, & 1 \le M|[(\varphi \to \psi) \to \varphi|] -> M|[\varphi|] \\
+                <=>\, & 1 \le (M|[\varphi \to \psi|] -> M|[\varphi|]) -> M|[\varphi|] \\
+                <=>\, & 1 \le ((M|[\varphi|] -> M|[\psi|]) -> M|[\varphi|]) -> M|[\varphi|] \\
+                <=>\, & 1 \le ((\frac{1}{2} -> 0) -> \frac{1}{2}) -> \frac{1}{2} \\
+                <=>\, & 1 \le (0 -> \frac{1}{2}) -> \frac{1}{2} \\
+                <=>\, & 1 \le 1 -> \frac{1}{2} \\
+                <=>\, & 1 \le \frac{1}{2}
+            \end{align*}
+            Peirce's law $\emptyset \vdash ((\varphi => \psi) => \varphi) => \varphi$ is not provable in IPL since $1 \nleq \frac{1}{2}$.
+            \todo{connection to previous exercise}
+    \end{itemize}
+\end{answer}
 
 \end{document}
 
