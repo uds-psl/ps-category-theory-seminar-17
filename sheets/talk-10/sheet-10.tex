@@ -95,6 +95,25 @@
 implies $A\iso A'$. Show that naturality is really necessary.
 \hint{There is a counterexample with two objects.}
 \end{exercise}
+\begin{answer}
+consider the following category $\cat A$: 
+\begin{align*}
+  \xymatrix{
+  A \ar@(ul,ur)^{1_A,f} \ar@/^0.3pc/@[][r]^{f_1,f_2} & B \ar@/^0.3pc/@[][l]^{g_1,g_2} \ar@(ul,ur)^{1_B,g}
+                                                       } 
+  \end{align*}
+  i.e. between any pair of object there are two arrows, where the composition of $f_i$ and $g_j$ ($i,j\in\{1,2\}$) is given by
+  \begin{align*}
+    f_i\of g_j&=g
+  \end{align*}
+  and the remaining compositions can be chosen arbitrarily.
+  
+  Obviously,
+  \begin{align*}
+    \cat A(C,A)\iso\cat A(C,B)
+  \end{align*}
+  for all $C\in\cat A$ because all homsets contain exactly two elements. However $A\not\iso B$ because by construction neither $g_1$ nor $g_2$ (which are the only maps between $B$ and $A$) have a left inverse.
+\end{answer}
 
 \begin{exercise}
   Let $\cat A$ be a locally small CCC. Use the Yoneda embedding to show that for any objects $A,B,C\in\cat A$,
@@ -108,7 +127,7 @@ implies $A\iso A'$. Show that naturality is really necessary.
 \end{exercise}
 
 \begin{exercise}
-  Let $\cat B$ be a category and $J\from\cat C\to D$ a functor. There is an induced functor
+  Let $\cat B$ be a category and $J\from\cat C\to\cat D$ a functor. There is an induced functor
   \begin{align*}
     J\of -\from[\cat B,\cat C]\to [\cat B,\cat D]
   \end{align*}
@@ -120,10 +139,124 @@ implies $A\iso A'$. Show that naturality is really necessary.
     \hint{The Yoneda embedding is full and faithful.}
   \end{enumerate}
 \end{exercise}
+\begin{answer}
+  \begin{enumerate}
+  \item Clearly, $J\of-$ is defined on arrows $\alpha\from F\to G$ for $F,G\from\cat B\to\cat C$ by
+    \begin{align*}
+      J\of -(\alpha)&=\alpha'
+    \end{align*} 
+    where $\alpha$ is a natural transformation $J\of F\to J\of G$ defined by
+    \begin{align*}
+      \alpha'_B=J(\alpha_B)\from J\of F(B)\to J\of G(B)
+    \end{align*}
+    for $B\in\cat B$.
+
+    Full and faithfulness of $J$ means that for each $C,C'\in\cat C$ the function
+    \begin{align*}
+      J_{C,C'}\from\cat C(C,C)\to \cat D(J(C),J(C'))\\
+      f&\mapsto J(f)
+    \end{align*}
+    is bijective.
+
+    To show that $J\of-$ is full and faithful, let $F,G\from\cat B\to\cat C$ be natural transformations and $\beta\from J\of F\to J\of G$ be a natural transformation.
+    Define, a natural transformation $\alpha\from F\to G$ by 
+    \begin{align*}
+      \alpha_B=J_{F(A),G(A)}^{-1}(\beta_B)
+    \end{align*}
+    for $B\in\cat B$. This is well-defined by full- and faithfulness and defines indeed a natural transformation.
+
+    Clearly, $J\of -(\alpha)=\beta$. This shows fullness of $J\of -$. For faithfulness assume a natural transformation $\alpha'\from F\to G$ and suppose 
+    \begin{align*}
+      J\of-(\alpha)=J\of-(\alpha')
+    \end{align*}
+    By definition this means
+    \begin{align*}
+      J(\alpha_B)=J(\alpha'_B)
+    \end{align*}
+    for any $B\in\cat B$. Faithfulness of $J$ implies $\alpha_B=\alpha'_B$ for any $B\in\cat B$, i.e. $\alpha=\alpha'$.
+  \item \label{ex:lem} $J\of -\from[\cat B,\cat C]\to [\cat B,\cat D]$ is full and faithful by the previous part. Hence for $G,G'\in [\cat B,\cat C]$, $G\iso G'$ if and only if $J\of G=J\of-(G)\iso J\of-(G')=J\of G'$.
+  \item By adjointness we get
+    \begin{align*}
+      H_{G(B)}(A)=\cat A(A,G(B))\iso\cat B(F(A),B)\iso\cat A(A,G'(B))=H_{G'(B)}(A)
+    \end{align*}
+    naturally in $A\in\cat A$ and $B\in\cat B$. In particular,
+    \begin{align*}
+      (H_-\of G)(B)=H_{G(B)}\iso H_{G'(B)}=(H_-\of G')(B)
+    \end{align*}
+    naturally in $B$, i.e. $H_-\of G\iso H_-\of G'$. Due to the fact that the Yoneda embedding $H_-$ is full and faithful and part \ref{ex:lem}, $G\iso G'$.
+
+    % By adjointness we get
+%     \begin{align*}
+%       \cat A(A,G(B))\iso\cat B(F(A),B)\iso\cat A(A,G'(B))
+%     \end{align*}
+%     naturally in $A\in\cat A$ and $B\in\cat B$. % This means 
+%     % \begin{align*}
+%     %   H_{G(B)}(A)\iso H_{G'(B)}(A)
+%     % \end{align*}
+%     % naturally in $A$, i.e. $(H_-\of G)(B)=H_{G(B)}\iso H_{G'(B)}=(H_-\of G')(B)$.
+% This means there is a natural transformation $\eta_B$ that is an isomorphism and for which
+%     \begin{align*}
+%                 H_{G(B)}(A)\xrightarrow{\eta_{B,A}}H_{G'(B)}(A)
+%     \end{align*}
+%     naturally in $A$ and $B$.
+    
+%     As a consequence $H_-(G(B))=H_{G(B)}\iso H_{G'(B)}=H_-(G'(B))$ and the isomorphism is given by $\eta_B$. By the Yoneda principle, $G(B)\iso G'(B)$. 
+
+%     This isomorphism is even natural in $B$: Since $\cat A(A,G(B))\iso\cat A(A,G'(B))$ naturally in $B$ the following commutes for any $f\from B\to B'$:
+%     \begin{align*}
+%       \xymatrix{
+%       H_{G(B)} \ar[r]^{H_{G(f)}}\ar[d]^{\eta_B} & H_{G(B')} \ar[d]_{\eta_{B'}}\\
+%       H_{G(B')} \ar[r]^{H_{G'(f)}} & H_{G'(B')} 
+%                                         } 
+%   \end{align*}
+%   Because the Yoneda embedding $H_-$ is full and faithful this means
+%   \begin{align*}
+%     \xymatrix{
+%     G(B) \ar[r]^{G(f)}\ar[d]^{\zeta_B} & G(B') \ar[d]_{\zeta_{B'}}\\
+%     G(B') \ar[r]^{G'(f)} & G'(B') 
+%                                    } 
+%   \end{align*}
+%   commutes where $\zeta_B$ and $\zeta_{B'}$ are the isomorphism corresponding to $\eta_B$ and $\eta_{B'}$ respectively under $H_-$. Another consequence is that $G(B)\iso G'(B)$ naturally in $B$, i.e. $$.
+  \end{enumerate}
+\end{answer}
 
 \begin{exercise}
   Let $\cat A$ be a small category. Prove that the representable functors \emph{generate} the presheaf category $[\cat A^\op,\Set]$ in the folowing sense: Given any objects $F,G\in[\cat A^\op,\Set]$ and natural transformations $\alpha,\beta\from F\to G$, if for every representable functor $H_A$ and natural transformation $\gamma\from H_A\to F$, one has $\alpha\of\gamma=\beta\of\gamma$, then $\alpha=\beta$. Thus, the arrows in $[\cat A^\op,\Set]$ are determined by their effect on generalized elements based at representables.
 \end{exercise}
+
+\begin{answer}
+  Let $F,G,\alpha,\beta$ be given as stated above. By the naturality statement in the Yoneda lemma we have that
+  \begin{align*}
+    \xymatrix{
+    [\cat A^\op,\Set](H_A,F) \ar[r]^{\alpha\of -} & [\cat A^\op,\Set](H_A,G) \\
+    F(A) \ar[r]^{\alpha_A} \ar[u]^{\iso} & G(A) \ar[u]^{\iso}
+                             } 
+  \end{align*}
+commutes for any $A\in\cat A$. In particular, with the definitions from the proof of the Yoneda lemma we have that 
+\begin{align*}
+    \xymatrix{
+    [\cat A^\op,\Set](H_A,F) \ar[r]^{\alpha\of -} & [\cat A^\op,\Set](H_A,G) \ar[d]^{\widehat{-}} \\
+    F(A) \ar[r]^{\alpha_A} \ar[u]^{\widetilde{-}} & G(A) 
+                             } 
+\end{align*}
+commutes for any $A\in\cat A$. Consequently, for any $A\in\cat A$ and $a\in F(A)$,
+\begin{align*}
+  \alpha_A(a)=\widehat{\alpha\of\widetilde a}.
+\end{align*}
+Analogously,
+\begin{align*}
+  \beta_A(a)=\widehat{\beta\of\widetilde a}.
+\end{align*}
+By assumption ($\widetilde a\from H_A\to F$)
+\begin{align*}
+  \alpha\of\widetilde a=\beta\of\widetilde a
+\end{align*}
+holds and therefore
+\begin{align*}
+  \alpha_A(a)=\beta_A(a)
+\end{align*}
+for any $A\in\cat A$ and $a\in F(A)$, which means $\alpha=\beta$.
+\end{answer}
 
 % \begin{definition}{Preservation of Limits}
 %   Let $\mathbf I$ be a small category. A functor $F\from \cat A\to\cat B$ \emph{preserves colimits of shape $\mathbf I$} if for all diagrams $D\from\mathbf I\to\cat A$ and all cocones $(D(I)\xrightarrow{p_I}A)_{I\in \mathbf I}$ on $D$,
