@@ -126,6 +126,34 @@ consider the following category $\cat A$:
   \end{align*}
 \end{exercise}
 
+\begin{answer}
+  \begin{itemize}
+  \item It holds
+    \begin{align*}
+      \cat A(X,(A\times B)^C&\iso\cat A(X\times C,A\times B)&\cat A\text{ cartesian closed}\\
+                            &\iso\cat A(X\times C,A)\times \cat A(X\times C,B)&\text{dual of \ref{ex:det}-\ref{ex:col}}\\
+                            &\iso\cat A(X,A^C)\times \cat A(X,B^C)&\cat A\text{ cartesian closed}\\
+                            &\iso\cat A(X,A^C\times B^C)&\text{dual of \ref{ex:det}-\ref{ex:col}}
+    \end{align*}
+    naturally in $X\in\cat A$. Hence, $(A\times B)^C\iso A^C\times B^C$.
+
+    To see that the first isomorphsim is natural in $X$, suppose an arrow $f\from Y\to X$. Naturality means that for any $g\from X\to (A\times B)^C$
+    \begin{align*}
+      \overline{g\of f}=\epsilon\of ((g\of f)\times 1_{A\times B})=\epsilon\of ((g\times 1_{A\times B})\of(f\times 1_{A\times B})=\overline g\of (f\times 1).
+    \end{align*}
+    The other isomorphisms can be equally simply shown to be natural in $X$.
+  \item It holds
+    \begin{align*}
+      \cat A(X,A^{B+C}&\iso\cat A(X\times (B+C),A)&\cat A\text{ cartesian closed}\\
+                      &\iso\cat A((X\times B)+(X\times C),A)&\text{``distributivity''-lemma}\\
+                      &\iso\cat A(X\times B,A)\times\cat A(X\times C, A)&\text{\ref{ex:det}-\ref{ex:col}}\\
+                      &\iso\cat A(X,A^B)\times\cat A(X, A^C)&\cat A\text{ cartesian closed}\\
+                      &\iso\cat A(X,A^B\times A^C)&\text{dual of \ref{ex:det}-\ref{ex:col}}
+    \end{align*}
+    naturally in $X\in\cat A$. Hence, $A^{B+C}\iso A^B\times A^C$.
+  \end{itemize}
+\end{answer}
+
 \begin{exercise}
   Let $\cat B$ be a category and $J\from\cat C\to\cat D$ a functor. There is an induced functor
   \begin{align*}
@@ -153,15 +181,15 @@ consider the following category $\cat A$:
 
     Full and faithfulness of $J$ means that for each $C,C'\in\cat C$ the function
     \begin{align*}
-      J_{C,C'}\from\cat C(C,C)\to \cat D(J(C),J(C'))\\
+      J_{C,C'}&\from\cat C(C,C)\to \cat D(J(C),J(C'))\\
       f&\mapsto J(f)
     \end{align*}
     is bijective.
 
     To show that $J\of-$ is full and faithful, let $F,G\from\cat B\to\cat C$ be natural transformations and $\beta\from J\of F\to J\of G$ be a natural transformation.
-    Define, a natural transformation $\alpha\from F\to G$ by 
+    Define a natural transformation $\alpha\from F\to G$ by 
     \begin{align*}
-      \alpha_B=J_{F(A),G(A)}^{-1}(\beta_B)
+      \alpha_B=J_{F(B),G(B)}^{-1}(\beta_B)
     \end{align*}
     for $B\in\cat B$. This is well-defined by full- and faithfulness and defines indeed a natural transformation.
 
@@ -268,9 +296,10 @@ for any $A\in\cat A$ and $a\in F(A)$, which means $\alpha=\beta$.
 %   A functor $F\from \cat A\to\cat B$ \emph{preserves limits} if it preserves limits of shape $\mathbf I$ for all small categories $\mathbf I$.
 % \end{definition}
 \begin{exercise}
+  \label{ex:det}
   Fill in some of the missing details in the proof that for any small category $\cat A$ the presheaf category $[A^\op,\Set]$ is cartesian closed:
   \begin{enumerate}
-  \item Show that for any $A\in\cat A$, $H_A$ maps all colimits to limits such that $$H_A(\lim_{\to\mathbf I} D)\iso \lim_{\leftarrow\mathbf I}(H_A\of D)$$ for all small categories $\mathbf I$ and diagrams $D\from \mathbf I\to\cat A$. What is the dual statement?
+  \item \label{ex:col}Show that for any $A\in\cat A$, $H_A$ maps all colimits to limits such that $$H_A(\lim_{\to\mathbf I} D)\iso \lim_{\leftarrow\mathbf I}(H_A\of D)$$ for all small categories $\mathbf I$ and diagrams $D\from \mathbf I\to\cat A$. What is the dual statement?
     \hint{It suffices to show that this holds for all coproducts and coequalizers.}
   \item Let $F\from \cat A\to\Set$ be a presheaf. Show that the functor $-\times F\from [\cat A^\op,\Set]\to[\cat A^\op,\Set]$ preserves colimits. That is: For any small category $\mathbf I$ and functor $D\from\mathbf I\to [\cat A^\op,\Set]$,
     \begin{align*}
@@ -281,6 +310,66 @@ for any $A\in\cat A$ and $a\in F(A)$, which means $\alpha=\beta$.
   \end{enumerate}
 \end{exercise}
 
+\begin{answer}
+  \begin{enumerate}
+  \item
+    By the hint it suffices that coproducts and coequalizers are mapped to the corresponding products and equalizers, respectively (because each colimit can be obtained from coproducts and coequalizers).
+    \begin{itemize}
+    \item Coproducts are mapped to products: Let $(B_i)_{i\in I}$ be an arbitrary family of objects and suppose $B=\sum\limits_{i\in I}B_i$ exists. Then for any object $A$ and family of maps $(f_i\from B_i\to A)_{i\in I}$ there is a unique $\bar f\from B\to A$ s.t. $f_i=\bar f\of p_i$ for all $i\in I$ because of the universality property of sums. Hence there is a bijection $\prod\limits_{i\in I} \cat A(B_i,A)\iso \cat A(B,A)$, i.e. $\prod\limits_{i\in I}H_A(B_i)\iso H_A(\sum\limits_{i\in I}B_i)$. In particular $H_A(0)=1$ if $\cat A$ has an initial object $0$.
+    \item Coequalizers are mapped to equalizers: Let $e$ be the equalizer of $f$ and $g$:
+      \begin{align*}
+        \xymatrix{
+  A \ar@/^0.3pc/@[][r]^{f} \ar@/_0.3pc/@[][r]_{g} & B  \ar[r]^{e} & E
+                                                       } 
+      \end{align*}
+      i.e. $e\of f=e\of g$. We are going to show that $H_C(e)$ is the equalizer of $H_C(f)$ and $H_C(g)$ for any $C\in\cat A$. 
+
+      \begin{align*}
+        \xymatrix{
+  H_C(A) & H_C(B) \ar@/^0.3pc/@[][l]^{H_C(f)} \ar@/_0.3pc/@[][l]_{H_C(g)}  & H_C(E) \ar[l]^{H_C(e)}
+                                                       } 
+      \end{align*}
+
+      Let $C$ be arbitrary. It holds $H_C(f)\of H_C(e)=H_C(g)\of H_C(e)$ since for any $h\from E\to C$, 
+      \begin{align*}
+        H_C(f)\of H_C(e)(h)=h\of e\of f=h\of e\of g=H_C(g)\of H_C(e)(h).
+      \end{align*}
+      Next, let $u\from S\to H_C(B)$ be another fork, i.e. for any $s\in S$, $H_C(f)\of u (s)=u(s)\of f=u(s)\of g=H_C(g)\of u(s)$. Hence, by the universality property, for any $s\in S$ there is a unique $\overline{u(s)}$ s.t. $u(s)=\overline{u(s)}\of e$. This immediately implies that there is a unique $\overline u\from S\to H_C(E)$ such that $u=H_C(e)\of \overline u$ (namely $\overline u(s)=\overline{u(s)}$).
+    \end{itemize}
+    The dual statement is that for any $A\in\cat A$, small category $\mathbf I$ and diagram $D\from \mathbf I\to\cat A$,
+    $$\cat A(A,\lim_{\leftarrow I\in\mathbf I} D(I))\iso \lim_{\leftarrow I\in\mathbf I}(\cat A(A, D(I)))$$
+    i.e. that the ``covariant representable functor preserves limits''.
+  \item Let
+    \begin{align*}
+      (D(I)\xrightarrow{\alpha_I} \lim_{\to I\in\mathbf I} D(I))_{I\in\mathbf I}
+    \end{align*}
+    be the cocone constituting the colimit. By applying the functor $-\times F$ we get a cocone 
+    \begin{align*}
+      (D(I)\times F\xrightarrow{\alpha_I\times F} (\lim_{\to I\in\mathbf I} D(I))\times F)_{I\in\mathbf I}
+    \end{align*} 
+    since functors obviously preserve cocones. Now, due to the hint $[\cat A^\op,\Set]$ has all limits. Therefore, there is a unique natural transformation 
+    \begin{align*}
+      (\lim_{\to I\in\mathbf I} D(I)\times F)\xrightarrow{\overline\alpha} (\lim_{\to I\in\mathbf I} D(I))\times F
+    \end{align*}
+    such that the corresponding arrows commute. We are going to show that $\alpha$ is an isomorphism. By exercise Basis 3.5 it suffices to show that each component
+    \begin{align*}
+      (\lim_{\to I\in\mathbf I} D(I)\times F)(A)\xrightarrow{\overline\alpha_A} ((\lim_{\to I\in\mathbf I} D(I))\times F)(A)
+    \end{align*}
+ ($A\in\cat A$) is an isomorphism in $\Set$. 
+    This can be shown with the Yoneda principle.
+
+    Let $S\in\Set$. Then we have
+    \begin{align*}
+      \Set((\lim_{\to I\in\mathbf I} D(I)\times F)(A), S)&\iso \Set((\lim_{\to I\in\mathbf I} D(I)(A)\times F(A)), S)&\text{limits are computed pointwise}\\
+      &\iso \lim_{\leftarrow I\in\mathbf I} \Set((D(I)(A)\times F(A)), S)&\text{\ref{ex:det}-\ref{ex:col}}\\
+      &\iso \lim_{\leftarrow I\in\mathbf I} \Set(D(I)(A), S^{F(A)})&\Set \text{ is cartesian closed}\\
+      &\iso \Set(\lim_{\to I\in\mathbf I} D(I)(A), S^{F(A)})&\text{\ref{ex:det}-\ref{ex:col}}\\
+      &\iso \Set((\lim_{\to I\in\mathbf I} D(I)(A))\times F(A), S)&\Set \text{ is cartesian closed}\\
+      &\iso \Set(((\lim_{\to I\in\mathbf I} D(I))\times F)(A), S)&\text{limits are computed pointwise}
+    \end{align*}
+    natural in $S$.
+  \end{enumerate}
+\end{answer}
 \end{document}
 
 %%% Local Variables:
