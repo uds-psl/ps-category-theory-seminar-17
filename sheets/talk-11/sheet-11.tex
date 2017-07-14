@@ -11,25 +11,26 @@
 \end{hint}
 
 \begin{exercise}
-  Define the sets $\mathit{Ty}_F(\Gamma)$ and $\mathit{Ter}_F(\Gamma, A)$ for the presheaf model.
+  Give the sets $\mathit{Ty}_F(\Gamma)$ and $\mathit{Ter}_F(\Gamma, A)$ for
+  the presheaf model.
 \end{exercise}
 \begin{answer}
-  $\mathit{Ty}_F(\Gamma)$ is the first projection in $F(\Gamma)$, that is a set with some
-  objects (possibly empty).
+  $\mathit{Ty}_F(\Gamma)$ is the first projection in $F(\Gamma)$, that is a set
+  with some objects (possibly empty).
   \[
     \mathit{Ty}_F(\Gamma) := \{A_\Gamma, B_\Gamma, \dots\}
   \]
-  $\mathit{Ter}_F(\Gamma, A)$ is then an element of the second projection of $F(\Gamma)$,
-  that is a member of the family of sets indexed over $\mathit{Ty}_F(\Gamma)$, which has
-  A as its index and also may be empty.
+  $\mathit{Ter}_F(\Gamma, A)$ is then an element of the second projection of
+  $F(\Gamma)$, that is a member of the family of sets indexed over
+  $\mathit{Ty}_F(\Gamma)$, which has A as its index and also may be empty.
   \[
     \mathit{Ter}_F(\Gamma, A) := \{a_A, b_A, \dots\}_A
   \]
 \end{answer}
 
 \begin{exercise}
-  Let $(\cat C, \mathcal F)$ be a category with families.
-  Check that the following square is a pullback in $\cat{C}$:
+  Let $(\cat C, \mathcal F)$ be a category with families.  Check that the
+  following square is a pullback in $\cat{C}$:
   \[
     \begin{tikzcd}
       \Delta.A\sigma \arrow{r}{(\sigma \circ p_\Delta, q)} \arrow{d}{p_\Delta} & \Gamma.A \arrow{d}{p_\Gamma}\\
@@ -40,30 +41,37 @@
 \end{exercise}
 
 \begin{exercise}
-  Recall the notation $\int_\cat{C}\Gamma$ for the category of elements of a presheaf $\Gamma$ (section $1.2$ p.$16$ in Huber's thesis).
-  Check that substitution in $A\from (\int_\cat{C}\Gamma)^\op \to \Set$ with $\sigma \from \Delta \to \Gamma$ corresponds to precomposing with $\int_\cat{C} \sigma : \int_\cat{C} \Delta \to \int_\cat{C} \Gamma$ induced by $\sigma$.
+  Recall the notation $\int_\cat{C}\Gamma$ for the category of elements of a
+  presheaf $\Gamma$ (section $1.2$ p.$16$ in Huber's thesis).  Check that
+  substitution in $A\from (\int_\cat{C}\Gamma)^\op \to \Set$ with $\sigma \from
+  \Delta \to \Gamma$ corresponds to precomposing with $\int_\cat{C} \sigma :
+  \int_\cat{C} \Delta \to \int_\cat{C} \Gamma$ induced by $\sigma$.
 
-  Then verify that this construction imposes a functor $\int_\cat{C} \from \mathit{Psh}(\cat{C}) \to \CAT$.
+  Then verify that this construction imposes a functor $\int_\cat{C} \from
+  \mathit{Psh}(\cat{C}) \to \CAT$.
 \end{exercise}
 \begin{answer}
 \end{answer}
 
 \begin{exercise}
-  From the slides we know that if $\Gamma \vdash A, B ~\text{type}$, i.e. $B$ does not depend on $A$,
-  then $\Pi x: A. B$ corresponds to the ordinary non-dependent function type:
+  From the slides we know that if $\Gamma \vdash A, B ~\text{type}$, i.e. $B$
+  does not depend on $A$, then $\Pi x: A. B$ corresponds to the ordinary
+  non-dependent function type:
   \begin{equation*}
     A \to B \vcentcolon= \Pi x: A. B
   \end{equation*}
 
-  Give a term of type $A \to A$, and the elements in $\mathit{Ty}(\Gamma)$ and $\mathit{Ter}(\Gamma, A \to A)$ corresponding to the type and the term.
+  Give a term of type $A \to A$, and the elements in $\mathit{Ty}(\Gamma)$ and
+  $\mathit{Ter}(\Gamma, A \to A)$ corresponding to the type and the term.
 
   \emph{Hint}: Read section $1.2.1$ in Huber's thesis for the general case.
 
 \end{exercise}
 
 \begin{exercise}
-  Suppose we have two types $\Gamma \vdash A,B \text{ type}$ each not depending on the other.
-  Then we can define a product type in the presheaf model in the following way:
+  Suppose we have two types $\Gamma \vdash A,B \text{ type}$ each not depending
+  on the other.  Then we can define a product type in the presheaf model in the
+  following way:
   \[
     (A \times B)\rho := \{(a,b) | a \in A\rho \land b \in B\rho\}
   \]
@@ -71,8 +79,8 @@
   Now suppose that we have dependent types $\Gamma \vdash C \text{ type}$ and
   $\Gamma, C \vdash D \text{ type}$.
 
-  Define the product type that involves a
-  dependent type (i.e. the dependent sum type) in the presheaf model.
+  Define the product type that involves a dependent type (i.e. the dependent
+  sum type) in the presheaf model.
 
   \[
     (\Sigma AB)\rho := ???
@@ -87,23 +95,24 @@
 \end{answer}
 
 \begin{exercise}
-  Read Hofmann's section on the type of natural numbers (section 2.1.3) and familiarize yourself with identity types (ibid., section 2.1.5)
+  Read Hofmann's section on the type of natural numbers (section 2.1.3) and
+  familiarize yourself with identity types (ibid., section 2.1.5)
 
   By analogy to the type of natural numbers define the rules for a list type
-  former which to any type $A$ associates a type $\mathit{List}(A)$ consisting of finite
-  sequences of elements of $A$.
+  former which to any type $A$ associates a type $\mathit{List}(A)$ consisting
+  of finite sequences of elements of $A$.
 
-  \emph{Hint}: think of lists as inductively
-  generated from the empty list by successive additions of elements of $A$
-  ("cons").
+  \emph{Hint}: think of lists as inductively generated from the empty list by
+  successive additions of elements of $A$ ("cons").
 
-  Define a length function of type $\mathit{List}(A) \to \mathbb{N}$ and
-  define a type $\mathit{Vec}_A(n)$ of lists of length $n$ for each $n : \mathbb{N}$
+  Define a length function of type $\mathit{List}(A) \to \mathbb{N}$ and define
+  a type $\mathit{Vec}_A(n)$ of lists of length $n$ for each $n : \mathbb{N}$
   using lists, the identity type and the $\Sigma$-type.
 \end{exercise}
 
 \begin{exercise}
-  Read the section on universes in Hofmann's notes (2.1.6).
+  Read the section on universes in Hofmann's notes (2.1.6) as well as the
+  material for the previous exercise.
 
   Give the rules for universe $U$ containing a code for $\hat{0}$ for the empty
   type and a code $\hat{1}$ for the unit type $1$. Show that in a type theory
