@@ -1,0 +1,184 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
+% \beamertemplatenavigationsymbolsempty
+% \setbeamertemplate{footline}{
+% 	\raisebox{0.5em}{\makebox[\paperwidth-0.5em][r]{
+% 		\color{gray}\scriptsize\insertframenumber}}}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{cd, shapes, tikzmark}
+\def\pathToRoot{../../}\input{\pathToRoot headers/sharedHeader}
+
+\title{Presheaves, Representables and\\the Yoneda Lemma}
+\author{Dominik Wagner}
+%\date{June 7, 2017}
+
+\begin{document}
+
+\begin{definition}
+  Let $\cat A$ and $\cat B$ be categories. A \emph{functor} $\from \cat A\to\cat B$ consists of
+    \begin{itemize}
+    \item a function
+      \begin{align*}
+        \ob(\cat A)\to\ob(\cat B),
+      \end{align*}
+      written as $A\mapsto F(A)$ and
+    \item for each $A,A'\in\ob(\cat A)$, a function
+      \begin{align*}
+        \cat A(A,A')\to\cat B(F(A),F(A')),
+      \end{align*}
+      written as $f\mapsto F(f)$
+    \end{itemize}
+    such that the following axioms are satisfies:
+    \begin{itemize}
+    \item $F(1_A)=1_{F(A)}$ whenever $A\in\cat A$ and
+    \item $F(f'\of f)=F(f')\of F(f)$ whenever $A\xrightarrow{f}A'\xrightarrow{f'}A''$ in $\cat A$.
+    \end{itemize}
+\end{definition}
+
+Next, we consider a further example of a $\Set$-valued functor, which unlike the previous ones is not forgetful.
+\begin{example}
+  \label{ex:Mset}
+  Let $\cat M$ be a category with a single object $M$, i.e. a monoid. Then, a functor $F\from\cat M\to\Set$ is a set $S=F(M)$ together with functions $F(m)\from S\to S$ for $m\from M\to M$ in $\cat M$. Hence, we can introduce the short-hand notation
+  \begin{align*}
+    m\cdot s=F(m)(s).
+  \end{align*}
+  The functorality axioms for $F$ state that
+  \begin{align*}
+    1_M\cdot s&=F(1_M)(s)=1_S(s)=s\\
+    (m\of m')\cdot s&=F(m\of m')(s)=(F(m)\of F(m'))(s)=F(m)(F(m')(s))=m\cdot (m'\cdot s)
+  \end{align*}
+  for all $m,m'\from M\to M$ and $s\in S$. 
+
+  As a consequence, a functor from a one-object category, which correspond to a monoid $M$, to $\Set$ is essentially a \emph{left $M$-set}. (Recall that a left $M$-set for a monoid $M$ is a set $S$ together with a function
+  \begin{align*}
+    \cdot\from M\times S&\to S\\
+    (m,s)&\mapsto m\cdot s
+  \end{align*}
+  such that $(m\of m')\cdot s=m\cdot (m'\cdot s)$ and $1_M\cdot s=s$ for all $m,m'\in M$ and $s\in S$.)  
+\end{example}
+
+\section{Functors between Preorders}
+Next, suppose that $\cat P$ and $\cat Q$ are preorders regarded as categories. A functor $F\from\cat P\to\cat Q$ is a mapping $\ob(\cat P)\to\ob(\cat Q)$ of the objects together with a function
+\begin{align*}
+  \cat P(P,P')\to\cat Q(F(P),F(P'))
+\end{align*}
+for each $P,P'\in\ob(\cat P)$. In the special case of preorders the latter function states that
+\begin{align*}
+  P\leq_\cat P P'\rightarrow F(P)\leq_\cat Q F(P')
+\end{align*}
+due to the fact that for each pair of objects in a preorder there is either exactly one arrow between them (denoting that the first is smaller than the second) or none at all (denoting incomperatibility). Hence, functors between correspond to monotonically (increasing) functions.
+
+A very natural question to ask is whether there is also a general category theoretic analogue to monotonically decreasing functions, i.e. functions $F\from\ob(\cat P)\to\ob(\cat Q)$ between preorders $\cat P$ and $\cat Q$ such that
+\begin{align*}
+  P\leq_\cat P P'\rightarrow F(P)\geq_\cat Q F(P')
+\end{align*}
+for each $P,P'\in\ob(\cat P)$. Again, this exactly the same as to demand that for each $P,P'\in\ob(\cat P)$ there is a function
+\begin{align*}
+  \cat P(P,P')\to\cat Q(F(P'),F(P)).
+\end{align*}
+Since there is the unique arrow in $\cat (P,P')$ if and only if $\cat P^\op(P',P)$ contains the unique arrow we see that this amounts to the same as having a function
+\begin{align*}
+  \cat P^\op(P',P)\to\cat Q(F(P'),F(P)),
+\end{align*}
+that is we need to reverse the direction of the arrows w.r.t. $\cat P$. Due to the fact that the additional functorality axioms are trivially satisfied for preorders, we see that monotone decreasing functors are exactly the same as functors
+\begin{align*}
+  F\from\cat P^\op\to\cat Q
+\end{align*}
+for the corresponding categories $\cat P$ and $\cat Q$.
+
+Such ``operations'' that are essentially functors but reverse the direction of the arrows are going to play a prominent role in later chapters. Therefore, they have a special name:
+\begin{definition}
+  Let $\cat A$ and $\cat B$ be categories. A \emph{contravariant functor} from $\cat A$ to $\cat B$ is a functor $\cat A^\op\to\cat B$.
+\end{definition}
+\section{Dual Vector Spaces and Contravariant Representable Functors}
+Next, we are going to look at the generalization of a construction from linear algebra that is used in the study of bilinear mappings amongst others. The general idea is that we analyze objects by analyzing the mappings into them.
+
+Let $\mathbb K$ be a field. Given any two $\mathbb K$-vector spaces $V$ and $W$ there is the vector space 
+\begin{align*}
+  \Hom(V,W)=\{f\from V\to W\mid f \text{ linear}\}
+\end{align*}
+of linear mappings between $V$ and $W$ where the vector space operations addition and scalar multiplication are defined pointwise. Therefore, for a fixed $\mathbb K$-vector space $W$, we can define a mapping
+\begin{align*}
+  V\mapsto H_W(V)=\Hom(V,W).
+\end{align*}
+It seems reasonable that we can extend this to a functor $H_W\from\Vect_{\mathbb K}\to\Vect_{\mathbb K}$. So let us check the details: We have to define its action on linear maps $f\from V\to V'$, that is we have to define a linear mapping 
+\begin{align*}
+  H_W(f)\from H_W(V)=\Hom(V,W)\to H_W(V')=\Hom(V',W)
+\end{align*}
+ that satisfies the axioms. To do so, let $g\in H_W(V)=\Hom(V,W)$ be arbitrary and we have to come up with a linear mapping $V'\to W$. This seems to be impossible: There is no canonical way to construct a linear mapping $V'\to W$ from linear mappings $f\from V\to V'$ and $g\from V\to W$. Hence, there is no reasonable way to define a functor $H_W\from\Vect_{\mathbb K}\to\Vect_{\mathbb K}$.
+
+However, it is perfectly possible to canonically construct a linear mapping $V\to W$ from linear mappings $f\from V\to V'$ and $g\from V'\to W$ by just taking its composition $g\of f$ (since composition preserves linearity):
+\begin{align*}
+  \xymatrix{V' \ar[r]^{f} & V \ar[r]^{g} & W }.
+\end{align*}
+That is, given arbitrary $f\from V\to V'$ we can define a mapping
+\begin{align*}
+  H_W(f)\from H_W(V')&\to H_W(V)\\
+  g&\mapsto g\of f
+\end{align*}
+that is moreover trivially linear. This is indeed a contravariant functor since
+\begin{align*}
+  H_W(1_V)=\lambda g\ldotp g\of 1_V=\lambda g\ldotp g=1_{H_W(V)}\\
+  H_W(f'\of f)=\lambda g\ldotp g\of (f'\of f)=\lambda g\ldotp (g\of f')\of f=(\lambda g\ldotp g\of f)\of (\lambda g\ldotp g\of f')=H_W(f)\of H_W(f')
+\end{align*}
+Thus, we have defined a functor $H_W\from\Vect_{\mathbb K}^\op\to\Vect_{\mathbb K}$. 
+
+In linear algebra one frequently takes $\mathbb K$ itself for $W$ (regarded as a one-dimensional vector space over itself) and $H_{\mathbb K}(V)$ is called the dual vector space $V^*$ of $V$. It is a well known fact that the dual vector space $V^*$ reveals a lot about $V$ itself and its relation to other vector spaces. In particular, $V$ is a subspace of the dual of $V^*$.
+
+Since this construction seems very useful indeed for vector spaces it is a natural question whether we can do something similar for arbitrary categories.
+The obvious analogue to 
+\begin{align*}
+  H_W(V)=\Hom(V,W)=\{f\from V\to W\mid f \text{ linear}\}
+\end{align*}
+ is
+\begin{align*}
+  H_B(A)=\cat A(A,B)
+\end{align*}
+for $A$ and $B$ being objects in a category $\cat A$. This suggests a functor $F_A\from\cat A^\op\to\Set$. However, this is only well-defined if all collections $\cat A(A,B)$ are really sets, which is not necessarily the case for arbitrary categories. Hence, in all what follows we assume a \emph{locally small} category $\cat A$ in which all collections $\cat A(A,B)$ are really sets. 
+
+Bearing this in mind, the defintion of the functor $H_B$ for $B\in\cat A$ is a straight-forward generalization:
+\begin{align*}
+  H_B(A)=\cat A(A,B)
+\end{align*}
+for objects $A\in\cat A$ and for $f\from A'\to A$ the function $H_B(f)\from H_B(A)\to H_B(A')$ is defined by
+\begin{align*}
+  H_B(f)\from H_B(A)=\cat A(A,B)&\to H_B(A')=\cat A(A',B)\\
+  g&\mapsto g\of f.
+\end{align*}
+\vspace{-0.7cm}
+\begin{align*}
+  \xymatrix{A' \ar[r]^{f} & A \ar[r]^{g} & B }
+\end{align*}
+These functors $H_A$ are called the \emph{contravariant representable functor} of $A$. Furthermore, contravariant functors to $\Set$ (like $H_A$) have a special name:
+\begin{definition}
+  Let $\cat A$ be a category. A \emph{presheaf} on $\cat A$ is a functor $\cat A^\op\to\Set$.
+\end{definition}
+In a later chapter we are going to discover that they really helps us understand the structure of locally small categories. In particular, we are going to prove that two objects $A$ and $B$ are isomorphic if and only if $H_A$ and $H_B$ are isomorphic\footnote{The notion of mappings between functors is defined in the next chapter.}, i.e. $A$ and $B$ ``look the same from all other objects''.
+
+\begin{example}
+  Similarly, as in example \ref{ex:Mset} presheaves on one-object categories (i.e. monoids $M$) correspond to \emph{right} $M$-sets, where a right $M$-set is a set $S$ together with a function
+  \begin{align*}
+    \cdot\from S\times M&\to S\\
+    (s,m)&\mapsto s\cdot m
+  \end{align*}
+  such that $s\cdot (m\of m')=(s\cdot m)\cdot m'$ and $s\cdot 1_M=s$ for all $m,m'\in M$ and $s\in S$.
+\end{example}
+
+
+
+\end{document}
+
+% vim mode line:
+% vim: ts=2 sts=2 sw=2 expandtab
