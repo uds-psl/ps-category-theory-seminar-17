@@ -1,4 +1,5 @@
 \def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+\usepackage{semantic}
 
 \begin{document}
 
@@ -15,16 +16,11 @@
   the presheaf model.
 \end{exercise}
 \begin{answer}
-  $\mathit{Ty}_F(\Gamma)$ is the first projection in $F(\Gamma)$, that is a set
-  with some objects (possibly empty).
   \[
-    \mathit{Ty}_F(\Gamma) := \{A_\Gamma, B_\Gamma, \dots\}
+    \mathit{Ty}_F(\Gamma) := \mathit{Psh(\Gamma)}
   \]
-  $\mathit{Ter}_F(\Gamma, A)$ is then an element of the second projection of
-  $F(\Gamma)$, that is a member of the family of sets indexed over
-  $\mathit{Ty}_F(\Gamma)$, which has A as its index and also may be empty.
   \[
-    \mathit{Ter}_F(\Gamma, A) := \{a_A, b_A, \dots\}_A
+    \mathit{Ter}_F(\Gamma, A) := \{(a\rho \in A\rho)_{I \in \cat{C}, \rho \in \Gamma(I)} | \forall f \from J \to I, a\rho f = a(\rho f) \}
   \]
 \end{answer}
 
@@ -39,6 +35,48 @@
   \]
   where $\Delta.A \vdash q : A p_\Delta$
 \end{exercise}
+\begin{answer}
+  Let $\Delta'$ be a context and $p' \from \Delta' \to \Delta$ and $\sigma'
+  \from \Delta' \to \Gamma.A$ be two morphisms such that $\sigma \circ p' =
+  p_\Gamma \circ \sigma'$. Therefore the diagram
+  \[
+    \begin{tikzcd}
+      \Delta' \arrow[bend right=30]{ddr}{p'} \arrow[dashed]{dr}{\delta} \arrow[bend left=30]{drr}{\sigma'}&   &\\
+          & \Delta.A\sigma \arrow{r}{(\sigma \circ p_\Delta, q)} \arrow{d}{p_\Delta} & \Gamma.A \arrow{d}{p_\Gamma}\\
+          & \Delta \arrow{r}{\sigma} & \Gamma
+    \end{tikzcd}
+  \]
+  (without $\delta$) is commutative. We must show that there exists a unique
+  $\delta \from \Delta' \to \Delta.A\sigma$ such that $(\sigma \circ p_\Delta,
+  q) \circ \delta = \sigma'$ and $p_\Delta \circ \delta = p'$.
+
+  We can decompose $\sigma'$ as $\sigma' = (p_\Gamma, q_\Gamma) \circ \sigma' =
+  (p_\Gamma \circ \sigma', q_\Gamma\sigma') = (\sigma \circ p', M)$, where $M
+  \equiv q_\Gamma\sigma'$ (of type $\Delta' \vdash A(\sigma \circ p')
+  ~\text{type}$). Let $\delta$ be morphism
+  \[
+    \delta \equiv (p', M) \from \Delta' \to \Delta.A\sigma
+  \]
+  which is suitable since $p_\Delta \circ \delta = p'$ and
+  \[
+    (\sigma \circ p_\Delta, q) \circ \delta =
+    (\sigma \circ p_\Delta \circ \delta, q\delta) =
+    (\sigma \circ p', q_\Gamma\sigma') =
+    (p_\Gamma \circ \sigma', q_\Gamma\sigma') =
+    (p_\Gamma, q_\Gamma) \circ \sigma' =
+    \sigma'
+  \]
+
+  For uniqueness assume morphism $\delta' \from \Delta' \to \Delta.A\sigma$
+  such that $(\sigma \circ p_\Delta, q) \circ \delta' = \sigma'$ and $p_\Delta
+  \circ \sigma' = p'$. As before we have $\delta' = (p_\Delta \circ \delta',
+  q\delta') = (p', N)$ where $N \equiv q\delta'$. The following equalities
+  hold:
+  \[
+    N = q\delta' = q_\Gamma(\sigma \circ p_\Delta \circ \delta', q\delta') = q_\Gamma((\sigma \circ p_\Delta, q) \circ \delta') = q_\Gamma\delta' = M
+  \]
+  and therefore $\delta' = \delta$.
+\end{answer}
 
 \begin{exercise}
   Recall the notation $\int_\cat{C}\Gamma$ for the category of elements of a
@@ -51,6 +89,29 @@
   \mathit{Psh}(\cat{C}) \to \CAT$.
 \end{exercise}
 \begin{answer}
+  Indeed, the operation of $\sigma$ on such objects is a precomposition
+  satisfying the naturality axiom:
+  \[
+    \int_\cat{C}\sigma(I, \rho) := (I, \sigma_I \rho)
+  \]
+
+  Let's check that $\int_\cat{C}$ indeed takes us into a category.
+  \begin{itemize}
+    \item objects are pairs $(I, \rho)$ where $I \in \cat{C}$ and $\rho \in \Gamma(I)$
+    \item a morphism $(J, \rho') \to (I, \rho)$ is a morphism $f \from J \to I$
+      in $\cat{C}$ such that $\rho' = \rho f$.
+  \end{itemize}
+  We need to check that we have composition and identities.
+
+  With our definition of objects, we can consider first and second projections
+  of the pairs separately. We can observe, that elements of first projection
+  are elements in $\cat{C}$ which have required identities and composition
+  under morphisms in $\cat{C}$ (which are also our morphisms). Then what
+  remains is the second projection. Identities and composition are exactly our
+  conditions on presheaves which also hold.
+
+  Now we know the operation of $\int_\cat{C}$ on objects and arrows in
+  $Psh(\cat{C})$.
 \end{answer}
 
 \begin{exercise}
@@ -65,8 +126,20 @@
   $\mathit{Ter}(\Gamma, A \to A)$ corresponding to the type and the term.
 
   \emph{Hint}: Read section $1.2.1$ in Huber's thesis for the general case.
-
 \end{exercise}
+\begin{answer}
+  For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we the elements of $\mathit{Ty}(\Gamma)$:
+  \[
+    (A \to A)\rho = \{w | w_f \in A(\rho f), u \in A(\rho f)\} = \{\lambda I f u.u\}
+  \]
+  And required equalities hold trivially for any $g \from K \to J$: $((\lambda
+  I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$.
+
+  Then we give a term by the following equation:
+  \[
+    ((\lambda q) \rho)_f u = q(\rho f, u) = u
+  \]
+\end{answer}
 
 \begin{exercise}
   Suppose we have two types $\Gamma \vdash A,B \text{ type}$ each not depending
@@ -91,7 +164,9 @@
   section $1.2$ in Huber's thesis.
 \end{exercise}
 \begin{answer}
-  Section $1.2.2$.
+  \[
+    (\Sigma AB)\rho := \{(a,b) | a \in A\rho \land b \in B(\rho, a)\}
+  \]
 \end{answer}
 
 \begin{exercise}
@@ -109,6 +184,46 @@
   a type $\mathit{Vec}_A(n)$ of lists of length $n$ for each $n : \mathbb{N}$
   using lists, the identity type and the $\Sigma$-type.
 \end{exercise}
+\begin{answer}
+  First let's define the type formers:
+  \[
+    \inference[List-F]{\Gamma \vdash A ~\text{type}}{\Gamma \vdash \mathbf{List_A} ~\text{type}}\quad
+    \inference[List-I-nil]{\Gamma \vdash A ~\text{type}}{\Gamma \vdash \mathit{nil_A} : \mathbf{List_A}}\quad
+    \inference[List-I-cons]{\Gamma \vdash a : A \quad \Gamma \vdash x : \mathbf{List_A}}{\Gamma \vdash \mathit{Cons(a, x)} : \mathbf{List_A}}
+  \]
+
+  \[
+    \inference[List-E]{
+      \Gamma, l: \mathbf{List_A} \vdash B ~\text{type}\\
+      \Gamma \vdash H_{nil} : B[nil_A/l]\\
+      \Gamma, a : A, l : \mathbf{List_A}, x: B \vdash H_{cons} : B[Cons(a, l)/l]\\
+      \Gamma \vdash l : \mathbf{List_A}
+    }{\Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x : B] H_{cons}, l) : B[l/l]}
+  \]
+
+  \[
+    \inference[List-C-nil]{
+      \Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B] H_{cons}, nil) : B[nil/l]
+    }{\Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B]H_{cons}, nil) = H_{nil} : B[nil/l]}
+  \]
+
+  \[
+    \inference[List-C-cons]{
+      \Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B] H_{cons}, Cons(a, l)) : B[Cons(a, l)/l]
+    }{\Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B] H_{cons}, Cons(a, l)) = D}
+  \]
+  where $D = H_{cons}[a/a, l/l, R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x : B] H_{cons}, l)/x] : B[Cons(a, l)/l]$.
+
+  Now we can define the length function:
+  \[
+    \mathit{Length(l) \vcentcolon= R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]\mathbb{N}}(0, [a : A, l: \mathbf{List_A}, x : \mathbb{N}] Suc(x), l) : \mathbb{N}}
+  \]
+
+  And finally the $\mathit{Vec_A(n)}$ type:
+  \[
+    \mathit{Vec_A(n)} \vcentcolon= \Sigma l: \mathbf{List_A}. Id_\mathbb{N}(n, \mathit{Length}(l))
+  \]
+\end{answer}
 
 \begin{exercise}
   Read the section on universes in Hofmann's notes (2.1.6) as well as the
@@ -127,6 +242,29 @@
   U$ such that $\diamond \vdash f 0 = \hat{1}: U$ and $\diamond \vdash
   f(Suc(0)) = \hat{0} : U$
 \end{exercise}
+\begin{answer}
+  \[
+    \inference[U-0]{\vdash \Gamma~\text{ctxt}}{\Gamma \vdash \hat{0} : U}\quad
+    \inference[U-0-Ty]{\Gamma \vdash \hat{0}: U}{\Gamma \vdash El(\hat{0}) = 0~\text{type}}
+  \]
+
+  \[
+    \inference[U-1]{\vdash \Gamma~\text{ctxt}}{\Gamma \vdash \hat{1} : U}\quad
+    \inference[U-1-T]{\Gamma \vdash \hat{1} : U}{\Gamma \vdash El(\hat{1}) = 1~\text{type}}
+  \]
+
+  \[
+    f(n) = R^\mathbb{N}_{[n:\mathbb{N}]U}(\hat{1}, [n: \mathbb{N}, x: U]\hat{0}, n)
+  \]
+
+  Now to get an inhabitant of that type let's use $\mathit{Subst}$:
+  \[
+    P : Id(0, Suc(0)) \vdash \mathit{Subst}(P, El(f(0))) : El(f(Suc(0)))
+  \]
+  Since the inhabitant to $El(f(0)) = El(\hat{1}) = 1~\text{type}$, namely
+  $\star$, is always present by the formation rules, and $El(f(Suc(0))) =
+  0~\text{type}$ we obtain an inhabitant to the required type.
+\end{answer}
 
 \end{document}
 
