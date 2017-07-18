@@ -53,7 +53,7 @@
   We can decompose $\sigma'$ as $\sigma' = (p_\Gamma, q_\Gamma) \circ \sigma' =
   (p_\Gamma \circ \sigma', q_\Gamma\sigma') = (\sigma \circ p', M)$, where $M
   \equiv q_\Gamma\sigma'$ (of type $\Delta' \vdash A(\sigma \circ p')
-  ~\text{type}$). Let $\delta$ be morphism
+  ~\text{type}$). Let $\delta$ be the morphism
   \[
     \delta \equiv (p', M) \from \Delta' \to \Delta.A\sigma
   \]
@@ -73,7 +73,7 @@
   q\delta') = (p', N)$ where $N \equiv q\delta'$. The following equalities
   hold:
   \[
-    N = q\delta' = q_\Gamma(\sigma \circ p_\Delta \circ \delta', q\delta') = q_\Gamma((\sigma \circ p_\Delta, q) \circ \delta') = q_\Gamma\delta' = M
+    N = q\delta' = q_\Gamma(\sigma \circ p_\Delta \circ \delta', q\delta') = q_\Gamma((\sigma \circ p_\Delta, q) \circ \delta') = q_\Gamma\sigma' = M
   \]
   and therefore $\delta' = \delta$.
 \end{answer}
@@ -128,14 +128,17 @@
   \emph{Hint}: Read section $1.2.1$ in Huber's thesis for the general case.
 \end{exercise}
 \begin{answer}
-  For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we the elements of $\mathit{Ty}(\Gamma)$:
+  For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we give the
+  element of $\mathit{Ty}(\Gamma)$ corresponding to the type $A \to A$:
   \[
     (A \to A)\rho = \{w | w_f \in A(\rho f), u \in A(\rho f)\} = \{\lambda I f u.u\}
   \]
-  And required equalities hold trivially for any $g \from K \to J$: $((\lambda
+  The required equalities hold trivially for any $g \from K \to J$, $((\lambda
   I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$.
 
-  Then we give a term by the following equation:
+  $\Gamma, x : A \vdash x : A$ corresponds to $q$ in the model. Thus $\Gamma
+  \vdash \lambda x.x : A -> A$ corresponds to $\lambda q$ being defined as
+  follows:
   \[
     ((\lambda q) \rho)_f u = q(\rho f, u) = u
   \]
@@ -197,8 +200,8 @@
       \Gamma, l: \mathbf{List_A} \vdash B ~\text{type}\\
       \Gamma \vdash H_{nil} : B[nil_A/l]\\
       \Gamma, a : A, l : \mathbf{List_A}, x: B \vdash H_{cons} : B[Cons(a, l)/l]\\
-      \Gamma \vdash l : \mathbf{List_A}
-    }{\Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x : B] H_{cons}, l) : B[l/l]}
+      \Gamma \vdash M : \mathbf{List_A}
+    }{\Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x : B] H_{cons}, M) : B[M/l]}
   \]
 
   \[
@@ -209,10 +212,10 @@
 
   \[
     \inference[List-C-cons]{
-      \Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B] H_{cons}, Cons(a, l)) : B[Cons(a, l)/l]
-    }{\Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B] H_{cons}, Cons(a, l)) = D}
+      \Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B] H_{cons}, Cons(N, M)) : B[Cons(N, M)/l]
+    }{\Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B] H_{cons}, Cons(N, M)) = D}
   \]
-  where $D = H_{cons}[a/a, l/l, R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x : B] H_{cons}, l)/x] : B[Cons(a, l)/l]$.
+  where $D = H_{cons}[N/a, M/l, R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x : B] H_{cons}, M)/x] : B[Cons(N, M)/l]$.
 
   Now we can define the length function:
   \[
@@ -223,6 +226,9 @@
   \[
     \mathit{Vec_A(n)} \vcentcolon= \Sigma l: \mathbf{List_A}. Id_\mathbb{N}(n, \mathit{Length}(l))
   \]
+
+  Note that it is not the only way to define $\mathit{Vec_A(n)}$, as one could
+  define it with the type formers analogously to our type $\mathit{List_A}$.
 \end{answer}
 
 \begin{exercise}
