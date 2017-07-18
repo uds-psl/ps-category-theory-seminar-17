@@ -1,0 +1,103 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/header_lecturenotes}
+% \input{\pathToRoot headers/theoremenvts.tex}
+
+\newcommand{\catA}[0]{\cat{A}}
+\newcommand{\catB}[0]{\cat{B}}
+
+\newcounter{counter}[section]
+\newtheorem{defn}[counter]{Definition}
+\newtheorem{exmp}[counter]{Example}
+
+
+\title{Natural transformations}
+\author{Joachim Bard, Maximilian Wuttke, Nikita Ziuzin}
+
+\begin{document}
+
+\maketitle
+
+
+\section*{Motivation, definitions and examples}
+Morphisms are maps between objects of a category, functors are maps between categories, and finally, natural transformations are maps between functors of the same domain and codomain.
+
+For example, concider a discrete category $\catA$ and an arbitrary category $\catB$.
+Now let $\parpair{\catA}{\catB}{F}{G}$ be functors from $\catA$ to $\catB$.
+Now because $\catA$ is discrete, we can ignore the morphism-mappings of $F$ and $G$ (since there are only identity morphisms in $\catA$ that are mapped to identity morphisms in $\catB$) and write $F$ and $G$ as families
+of objects in $\catB$
+$\bigl(F(A)\bigr)_{A\in\catA}$ and $\bigl(G(A)\bigr)_{A\in\catA}$.
+When we have a mapping $\alpha$ of $\catB$-morphisms
+$\bigl(F(A)\toby{\alpha_A}G(A)\bigr)_{A\in\catA}$
+this $\alpha$ could be regarded as a mapping between the functors $F$ and $G$.
+Indeed this construction is a special case of the more general definition of natural transformations.
+
+We first define what a natural transformation in general is precisely:
+\begin{defn}[Natural transformation]
+  \label{def:nat}
+  Let $\catA$ and $\catB$ be categories and $\parpair{\catA}{\catB}{F}{G}$ be two functors from $\catA$ to $\catB$.
+  Let $\alpha$ be a family of maps
+  $\bigl(F(a)\toby{\alpha_A}G(A)\bigr)_{A\in\catA}$.
+  Then we define that $\alpha$ is a \demph{natural transformation} from $F$ to $G$ iff
+  for every objects and maps $A, A' \in \catA, f \from A \to A'$, the sqare
+  \begin{equation}
+    \label{eq:nat}
+    \begin{array}{c}
+      \xymatrix{
+        F(A) \ar[r]^{F(f)} \ar[d]_{\alpha_A} & F(A') \ar[d]^{\alpha_{A'}} \\
+        G(A) \ar[r]_{G(f)} & G(A')
+      }
+    \end{array}
+  \end{equation}
+  commutes.
+  The maps $\alpha_A$ are then called the \demph{components} of $\alpha$.
+  The commuting square (\ref{eq:nat}) is also called the \demph{naturality axiom} (throught this is not a axiom in logical sense but a defined property for some $\alpha$).
+\end{defn}
+
+If $\alpha$ is a natural transformation from $F$ to $G$ we can also write this as a diagram:
+\[\xymatrix{
+  \catA \rtwocell^F_G{\alpha} & \catB
+}\]
+
+\begin{exmp}[Discreate Categories]
+  For the first example, the mapping
+  $\bigl(F(A)\toby{\alpha_A}G(A)\bigr)_{A\in\catA}$
+  the naturality axiom (\ref{eq:nat}) holds, because $\catA$ is discrete, so every morphism $f \from A \to A'$ in $\catA$ is an identy morphism (hence $A=A'$). The diagramm
+  \[
+    \xymatrix{
+      F(A) \ar[r]^{F(I)} \ar[d]_{\alpha_A} & F(A) \ar[d]^{\alpha_{A}} \\
+      G(A) \ar[r]_{G(I)} & G(A)
+  }\]
+  commutes trivially for every identity morphism $I \from A \to A$. Hence $\alpha$ is a natural transformation according to definition~\ref{def:nat}.
+\end{exmp}
+
+\begin{exmp}[Determinants and commutative rings]
+  Let $n\in\nat$ and $R$ be a commutative ring.
+  We have a forgetful functor $U \from \CRing \to \Mon$ by forgetting the addition of the commutative ring.
+  Furthermore the set of all $n \times n$ matrices forms a monoid under matrix multiplication.
+  If we map $R \in \CRing$ to $R^{n \times n}$ and ring homomorphisms $f \from R \to S$ to
+  $\lambda A \in R^{n \times n}. \bigl( f(A_{i,j}) \bigr)_{1 \le i, j \le n}$,
+  i.~e. applying $f$ element-wise to the matrix $A$, we get another functor $M_n \from \CRing \to \Mon$.
+  We will now see that the \emph{determinant} is a natural transformation between this two functors $M_n$ and $U$.
+
+  First we note that for every ring the determinant of a matrix over this ring is defined canonically.
+  Furthermore by definition if $A \in R^{n \times n}$ then $\det A \in R$ for every ring $R$.
+  We therefore can establish a family of mappings $\det$:
+  $\bigl(M_n(R)\toby{\det_R}U(R)\bigr)_{R\in\CRing}$, because $U(R) = R$.
+  Now, to show that $\det$ is indeed a natural transformation, we have to show that the following diagramm commutes for every ring homomorphism $f \from R \to S$:
+  \[\xymatrix{
+    M_n(R) \ar[r]^{M_n(f)} \ar[d]_{\det_R} & M_n(S) \ar[d]^{\det_S} \\
+    U(R) \ar[r]_{U(f)} & U(s)
+  }\]
+  By unfolding the definitions of $U$ and $M_n$ and applying functional extentionality, this equivalent to
+  $f(\det_R(f(A))) = \det_S (\bigl( f(A_{i,j}) \bigr)_{1 \le i, j \le n})$
+  for every $A \in R^{n \times n}$.
+  This already is a standard result of linear algebra.
+  Hence $\det$ is really a natural transformation between the functors $M_n$ and $U$. Or, written as a diagram:
+  \[\xymatrix{
+    \CRing \rtwocell<5>^{M_n}_{U}{\alpha} & \Mon
+  }\]
+\end{exmp}
+
+
+\end{document}
+
+% vim: ts=2 sts=2 sw=2 expandtab
