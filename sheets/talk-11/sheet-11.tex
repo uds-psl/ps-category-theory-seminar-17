@@ -94,24 +94,36 @@
   \[
     \int_\cat{C}\sigma(I, \rho) := (I, \sigma_I \rho)
   \]
+  where $\rho \in \Gamma(I), I \in \cat{C}$
 
-  Let's check that $\int_\cat{C}$ indeed takes us into a category.
+  Let's check that $\int_\cat{C}$ takes us into a category. Recall the
+  definition of $\int_\cat{C}\Gamma$:
   \begin{itemize}
     \item objects are pairs $(I, \rho)$ where $I \in \cat{C}$ and $\rho \in \Gamma(I)$
     \item a morphism $(J, \rho') \to (I, \rho)$ is a morphism $f \from J \to I$
       in $\cat{C}$ such that $\rho' = \rho f$.
   \end{itemize}
-  We need to check that we have composition and identities.
 
-  With our definition of objects, we can consider first and second projections
-  of the pairs separately. We can observe, that elements of first projection
-  are elements in $\cat{C}$ which have required identities and composition
-  under morphisms in $\cat{C}$ (which are also our morphisms). Then what
-  remains is the second projection. Identities and composition are exactly our
-  conditions on presheaves which also hold.
+  We know our objects and morphisms, we get identities and composition by
+  the equations $\rho 1 = \rho$, $(\rho f) g = \rho (f g)$ and the fact that
+  morphisms $f$ are valid morphisms in the category $\cat{C}$.
 
-  Now we know the operation of $\int_\cat{C}$ on objects and arrows in
-  $Psh(\cat{C})$.
+  Let's now see that $\int_\cat{C}\sigma$ is a functor in $\CAT$. We have a
+  mapping for objects $\int_\cat{C}\sigma(I, \rho)$ given above. The operation
+  on arrows is as follows, where $f \from J \to I$, $g \from K \to J$:
+  \[
+    \int_\cat{C}\sigma(f) := \sigma_{I \to J} \Gamma_f
+  \]
+  Then, keeping in mind that composition $fg$ is applied on the right we get
+  $\int_\cat{C}\sigma(fg) = \sigma_{I \to K} \Gamma_{fg} = \sigma_{I \to K}
+  \lambda \rho.\rho (fg) = \sigma_{I \to K} \lambda \rho. (\rho f)g = \sigma_{J
+  \to K} (\sigma_{I \to J} \lambda \rho.\rho f) g = (\sigma_{J \to K} \lambda
+  \rho.\rho g) (\sigma_{I \to J} \lambda.\rho f) = (\sigma_{J \to K} \Gamma_g)
+  (\sigma_{I \to J} \Gamma_f)$. Which, together with $\rho 1 = \rho$ confirms
+  that $\int_\cat{C}\sigma$ is indeed a functor.
+
+  Thus, we conclude that $\int_\cat{C} \from \mathit{Psh}(\cat{C}) \to \CAT$ is
+  a functor.
 \end{answer}
 
 \begin{exercise}
