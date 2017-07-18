@@ -1,0 +1,64 @@
+%/papers/base-3/paper-3.tex
+\def\pathToRoot{../../}\input{\pathToRoot headers/header_lecturenotes}
+
+\newcounter{counter}[section]
+\newtheorem{defn}[counter]{Definition}
+\newtheorem{exmp}[counter]{Example}
+\newtheorem{lemma}[counter]{Lemma}
+
+\newcommand{\catA}[0]{\cat{A}}
+\newcommand{\catB}[0]{\cat{B}}
+
+
+\title{Natural transformations}
+\author{Joachim Bard, Maximilian Wuttke, Nikita Ziuzin}
+
+\begin{document}
+
+\maketitle
+
+\section{Equivalences of Categories}
+\begin{exmp}
+  \[
+    \begin{tikzcd}
+      \catA: & & \catB:\\
+      A \arrow[loop left] & & B \arrow[bend left]{d} \arrow[loop left] \\
+                          & & B' \arrow[bend left]{u} \arrow[loop left]
+    \end{tikzcd}
+  \]
+\end{exmp}
+
+\begin{defn}
+  \label{def:eqv}
+  Tow categories $\catA$ and $\catB$ are \emph{equivalent} if:
+  \begin{itemize}
+    \item There are functors $F \from \catA \to \catB$ and $G \from \catB \to \catA$ and
+    \item there are natural transformations $\eta \from 1_{\catA} \to G \circ F$ and $\varepsilon \from F \circ G \to 1_\catB$.
+  \end{itemize}
+  The functors $F$ and $G$ are called \emph{equivalences}.
+  We write $\catA \eqv \catB$ if $\catA$ and $\catB$ are equivalent.
+\end{defn}
+
+\begin{defn}
+  \label{def:surj-on-obj}
+  A functor $F \from \catA \to \catB$ is \emph{essentially surjective on objects}
+  if for every object $B \in \catB$ there is an object $A \in \catA$ such that $F(A) \iso B$.
+\end{defn}
+
+\begin{lemma}
+  \label{lem:equiv}
+  A functor $F \from \catA \to \catB$ is an equivalence if and only if $F$ is full, faithful and surjective on objects.
+\end{lemma}
+
+\begin{exmp}
+  Let $K$ be a field.
+  We define the category $\catA$ such that objects are of the form $K^n$ for $n \in \NN$ and morphisms are linear functions.
+  In order to show that $\catA \eqv \FDVect_K$ we have to define a functor $F \from \catA \to \FDVect_K$.
+\end{exmp}
+
+
+\section{Horizontal Composition}
+
+\end{document}
+
+% vim: ts=2 sts=2 sw=2 expandtab
