@@ -17,7 +17,7 @@
 \end{exercise}
 \begin{answer}
   \[
-    \mathit{Ty}_F(\Gamma) := \mathit{Psh(\Gamma)}
+    \mathit{Ty}_F(\Gamma) := \mathit{Psh(\int_\cat{C} \Gamma)}
   \]
   \[
     \mathit{Ter}_F(\Gamma, A) := \{(a\rho \in A\rho)_{I \in \cat{C}, \rho \in \Gamma(I)} | \forall f \from J \to I, a\rho f = a(\rho f) \}
@@ -50,10 +50,10 @@
   $\delta \from \Delta' \to \Delta.A\sigma$ such that $(\sigma \circ p_\Delta,
   q) \circ \delta = \sigma'$ and $p_\Delta \circ \delta = p'$.
 
-  We can decompose $\sigma'$ as $\sigma' = (p_\Gamma, q_\Gamma) \circ \sigma' =
-  (p_\Gamma \circ \sigma', q_\Gamma\sigma') = (\sigma \circ p', M)$, where $M
-  \equiv q_\Gamma\sigma'$ (of type $\Delta' \vdash A(\sigma \circ p')
-  ~\text{type}$). Let $\delta$ be the morphism
+  We can decompose $\sigma'$ as $\sigma' = 1 \circ \sigma' = (p_\Gamma,
+  q_\Gamma) \circ \sigma' = (p_\Gamma \circ \sigma', q_\Gamma\sigma') = (\sigma
+  \circ p', M)$, where $M \equiv q_\Gamma\sigma'$ (of type $\Delta' \vdash
+  A(\sigma \circ p') ~\text{type}$). Let $\delta$ be the morphism
   \[
     \delta \equiv (p', M) \from \Delta' \to \Delta.A\sigma
   \]
@@ -64,6 +64,7 @@
     (\sigma \circ p', q_\Gamma\sigma') =
     (p_\Gamma \circ \sigma', q_\Gamma\sigma') =
     (p_\Gamma, q_\Gamma) \circ \sigma' =
+    1 \circ \sigma' =
     \sigma'
   \]
 
@@ -114,13 +115,20 @@
   \[
     \int_\cat{C}\sigma(f) := \sigma_{I \to J} \Gamma_f
   \]
-  Then, keeping in mind that composition $fg$ is applied on the right we get
-  $\int_\cat{C}\sigma(fg) = \sigma_{I \to K} \Gamma_{fg} = \sigma_{I \to K}
-  \lambda \rho.\rho (fg) = \sigma_{I \to K} \lambda \rho. (\rho f)g = \sigma_{J
-  \to K} (\sigma_{I \to J} \lambda \rho.\rho f) g = (\sigma_{J \to K} \lambda
-  \rho.\rho g) (\sigma_{I \to J} \lambda.\rho f) = (\sigma_{J \to K} \Gamma_g)
-  (\sigma_{I \to J} \Gamma_f)$. Which, together with $\rho 1 = \rho$ confirms
-  that $\int_\cat{C}\sigma$ is indeed a functor.
+  Recall the naturality axiom for the natural transformation $\sigma$. It
+  requires for each $I \in \cat{C}$ a corresponding $\sigma_I$. Hence the
+  operation of $\sigma$ on the composition of morphisms in $\cat{C}$ can be
+  considered as application of two indexed $\sigma_i$ of the corresponding
+  objects between the morphisms (refer to the naturality square to see this).
+  Below we give the indices on $\sigma$ that correspond to the place in the
+  naturality square for clarity.  Then with associativity and keeping in mind
+  that the composition $fg$ and the individual $f$ and $g$ are applied on the
+  right we get $\int_\cat{C}\sigma(fg) = \sigma_{I \to K} \Gamma_{fg} =
+  \sigma_{I \to K} \lambda \rho.\rho (fg) = \sigma_{I \to K} \lambda \rho.
+  (\rho f)g = \sigma_{J \to K} (\sigma_{I \to J} \lambda \rho.\rho f) g =
+  (\sigma_{J \to K} \lambda \rho.\rho g) (\sigma_{I \to J} \lambda \rho.\rho f)
+  = (\sigma_{J \to K} \Gamma_g) (\sigma_{I \to J} \Gamma_f)$.  Which, together
+  with $\rho 1 = \rho$ confirms that $\int_\cat{C}\sigma$ is indeed a functor.
 
   Thus, we conclude that $\int_\cat{C} \from \mathit{Psh}(\cat{C}) \to \CAT$ is
   a functor.
@@ -143,7 +151,7 @@
   For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we give the
   element of $\mathit{Ty}(\Gamma)$ corresponding to the type $A \to A$:
   \[
-    (A \to A)\rho = \{w | w_f \in A(\rho f), u \in A(\rho f)\} = \{\lambda I f u.u\}
+    (A \to A)\rho = \{w | w_f u \in A(\rho f), u \in A(\rho f)\} = \{\lambda I f u.u\}
   \]
   The required equalities hold trivially for any $g \from K \to J$, $((\lambda
   I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$.
@@ -164,8 +172,8 @@
     (A \times B)\rho := \{(a,b) | a \in A\rho \land b \in B\rho\}
   \]
 
-  Now suppose that we have dependent types $\Gamma \vdash C \text{ type}$ and
-  $\Gamma, C \vdash D \text{ type}$.
+  Now suppose that we have dependent types $\Gamma \vdash A \text{ type}$ and
+  $\Gamma, A \vdash B \text{ type}$.
 
   Define the product type that involves a dependent type (i.e. the dependent
   sum type) in the presheaf model.
@@ -182,6 +190,11 @@
   \[
     (\Sigma AB)\rho := \{(a,b) | a \in A\rho \land b \in B(\rho, a)\}
   \]
+  where $(a, b)f = (af, bf)$ for $f \from J \to I$. The pairing operation
+  $\Gamma \vdash (u, v) : \Sigma AB$ of $\Gamma \vdash u : A$ and $\Gamma.A
+  \vdash v : B(1, u)$ is defined by the componentwise pairing: $(u, v)\rho =
+  (u\rho, v\rho)$. Likewise for the projections $p$ and $q$, $(pw)\rho = a$ and
+  $(qw)\rho = b$. This validates the necessary equations.
 \end{answer}
 
 \begin{exercise}
@@ -277,7 +290,7 @@
 
   Now to get an inhabitant of that type let's use $\mathit{Subst}$:
   \[
-    P : Id(0, Suc(0)) \vdash \mathit{Subst}(P, El(f(0))) : El(f(Suc(0)))
+    P : Id(0, Suc(0)) \vdash \mathit{Subst}(P, (\star : El(f(0)))) : El(f(Suc(0)))
   \]
   Since the inhabitant to $El(f(0)) = El(\hat{1}) = 1~\text{type}$, namely
   $\star$, is always present by the formation rules, and $El(f(Suc(0))) =
