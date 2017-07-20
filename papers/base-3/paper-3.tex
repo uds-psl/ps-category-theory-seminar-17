@@ -17,7 +17,7 @@
 
 \maketitle
 
-\section{Equivalences of Categories}
+\section{Equivalence of Categories}
 \begin{exmp}
   \[
     \begin{tikzcd}
@@ -27,6 +27,7 @@
     \end{tikzcd}
   \]
 \end{exmp}
+%todo explain example
 
 \begin{defn}
   \label{def:eqv}
@@ -53,11 +54,71 @@
 \begin{exmp}
   Let $K$ be a field.
   We define the category $\catA$ such that objects are of the form $K^n$ for $n \in \NN$ and morphisms are linear functions.
-  In order to show that $\catA \eqv \FDVect_K$ we have to define a functor $F \from \catA \to \FDVect_K$.
+  Moreover we denote the category of finite dimensional vector spaces by $\FDVect_K$.
+  Objects in this category are finite dimensional vector spaces and morphisms are linear functions.
+  Let $F \from \catA \to \FDVect_K$ be the embedding functor from $\catA$ into $\FDVect_K$, i.e. $F$ maps objects and morphisms to themselves.
+  Clearly $F$ is full and faithful.
+  For surjectivity on objects we fix an arbitrary object $V \in \FDVect_K$.
+  Let $n \in \NN$ be the dimension of $V$.
+  From linear algebra we know that $V \iso K^n = F(K^n)$.
+  Thus $F$ is essentially surjectivity on objects.
+  By lemma~\ref{lem:equiv} we obtain that $\catA \eqv \FDVect_K$.
+  %In order to show that $\catA \eqv \FDVect_K$ we have to define a functor $F \from \catA \to \FDVect_K$ which is full, faithful and surjective on objects.
 \end{exmp}
 
 
 \section{Horizontal Composition}
+
+\[
+\xymatrix@C+.5em{
+\cat{A} \rtwocell<4>^F_G{\alpha}   &
+\cat{A}' \rtwocell<4>^{F'}_{G'}{\alpha'}   &
+\cat{A}''
+}
+\]
+\[
+\xymatrix@C+.5em{
+  \cat{A} \rtwocell<4>^{F' \of F}_{G' \of G} &\cat{A}'',
+}
+\]
+
+This horizontal composition is written $\alpha' * \alpha$.
+The following diagram commutes because $\alpha'$ is a natural transformation.
+\[
+  \begin{tikzcd}
+    F'(F(A)) \arrow{r}{F'(\alpha_A)} \arrow{d}{\alpha'_{F(A)}} \arrow{dr}{(\alpha' * \alpha)_A} & F'(G(A)) \arrow{d}{\alpha'_{G(A)}} \\
+    G'(F(A)) \arrow{r}{G'(\alpha_A)}                                                            & G'(G(A))
+  \end{tikzcd}
+\]
+So we can define $(\alpha' * \alpha)_A$ either as $G'(\alpha_A) \circ \alpha'_{F(A)}$ or as $\alpha'_{G(A)} \circ F'(\alpha_A)$.
+Now we want to show that $\alpha' * \alpha$ is again a natural transformation.
+Therefore let $f\from A \to A'$ be a morphism in $\catA$.
+\[
+  \begin{tikzcd}
+    F'(F(A)) \arrow{r}{F'(F(f))} \arrow{d}{\alpha'_{F(A)}} & F'(F(A')) \arrow{d}{\alpha'_{F(A')}} \\
+    G'(F(A)) \arrow{r}{G'(F(f))} \arrow{d}{G'(\alpha_A)}   & G'(F(A')) \arrow{d}{G'(\alpha_{A'}}  \\
+    G'(G(A)) \arrow{r}{G'(G(f))}                           & G'(G(A'))
+  \end{tikzcd}
+\]
+
+%todo example
+
+We can also combine horizontal and vertical composition.
+\[
+\xymatrix{
+\cat{A}
+\ruppertwocell<8>^F{\alpha}
+\ar[r]|G
+\rlowertwocell<-8>_H{\beta} &
+\cat{A}'
+\ruppertwocell<8>^{F'}{\hspace{.2em}\alpha'}
+\ar[r]|{G'}
+\rlowertwocell<-8>_{H'}{\hspace{.2em}\beta'} &
+\cat{A}''
+}
+\]
+
+%todo interchange law
 
 \end{document}
 
