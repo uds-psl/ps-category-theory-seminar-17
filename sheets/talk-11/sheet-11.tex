@@ -1,0 +1,305 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+\usepackage{semantic}
+
+\begin{document}
+
+% Use Basis x or Talk x, where x is the number of the session
+\uebunghead{Talk 11}{Dependent Types}
+\author{Nikita Ziuzin}
+
+\begin{hint}
+  Read sections $2.1.3, 2.1.5, 2.1.6$ in Martin Hofmann's \href{http://www.irif.fr/~mellies/mpri/mpri-ens/articles/hofmann-syntax-and-semantics-of-dependent-types.pdf}{Syntax and Semantics of Dependent Types} and section $1$ in Simon Huber's \href{http://www.cse.chalmers.se/~simonhu/misc/lic.pdf}{A Model of Type Theory in Cubical Sets}.
+\end{hint}
+
+\begin{exercise}
+  Give the sets $\mathit{Ty}_F(\Gamma)$ and $\mathit{Ter}_F(\Gamma, A)$ for
+  the presheaf model.
+\end{exercise}
+\begin{answer}
+  \[
+    \mathit{Ty}_F(\Gamma) := \mathit{Psh(\int_\cat{C} \Gamma)}
+  \]
+  \[
+    \mathit{Ter}_F(\Gamma, A) := \{(a\rho \in A\rho)_{I \in \cat{C}, \rho \in \Gamma(I)} | \forall f \from J \to I, a\rho f = a(\rho f) \}
+  \]
+\end{answer}
+
+\begin{exercise}
+  Let $(\cat C, \mathcal F)$ be a category with families.  Check that the
+  following square is a pullback in $\cat{C}$:
+  \[
+    \begin{tikzcd}
+      \Delta.A\sigma \arrow{r}{(\sigma \circ p_\Delta, q)} \arrow{d}{p_\Delta} & \Gamma.A \arrow{d}{p_\Gamma}\\
+      \Delta \arrow{r}{\sigma} & \Gamma
+    \end{tikzcd}
+  \]
+  where $\Delta.A \vdash q : A p_\Delta$
+\end{exercise}
+\begin{answer}
+  Let $\Delta'$ be a context and $p' \from \Delta' \to \Delta$ and $\sigma'
+  \from \Delta' \to \Gamma.A$ be two morphisms such that $\sigma \circ p' =
+  p_\Gamma \circ \sigma'$. Therefore the diagram
+  \[
+    \begin{tikzcd}
+      \Delta' \arrow[bend right=30]{ddr}{p'} \arrow[dashed]{dr}{\delta} \arrow[bend left=30]{drr}{\sigma'}&   &\\
+          & \Delta.A\sigma \arrow{r}{(\sigma \circ p_\Delta, q)} \arrow{d}{p_\Delta} & \Gamma.A \arrow{d}{p_\Gamma}\\
+          & \Delta \arrow{r}{\sigma} & \Gamma
+    \end{tikzcd}
+  \]
+  (without $\delta$) is commutative. We must show that there exists a unique
+  $\delta \from \Delta' \to \Delta.A\sigma$ such that $(\sigma \circ p_\Delta,
+  q) \circ \delta = \sigma'$ and $p_\Delta \circ \delta = p'$.
+
+  We can decompose $\sigma'$ as $\sigma' = 1 \circ \sigma' = (p_\Gamma,
+  q_\Gamma) \circ \sigma' = (p_\Gamma \circ \sigma', q_\Gamma\sigma') = (\sigma
+  \circ p', M)$, where $M \equiv q_\Gamma\sigma'$ (of type $\Delta' \vdash
+  A(\sigma \circ p') ~\text{type}$). Let $\delta$ be the morphism
+  \[
+    \delta \equiv (p', M) \from \Delta' \to \Delta.A\sigma
+  \]
+  which is suitable since $p_\Delta \circ \delta = p'$ and
+  \[
+    (\sigma \circ p_\Delta, q) \circ \delta =
+    (\sigma \circ p_\Delta \circ \delta, q\delta) =
+    (\sigma \circ p', q_\Gamma\sigma') =
+    (p_\Gamma \circ \sigma', q_\Gamma\sigma') =
+    (p_\Gamma, q_\Gamma) \circ \sigma' =
+    1 \circ \sigma' =
+    \sigma'
+  \]
+
+  For uniqueness assume morphism $\delta' \from \Delta' \to \Delta.A\sigma$
+  such that $(\sigma \circ p_\Delta, q) \circ \delta' = \sigma'$ and $p_\Delta
+  \circ \sigma' = p'$. As before we have $\delta' = (p_\Delta \circ \delta',
+  q\delta') = (p', N)$ where $N \equiv q\delta'$. The following equalities
+  hold:
+  \[
+    N = q\delta' = q_\Gamma(\sigma \circ p_\Delta \circ \delta', q\delta') = q_\Gamma((\sigma \circ p_\Delta, q) \circ \delta') = q_\Gamma\sigma' = M
+  \]
+  and therefore $\delta' = \delta$.
+\end{answer}
+
+\begin{exercise}
+  Recall the notation $\int_\cat{C}\Gamma$ for the category of elements of a
+  presheaf $\Gamma$ (section $1.2$ p.$16$ in Huber's thesis).  Check that
+  substitution in $A\from (\int_\cat{C}\Gamma)^\op \to \Set$ with $\sigma \from
+  \Delta \to \Gamma$ corresponds to precomposing with $\int_\cat{C} \sigma :
+  \int_\cat{C} \Delta \to \int_\cat{C} \Gamma$ induced by $\sigma$.
+
+  Then verify that this construction imposes a functor $\int_\cat{C} \from
+  \mathit{Psh}(\cat{C}) \to \CAT$.
+\end{exercise}
+\begin{answer}
+  Indeed, the operation of $\sigma$ on such objects is a precomposition
+  satisfying the naturality axiom:
+  \[
+    \int_\cat{C}\sigma(I, \rho) := (I, \sigma_I \rho)
+  \]
+  where $\rho \in \Gamma(I), I \in \cat{C}$
+
+  Let's check that $\int_\cat{C}$ takes us into a category. Recall the
+  definition of $\int_\cat{C}\Gamma$:
+  \begin{itemize}
+    \item objects are pairs $(I, \rho)$ where $I \in \cat{C}$ and $\rho \in \Gamma(I)$
+    \item a morphism $(J, \rho') \to (I, \rho)$ is a morphism $f \from J \to I$
+      in $\cat{C}$ such that $\rho' = \rho f$.
+  \end{itemize}
+
+  We know our objects and morphisms, we get identities and composition by
+  the equations $\rho 1 = \rho$, $(\rho f) g = \rho (f g)$ and the fact that
+  morphisms $f$ are valid morphisms in the category $\cat{C}$.
+
+  Let's now see that $\int_\cat{C}\sigma$ is a functor in $\CAT$. We have a
+  mapping for objects $\int_\cat{C}\sigma(I, \rho)$ given above. The operation
+  on arrows is as follows, where $f \from J \to I$, $g \from K \to J$:
+  \[
+    \int_\cat{C}\sigma(f) := \sigma_{I \to J} \Gamma_f
+  \]
+  Recall the naturality axiom for the natural transformation $\sigma$. It
+  requires for each $I \in \cat{C}$ a corresponding $\sigma_I$. Hence the
+  operation of $\sigma$ on the composition of morphisms in $\cat{C}$ can be
+  considered as application of two indexed $\sigma_i$ of the corresponding
+  objects between the morphisms (refer to the naturality square to see this).
+  Below we give the indices on $\sigma$ that correspond to the place in the
+  naturality square for clarity.  Then with associativity and keeping in mind
+  that the composition $fg$ and the individual $f$ and $g$ are applied on the
+  right we get $\int_\cat{C}\sigma(fg) = \sigma_{I \to K} \Gamma_{fg} =
+  \sigma_{I \to K} \lambda \rho.\rho (fg) = \sigma_{I \to K} \lambda \rho.
+  (\rho f)g = \sigma_{J \to K} (\sigma_{I \to J} \lambda \rho.\rho f) g =
+  (\sigma_{J \to K} \lambda \rho.\rho g) (\sigma_{I \to J} \lambda \rho.\rho f)
+  = (\sigma_{J \to K} \Gamma_g) (\sigma_{I \to J} \Gamma_f)$.  Which, together
+  with $\rho 1 = \rho$ confirms that $\int_\cat{C}\sigma$ is indeed a functor.
+
+  Thus, we conclude that $\int_\cat{C} \from \mathit{Psh}(\cat{C}) \to \CAT$ is
+  a functor.
+\end{answer}
+
+\begin{exercise}
+  From the slides we know that if $\Gamma \vdash A, B ~\text{type}$, i.e. $B$
+  does not depend on $A$, then $\Pi x: A. B$ corresponds to the ordinary
+  non-dependent function type:
+  \begin{equation*}
+    A \to B \vcentcolon= \Pi x: A. B
+  \end{equation*}
+
+  Give a term of type $A \to A$, and the elements in $\mathit{Ty}(\Gamma)$ and
+  $\mathit{Ter}(\Gamma, A \to A)$ corresponding to the type and the term.
+
+  \emph{Hint}: Read section $1.2.1$ in Huber's thesis for the general case.
+\end{exercise}
+\begin{answer}
+  For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we give the
+  element of $\mathit{Ty}(\Gamma)$ corresponding to the type $A \to A$:
+  \[
+    (A \to A)\rho = \{w | w_f u \in A(\rho f), u \in A(\rho f)\} = \{\lambda I f u.u\}
+  \]
+  The required equalities hold trivially for any $g \from K \to J$, $((\lambda
+  I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$.
+
+  $\Gamma, x : A \vdash x : A$ corresponds to $q$ in the model. Thus $\Gamma
+  \vdash \lambda x.x : A -> A$ corresponds to $\lambda q$ being defined as
+  follows:
+  \[
+    ((\lambda q) \rho)_f u = q(\rho f, u) = u
+  \]
+\end{answer}
+
+\begin{exercise}
+  Suppose we have two types $\Gamma \vdash A,B \text{ type}$ each not depending
+  on the other.  Then we can define a product type in the presheaf model in the
+  following way:
+  \[
+    (A \times B)\rho := \{(a,b) | a \in A\rho \land b \in B\rho\}
+  \]
+
+  Now suppose that we have dependent types $\Gamma \vdash A \text{ type}$ and
+  $\Gamma, A \vdash B \text{ type}$.
+
+  Define the product type that involves a dependent type (i.e. the dependent
+  sum type) in the presheaf model.
+
+  \[
+    (\Sigma AB)\rho := ???
+  \]
+
+  \emph{Hint}: The definition is \emph{almost} identical to the one given
+  above. But what do you need to change? To recall the presheaf model, read
+  section $1.2$ in Huber's thesis.
+\end{exercise}
+\begin{answer}
+  \[
+    (\Sigma AB)\rho := \{(a,b) | a \in A\rho \land b \in B(\rho, a)\}
+  \]
+  where $(a, b)f = (af, bf)$ for $f \from J \to I$. The pairing operation
+  $\Gamma \vdash (u, v) : \Sigma AB$ of $\Gamma \vdash u : A$ and $\Gamma.A
+  \vdash v : B(1, u)$ is defined by the componentwise pairing: $(u, v)\rho =
+  (u\rho, v\rho)$. Likewise for the projections $p$ and $q$, $(pw)\rho = a$ and
+  $(qw)\rho = b$. This validates the necessary equations.
+\end{answer}
+
+\begin{exercise}
+  Read Hofmann's section on the type of natural numbers (section 2.1.3) and
+  familiarize yourself with identity types (ibid., section 2.1.5)
+
+  By analogy to the type of natural numbers define the rules for a list type
+  former which to any type $A$ associates a type $\mathit{List}(A)$ consisting
+  of finite sequences of elements of $A$.
+
+  \emph{Hint}: think of lists as inductively generated from the empty list by
+  successive additions of elements of $A$ ("cons").
+
+  Define a length function of type $\mathit{List}(A) \to \mathbb{N}$ and define
+  a type $\mathit{Vec}_A(n)$ of lists of length $n$ for each $n : \mathbb{N}$
+  using lists, the identity type and the $\Sigma$-type.
+\end{exercise}
+\begin{answer}
+  First let's define the type formers:
+  \[
+    \inference[List-F]{\Gamma \vdash A ~\text{type}}{\Gamma \vdash \mathbf{List_A} ~\text{type}}\quad
+    \inference[List-I-nil]{\Gamma \vdash A ~\text{type}}{\Gamma \vdash \mathit{nil_A} : \mathbf{List_A}}\quad
+    \inference[List-I-cons]{\Gamma \vdash a : A \quad \Gamma \vdash x : \mathbf{List_A}}{\Gamma \vdash \mathit{Cons(a, x)} : \mathbf{List_A}}
+  \]
+
+  \[
+    \inference[List-E]{
+      \Gamma, l: \mathbf{List_A} \vdash B ~\text{type}\\
+      \Gamma \vdash H_{nil} : B[nil_A/l]\\
+      \Gamma, a : A, l : \mathbf{List_A}, x: B \vdash H_{cons} : B[Cons(a, l)/l]\\
+      \Gamma \vdash M : \mathbf{List_A}
+    }{\Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x : B] H_{cons}, M) : B[M/l]}
+  \]
+
+  \[
+    \inference[List-C-nil]{
+      \Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B] H_{cons}, nil) : B[nil/l]
+    }{\Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B]H_{cons}, nil) = H_{nil} : B[nil/l]}
+  \]
+
+  \[
+    \inference[List-C-cons]{
+      \Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B] H_{cons}, Cons(N, M)) : B[Cons(N, M)/l]
+    }{\Gamma \vdash R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x: B] H_{cons}, Cons(N, M)) = D}
+  \]
+  where $D = H_{cons}[N/a, M/l, R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]B}(H_{nil}, [a : A, l: \mathbf{List_A}, x : B] H_{cons}, M)/x] : B[Cons(N, M)/l]$.
+
+  Now we can define the length function:
+  \[
+    \mathit{Length(l) \vcentcolon= R^{\mathbf{List_A}}_{[l: \mathbf{List_A}]\mathbb{N}}(0, [a : A, l: \mathbf{List_A}, x : \mathbb{N}] Suc(x), l) : \mathbb{N}}
+  \]
+
+  And finally the $\mathit{Vec_A(n)}$ type:
+  \[
+    \mathit{Vec_A(n)} \vcentcolon= \Sigma l: \mathbf{List_A}. Id_\mathbb{N}(n, \mathit{Length}(l))
+  \]
+
+  Note that it is not the only way to define $\mathit{Vec_A(n)}$, as one could
+  define it with the type formers analogously to our type $\mathit{List_A}$.
+\end{answer}
+
+\begin{exercise}
+  Read the section on universes in Hofmann's notes (2.1.6) as well as the
+  material for the previous exercise.
+
+  Give the rules for universe $U$ containing a code for $\hat{0}$ for the empty
+  type and a code $\hat{1}$ for the unit type $1$. Show that in a type theory
+  which supports natural numbers, this universe, and the empty type itself the
+  following type in the empty context is inhabited
+  \[
+    \diamond \vdash Id_\mathbb{N}(0, Suc(0)) \to 0 \text{ type}
+  \]
+  corresponding to Peano's fourth axiom $1 \neq 0$.
+
+  \emph{Hint}: define using $R^\mathbb{N}$ a function $f \from \mathbb{N} \to
+  U$ such that $\diamond \vdash f 0 = \hat{1}: U$ and $\diamond \vdash
+  f(Suc(0)) = \hat{0} : U$
+\end{exercise}
+\begin{answer}
+  \[
+    \inference[U-0]{\vdash \Gamma~\text{ctxt}}{\Gamma \vdash \hat{0} : U}\quad
+    \inference[U-0-Ty]{\Gamma \vdash \hat{0}: U}{\Gamma \vdash El(\hat{0}) = 0~\text{type}}
+  \]
+
+  \[
+    \inference[U-1]{\vdash \Gamma~\text{ctxt}}{\Gamma \vdash \hat{1} : U}\quad
+    \inference[U-1-T]{\Gamma \vdash \hat{1} : U}{\Gamma \vdash El(\hat{1}) = 1~\text{type}}
+  \]
+
+  \[
+    f(n) = R^\mathbb{N}_{[n:\mathbb{N}]U}(\hat{1}, [n: \mathbb{N}, x: U]\hat{0}, n)
+  \]
+
+  Now to get an inhabitant of that type let's use $\mathit{Subst}$:
+  \[
+    P : Id(0, Suc(0)) \vdash \mathit{Subst}(P, (\star : El(f(0)))) : El(f(Suc(0)))
+  \]
+  Since the inhabitant to $El(f(0)) = El(\hat{1}) = 1~\text{type}$, namely
+  $\star$, is always present by the formation rules, and $El(f(Suc(0))) =
+  0~\text{type}$ we obtain an inhabitant to the required type.
+\end{answer}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
