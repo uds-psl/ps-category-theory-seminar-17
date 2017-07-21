@@ -36,7 +36,7 @@
     \item
       $\rho \of (1 \otimes f) \of \alpha \of (\sigma \otimes 1)
         = \lambda \of (f \otimes 1) \of \alpha^{-1} \of (1 \otimes \sigma) \of \alpha$ \\
-      for $A \otimes B \xrightarrow{f} f$.
+      for $A \otimes B \xrightarrow{f} I$.
   \end{enumerate}
 \end{exercise}
 
@@ -56,11 +56,11 @@
 
 \pagebreak
 \begin{exercise}
-  Verify the correctness of the following graphical equations by
+  Verify the correctness of the following graphical equations in braided monoidal categories by
   \begin{enumerate}
     \item the correctness theorem of the graphical calculus,
-    \item substitution in string diagrams using the axioms of braided monoidal categories,
-    \item construction of a commuting diagram from the axioms.
+    \item substitution in string diagrams using the axioms of braided monoidal categories and the correctness theorem for the graphical calculus on general monoidal categories,
+    \item construction of a commuting diagram from the axioms and the coherence theorem for general monoidal categories.
   \end{enumerate}
   \begin{enumerate}[label=(\roman*)]
     \item $\vcenter{\hbox{\includegraphics{proofs_by_hand_1}}}$
@@ -97,7 +97,7 @@
 
 
 \begin{exercise}
-  Show that in a monoidal category where all idempotents split, if there are morphisms $I \xrightarrow{\eta} R \otimes L$ and $L \otimes R \xrightarrow{\varepsilon} I$ satisfying one of the snake equations, then $L$ has a right dual (not necessarily $R$).
+  Show that in a monoidal category where all idempotents split, if there are morphisms $I \xrightarrow{\eta} R \otimes L$ and $L \otimes R \xrightarrow{\varepsilon} I$ satisfying one of the snake equations, then $L$ has a right dual (not necessarily given by $R$ with $\eta$ and $\varepsilon$).
 \end{exercise}
 
 
