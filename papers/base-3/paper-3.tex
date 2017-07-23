@@ -100,6 +100,7 @@ If $\alpha$ is a natural transformation from $F$ to $G$ we can also write this a
 
 
 \section{Equivalence of Categories}
+We now want to examine when two categories are the same.
 \begin{exmp}
   \[
     \begin{tikzcd}
@@ -109,7 +110,7 @@ If $\alpha$ is a natural transformation from $F$ to $G$ we can also write this a
     \end{tikzcd}
   \]
 \end{exmp}
-%todo explain example
+todo: explain example
 
 \begin{defn}
   \label{def:eqv}
@@ -151,16 +152,18 @@ If $\alpha$ is a natural transformation from $F$ to $G$ we can also write this a
 
 \section{Horizontal Composition}
 
+Given two natural transformations $\alpha$ and $\alpha'$:
 \[
 \xymatrix@C+.5em{
 \cat{A} \rtwocell<4>^F_G{\alpha}   &
 \cat{A}' \rtwocell<4>^{F'}_{G'}{\alpha'}   &
-\cat{A}''
+\cat{A}'',
 }
 \]
+we can obtain a natural transformation:
 \[
 \xymatrix@C+.5em{
-  \cat{A} \rtwocell<4>^{F' \of F}_{G' \of G} &\cat{A}'',
+  \cat{A} \rtwocell<4>^{F' \circ F}_{G' \circ G} &\cat{A}'',
 }
 \]
 
@@ -178,12 +181,16 @@ Therefore let $f\from A \to A'$ be a morphism in $\catA$.
 \[
   \begin{tikzcd}
     F'(F(A)) \arrow{r}{F'(F(f))} \arrow{d}{\alpha'_{F(A)}} & F'(F(A')) \arrow{d}{\alpha'_{F(A')}} \\
-    G'(F(A)) \arrow{r}{G'(F(f))} \arrow{d}{G'(\alpha_A)}   & G'(F(A')) \arrow{d}{G'(\alpha_{A'}}  \\
+    G'(F(A)) \arrow{r}{G'(F(f))} \arrow{d}{G'(\alpha_A)}   & G'(F(A')) \arrow{d}{G'(\alpha_{A'})}  \\
     G'(G(A)) \arrow{r}{G'(G(f))}                           & G'(G(A'))
   \end{tikzcd}
 \]
 
-%todo example
+The upper diagram commutes because $\alpha'$ is a natural transformation.
+Since $\alpha$ is a natural transformation we have $G(f) \circ \alpha_A = \alpha_{A'} \circ F(f)$.
+By applying $G'$ on both sides we obtain the commutativity of the lower diagram.
+The commutativity of both inner diagrams ensures the commutativity of the outer diagram.
+This shows that $\alpha' * \alpha$ is indeed a natural transformation.
 
 We can also combine horizontal and vertical composition.
 \[
@@ -200,7 +207,15 @@ We can also combine horizontal and vertical composition.
 }
 \]
 
-%todo interchange law
+This natural transformations follow the interchange law:
+\[
+(\beta' \circ \alpha') * (\beta \circ \alpha)
+=
+(\beta' * \beta) \circ (\alpha' * \alpha)
+\from
+F' \circ F \to H' \circ H.
+\]
+Additionally we have $1_{F'} * 1_{F} = 1_{F' \circ F}$, where $1_{F}$ is the natural transformation which components are the identities of $\cat{A'}$.
 
 \end{document}
 
