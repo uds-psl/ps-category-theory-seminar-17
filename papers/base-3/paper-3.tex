@@ -98,6 +98,142 @@ If $\alpha$ is a natural transformation from $F$ to $G$ we can also write this a
   }\]
 \end{exmp}
 
+\begin{defn}[Functor Category]
+  Natural transformations, as other types of maps that we've encountered earlier
+  can be composed. That is, for any two categories $\cat{A}$ and $\cat{B}$,
+  functors $F, G, H$ between them, natural transformations $\alpha \from F \to
+  G$ and $\beta \from G \to H$:
+  \vspace{-2ex}
+  \[
+  \xymatrix@C+1.5em{
+  \cat{A}
+  \ruppertwocell<8>^F{\alpha}
+  \ar[r]|G
+  \rlowertwocell<-8>_H{\beta}
+  &
+  \cat{B}
+  },
+  \]
+  \vspace{-3ex}\\
+  there is a composite natural transformation $\beta \of \alpha$
+  \[
+  \xymatrix@C+1.5em{
+  \cat{A} \rtwocell^F_H{\hspace{.8em}\beta\of\alpha} &\cat{B}
+  }
+  \]
+  defined by $(\beta\of\alpha)_A = \beta_A \of \alpha_A$ for all $A \in \cat{A}$.
+  There is also an identity natural transformation
+  \[
+  \xymatrix@C+1em{
+  \cat{A} \rtwocell^F_F{\hspace{.5em}1_F} &\cat{B}
+  }
+  \]
+  on any functor $F$, defined by $(1_F)_A = 1_{F(A)}$.
+
+  This gives rives to a category whose objects are the functors from $\cat{A}$ to
+  $\cat{B}$ and whose maps are the natural transformations between them. This is
+  called the \demph{functor category} from $\cat{A}$ to $\cat{B}$, and written as
+  $\ftrcat{\cat{A}}{\cat{B}}$ or $\cat{B}^\cat{A}$.
+\end{defn}
+
+\begin{exmp}
+  Let $2$ be the discrete category with two objects. A functor from $2$ to a
+  category $\cat{B}$ is a pair of objects of $\cat{B}$, and a natural
+  transformation is a pair of maps.  The functor category $\ftrcat{2}{\cat{B}}$
+  is therefore isomorphic to the product category $\cat{B} \times \cat{B}$.
+  This fits well with the alternative notation $\cat{B}^2$ for the functor
+  category.
+\end{exmp}
+
+\begin{exmp}
+  Take ordered sets $A$ and $B$, viewed as categories. Given order-preserving
+  maps $\parpairi{A}{B}{f}{g}$, viewed as functors, there is at most one
+  natural transformation
+  \[
+  \xymatrix{
+  A \rtwocell^f_g &B,
+  }
+  \]
+  and there is one if and only if $f(a) \leq g(a)$ for all $a \in A$.  (The
+  naturality axiom~\eqref{eq:nat} holds automatically, because in an ordered
+  set, all diagrams commute.)  So $\ftrcat{A}{B}$ is an ordered set too; its
+  elements are the order-preserving maps from $A$ to $B$, and $f \leq g$ if and
+  only if $f(a) \leq g(a)$ for all $a \in A$.
+\end{exmp}
+
+\begin{defn}
+  Let $\cat{A}$ and $\cat{B}$ be categories. A \demph{natural isomorphism}
+  between functors from $\cat{A}$ to $\cat{B}$ is an isomorphism in
+  $\ftrcat{\cat{A}}{\cat{B}}$.
+\end{defn}
+
+This definition can also be given as a lemma:
+
+\begin{lemma}
+Let $\xymatrix@1{\cat{A}\rtwocell^F_G{\alpha} &\cat{B}}$ be a natural
+transformation.  Then $\alpha$ is a natural isomorphism if and only if
+$\alpha_A\from F(A) \to G(A)$ is an isomorphism for all $A \in \cat{A}$.
+\end{lemma}
+
+\begin{proof}
+  \begin{itemize}
+    \item[($\rightarrow$)]
+      By definition of natural isomorphism we have a natural transformation
+      $\beta\from G \to F$, such that \[\beta \circ \alpha = 1_{F} \text{ and }
+      \alpha \circ \beta = 1_{G}. \] We show that $\forall A \in \cat{A}.\,
+      \beta_A \circ \alpha_A = 1_{F(A)} \text{ and } \alpha_A \circ \beta_A =
+      1_{G(A)}$.  Suppose $A \in \cat{A}$.  We know by definition of the
+      identity natural transformation that $(\beta \circ \alpha)_A = 1_{F(A)}$.
+      The claim $\beta_A \circ \alpha_A = 1_{F(A)}$ follows by definition of
+      composition of natural transformations.  $\alpha_A \circ \beta_A =
+      1_{G(A)}$ is shown analogously.
+    \item[($\leftarrow$)]
+      We know that for all $A \in \cat{A}$ there is a $\beta_A$ such that
+      \[\beta_A \circ \alpha_A = 1_{F(A)} \text{ and } \alpha_A \circ \beta_A =
+      1_{G(A)}.\] First we prove that $\beta$ is a natural transformation.
+      Suppose $f\from A \to A'$.  We know that $\alpha$ is a natural
+      transformation:
+      \begin{alignat*}{2}
+          & & G(f) \circ \alpha_A & = \alpha_{A'} \circ F(f) \\
+          &\Rightarrow &\quad G(f) \circ \alpha_A \circ \beta_A & = \alpha_{A'} \circ F(f) \circ \beta_A\\
+          &\Rightarrow & G(f) & = \alpha_{A'} \circ F(f) \circ \beta_A\\
+          &\Rightarrow & \beta_{A'} \circ G(f) & = \beta_{A'} \circ \alpha_{A'} \circ F(f) \circ \beta_A\\
+          &\Rightarrow & \beta_{A'} \circ G(f) & = F(f) \circ \beta_A
+      \end{alignat*}
+      By similar reasoning to (a) we get that $\beta$ is the inverse of
+      $\alpha$.  Therefore $\alpha$ is a natural isomorpism.
+  \end{itemize}
+\end{proof}
+
+Then, we say that functors $F$ and $G$ are \demph{naturally isomorphic} if
+there is a natural isomorphism from $F$ to $G$. Note that this natural
+isomorphism is just isomorphism in $\ftrcat{\cat{A}}{\cat{B}}$, and we already
+have notation for this: $F \iso G$.
+
+\begin{defn}
+  Given functors $\parpair{\cat{A}}{\cat{B}}{F}{G}$, we say that
+  \[
+  F(A) \iso G(A) \text{ \demph{naturally in} } A
+  \]
+  if $F$ and $G$ are naturally isomorphic.
+\end{defn}
+
+This alternative terminology can be understood as follows.  If $F(A) \iso
+G(A)$ naturally in $A$ then certainly $F(A) \iso G(A)$ for each individual
+$A$, but more is true: we can choose isomorphisms $\alpha_A\from F(A) \to
+G(A)$ in such a way that the naturality axiom~\eqref{eq:nat} is satisfied.
+
+\begin{exmp}
+  Let $F, G\from \cat{A} \to \cat{B}$ be functors from a discrete category
+  $\cat{A}$ to a category $\cat{B}$.  Then $F \iso G$ if and only if $F(A) \iso
+  G(A)$ for all $A \in \cat{A}$.
+
+  So in \emph{this} case, $F(A) \iso G(A)$ naturally in $A$ if and only if
+  $F(A) \iso G(A)$ for all $A$.  But this is only true because $\cat{A}$ is
+  discrete.  In general, it is emphatically false.  There are many examples of
+  categories and functors $\parpairi{\cat{A}}{\cat{B}}{F}{G}$ such that $F(A)
+  \iso G(A)$ for all $A \in \cat{A}$, but not \emph{naturally} in $A$.
+\end{exmp}
 
 \section{Equivalence of Categories}
 We now want to examine when two categories are the same.
