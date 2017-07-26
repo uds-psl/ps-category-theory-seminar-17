@@ -1,5 +1,4 @@
 \def\pathToRoot{../../}\input{\pathToRoot headers/header_lecturenotes}
-% \input{\pathToRoot headers/theoremenvts.tex}
 
 \newcommand{\catA}[0]{\cat{A}}
 \newcommand{\catB}[0]{\cat{B}}
@@ -21,7 +20,7 @@
 \section*{Motivation, definitions and examples}
 Morphisms are maps between objects of a category, functors are maps between categories, and finally, natural transformations are maps between functors of the same domain and codomain.
 
-For example, concider a discrete category $\catA$ and an arbitrary category $\catB$.
+For example, consider a discrete category $\catA$ and an arbitrary category $\catB$.
 Now let $\parpair{\catA}{\catB}{F}{G}$ be functors from $\catA$ to $\catB$.
 Now because $\catA$ is discrete, we can ignore the morphism-mappings of $F$ and $G$ (since there are only identity morphisms in $\catA$ that are mapped to identity morphisms in $\catB$) and write $F$ and $G$ as families
 of objects in $\catB$
@@ -31,14 +30,14 @@ $\bigl(F(A)\toby{\alpha_A}G(A)\bigr)_{A\in\catA}$
 this $\alpha$ could be regarded as a mapping between the functors $F$ and $G$.
 Indeed this construction is a special case of the more general definition of natural transformations.
 
-We first define what a natural transformation in general is precisely:
+First we define precisely what a natural transformation is in general.
 \begin{defn}[Natural transformation]
   \label{def:nat}
   Let $\catA$ and $\catB$ be categories and $\parpair{\catA}{\catB}{F}{G}$ be two functors from $\catA$ to $\catB$.
   Let $\alpha$ be a family of maps
   $\bigl(F(a)\toby{\alpha_A}G(A)\bigr)_{A\in\catA}$.
-  Then we define that $\alpha$ is a \demph{natural transformation} from $F$ to $G$ iff
-  for every objects and maps $A, A' \in \catA, f \from A \to A'$, the sqare
+  Then we define that $\alpha$ is a \demph{natural transformation} from $F$ to $G$ if
+  for every objects and maps $A, A' \in \catA, f \from A \to A'$, the square
   \begin{equation}
     \label{eq:nat}
     \begin{array}{c}
@@ -50,7 +49,7 @@ We first define what a natural transformation in general is precisely:
   \end{equation}
   commutes.
   The maps $\alpha_A$ are then called the \demph{components} of $\alpha$.
-  The commuting square (\ref{eq:nat}) is also called the \demph{naturality axiom} (throught this is not a axiom in logical sense but a defined property for some $\alpha$).
+  The commuting square (\ref{eq:nat}) is also called the \demph{naturality axiom} (through this is not a axiom in logical sense but a defined property for some $\alpha$).
 \end{defn}
 
 If $\alpha$ is a natural transformation from $F$ to $G$ we can also write this as a diagram:
@@ -58,10 +57,10 @@ If $\alpha$ is a natural transformation from $F$ to $G$ we can also write this a
   \catA \rtwocell^F_G{\alpha} & \catB
 }\]
 
-\begin{exmp}[Discrete Categories]
-  For the first example, the mapping
-  $\bigl(F(A)\toby{\alpha_A}G(A)\bigr)_{A\in\catA}$
-  the naturality axiom (\ref{eq:nat}) holds, because $\catA$ is discrete, so every morphism $f \from A \to A'$ in $\catA$ is an identy morphism (hence $A=A'$). The diagramm
+\begin{exmp}[Discrete categories]
+  In the first example, the naturality axiom (\ref{eq:nat}) holds for the mapping
+  $\bigl(F(A)\toby{\alpha_A}G(A)\bigr)_{A\in\catA}$,
+  because $\catA$ is discrete, so every morphism $f \from A \to A'$ in $\catA$ is an identity morphism (hence $A=A'$). The diagram
   \[
     \xymatrix{
       F(A) \ar[r]^{F(I)} \ar[d]_{\alpha_A} & F(A) \ar[d]^{\alpha_{A}} \\
@@ -77,29 +76,30 @@ If $\alpha$ is a natural transformation from $F$ to $G$ we can also write this a
   If we map $R \in \CRing$ to $R^{n \times n}$ and ring homomorphisms $f \from R \to S$ to
   $\lambda A \in R^{n \times n}. \bigl( f(A_{i,j}) \bigr)_{1 \le i, j \le n}$,
   i.~e. applying $f$ element-wise to the matrix $A$, we get another functor $M_n \from \CRing \to \Mon$.
-  We will now see that the \emph{determinant} is a natural transformation between this two functors $M_n$ and $U$.
+  We will now see that the \emph{determinant} is a natural transformation between $M_n$ and $U$.
 
   First we note that for every ring the determinant of a matrix over this ring is defined canonically.
-  Furthermore by definition if $A \in R^{n \times n}$ then $\det A \in R$ for every ring $R$.
+  Furthermore by definition $\det A \in R$ holds for $A \in R^{n \times n}$.
   We therefore can establish a family of mappings $\det$:
   $\bigl(M_n(R)\toby{\det_R}U(R)\bigr)_{R\in\CRing}$, because $U(R) = R$.
-  Now, to show that $\det$ is indeed a natural transformation, we have to show that the following diagramm commutes for every ring homomorphism $f \from R \to S$:
+  Now, to show that $\det$ is indeed a natural transformation, we have to show that the following diagram commutes for every ring homomorphism $f \from R \to S$:
   \[\xymatrix{
     M_n(R) \ar[r]^{M_n(f)} \ar[d]_{\det_R} & M_n(S) \ar[d]^{\det_S} \\
     U(R) \ar[r]_{U(f)} & U(s)
   }\]
-  By unfolding the definitions of $U$ and $M_n$ and applying functional extentionality, this equivalent to
+  By unfolding the definitions of $U$ and $M_n$ and applying functional extensionality, this is equivalent to
   $f(\det_R(f(A))) = \det_S (\bigl( f(A_{i,j}) \bigr)_{1 \le i, j \le n})$
   for every $A \in R^{n \times n}$.
   This already is a standard result of linear algebra.
   Hence $\det$ is really a natural transformation between the functors $M_n$ and $U$. Or, written as a diagram:
   \[\xymatrix{
-    \CRing \rtwocell<5>^{M_n}_{U}{\alpha} & \Mon
+    \CRing \rtwocell<5>^{M_n}_{U}{\hspace{.7em}\det} & \Mon
   }\]
 \end{exmp}
 
+\section*{Functor Category}
 \begin{defn}[Functor Category]
-  Natural transformations, as other types of maps that we've encountered earlier
+  Natural transformations, as other types of maps that we have encountered earlier
   can be composed. That is, for any two categories $\cat{A}$ and $\cat{B}$,
   functors $F, G, H$ between them, natural transformations $\alpha \from F \to
   G$ and $\beta \from G \to H$:
@@ -201,7 +201,7 @@ $\alpha_A\from F(A) \to G(A)$ is an isomorphism for all $A \in \cat{A}$.
           &\Rightarrow & \beta_{A'} \circ G(f) & = F(f) \circ \beta_A
       \end{alignat*}
       By similar reasoning to ($\leftarrow$) we get that $\beta$ is the inverse
-      of $\alpha$.  Therefore $\alpha$ is a natural isomorpism.
+      of $\alpha$.  Therefore $\alpha$ is a natural isomorphism.
   \end{itemize}
 \end{proof}
 
@@ -235,7 +235,7 @@ G(A)$ in such a way that the naturality axiom~\eqref{eq:nat} is satisfied.
   \iso G(A)$ for all $A \in \cat{A}$, but not \emph{naturally} in $A$.
 \end{exmp}
 
-\section{Equivalence of Categories}
+\section*{Equivalence of Categories}
 We now want to examine when two categories are the same.
 \begin{exmp}
   \[
@@ -286,7 +286,7 @@ todo: explain example
 \end{exmp}
 
 
-\section{Horizontal Composition}
+\section*{Horizontal Composition}
 
 Given two natural transformations $\alpha$ and $\alpha'$:
 \[
