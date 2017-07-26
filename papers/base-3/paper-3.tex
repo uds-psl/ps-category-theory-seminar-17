@@ -1,6 +1,8 @@
 \def\pathToRoot{../../}\input{\pathToRoot headers/header_lecturenotes}
 % \input{\pathToRoot headers/theoremenvts.tex}
 
+\usepackage{todonotes}
+
 \newcommand{\catA}[0]{\cat{A}}
 \newcommand{\catB}[0]{\cat{B}}
 
@@ -235,33 +237,43 @@ G(A)$ in such a way that the naturality axiom~\eqref{eq:nat} is satisfied.
   \iso G(A)$ for all $A \in \cat{A}$, but not \emph{naturally} in $A$.
 \end{exmp}
 
+
 \section{Equivalence of Categories}
 We now want to examine when two categories are the same.
+To that end let us consider the following example.
 \begin{exmp}
+  \label{exmp:eqv}
+  We take two discrete categories $\catA$ and $\catB$ and define two functors $F \from \catA \to \catB$ and $G \from \catB \to \catA$ as depicted below.
+  They operate on morphisms in the only possible way.
   \[
     \begin{tikzcd}
-      \catA: & & \catB:\\
-      A \arrow[loop left] & & B \arrow[bend left]{d} \arrow[loop left] \\
-                          & & B' \arrow[bend left]{u} \arrow[loop left]
+      \catA:                                               & & \catB:\\
+      A \arrow[loop left] \arrow[dashed, bend left]{rr}{F} & & B \arrow[bend left]{d} \arrow[loop above] \arrow[dashed]{ll}{G}\\
+                                                           & & B' \arrow[bend left]{u} \arrow[loop below] \arrow[dashed]{llu}{G}
     \end{tikzcd}
   \]
+  The two objects $B$ and $B'$ of $\catB$ are isomorphic.
+  By "merging" them we obtain the category $\catA$.
+  We now examine how this merging can be described by $F$ and $G$.
+  We observe that $G \circ F = 1_{\catA}$.
+  But $F \circ G$ is only isomorphic to $1_{\catB}$.
+  This isomorphism between the composition of $F$ and $G$ leads to the following definition of equivalence.
 \end{exmp}
-todo: explain example
 
 \begin{defn}
   \label{def:eqv}
-  Tow categories $\catA$ and $\catB$ are \emph{equivalent} if:
+  Two categories $\catA$ and $\catB$ are \demph{equivalent} if:
   \begin{itemize}
     \item There are functors $F \from \catA \to \catB$ and $G \from \catB \to \catA$ and
     \item there are natural transformations $\eta \from 1_{\catA} \to G \circ F$ and $\varepsilon \from F \circ G \to 1_\catB$.
   \end{itemize}
-  The functors $F$ and $G$ are called \emph{equivalences}.
+  The functors $F$ and $G$ are called \demph{equivalences}.
   We write $\catA \eqv \catB$ if $\catA$ and $\catB$ are equivalent.
 \end{defn}
 
 \begin{defn}
   \label{def:surj-on-obj}
-  A functor $F \from \catA \to \catB$ is \emph{essentially surjective on objects}
+  A functor $F \from \catA \to \catB$ is \demph{essentially surjective on objects}
   if for every object $B \in \catB$ there is an object $A \in \catA$ such that $F(A) \iso B$.
 \end{defn}
 
@@ -351,7 +363,7 @@ This natural transformations follow the interchange law:
 \from
 F' \circ F \to H' \circ H.
 \]
-Additionally we have $1_{F'} * 1_{F} = 1_{F' \circ F}$, where $1_{F}$ is the natural transformation which components are the identities of $\cat{A'}$.
+Additionally we have $1_{F'} * 1_{F} = 1_{F' \circ F}$, where $1_{F}, 1_{F'}$ and $1_{F' \circ F}$ are the natural transformations which components are the identities on $\cat{A'}, \cat{A'}$ and $\cat{A''}$.
 
 \end{document}
 
