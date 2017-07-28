@@ -12,12 +12,12 @@
 \usetikzlibrary{cd}
 
 \begin{document}
-\title{Presheaves, Representables and\\the Yoneda Lemma}
-\author{Dominik Wagner, Felix Rech}
+\title{Maps between Categories -- Functors}
+\author{Felix Rech \and Dominik Wagner}
 \maketitle
 
 We want to define structure-preserving maps between categories.
-Since the morphisms are are most interesting part of a category, such a map should not just operate on objects, but on morphisms to.
+Since the morphisms are most interesting part of a category, such a map should not just operate on objects, but on morphisms, too.
 In order to preserve the structure, it has to map identity morphisms to identity morphisms and compositions of morphisms to compositions.
 This is made precise in the following definition.
 
@@ -63,7 +63,7 @@ We recommend to check the axioms yourself in order to verify that they indeed sa
   If you have experience in functional programing, this may seem familiar to you.
 \end{example}
 
-In the next few examples we will talk about a vary simple type of algebraic structures with a binary operation that we now define.
+In the next few examples we will talk about a very simple type of algebraic structure with a binary operation that we now define.
 
 \begin{definition}
   A set $M$ is a \demph{monoid} if it has a binary operation ${}*{} \from M \times M \to M$ that satisfies the following axioms.
@@ -73,7 +73,7 @@ In the next few examples we will talk about a vary simple type of algebraic stru
   \end{description}
 \end{definition}
 
-This is the same as the definition of \emph{groups} except that we don't require inverses.
+This is the same as the definition of \emph{groups} except that we do not require inverses.
 Similar to homomorphisms on groups, we define homomorphisms on monoids.
 
 \begin{definition}
@@ -264,8 +264,8 @@ The following definition introduces a concept that is similar to injectivity of 
   is \emph{injective}.
 \end{definition}
 
-Note that this definition only speaks about what heapens to morphisms between the \emph{same pair} of objects.
-For morphisms $A \xrightarrow{f, g} B$, we can conclude that $F(A) = F(B)$ implies $A = B$ but for a morphism $A \xrightarrow{f} B$ and a morphism $C \xrightarrow{g} D$ between another pair of objects, the faithfulness of $F$ doesn't tell us anything.
+Note that this definition only speaks about what happens to morphisms between the \emph{same pair} of objects.
+For morphisms $A \xrightarrow{f, g} B$, we can conclude that $F(A) = F(B)$ implies $A = B$ but for a morphism $A \xrightarrow{f} B$ and a morphism $C \xrightarrow{g} D$ between another pair of objects, the faithfulness of $F$ does not tell us anything.
 Let us consider a functor like in the following graphic as an example.
 \[ \begin{tikzpicture}
     \draw (0, 0) rectangle (2, 3);
