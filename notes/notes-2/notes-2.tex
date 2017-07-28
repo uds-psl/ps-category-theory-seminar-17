@@ -78,17 +78,17 @@ for each $P,P'\in\ob(\cat P)$. In the special case of preorders the latter funct
 \begin{align*}
   P\leq_\cat P P'\rightarrow F(P)\leq_\cat Q F(P')
 \end{align*}
-due to the fact that for each pair of objects in a preorder there is either exactly one arrow between them (denoting that the first is smaller than the second) or none at all (denoting incomperatibility). Hence, functors between correspond to monotonically (increasing) functions.
+due to the fact that for each pair of objects in a preorder there is either exactly one arrow between them (denoting that the first is smaller than the second) or none at all (denoting incomparability). Hence, functors between preorders correspond to monotonically (increasing) functions.
 
 A very natural question to ask is whether there is also a general category theoretic analogue to monotonically decreasing functions, i.e. functions $F\from\ob(\cat P)\to\ob(\cat Q)$ between preorders $\cat P$ and $\cat Q$ such that
 \begin{align*}
   P\leq_\cat P P'\rightarrow F(P)\geq_\cat Q F(P')
 \end{align*}
-for each $P,P'\in\ob(\cat P)$. Again, this exactly the same as to demand that for each $P,P'\in\ob(\cat P)$ there is a function
+for each $P,P'\in\ob(\cat P)$. Again, this is exactly the same as to demand that for each $P,P'\in\ob(\cat P)$ there is a function
 \begin{align*}
   \cat P(P,P')\to\cat Q(F(P'),F(P)).
 \end{align*}
-Since there is the unique arrow in $\cat (P,P')$ if and only if $\cat P^\op(P',P)$ contains the unique arrow we see that this amounts to the same as having a function
+Since there is the unique arrow in $\cat P(P,P')$ if and only if $\cat P^\op(P',P)$ contains the unique arrow we see that this amounts to the same as having a function
 \begin{align*}
   \cat P^\op(P',P)\to\cat Q(F(P'),F(P)),
 \end{align*}
@@ -103,17 +103,17 @@ Such ``operations'' that are essentially functors but reverse the direction of t
   Let $\cat A$ and $\cat B$ be categories. A \emph{contravariant functor} from $\cat A$ to $\cat B$ is a functor $\cat A^\op\to\cat B$.
 \end{definition}
 \section{Dual Vector Spaces and Contravariant Representable Functors}
-Next, we are going to look at the generalization of a construction from linear algebra that is used in the study of bilinear mappings amongst others. The general idea is that we analyze objects by analyzing the mappings into them.
+Next, we are going to look at the generalization of a construction from linear algebra, which is used in the study of bilinear mappings amongst others and which can be regarded as a special contravariant functor. The general idea is that we analyze objects by analyzing the mappings into them.
 
 Let $\mathbb K$ be a field. Given any two $\mathbb K$-vector spaces $V$ and $W$ there is the vector space 
 \begin{align*}
   \Hom(V,W)=\{f\from V\to W\mid f \text{ linear}\}
 \end{align*}
-of linear mappings between $V$ and $W$ where the vector space operations addition and scalar multiplication are defined pointwise. Therefore, for a fixed $\mathbb K$-vector space $W$, we can define a mapping
+of linear mappings between $V$ and $W$ where the vector space operations (addition and scalar multiplication) are defined pointwise. Therefore, for a fixed $\mathbb K$-vector space $W$, we can define a mapping
 \begin{align*}
   V\mapsto H_W(V)=\Hom(V,W).
 \end{align*}
-It seems reasonable that we can extend this to a functor $H_W\from\Vect_{\mathbb K}\to\Vect_{\mathbb K}$. So let us check the details: We have to define its action on linear maps $f\from V\to V'$, that is we have to define a linear mapping 
+It seems reasonable that we can extend this to a functor $H_W\from\Vect_{\mathbb K}\to\Vect_{\mathbb K}$. So let us check the details: We still have to define its action on linear maps $f\from V\to V'$, that is we have to define a linear mapping 
 \begin{align*}
   H_W(f)\from H_W(V)=\Hom(V,W)\to H_W(V')=\Hom(V',W)
 \end{align*}
@@ -128,10 +128,10 @@ That is, given arbitrary $f\from V\to V'$ we can define a mapping
   H_W(f)\from H_W(V')&\to H_W(V)\\
   g&\mapsto g\of f
 \end{align*}
-that is moreover trivially linear. This is indeed a contravariant functor since
+that is moreover trivially linear. This is looks like a contravariant functor. To verify that it is indeed a functor we check the axioms:
 \begin{align*}
-  H_W(1_V)=\lambda g\ldotp g\of 1_V=\lambda g\ldotp g=1_{H_W(V)}\\
-  H_W(f'\of f)=\lambda g\ldotp g\of (f'\of f)=\lambda g\ldotp (g\of f')\of f=(\lambda g\ldotp g\of f)\of (\lambda g\ldotp g\of f')=H_W(f)\of H_W(f')
+  H_W(1_V)&=\lambda g\ldotp g\of 1_V=\lambda g\ldotp g=1_{H_W(V)}\\
+  H_W(f'\of f)=\lambda g\ldotp g\of (f'\of f)&=\lambda g\ldotp (g\of f')\of f=(\lambda g\ldotp g\of f)\of (\lambda g\ldotp g\of f')=H_W(f)\of H_W(f').
 \end{align*}
 Thus, we have defined a functor $H_W\from\Vect_{\mathbb K}^\op\to\Vect_{\mathbb K}$. 
 
@@ -140,13 +140,13 @@ In linear algebra one frequently takes $\mathbb K$ itself for $W$ (regarded as a
 Since this construction seems very useful indeed for vector spaces it is a natural question whether we can do something similar for arbitrary categories.
 The obvious analogue to 
 \begin{align*}
-  H_W(V)=\Hom(V,W)=\{f\from V\to W\mid f \text{ linear}\}
+  H_W(V)=\Hom(V,W)=\{f\from V\to W\mid f \text{ linear}\},
 \end{align*}
- is
+ that is its effect on objects, is
 \begin{align*}
   H_B(A)=\cat A(A,B)
 \end{align*}
-for $A$ and $B$ being objects in a category $\cat A$. This suggests a functor $F_A\from\cat A^\op\to\Set$. However, this is only well-defined if all collections $\cat A(A,B)$ are really sets, which is not necessarily the case for arbitrary categories. Hence, in all what follows we assume a \emph{locally small} category $\cat A$ in which all collections $\cat A(A,B)$ are really sets. 
+for $A,B\in\ob(\cat A)$. In contrast to the special case of vector spaces, $\cat A(A,B)$ is not a category again but just a collection. If all collections $\cat A(A,B)$ are sets this suggests a functor $F_A\from\cat A^\op\to\Set$. However, obviously this is only well-defined if all collections $\cat A(A,B)$ are really sets, which is not necessarily the case for arbitrary categories. Hence, in all what follows we assume a \emph{locally small} category $\cat A$ in which all collections $\cat A(A,B)$ are indeed sets. 
 
 Bearing this in mind, the defintion of the functor $H_B$ for $B\in\cat A$ is a straight-forward generalization:
 \begin{align*}
@@ -161,11 +161,11 @@ for objects $A\in\cat A$ and for $f\from A'\to A$ the function $H_B(f)\from H_B(
 \begin{align*}
   \xymatrix{A' \ar[r]^{f} & A \ar[r]^{g} & B }
 \end{align*}
-These functors $H_A$ are called the \emph{contravariant representable functor} of $A$. Furthermore, contravariant functors to $\Set$ (like $H_A$) have a special name:
+The functor $H_A$ is called the \emph{contravariant representable functor} of $A$. Furthermore, contravariant functors to $\Set$ (like $H_A$) have a special name:
 \begin{definition}
   Let $\cat A$ be a category. A \emph{presheaf} on $\cat A$ is a functor $\cat A^\op\to\Set$.
 \end{definition}
-In a later chapter we are going to discover that they really helps us understand the structure of locally small categories. In particular, we are going to prove that two objects $A$ and $B$ are isomorphic if and only if $H_A$ and $H_B$ are isomorphic\footnote{The notion of mappings between functors is defined in the next chapter.}, i.e. $A$ and $B$ ``look the same from all other objects''.
+In a later chapter we are going to discover that contravariant representable functors really help us understand the structure of locally small categories. In particular, we are going to prove that two objects $A$ and $B$ are isomorphic if and only if $H_A$ and $H_B$ are isomorphic\footnote{The notion of mappings between functors is defined in the next chapter.}, i.e. $A$ and $B$ ``look the same from all other objects''.
 
 \begin{example}
   Similarly, as in example \ref{ex:Mset} presheaves on one-object categories (i.e. monoids $M$) correspond to \emph{right} $M$-sets, where a right $M$-set is a set $S$ together with a function
