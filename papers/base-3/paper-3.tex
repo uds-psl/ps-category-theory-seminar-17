@@ -1,0 +1,369 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/header_lecturenotes}
+
+\usepackage{todonotes}
+
+\newcommand{\catA}[0]{\cat{A}}
+\newcommand{\catB}[0]{\cat{B}}
+
+\newcounter{counter}[section]
+\newtheorem{defn}[counter]{Definition}
+\newtheorem{exmp}[counter]{Example}
+\newtheorem{lemma}[counter]{Lemma}
+
+
+\title{Natural transformations}
+\author{Joachim Bard, Maximilian Wuttke, Nikita Ziuzin}
+
+\begin{document}
+
+\maketitle
+
+
+\section*{Motivation, definitions and examples}
+Morphisms are maps between objects of a category, functors are maps between categories, and finally, natural transformations are maps between functors of the same domain and codomain.
+
+For example, consider a discrete category $\catA$ and an arbitrary category $\catB$.
+Now let $\parpair{\catA}{\catB}{F}{G}$ be functors from $\catA$ to $\catB$.
+Now because $\catA$ is discrete, we can ignore the morphism-mappings of $F$ and $G$ (since there are only identity morphisms in $\catA$ that are mapped to identity morphisms in $\catB$) and write $F$ and $G$ as families
+of objects in $\catB$
+$\bigl(F(A)\bigr)_{A\in\catA}$ and $\bigl(G(A)\bigr)_{A\in\catA}$.
+When we have a mapping $\alpha$ of $\catB$-morphisms
+$\bigl(F(A)\toby{\alpha_A}G(A)\bigr)_{A\in\catA}$
+this $\alpha$ could be regarded as a mapping between the functors $F$ and $G$.
+Indeed this construction is a special case of the more general definition of natural transformations.
+
+First we define precisely what a natural transformation is in general.
+\begin{defn}[Natural transformation]
+  \label{def:nat}
+  Let $\catA$ and $\catB$ be categories and $\parpair{\catA}{\catB}{F}{G}$ be two functors from $\catA$ to $\catB$.
+  Let $\alpha$ be a family of maps
+  $\bigl(F(a)\toby{\alpha_A}G(A)\bigr)_{A\in\catA}$.
+  Then we define that $\alpha$ is a \demph{natural transformation} from $F$ to $G$ if
+  for every objects and maps $A, A' \in \catA, f \from A \to A'$, the square
+  \begin{equation}
+    \label{eq:nat}
+    \begin{array}{c}
+      \xymatrix{
+        F(A) \ar[r]^{F(f)} \ar[d]_{\alpha_A} & F(A') \ar[d]^{\alpha_{A'}} \\
+        G(A) \ar[r]_{G(f)} & G(A')
+      }
+    \end{array}
+  \end{equation}
+  commutes.
+  The maps $\alpha_A$ are then called the \demph{components} of $\alpha$.
+  The commuting square (\ref{eq:nat}) is also called the \demph{naturality axiom} (though this is not an axiom in logical sense but a defined property for some $\alpha$).
+\end{defn}
+
+If $\alpha$ is a natural transformation from $F$ to $G$ we can also write this as a diagram:
+\[\xymatrix{
+  \catA \rtwocell^F_G{\alpha} & \catB
+}\]
+
+\begin{exmp}[Discrete categories]
+  In the first example, the naturality axiom (\ref{eq:nat}) holds for the mapping
+  $\bigl(F(A)\toby{\alpha_A}G(A)\bigr)_{A\in\catA}$,
+  because $\catA$ is discrete, so every morphism $f \from A \to A'$ in $\catA$ is an identity morphism (hence $A=A'$). The diagram
+  \[
+    \xymatrix{
+      F(A) \ar[r]^{F(I)} \ar[d]_{\alpha_A} & F(A) \ar[d]^{\alpha_{A}} \\
+      G(A) \ar[r]_{G(I)} & G(A)
+  }\]
+  commutes trivially for every identity morphism $I \from A \to A$. Hence $\alpha$ is a natural transformation according to definition~\ref{def:nat}.
+\end{exmp}
+
+\begin{exmp}[Determinants and commutative rings]
+  Let $n\in\nat$ and $R$ be a commutative ring.
+  We have a forgetful functor $U \from \CRing \to \Mon$ by forgetting the addition of the commutative ring.
+  Furthermore the set of all $n \times n$ matrices forms a monoid under matrix multiplication.
+  If we map $R \in \CRing$ to $R^{n \times n}$ and ring homomorphisms $f \from R \to S$ to
+  $\lambda A \in R^{n \times n}. \bigl( f(A_{i,j}) \bigr)_{1 \le i, j \le n}$,
+  i.~e. applying $f$ element-wise to the matrix $A$, we get another functor $M_n \from \CRing \to \Mon$.
+  We will now see that the \emph{determinant} is a natural transformation between $M_n$ and $U$.
+
+  First we note that for every ring the determinant of a matrix over this ring is defined canonically.
+  Furthermore by definition $\det A \in R$ holds for $A \in R^{n \times n}$.
+  We therefore can establish a family of mappings $\det$:
+  $\bigl(M_n(R)\toby{\det_R}U(R)\bigr)_{R\in\CRing}$, because $U(R) = R$.
+  Now, to show that $\det$ is indeed a natural transformation, we have to show that the following diagram commutes for every ring homomorphism $f \from R \to S$:
+  \[\xymatrix{
+    M_n(R) \ar[r]^{M_n(f)} \ar[d]_{\det_R} & M_n(S) \ar[d]^{\det_S} \\
+    U(R) \ar[r]_{U(f)} & U(s)
+  }\]
+  By unfolding the definitions of $U$ and $M_n$ and applying functional extensionality, this is equivalent to
+  $f(\det_R(f(A))) = \det_S (\bigl( f(A_{i,j}) \bigr)_{1 \le i, j \le n})$
+  for every $A \in R^{n \times n}$.
+  This already is a standard result of linear algebra.
+  Hence $\det$ is really a natural transformation between the functors $M_n$ and $U$. Or, written as a diagram:
+  \[\xymatrix{
+    \CRing \rtwocell<5>^{M_n}_{U}{\hspace{.7em}\det} & \Mon
+  }\]
+\end{exmp}
+
+\section*{Functor Category}
+\begin{defn}[Functor Category]
+  Natural transformations, as other types of maps that we have encountered earlier
+  can be composed. That is, for any two categories $\cat{A}$ and $\cat{B}$,
+  functors $F, G, H$ between them, natural transformations $\alpha \from F \to
+  G$ and $\beta \from G \to H$:
+  \vspace{-2ex}
+  \[
+  \xymatrix@C+1.5em{
+  \cat{A}
+  \ruppertwocell<8>^F{\alpha}
+  \ar[r]|G
+  \rlowertwocell<-8>_H{\beta}
+  &
+  \cat{B}
+  },
+  \]
+  \vspace{-3ex}\\
+  there is a composite natural transformation $\beta \of \alpha$
+  \[
+  \xymatrix@C+1.5em{
+  \cat{A} \rtwocell^F_H{\hspace{.8em}\beta\of\alpha} &\cat{B}
+  }
+  \]
+  defined by $(\beta\of\alpha)_A = \beta_A \of \alpha_A$ for all $A \in \cat{A}$.
+  There is also an identity natural transformation
+  \[
+  \xymatrix@C+1em{
+  \cat{A} \rtwocell^F_F{\hspace{.5em}1_F} &\cat{B}
+  }
+  \]
+  on any functor $F$, defined by $(1_F)_A = 1_{F(A)}$.
+
+  This gives rives to a category whose objects are the functors from $\cat{A}$ to
+  $\cat{B}$ and whose maps are the natural transformations between them. This is
+  called the \demph{functor category} from $\cat{A}$ to $\cat{B}$, and written as
+  $\ftrcat{\cat{A}}{\cat{B}}$ or $\cat{B}^\cat{A}$.
+\end{defn}
+
+\begin{exmp}
+  Let $2$ be the discrete category with two objects. A functor from $2$ to a
+  category $\cat{B}$ is a pair of objects of $\cat{B}$, and a natural
+  transformation is a pair of maps.  The functor category $\ftrcat{2}{\cat{B}}$
+  is therefore isomorphic to the product category $\cat{B} \times \cat{B}$.
+  This fits well with the alternative notation $\cat{B}^2$ for the functor
+  category.
+\end{exmp}
+
+\begin{exmp}
+  Take ordered sets $A$ and $B$, viewed as categories. Given order-preserving
+  maps $\parpairi{A}{B}{f}{g}$, viewed as functors, there is at most one
+  natural transformation
+  \[
+  \xymatrix{
+  A \rtwocell^f_g &B,
+  }
+  \]
+  and there is one if and only if $f(a) \leq g(a)$ for all $a \in A$.  (The
+  naturality axiom~\eqref{eq:nat} holds automatically, because in an ordered
+  set, all diagrams commute.)  So $\ftrcat{A}{B}$ is an ordered set too; its
+  elements are the order-preserving maps from $A$ to $B$, and $f \leq g$ if and
+  only if $f(a) \leq g(a)$ for all $a \in A$.
+\end{exmp}
+
+\begin{defn}
+  Let $\cat{A}$ and $\cat{B}$ be categories. A \demph{natural isomorphism}
+  between functors from $\cat{A}$ to $\cat{B}$ is an isomorphism in
+  $\ftrcat{\cat{A}}{\cat{B}}$.
+\end{defn}
+
+This definition can also be given as a lemma:
+
+\begin{lemma}
+Let $\xymatrix@1{\cat{A}\rtwocell^F_G{\alpha} &\cat{B}}$ be a natural
+transformation.  Then $\alpha$ is a natural isomorphism if and only if
+$\alpha_A\from F(A) \to G(A)$ is an isomorphism for all $A \in \cat{A}$.
+\end{lemma}
+
+\begin{proof}
+  \begin{itemize}
+    \item[($\rightarrow$)]
+      By definition of natural isomorphism we have a natural transformation
+      $\beta\from G \to F$, such that \[\beta \circ \alpha = 1_{F} \text{ and }
+      \alpha \circ \beta = 1_{G}. \] We show that $\forall A \in \cat{A}.\,
+      \beta_A \circ \alpha_A = 1_{F(A)} \text{ and } \alpha_A \circ \beta_A =
+      1_{G(A)}$.  Suppose $A \in \cat{A}$.  We know by definition of the
+      identity natural transformation that $(\beta \circ \alpha)_A = 1_{F(A)}$.
+      The claim $\beta_A \circ \alpha_A = 1_{F(A)}$ follows by definition of
+      composition of natural transformations.  $\alpha_A \circ \beta_A =
+      1_{G(A)}$ is shown analogously.
+    \item[($\leftarrow$)]
+      We know that for all $A \in \cat{A}$ there is a $\beta_A$ such that
+      \[\beta_A \circ \alpha_A = 1_{F(A)} \text{ and } \alpha_A \circ \beta_A =
+      1_{G(A)}.\] First we prove that $\beta$ is a natural transformation.
+      Suppose $f\from A \to A'$.  We know that $\alpha$ is a natural
+      transformation:
+      \begin{alignat*}{2}
+          & & G(f) \circ \alpha_A & = \alpha_{A'} \circ F(f) \\
+          &\Rightarrow &\quad G(f) \circ \alpha_A \circ \beta_A & = \alpha_{A'} \circ F(f) \circ \beta_A\\
+          &\Rightarrow & G(f) & = \alpha_{A'} \circ F(f) \circ \beta_A\\
+          &\Rightarrow & \beta_{A'} \circ G(f) & = \beta_{A'} \circ \alpha_{A'} \circ F(f) \circ \beta_A\\
+          &\Rightarrow & \beta_{A'} \circ G(f) & = F(f) \circ \beta_A
+      \end{alignat*}
+      By similar reasoning to ($\leftarrow$) we get that $\beta$ is the inverse
+      of $\alpha$.  Therefore $\alpha$ is a natural isomorphism.
+  \end{itemize}
+\end{proof}
+
+Then, we say that functors $F$ and $G$ are \demph{naturally isomorphic} if
+there is a natural isomorphism from $F$ to $G$. Note that this natural
+isomorphism is just isomorphism in $\ftrcat{\cat{A}}{\cat{B}}$, and we already
+have notation for this: $F \iso G$.
+
+\begin{defn}
+  Given functors $\parpair{\cat{A}}{\cat{B}}{F}{G}$, we say that
+  \[
+  F(A) \iso G(A) \text{ \demph{naturally in} } A
+  \]
+  if $F$ and $G$ are naturally isomorphic.
+\end{defn}
+
+This alternative terminology can be understood as follows.  If $F(A) \iso
+G(A)$ naturally in $A$ then certainly $F(A) \iso G(A)$ for each individual
+$A$, but more is true: we can choose isomorphisms $\alpha_A\from F(A) \to
+G(A)$ in such a way that the naturality axiom~\eqref{eq:nat} is satisfied.
+
+\begin{exmp}
+  Let $F, G\from \cat{A} \to \cat{B}$ be functors from a discrete category
+  $\cat{A}$ to a category $\cat{B}$.  Then $F \iso G$ if and only if $F(A) \iso
+  G(A)$ for all $A \in \cat{A}$.
+
+  So in \emph{this} case, $F(A) \iso G(A)$ naturally in $A$ if and only if
+  $F(A) \iso G(A)$ for all $A$.  But this is only true because $\cat{A}$ is
+  discrete.  In general, it is emphatically false.  There are many examples of
+  categories and functors $\parpairi{\cat{A}}{\cat{B}}{F}{G}$ such that $F(A)
+  \iso G(A)$ for all $A \in \cat{A}$, but not \emph{naturally} in $A$.
+\end{exmp}
+
+\section*{Equivalence of Categories}
+We now want to examine when two categories are the same.
+To that end let us consider the following example.
+\begin{exmp}
+  \label{exmp:eqv}
+  We take two discrete categories $\catA$ and $\catB$ and define two functors $F \from \catA \to \catB$ and $G \from \catB \to \catA$ as depicted below.
+  They operate on morphisms in the only possible way.
+  \[
+    \begin{tikzcd}
+      \catA:                                               & & \catB:\\
+      A \arrow[loop left] \arrow[dashed, bend left]{rr}{F} & & B \arrow[bend left]{d} \arrow[loop above] \arrow[dashed]{ll}{G}\\
+                                                           & & B' \arrow[bend left]{u} \arrow[loop below] \arrow[dashed]{llu}{G}
+    \end{tikzcd}
+  \]
+  The two objects $B$ and $B'$ of $\catB$ are isomorphic.
+  By "merging" them we obtain the category $\catA$.
+  We now examine how this merging can be described by $F$ and $G$.
+  We observe that $G \circ F = 1_{\catA}$.
+  But $F \circ G$ is only isomorphic to $1_{\catB}$.
+  This isomorphism between the composition of $F$ and $G$ leads to the following definition of equivalence.
+\end{exmp}
+
+\begin{defn}
+  \label{def:eqv}
+  Two categories $\catA$ and $\catB$ are \demph{equivalent} if:
+  \begin{itemize}
+    \item There are functors $F \from \catA \to \catB$ and $G \from \catB \to \catA$ and
+    \item there are natural transformations $\eta \from 1_{\catA} \to G \circ F$ and $\varepsilon \from F \circ G \to 1_\catB$.
+  \end{itemize}
+  The functors $F$ and $G$ are called \demph{equivalences}.
+  We write $\catA \eqv \catB$ if $\catA$ and $\catB$ are equivalent.
+\end{defn}
+
+\begin{defn}
+  \label{def:surj-on-obj}
+  A functor $F \from \catA \to \catB$ is \demph{essentially surjective on objects}
+  if for every object $B \in \catB$ there is an object $A \in \catA$ such that $F(A) \iso B$.
+\end{defn}
+
+\begin{lemma}
+  \label{lem:equiv}
+  A functor $F \from \catA \to \catB$ is an equivalence if and only if $F$ is full, faithful and surjective on objects.
+\end{lemma}
+
+\begin{exmp}
+  Let $K$ be a field.
+  We define the category $\catA$ such that objects are of the form $K^n$ for $n \in \NN$ and morphisms are linear functions.
+  Moreover we denote the category of finite dimensional vector spaces by $\FDVect_K$.
+  Objects in this category are finite dimensional vector spaces and morphisms are linear functions.
+  Let $F \from \catA \to \FDVect_K$ be the embedding functor from $\catA$ into $\FDVect_K$, i.e. $F$ maps objects and morphisms to themselves.
+  Clearly $F$ is full and faithful.
+  For surjectivity on objects we fix an arbitrary object $V \in \FDVect_K$.
+  Let $n \in \NN$ be the dimension of $V$.
+  From linear algebra we know that $V \iso K^n = F(K^n)$.
+  Thus $F$ is essentially surjectivity on objects.
+  By lemma~\ref{lem:equiv} we obtain that $\catA \eqv \FDVect_K$.
+  %In order to show that $\catA \eqv \FDVect_K$ we have to define a functor $F \from \catA \to \FDVect_K$ which is full, faithful and surjective on objects.
+\end{exmp}
+
+
+\section*{Horizontal Composition}
+
+Given two natural transformations $\alpha$ and $\alpha'$:
+\[
+\xymatrix@C+.5em{
+\cat{A} \rtwocell<4>^F_G{\alpha}   &
+\cat{A}' \rtwocell<4>^{F'}_{G'}{\alpha'}   &
+\cat{A}'',
+}
+\]
+we can obtain a natural transformation:
+\[
+\xymatrix@C+.5em{
+  \cat{A} \rtwocell<4>^{F' \circ F}_{G' \circ G} &\cat{A}'',
+}
+\]
+
+This horizontal composition is written $\alpha' * \alpha$.
+The following diagram commutes because $\alpha'$ is a natural transformation.
+\[
+  \begin{tikzcd}
+    F'(F(A)) \arrow{r}{F'(\alpha_A)} \arrow{d}{\alpha'_{F(A)}} \arrow{dr}{(\alpha' * \alpha)_A} & F'(G(A)) \arrow{d}{\alpha'_{G(A)}} \\
+    G'(F(A)) \arrow{r}{G'(\alpha_A)}                                                            & G'(G(A))
+  \end{tikzcd}
+\]
+So we can define $(\alpha' * \alpha)_A$ either as $G'(\alpha_A) \circ \alpha'_{F(A)}$ or as $\alpha'_{G(A)} \circ F'(\alpha_A)$.
+Now we want to show that $\alpha' * \alpha$ is again a natural transformation.
+Therefore let $f\from A \to A'$ be a morphism in $\catA$.
+\[
+  \begin{tikzcd}
+    F'(F(A)) \arrow{r}{F'(F(f))} \arrow{d}{\alpha'_{F(A)}} & F'(F(A')) \arrow{d}{\alpha'_{F(A')}} \\
+    G'(F(A)) \arrow{r}{G'(F(f))} \arrow{d}{G'(\alpha_A)}   & G'(F(A')) \arrow{d}{G'(\alpha_{A'})}  \\
+    G'(G(A)) \arrow{r}{G'(G(f))}                           & G'(G(A'))
+  \end{tikzcd}
+\]
+
+The upper diagram commutes because $\alpha'$ is a natural transformation.
+Since $\alpha$ is a natural transformation we have $G(f) \circ \alpha_A = \alpha_{A'} \circ F(f)$.
+By applying $G'$ on both sides we obtain the commutativity of the lower diagram.
+The commutativity of both inner diagrams ensures the commutativity of the outer diagram.
+This shows that $\alpha' * \alpha$ is indeed a natural transformation.
+
+We can also combine horizontal and vertical composition.
+\[
+\xymatrix{
+\cat{A}
+\ruppertwocell<8>^F{\alpha}
+\ar[r]|G
+\rlowertwocell<-8>_H{\beta} &
+\cat{A}'
+\ruppertwocell<8>^{F'}{\hspace{.2em}\alpha'}
+\ar[r]|{G'}
+\rlowertwocell<-8>_{H'}{\hspace{.2em}\beta'} &
+\cat{A}''
+}
+\]
+
+This natural transformations follow the interchange law:
+\[
+(\beta' \circ \alpha') * (\beta \circ \alpha)
+=
+(\beta' * \beta) \circ (\alpha' * \alpha)
+\from
+F' \circ F \to H' \circ H.
+\]
+Additionally we have $1_{F'} * 1_{F} = 1_{F' \circ F}$, where $1_{F}, 1_{F'}$ and $1_{F' \circ F}$ are the natural transformations which components are the identities on $\cat{A'}, \cat{A'}$ and $\cat{A''}$.
+
+\end{document}
+
+% vim: ts=2 sts=2 sw=2 expandtab
