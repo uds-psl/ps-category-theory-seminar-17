@@ -12,7 +12,7 @@
 \usetikzlibrary{cd}
 
 \begin{document}
-\title{Maps between Categories -- Functors}
+\title{Functors \\ Maps between Categories}
 \author{Felix Rech \and Dominik Wagner}
 \maketitle
 
@@ -29,7 +29,7 @@ This is made precise in the following definition.
         \ob(\cat A)\to\ob(\cat B),
       \end{align*}
       written as $A\mapsto F(A)$ and
-    \item for each $A,A'\in\ob(\cat A)$, a function
+    \item for all objects $A$ and $A'$, a function
       \begin{align*}
         \cat A(A,A')\to\cat B(F(A),F(A')),
       \end{align*}
@@ -44,9 +44,13 @@ This is made precise in the following definition.
 
 The image of such a functor can be thought of as a \textit{shadow} of category $\cat{A}$ in $\cat{B}$.
 Sometimes we call the first function \demph{action on paths} and the second function \demph{action on morphisms}.
+The definition of functors turns the class of categories into a category itself.
 
-We can easily define composition of functors and an identity functor on every category.
-With those we define a category $\Cat$ that contains categories as objects and functors as morphisms.
+\begin{definition}
+  We define a category $\Cat$ with categories as elements and functors as morphisms.
+  The identity morphism on an object is the functor that maps every object and every morphism to itself.
+  The composition is defined by composition of both actions on objects and composition of both actions on morphisms.
+\end{definition}
 
 Let us look at some examples of functors.
 We recommend to check the axioms yourself in order to verify that they indeed satisfy our definition.
@@ -86,7 +90,7 @@ Similar to homomorphisms on groups, we define homomorphisms on monoids.
 \end{definition}
 
 You might already spot some similarity to the functoriality axioms.
-We use this in our next example.
+We capture this in our next example.
 
 \begin{example}
   There is a one-to-one correspondence between monoids and categories with one object.
@@ -96,17 +100,17 @@ We use this in our next example.
 
 \begin{example}
   Monoids together with monoid homomorphisms form a category.
-  We can define a functor from the category of monoids to $\Set$, that maps every monoid to its element set and every homomorphism to the undelying function.
+  We can define a functor from the category of monoids to $\Set$ that maps every monoid to its element set and every homomorphism to the undelying function.
   This functor maps into a category that is similar to its domain but with less structure on the objects.
   Hence one can say that the functor \emph{forgets} the monoid structure.
-  This can be observed on many functors.
+  This can be observed on many other functors as well.
   We call such functors \demph{forgetful}.
   Forgetfulness is an informal concept and depends on our interpretation of the category, but usually it is obvious if you should call a functor forgetful.
 \end{example}
 
 \begin{example}
   There is a functor from the category of commutative monoids to the category of general monoids which maps every object and every morphism to itself.
-  It is injective on objects and on arrows, which means that we can always say where a resulting object \textit{came from}.
+  It is injective on objects and on arrows, which means that we can always say, where a resulting object \textit{came from}.
   But we still call it \emph{forgetful} because it maps into a category where in general the objects have less structure.
 \end{example}
 
@@ -116,7 +120,7 @@ We will take a look at one of them.
 \begin{example}
   Given a set $A$, we define the \demph{free monoid} $A^*$ over $A$ as the set of lists with elements in $A$.
   As binary operation we use the concatenation of lists and as neutral element the empty list.
-  If we have a function $A \xrightarrow{f} B$ then we can lift it to a monoid homomorphism $A^* \xrightarrow{f^*} B^*$ that applies $f$ pointwise on a list, i.e.\ $f^*([x, y, \ldots]) = [f(x), f(y), \ldots]$.
+  If we have a function $A \xrightarrow{f} B$ between sets then we can lift it to a monoid homomorphism $A^* \xrightarrow{f^*} B^*$ that applies $f$ pointwise on a list, i.e.\ $f^*([x, y, \ldots]) = [f(x), f(y), \ldots]$.
   This gives us a functor that maps a set to its free monoid and hence \emph{adds structure}.
   In general we call such a functor a \demph{free functor}.
 \end{example}
@@ -265,8 +269,8 @@ The following definition introduces a concept that is similar to injectivity of 
 \end{definition}
 
 Note that this definition only speaks about what happens to morphisms between the \emph{same pair} of objects.
-For morphisms $A \xrightarrow{f, g} B$, we can conclude that $F(A) = F(B)$ implies $A = B$ but for a morphism $A \xrightarrow{f} B$ and a morphism $C \xrightarrow{g} D$ between another pair of objects, the faithfulness of $F$ does not tell us anything.
-Let us consider a functor like in the following graphic as an example.
+We can still map two different morphisms onto the same target, as long as they are defined between a different pair of objects.
+Let us illustrate this with an example.
 \[ \begin{tikzpicture}
     \draw (0, 0) rectangle (2, 3);
     \node (A) at (0.5, 2.5) {$A$};
@@ -318,9 +322,9 @@ This motivates the definition of full subcategories.
 \end{definition}
 
 With our definition, a subcategory is full if and only if the inclusion functor is full.
-An important property is that a full subcategory is completely determined by the selection of objects that it contains.
+A convenient property is that a full subcategory is completely determined by the selection of objects that it contains.
 
-As the image of a monoid homomorphism is a monoid and the image of a group homomorphism is a group, one could easily assume that the image of a functor is a category, but in general this is wrong as we can see in this example:
+As the image of a monoid homomorphism is a monoid and the image of a group homomorphism is a group, one could easily assume that the image of a functor is a category, but in general this is wrong as we can see in the next example:
 \[ \begin{tikzpicture}
   \draw (0, 0) rectangle (3, 5);
   \node (A) at (1, 4.5) {$A$};
@@ -344,7 +348,7 @@ As the image of a monoid homomorphism is a monoid and the image of a group homom
   \draw[->, dotted, in=-120, out=-45] (D) to (Z);
 \end{tikzpicture} \]
 Assume that a functor $F$ is given by the dotted arrows and maps the morphism $f$ to $u$ and $g$ to $v$.
-Since the image of $F$ contains $X \xrightarrow{u} Y$ and $Y \xrightarrow{i} Z$, it should also contain $v \of u$ to be a category.
+Since the image of $F$ contains $u$ and $v$, it should also contain $v \of u$ to be a category.
 But $F$ does not map any morphism to $v \of u$, thus the image is not a category.
 
 \end{document}
