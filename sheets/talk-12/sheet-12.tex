@@ -1,5 +1,7 @@
 \def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
 
+\DeclareMathOperator{\myIn}{in}
+
 \usetikzlibrary{fit}
 \usetikzlibrary{knots}
 \usetikzlibrary{hobby}
@@ -555,7 +557,7 @@
       \]
       We introduce $\sigma$ with it's inverse in step one.
       We apply naturality of $\sigma^{-1}$ in step two and one hexagon equation in step three.
-      The rest follows from the correctness of the graphical calculus for general monoidal categories and cancellation of inverses.
+      The rest follows from the naturality of $\lambda$ and $\rho$ with the correctness of the graphical calculus for general monoidal categories and cancellation of inverses.
     \end{enumerate}
   \item
     \begin{enumerate}
@@ -663,7 +665,7 @@
       \end{tikzcd} \]
       The rectangle in the middle represents one hexagon equality.
       The section above it commutes by naturality of $\sigma$.
-      The squares to it's right and left commute by naturality of $\lambda$ and $\rho$.
+      The squares to its right and left commute by naturality of $\lambda$ and $\rho$.
       Everything else commutes trivially or by the coherence theorem for general monoidal categories.
     \end{enumerate}
   \end{enumerate}
@@ -675,15 +677,53 @@
 \end{exercise}
 
 \begin{answer}
-  You can define the associator, unitors and symmetry by composition of the corresponding morphisms for products and coproducts as well as distributivity.
-  As compositions of natural isomorphisms they will also be natural isomorphisms.
-  You can then check the triangle, pentagon and hexagon equalities and show that the symmetry is self-inverse (Application of a proof assistant adviced).
+  First we show that this describes a monoidal category.
+  The tensor product an unit are already given.
+  The next step is to define the associator and unitors.
+  We ignore some parentheses in our notation and denote by $\myIn_i : A_i \to A_1 + \cdots + A_i + \cdots + A_n$ the injection into the $n$-ary disjoint union for all families of sets $A_1, \ldots, A_n$ and indices $1 \leq i \leq n$.
+  We define the associator and unitors by pattern matching:
+  \begin{align*}
+    \alpha_{A, B, C} &: A + B + (A \times B) + C + \roundddd{\rounddd{A + B + (A \times B)} \times C} \\
+      &\qquad \to A + B + C + (B \times C) + \roundddd{A \times \rounddd{B + C + (B \times C)}} \\
+    \alpha(\myIn_1(a)) &= \myIn_1(a) \\
+    \alpha(\myIn_2(b)) &= \myIn_2(b) \\
+    \alpha(\myIn_3(a, b)) &= \myIn_5(a, \myIn_1(b)) \\
+    \alpha(\myIn_4(c)) &= \myIn_3(c) \\
+    \alpha(\myIn_5(\myIn_1(a), c)) &= \myIn_5(a, \myIn_2(c)) \\
+    \alpha(\myIn_5(\myIn_2(b), c)) &= \myIn_4(b, c) \\
+    \alpha(\myIn_5(\myIn_3(a, b), c)) &= \myIn_5(a, \myIn_3(b, c)) \\
+    \\
+    \lambda_{A} &: \emptyset + A + (\emptyset \times A) \to A \\
+    \lambda(\myIn_2(a)) &= a \\
+    \\
+    \rho_{A} &: A + \emptyset + (A \times \emptyset) \to A \\
+    \rho(\myIn_1(a)) &= a.
+  \end{align*}
+  Those are obviously bijections since you can basically swap the terms on both sides of the defining equations and get the definition of the inverse.
+  They describe natural transformations because they do not change the elements of $A$, $B$ and $C$ but only repackage them.
+  To check the triangle and pentagon equalities, is trivial but tedious because you have to make many case distinctions.
+  It is best done with a proof assistant.
+  We omit it here.
 
-  Another approach is to look at a category that includes $\Set$ as subcategory but makes the monoid structure more obvious.
+  We showed that $\emptyset$ and $\otimes$ define a monoidal structure.
+  Now we will show that it is even symmetric.
+  We define the symmetry as
+  \begin{align*}
+    \sigma_{A, B} &: A + B + (A \times B) \\
+      &\qquad\to B + A + (B \times A) \\
+    \sigma(\myIn_1(a)) &= \myIn_2(a) \\
+    \sigma(\myIn_2(b)) &= \myIn_1(b) \\
+    \sigma(\myIn_3(a, b)) &= \myIn3(b, a).
+  \end{align*}
+  The symmetry is self-inverse because as above, we can swap the argument pattern with the right side of each defining equation and get the same set of equations back.
+  Also as above, the symmetry is natural because it does not modify elements of $A$ or $B$.
+  The hexagon equalities are again trivial to show, but the proof needs many case distinctions and is thus omitted here.
+
+  Another approach is to look at a category that includes $\Set$ as subcategory but makes the symmetric monoidal structure more obvious.
   We observe that $I$ and $\otimes$ coincide with the terminal object and the product functor from the category of sets with partial functions.
-  Liker every terminal object and product, they give rise to a monoidal structure.
+  Liker every terminal object and product, they give rise to a symmetric monoidal structure.
   Since the associator, unitors and symmetry are isomorphisms, they are total and contained in $\Set$.
-  Thus the monoidal structure exists also $\Set$.
+  Thus the symmetric monoidal structure exists also in $\Set$.
 \end{answer}
 
 
@@ -763,7 +803,7 @@
     \node[phantom morphism] (f_left) at (1, 1) {};
     \node[phantom morphism] (f_right) at (2, 1) {};
     \node[morphism, fit=(f_left) (f_right), inner sep=0] (f) {};
-    \node at (f) {$!$};
+    \node at (f) {$0_{R \otimes 0}$};
 
     \node[phantom morphism] (L_mid) at (0, 1) {};
 
@@ -784,25 +824,26 @@
     \node[phantom morphism] (f_left) at (0, 0) {};
     \node[phantom morphism] (f_right) at (1, 0) {};
     \node[morphism, fit=(f_left) (f_right), inner sep=0] (f) {};
-    \node at (f) {$!$};
+    \node at (f) {$0_{L \otimes R}$};
 
     \draw[object] (0.5, -1) to node[auto] {$0$} (f);
     \draw[object] (f_left) to node[auto] {$L$}  (0, 1);
     \draw[object] (f_right) to node[auto] {$0$}  (1, 1);
   \end{tikzpicture}. \]
-  In one direction they are trivially inverse because morphisms to $0$ are unique.
+  Where $0_{R \otimes 0}$ and $0_{L \otimes 0}$ stand for the unique morphisms from the initial object.
+  In one direction they are trivially inverse because morphisms from $0$ are unique.
   In the other direction it follows by
   \[
     \vcenter{ \hbox{ \begin{tikzpicture}
       \node[phantom morphism] (f_left) at (1, 1) {};
       \node[phantom morphism] (f_right) at (2, 1) {};
       \node[morphism, fit=(f_left) (f_right), inner sep=0] (f) {};
-      \node at (f) {$!$};
+      \node at (f) {$0_{R \otimes 0}$};
 
       \node[phantom morphism] (g_left) at (1.5, 2) {};
       \node[phantom morphism] (g_right) at (2.5, 2) {};
       \node[morphism, fit=(g_left) (g_right), inner sep=0] (g) {};
-      \node at (g) {$!$};
+      \node at (g) {$0_{L \otimes 0}$};
 
       \node[phantom morphism] (L_mid) at (0, 1) {};
 
@@ -826,12 +867,12 @@
       \node[phantom morphism] (f_left) at (1, 1) {};
       \node[phantom morphism] (f_right) at (2.5, 1) {};
       \node[morphism, fit=(f_left) (f_right), inner sep=0] (f) {};
-      \node at (f) {$!$};
+      \node at (f) {$0_{R \otimes 0}$};
 
       \node[phantom morphism] (g_left) at (2, 2) {};
       \node[phantom morphism] (g_right) at (3, 2) {};
       \node[morphism, fit=(g_left) (g_right), inner sep=0] (g) {};
-      \node at (g) {$!$};
+      \node at (g) {$0_{L \otimes 0}$};
 
       \node[phantom morphism] (L_mid_1) at (0, 1) {};
       \node[phantom morphism] (L_mid_2) at (0, 2) {};
@@ -906,7 +947,7 @@
         to (1, 3);
     \end{tikzpicture} } }.
   \]
-  In the second step we use again that morphisms to $0$ are unique.
+  In the second step we use again that morphisms from $0$ are unique.
 \end{answer}
 
 
@@ -916,7 +957,7 @@
 
 
 \begin{exercise}
-  Show that in a monoidal category where all idempotents split, if there are morphisms $I \xrightarrow{\eta} R \otimes L$ and $L \otimes R \xrightarrow{\varepsilon} I$ satisfying one of the snake equations, then $L$ has a right dual (not necessarily given by $R$ with $\eta$ and $\varepsilon$).
+  Show that in a monoidal category where all idempotents split, if there are morphisms $I \xrightarrow{\eta} R \otimes L$ and $L \otimes R \xrightarrow{\varepsilon} I$ satisfying the first snake equation, then $L$ has a right dual (not necessarily given by $R$ with $\eta$ and $\varepsilon$).
 \end{exercise}
 
 \begin{answer}
@@ -937,74 +978,77 @@
 
     Assume that we have the snake equality
     \[ \vcenter{ \hbox{ \begin{tikzpicture}
-      \draw[object] (0, 2)
-        to (0, 1)
+      \draw[object] (2, 2)
+        to (2, 1)
         to[cup object] (1, 1)
-        to[cap object] (2, 1)
-        to (2, 0);
+        to[cap object] (0, 1)
+        to (0, 0);
     \end{tikzpicture} } }
     =
     \vcenter{ \hbox{ \begin{tikzpicture}
-      \draw (0, 2) to (0, 0);
+      \draw (0, 2) (0, 0);
     \end{tikzpicture} } }. \]
 
     Then the other snake is idempotent by
     \[ \vcenter{ \hbox{ \begin{tikzpicture}
-      \draw[object] (0, -1)
-        to (0, 0)
-        to[cap object] (1, 0)
+      \draw[object] (4, -1)
+        to node[auto, near start] {$R$} (4, 0)
+        to[cap object] (3, 0)
         to[cup object] (2, 0)
         to (2, 2)
-        to[cap object] (3, 2)
-        to[cup object] (4, 2)
-        to (4, 3);
+        to[cap object] (1, 2)
+        to[cup object] (0, 2)
+        to node[auto, near end] {$R$} (0, 3);
     \end{tikzpicture} } }
     =
     \vcenter{ \hbox{ \begin{tikzpicture}
-      \draw[object] (0, -1)
-        to (0, 2)
-        to[cap object] (1, 2)
-        to (1, 1)
+      \draw[object] (4, -1)
+        to node[auto, very near start] {$R$} (4, 2)
+        to[cap object] (3, 2)
+        to (3, 1)
         { [local bounding box=inner snake]
           node[phantom morphism] {}
           to[cup object] (2, 1)
-          to[cap object] (3, 1)
+          to[cap object] (1, 1)
           node[phantom morphism] {}
         }
-        to (3, 0)
-        to[cup object] (4, 0)
-        to (4, 3);
+        to (1, 0)
+        to[cup object] (0, 0)
+        to node[auto, very near end] {$R$} (0, 3);
       \node[highlight box, fit=(inner snake)] {};
     \end{tikzpicture} } }
     =
     \vcenter{ \hbox{ \begin{tikzpicture}
-      \draw[object] (0, -1)
-        to (0, 2)
+      \draw[object] (2, -1)
+        to node[auto, very near start] {$R$} (2, 2)
         to[cap object] (1, 2)
         to (1, 1)
         { [local bounding box=inner snake 2]
           node[phantom morphism] {}
         }
         to (1, 0)
-        to[cup object] (2, 0)
-        to (2, 3);
+        to[cup object] (0, 0)
+        to node[auto, very near end] {$R$} (0, 3);
       % \node[highlight box, fit=(inner snake 2) (inner snake 2 |- inner snake.north) (inner snake 2 |- inner snake.south)] {};
     \end{tikzpicture} } }.
   \]
-  Hence there are morphisms $g$ and $h$ such that
+  Since all idempotents split, there are morphisms $R \xrightarrow{g} X$ and $ X\xrightarrow{h} R$ such that
   \[
     \vcenter{ \hbox{ \begin{tikzpicture}
       \node[phantom morphism, overlay] (out) at (0, 3) {};
       \node[morphism] (g) at (0, 2) {$g$};
       \node[morphism] (h) at (0, 1) {$h$};
       \node[phantom morphism, overlay] (in) at (0, 0) {};
-      \draw[object] (in) to (h) to (g) to (out);
+      \draw[object] (in)
+        to node[auto] {$X$} (h)
+        to (g)
+        to node[auto] {$X$} (out);
     \end{tikzpicture} } }
     =
     \vcenter{ \hbox{ \begin{tikzpicture}
       \node[phantom morphism, overlay] (out) at (0, 3) {};
       \node[phantom morphism, overlay] (in) at (0, 0) {};
-      \draw[object] (in) to (out);
+      \draw[object] (in) to node[auto, very near start] {$X$} (out);
     \end{tikzpicture} } }
   \]
   and
@@ -1014,53 +1058,62 @@
       \node[morphism] (h) at (0, 2) {$h$};
       \node[morphism] (g) at (0, 1) {$g$};
       \node[phantom morphism, overlay] (in) at (0, 0) {};
-      \draw[object] (in) to (g) to (h) to (out);
+      \draw[object] (in)
+        to node[auto] {$R$} (g)
+        to (h)
+        to node[auto] {R$$} (out);
     \end{tikzpicture} } }
     =
     \vcenter{ \hbox{ \begin{tikzpicture}
-      \node[phantom morphism, overlay] (out) at (2, 3) {};
-      \node[phantom morphism, overlay] (in) at (0, 0) {};
+      \node[phantom morphism, overlay] (out) at (0, 3) {};
+      \node[phantom morphism, overlay] (in) at (2, 0) {};
       \draw[object] (in)
-        to (0, 1.5)
+        to node[auto, near start] {$R$} (2, 1.5)
         to[cap object] (1, 1.5)
-        to[cup object] (2, 1.5)
-        to (out);
+        to[cup object] (0, 1.5)
+        to node[auto, near end] {$R$} (out);
     \end{tikzpicture} } }.
   \]
-  We use those morphisms to define a unit
+  The object $X$ is right dual to $L$.
+  We use the morphisms $g$ and $h$ to define a unit
   \[
     \vcenter{ \hbox{ \begin{tikzpicture}
       \node[phantom morphism, overlay] (out_left) at (0, 1) {};
       \node[phantom morphism, overlay] (out_right) at (1, 1) {};
-      \node[morphism] (g) at (1, 0) {$g$};
+      \node[morphism] (g) at (0, 0) {$g$};
       \draw[object] (out_left)
-        to node[auto, swap] {$R$} (0, 1 |- g.north)
-        to (0, 1 |- g.south)
-        to[cup object] (g.south)
-        (g.north) to node[auto] {$L$} (out_right);
+        to node[auto, swap] {$X$} (g)
+        to[cup object] (1, 0 |- g.south)
+        to (1, 0 |- g.north)
+        to node[auto] {$L$} (out_right);
     \end{tikzpicture} } }
   \]
   and a counit
   \[
     \vcenter{ \hbox{ \begin{tikzpicture}
-      \node[morphism] (h) at (0, 1) {$h$};
+      \node[morphism] (h) at (1, 1) {$h$};
       \node[phantom morphism, overlay] (in_left) at (0, 0) {};
       \node[phantom morphism, overlay] (in_right) at (1, 0) {};
       \draw[object] (in_left)
-        to node[auto] {$L$} (h)
-        to[cap object] (1, 0 |- h.north)
-        to (1, 0 |- h.south)
-        to node[auto, swap] {$R$} (in_right);
+        to node[auto] {$L$} (0, 0 |- h.south)
+        to (0, 0 |- h.north)
+        to[cap object] (h.north)
+        (h.south) to node[auto, swap] {$X$} (in_right);
+      % \draw[object] (in_left)
+      %   to node[auto] {$L$} (h)
+      %   to[cap object] (1, 0 |- h.north)
+      %   to (1, 0 |- h.south)
+      %   to node[auto, swap] {$R$} (in_right);
     \end{tikzpicture} } },
   \]
   that exhibit a duality $L \dashv R$.
   The snake equations hold by
   \[
     \vcenter{ \hbox{ \begin{tikzpicture}
-      \node[phantom morphism] (out) at (-1, 2.5) {};
+      \node[phantom morphism] (out) at (1, 2.5) {};
       \node[morphism] (h) at (0, 1) {$h$};
       \node[morphism] (g) at (0, 0) {$g$};
-      \node[phantom morphism] (in) at (1, -1.5) {};
+      \node[phantom morphism] (in) at (-1, -1.5) {};
       \draw[object] (in)
         to (in |- h.north)
         to[cap object] (h.north)
@@ -1070,28 +1123,28 @@
     \end{tikzpicture} } }
     =
     \vcenter{ \hbox{ \begin{tikzpicture}
-      \node[phantom morphism] (out) at (-1, 2.5) {};
-      \node[phantom morphism] (h) at (2, 1) {};
-      \node[phantom morphism] (g) at (0, 0) {};
-      \node[phantom morphism] (in) at (3, -1.5) {};
+      \node[phantom morphism] (out) at (3, 2.5) {};
+      \node[phantom morphism] (h) at (0, 1) {};
+      \node[phantom morphism] (g) at (2, 0) {};
+      \node[phantom morphism] (in) at (-1, -1.5) {};
       \draw[object] (in)
         to (in |- h.north)
         to[cap object] (h.north)
-        to (2, 0.5)
+        to (0, 0.5)
         to[cup object] (1, 0.5)
-        to[cap object] (0, 0.5)
+        to[cap object] (2, 0.5)
         to (g.south)
         to[cup object] (out |- g.south)
         to (out);
     \end{tikzpicture} } }
     =
     \vcenter{ \hbox{ \begin{tikzpicture}
-      \node[phantom morphism] (out) at (0, 4) {};
-      \node[phantom morphism] (in) at (2, 0) {};
+      \node[phantom morphism] (out) at (2, 4) {};
+      \node[phantom morphism] (in) at (0, 0) {};
       \draw[object] (in)
-        to (2, 2)
+        to (0, 2)
         to[cap object] (1, 2)
-        to[cup object] (0, 2)
+        to[cup object] (2, 2)
         to (out);
     \end{tikzpicture} } }
     =
@@ -1104,15 +1157,15 @@
   and
   \[
     \vcenter{ \hbox{ \begin{tikzpicture}
-      \node[phantom morphism, overlay] (in) at (0, -0.5) {};
-      \node[morphism] (h) at (0, 1) {$h$};
-      \node[morphism] (g) at (2, 3) {$g$};
-      \node[phantom morphism, overlay] (out) at (2, 4.5) {};
+      \node[phantom morphism, overlay] (in) at (2, -0.5) {};
+      \node[morphism] (h) at (2, 1) {$h$};
+      \node[morphism] (g) at (0, 3) {$g$};
+      \node[phantom morphism, overlay] (out) at (0, 4.5) {};
       \draw[object] (in)
         to (h)
-        to (0, 2)
+        to (2, 2)
         to[cap object] (1, 2)
-        to[cup object] (2, 2)
+        to[cup object] (0, 2)
         to (g)
         to (out);
     \end{tikzpicture} } }
