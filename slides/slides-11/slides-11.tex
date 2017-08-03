@@ -1,0 +1,240 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}{
+	\raisebox{0.5em}{\makebox[\paperwidth-0.5em][r]{
+		\color{gray}\scriptsize\insertframenumber}}}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{cd, shapes, tikzmark}
+\def\pathToRoot{../../}\input{\pathToRoot headers/sharedHeader}
+\usepackage{semantic}
+
+\title{Presheaf model for dependent types}
+
+\author{Nikita Ziuzin}
+\date{July 12, 2017}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% * Motivating example
+% * Syntax and semantics from Hofmann (Slides capture all the rules from text)
+% - Syntax, no identities or naturals
+%   - Context semantics
+%   - dependent product
+%   - dependent sum, projections
+%   * Context morphisms, mention that we will use generalised subst
+%   * Categories with Families (Huber)
+%   - Definition
+%   - dependent product with CwF
+%   - dependent sum with CwF
+%   * Presheaf model for CwF
+%   - dependent product as a presheaf
+%   - dependent sum an exercise (?)
+
+\begin{frame}
+  \frametitle{Context}
+
+  \begin{align*}
+    &\vdash \Gamma \text{ ctxt} &&\text{$\Gamma$ is a valid context}\\
+    &\Gamma \vdash A \text{ type} &&\text{$A$ is a type in $\Gamma$}\\
+    &\Gamma \vdash a : A &&\text{$a$ is a term of type $A$ in $\Gamma$}\\
+    &\vdash \Gamma = \Delta \text{ ctxt}  &&\text{$\Gamma$ and $\Delta$ are definitionally equal contexts}\\
+    &\Gamma \vdash A = B \text{ type}  &&\text{$A$ and $B$ are definitionally equal types in $\Gamma$}\\
+    &\Gamma \vdash a = b : A  &&\text{$a$ and $b$ are definitionally equal terms of type $A$ in $\Gamma$}\\
+  \end{align*}
+
+  \[
+    \inference[C-Emp]{}{\vdash \diamond \text{ context}}
+    \qquad
+    \inference[C-Ext]{\Gamma \vdash A \text{ type}}{\vdash \Gamma, x:A \text{ context}}
+  \]
+
+  \[
+    \inference[Var]{\vdash \Gamma, x:A, \Delta \text{ context}}{\Gamma, x:A, \Delta \vdash x:A}
+  \]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Dependent product}
+
+  \[
+    \inference[$\Pi$-F]{\Gamma \vdash A \text{ type} \qquad \Gamma, x:A \vdash B \text{ type}}{\Gamma \vdash \Pi x:A. B \text{ type}}
+  \]
+
+  \[
+    \inference[$\Pi$-I]{\Gamma, x:A \vdash b : B}{\Gamma \vdash \lambda x : A. b : \Pi x:A. B}
+  \]
+
+  \[
+    \inference[$\Pi$-E]{\Gamma \vdash u : \Pi x:A. B \qquad \Gamma \vdash a : A}
+      {\Gamma \vdash App_{[x:A]B}(u, a): B[a / x]}
+  \]
+
+  \[
+    \inference[$\Pi$-C]{\Gamma \vdash \lambda x : A. b : \Pi x:A. B \qquad \Gamma \vdash a : A}
+      {\Gamma \vdash App_{[x:A]B}(\lambda x : A. b, a) = b[a / x]: B [a / x]}
+  \]
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Dependent sum}
+
+  \[
+    \inference[$\Sigma$-F]{\Gamma \vdash A \text{ type}\\ \Gamma, x:A \vdash B \text{ type}}{\Gamma \vdash \Sigma x : A. B \text{ type}}
+  \]
+
+  \[
+    \inference[$\Sigma$-I]{\Gamma \vdash a : A\\ \Gamma\vdash b: B[a / x]}{\Gamma Pair_{[x:A]B} (a,b) : \Sigma x : A. B}
+  \]
+
+\end{frame}
+
+\begin{frame}
+
+  \frametitle{Dependent sum cont.}
+
+  \[
+    \inference[$\Sigma$-E]{\Gamma, z : \Sigma x: A. B \vdash C \text{ type}\\ \Gamma, x: A, y: B \vdash c : C[Pair_{[x:A]B}(x, y)/z]\\ \Gamma \vdash u : \Sigma x: A. B}
+      {R^\Sigma_{[z : \Sigma x: A. B]C}([x : A, y: B]c, u): C[u/z]}
+  \]
+
+  \[
+    \inference{\Gamma\vdash R^\Sigma_{[z : \Sigma x: A. B]C}([x : A, y: B]c, Pair_{[x:A]B}(a,b)): C[Pair_{[x:A]B}/z]}
+      {\Gamma\vdash R^\Sigma_{[z : \Sigma x: A. B]C}([x : A, y: B]c, Pair_{[x:A]B}(a,b)) = c[a/x,b/y] : C [Pair_{[x:A]B}/z}
+  \]
+
+\end{frame}
+
+\begin{frame}
+
+  \frametitle{Some definitions}
+
+  Assume $\Gamma \vdash A \text{ type}$, $\Gamma, x : A \vdash B \text{ type}$
+  and $\Gamma \vdash u : \Sigma x:A. B$. Then we can define projection
+  functions:
+
+  \begin{equation*}
+    pu \vcentcolon= R^\Sigma_{[z : \Sigma x: A. B]A}([x : A, y: B]x, u) : A
+  \end{equation*}
+
+  \begin{equation*}
+    qu \vcentcolon= R^\Sigma_{[z : \Sigma x: A. B]B[pz/x]}([x : A, y: B]y, u) : B[pu]
+  \end{equation*}
+
+  If $B$ in $\Pi x: A. B$ and $\Sigma x: A. B$ does not depend on $A$, then we
+  simply write:
+  \begin{equation*}
+    A \to B \vcentcolon= \Pi x: A. B
+  \end{equation*}
+  \begin{equation*}
+    A \times B \vcentcolon= \Sigma x: A. B
+  \end{equation*}
+
+  That correspond to ordinary non-dependent functions and products respectively.
+
+\end{frame}
+
+\begin{frame}
+
+  \frametitle{Categories with Families}
+
+  A category with families (CwF) is given by ($\cat{C}$,F) where:
+
+  \begin{itemize}
+    \item[$\bullet$] $\cat{C}$ is a category, objects: $\Gamma, \Delta, \dots$ are
+      \emph{contexts}, morphisms:  $\sigma, \tau, \dots$ are
+      \emph{substitutions} or context morphisms
+
+    \item[$\bullet$] A terminal object $1$ in $\cat{C}$ is the empty context ($\diamond$).
+
+    \item[$\bullet$] $F$ is a functor $F\from \cat{C}^\op \to \fcat{Fam}$; For a context
+      $\Gamma$ we write $Ty_F(\Gamma)$ for the indexing set of the family
+      $F(\Gamma)$ and its family as $(Ter_F(\Gamma;A) | A \in Ty_F(\Gamma))$;
+      $\Gamma \vdash A \text{ type}$ means that $A \in Ty_F(\Gamma)$ and
+      $\Gamma \vdash a : A$ means $a \in Ter_F(\Gamma;A)$. For a context
+      morphism $\sigma \from \Delta \to \Gamma$ the morphism $F(\sigma)$
+      acts on types $\Gamma \vdash A \text{ type}$ as $A\sigma$ and on terms
+      $\Gamma \vdash a : A$ as $a\sigma$. The following equations also hold:
+
+    \[
+      A1=A \quad (A\sigma)\tau = A(\sigma\tau) \quad a1=a \quad (a\sigma)\tau=a(\sigma\tau)
+    \]
+
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Categories with Families cont.}
+
+  \begin{itemize}
+    \item[$\bullet$] There is also the operation of \emph{context extension}:
+      if $\vdash \Gamma \text{ context}$ and $\Gamma \vdash A$, there's a
+      context $\Gamma.A$, a context morphism $p: \Gamma.A \to \Gamma$, and a
+      term $\Gamma.A \vdash q : A p$. This should satisfy the following
+      property: for each $\vdash \Delta \text{ context}$ and a context morphism
+      $\sigma \from \Delta \to \Gamma$ and $\Delta \vdash a : A \sigma$, there
+      is a context morphism $(\sigma, a): \Delta \to \Gamma.A$ such that:
+    \[
+      p(\sigma, a) = \sigma \quad q(\sigma, a) = a \quad (\sigma, a) \tau =
+      (\sigma \tau, a \tau) \quad (p, q) = 1
+    \]
+    Where in the last equation $1: \Gamma.A \to \Gamma.A$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Presheaf model}
+
+  Let $\cat{C}$ be a small category. In the following objects of $\cat{C}$ will
+  be denoted as $I,J,K$ and morphisms as $f,g,h$. The notation for
+  $\ftrcat{\cat{C}^\op}{\Set}$ will be $Psh(\cat{C})$.
+
+  The context $\Gamma$ is then a presheaf on $\cat{C}$, $\Gamma \from
+  \cat{C}^\op \to \Set$, that is, we're given a set $\Gamma(I)$ for each
+  $I$ in $\cat{C}$, and functions $\Gamma(I) \to \Gamma(J)$, $\rho \mapsto \rho
+  f$ (called \emph{restriction} and written as $f$ acting on the right) for each
+  $f: J \to I$ such that
+  \[
+    \rho 1 = \rho \quad \text{and} \quad (\rho f) g = \rho (f g)
+  \]
+  for $g: K \to J$ and $f: J \to I$. We write $\Gamma_f$ for $\rho \mapsto \rho
+  f$.
+\end{frame}
+
+\begin{frame}
+
+  \frametitle{Presheaf model cont.}
+
+  The empty context then is a terminal presheaf and a context morphism $\sigma
+  \from \Delta \to \Gamma$ is a natural transformation making the diagram
+  commute.
+
+  \[
+    \xymatrix{
+      \Delta(I) \ar[r]^{\sigma_I} \ar[d]^{\Delta_f} & \Gamma(I) \ar[d]^{\Gamma_f} \\
+      \Delta(J) \ar[r]^{\sigma_J} & \Gamma(J)
+    }
+  \]
+
+  If we write $\Gamma_f$ and $\Delta_f$ and $f$ acting on the right, the
+  equation becomes:
+  \[
+    (\sigma \rho) f = \sigma (\rho f)
+  \]
+  for $\rho$ in $\Delta(I)$.
+
+\end{frame}
+
+\end{document}
+
+
+% vim mode line:
+% vim: ts=2 sts=2 sw=2 expandtab

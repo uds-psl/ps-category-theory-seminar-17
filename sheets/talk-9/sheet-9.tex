@@ -1,0 +1,316 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+
+\usepackage{semantic}
+\usepackage{todonotes}
+
+
+\begin{document}
+
+% Use Basis x or Talk x, where x is the number of the session
+\uebunghead{Talk 9}{Cartesian Closed Categories as a model for the STLC}
+\author{Joachim Bard}
+
+\begin{hint}
+    Read Andrew Pitt's lecture notes on categorical semantics for the STLC.
+\end{hint}
+
+\begin{exercise}
+    Let $\cat{C}$ be a cartesian closed category and let $M$ map ground types and constants into $\cat{C}$ as defined in chapter 4 of Andrew Pitt's lecture notes.
+    What morphism does $M |[x: A, y: B \vdash \lambda f: A \to B.\,\mathsf{fst}(f\,x, y) : (A \to B) \to B|]$ correspond to?
+    Simplify your answer as much as possible.
+\end{exercise}
+\begin{answer}
+    Define $\Gamma := x: A, y: B, f: A \to B$.
+    \begin{align*}
+          & M |[x: A, y: B \vdash \lambda f: A \to B.\,\mathsf{fst}(f\,x, y) : (A \to B) \to B|]\\
+        = &\, \mathsf{cur}(M |[x: A, y: B,f: A \to B \vdash \mathsf{fst}(f\,x, y) : B|])\\
+        = &\,\mathsf{cur}(\pi_1 \circ M|[x: A, y: B, f: A \to B \vdash (f\,x, y) : B \times B|])\\
+        = &\, \mathsf{cur}(\pi_1 \circ \langle M|[x: A, y: B,f: A \to B \vdash f\,x : B|], M|[x: A, y: B,f: A \to B \vdash y: B|]\rangle)\\
+        = &\, \mathsf{cur}(\pi_1 \circ \langle \mathsf{app} \circ \langle M|[x: A, y: B,f: A \to B \vdash f : A \to B|], M|[\Gamma \vdash x: A|]\rangle, M|[x: A, y: B \vdash y: B|] \circ \pi_1\rangle )\\
+        = &\, \mathsf{cur}(\pi_1 \circ \langle \mathsf{app} \circ \langle\pi_2, M|[x:A, y:B \vdash x:A|] \circ \pi_1\rangle, \pi_2 \circ \pi_1\rangle)\\
+        = &\, \mathsf{cur}(\pi_1 \circ \langle \mathsf{app} \circ \langle\pi_2, M|[x:A \vdash x:A|] \circ \pi_1 \circ \pi_1\rangle, \pi_2 \circ \pi_1\rangle)\\
+        = &\, \mathsf{cur}(\pi_1 \circ \langle \mathsf{app} \circ \langle\pi_2, \pi_2 \circ \pi_1 \circ \pi_1\rangle, \pi_2 \circ \pi_1\rangle)\\
+        = &\, \mathsf{cur}(\mathsf{app} \circ \langle \pi_2, \pi_2 \circ \pi_1 \circ \pi_1 \rangle)
+    \end{align*}
+\end{answer}
+
+\begin{exercise}
+    \label{ex:exp}
+    \begin{itemize}
+        \item[a)] Let $A, B, C$ be simple types.
+            Define lambda terms $cas$ and $car$ with the following types and $\beta\eta$-equivalences:
+            \begin{align*}
+                & \vdash cas: (A \times B \to C) \to A \to B \to C \\
+                & \vdash car: (A \to B \to C) \to A \times B \to C\\
+                & f: A \times B \to C \vdash car\, (cas\, f) =_{\beta\eta} f : A \times B \to C \\
+                & g: A \to B \to C \vdash cas\, (car\, g) =_{\beta\eta} g : A \to B \to C
+            \end{align*}
+        \item[b)] Let $\cat{C}$ be an arbitrary cartesian closed category and $X, Y, Z \in \cat{C}$.
+            Use part a) to show that $Z^{X \times Y} \iso (Z^Y)^X$.
+    \end{itemize}
+\end{exercise}
+\begin{answer}
+    \begin{itemize}
+        \item[a)] We define $cas$ and $car$ as follows:
+            \begin{align*}
+                & cas := \lambda f: A \times B \to C.\,\lambda x: A.\,\lambda y: B.\,f(x, y) \\
+                & car := \lambda g: A \to B \to C.\,\lambda p: A \times B.\,g\,(\mathsf{fst}\,p)\,(\mathsf{snd}\,p)
+            \end{align*}
+        \item[b)] We consider the internal language of $\cat{C}$.
+            We define $h := M|[f: X \times Y \to Z \vdash cas\,f: X \to Y \to Z|]$ and $h' := M|[g: X \to Y \to Z \vdash car\,g: X \times Y \to Z|]$.
+            Note that $\langle\rangle \circ h = \pi_1$ and thus
+            \[ (\mathsf{cur}\,h' \times 1_{\top}) \circ \langle \langle\rangle, 1_{(Z^Y)^X} \rangle \circ h = \langle \mathsf{cur}\,h' \circ \pi_1, h \rangle. \]
+            We obtain
+            \begin{align*}
+                & h' \circ \langle\langle\rangle, 1_{(Z^Y)^X}\rangle \circ h \\
+                = \,& \mathsf{app} \circ (\mathsf{cur}\,h' \times 1_\top) \circ \langle\langle\rangle, 1_{(Z^Y)^X}\rangle \circ h \\
+                = \,& \mathsf{app} \circ \langle \mathsf{cur}\,h' \circ \pi_1, h \rangle \\
+                = \,& \mathsf{app} \circ \langle M|[\ \vdash car: (X \to Y \to Z) \to X \times Y \to Z|] \circ \pi_1, h \rangle \\
+                = \,& \mathsf{app} \circ \langle M|[f: X \times Y \to Z \vdash car: (X \to Y \to Z) \to X \times Y \to Z|] , h \rangle \\
+                = \,& M|[f: X \times Y \to Z \vdash car\,(cas \,f): X \times Y \to Z|] \\
+                = \,& M|[f: X \times Y \to Z \vdash f: X \times Y \to Z|] \\
+                = \,& \pi_2
+            \end{align*}
+            and therefore:
+            \begin{align*}
+                & h' \circ \langle\langle\rangle, 1_{(Z^Y)^X}\rangle \circ h \circ \langle \langle\rangle, 1_{Z^{X \times Y}} \rangle \\
+                =\, & \pi_2 \circ \langle \langle\rangle, 1_{Z^{X \times Y}} \rangle \\
+                =\, & 1_{Z^{X \times Y}}.
+            \end{align*}
+            Analogously we obtain
+            \[ h \circ \langle \langle\rangle, 1_{Z^{X \times Y}} \rangle \circ h' = \pi_2 \]
+            and thus
+            \begin{align*}
+                & h \circ \langle \langle\rangle, 1_{Z^{X \times Y}} \rangle \circ h' \circ \langle\langle\rangle, 1_{(Z^Y)^X}\rangle = 1_{(Z^Y)^X} \\
+                =\, & \pi_2 \circ \langle\langle\rangle, 1_{(Z^Y)^X}\rangle \\
+                =\, & 1_{(Z^Y)^X}.
+            \end{align*}
+            This shows $Z^{X \times Y} \iso (Z^Y)^X$.
+    \end{itemize}
+\end{answer}
+
+\begin{exercise}
+    Let $X$ be an object in a cartesian closed category and let $1$ be the terminal object.
+    Use a similar construction to exercise \ref{ex:exp} to show $X^1 \iso X$.
+\end{exercise}
+\begin{answer}
+    \begin{itemize}
+        \item[a)] For an arbitrary type $A$ we define:
+            \begin{align*}
+                s & := \lambda f: \mathsf{unit} \to A.\, f\,()\\
+                t & := \lambda x: A.\,\lambda u: \mathsf{unit}.\,x
+            \end{align*}
+            These terms $s$ and $t$ have the following types and $\beta\eta$-equivalences:
+            \begin{align*}
+                & \vdash s: (\mathsf{unit} \to A) \to A\\
+                & \vdash t: A \to \mathsf{unit} \to A\\
+                & f: \mathsf{unit} \to A \vdash t\,(s\,f) =_{\beta\eta} f: \mathsf{unit} \to A\\
+                & x: A \vdash s\,(t\,x) =_{\beta\eta} x: A\\
+            \end{align*}
+        \item[b)] We again consider the internal language.
+            We define $h := M|[f: \mathsf{unit} \to X \vdash s\,f: X|]$ and $h':= M|[x: X \vdash t\,x : \mathsf{unit} \to X|]$.
+            Note that $\langle\rangle \circ h = \pi_1$ and thus
+            \[ (\mathsf{cur}\,h' \times 1_1) \circ \langle \langle\rangle, 1_{X^1} \rangle \circ h = \langle \mathsf{cur}\,h' \circ \pi_1, h \rangle. \]
+            We obtain
+            \begin{align*}
+                    & h' \circ \langle \langle\rangle, 1_{X^1}\rangle \circ h\\
+                =\, & \mathsf{app} \circ (\mathsf{cur}\,h' \times 1_1) \circ \langle\langle\rangle, 1_{X^1} \rangle \circ h\\
+                =\, & \mathsf{app} \circ \langle \mathsf{cur}\,h' \circ \pi_1, h \rangle \\
+                =\, & \mathsf{app} \circ \langle M|[\ \vdash t: X \to \mathsf{unit} \to X|] \circ \pi_1, h \rangle \\
+                =\, & \mathsf{app} \circ \langle M|[f: \mathsf{unit} \to X \vdash t: X \to \mathsf{unit} \to X|] \circ \pi_1, h \rangle \\
+                =\, & M|[f: \mathsf{unit} \to X \vdash t\,(s\,f): \mathsf{unit} \to X|] \\
+                =\, & M|[f: \mathsf{unit} \to X \vdash f: \mathsf{unit} \to X|] \\
+                =\, & \pi_2
+            \end{align*}
+            and therefore:
+            \begin{align*}
+                    & h' \circ \langle \langle\rangle, 1_{X^1}\rangle \circ h \circ \langle\langle\rangle, 1_{X} \rangle\\
+                =\, & \pi_2 \circ \langle\langle\rangle, 1_{X} \rangle\\
+                =\, & 1_X.
+            \end{align*}
+            Analogously we obtain
+            \[ h \circ \langle\langle\rangle, 1_X \rangle \circ h' = \pi_2 \]
+            and thus
+            \begin{align*}
+                    & h \circ \langle\langle\rangle, 1_X \rangle \circ h' \circ \langle\langle\rangle, 1_{X^1}\rangle \\
+                =\, & \pi_2 \circ \langle\langle\rangle, 1_{X^1}\rangle \\
+                =\, & 1_{X^1}
+            \end{align*}
+            This shows $X^1 \iso X$.
+    \end{itemize}
+\end{answer}
+
+\begin{exercise}
+    Recall the soundness theorem:\\
+    If $\Gamma \vdash s =_{\beta\eta} t : A$, then $M |[ \Gamma \vdash s: A |] = M |[ \Gamma \vdash t: A |]$.\\
+    It is proven by induction on $\beta\eta$-equivalence.
+    Show the case for $\inference{\Gamma \vdash s: A \times B}{\Gamma \vdash s =_{\beta\eta} (\mathsf{fst}\,s, \mathsf{snd}\,s): A \times B}$.
+\end{exercise}
+\begin{answer}
+    We have to show $M |[ \Gamma \vdash s: A \times B |] = M |[ \Gamma \vdash (\mathsf{fst}\,s, \mathsf{snd}\,s): A \times B |]$.
+    We start with the right side and simplify:
+    \begin{align*}
+          & M|[\Gamma \vdash (\mathsf{fst}\,s, \mathsf{snd}\,s): A \times B |]\\
+        = \,& \langle M|[ \Gamma \vdash \mathsf{fst}\,s: A|], M|[\Gamma \vdash \mathsf{snd}\,s: B|]\rangle \\
+        = \,& \langle \pi_1 \circ M|[ \Gamma \vdash s: A \times B |], \pi_2 \circ M|[\Gamma \vdash s: A \times B|]\rangle \\
+        = \,& M|[ \Gamma \vdash s: A \times B |]
+    \end{align*}
+    The last step can be seen in a diagram:
+    \[
+        \begin{tikzcd}
+            & M \llbracket \Gamma \rrbracket \arrow[bend left]{d}{f} \arrow[bend right]{d}{g} \arrow[bend right]{ddl}{g_1} \arrow[bend left]{ddr}{g_2} &\\
+            & M \llbracket A \rrbracket \times M \llbracket B \rrbracket \arrow{dl}{\pi_1} \arrow{dr}{\pi_2} &\\
+            M \llbracket A \rrbracket & & M \llbracket B \rrbracket
+        \end{tikzcd}
+    \]
+    We used the following abbreviations:
+    \begin{align*}
+        f & := M |[\Gamma \vdash s : A \times B|] \\
+        g & := M |[\Gamma \vdash (\mathsf{fst}\,s, \mathsf{snd}\,s) : A \times B|] \\
+        g_1 & := M |[\Gamma \vdash \mathsf{fst}\,s : A|] \\
+        g_2 & := M |[\Gamma \vdash \mathsf{snd}\,s : B|] \\
+    \end{align*}
+    The diagram communtes by definition.
+    By the uniqueness of $g$ we obtain $f = g$.
+\end{answer}
+
+\begin{exercise}
+    \label{ex:pure-peirce}
+    A term in the lambda calculus is \textit{pure} if it contains no constants.
+    Show that there is no \textit{pure} term $s$ such that $ \vdash s: ((G \to H) \to G) \to G$ for two different ground types $G$ and $H$.\\
+    Hint: $([0, 1], \le)$ regarded as a category is cartesian closed.
+    What is the exponential $Y^X$ of $X$ and $Y$ where $X, Y \in [0, 1]$?
+\end{exercise}
+\begin{answer}
+    The exponential $Y^X$ in the category is defined as:
+    \begin{align*}
+        Y^X := \begin{cases}
+            1, \text{ if } X \le Y\\
+            Y, \text{ if } Y < X
+               \end{cases}
+    \end{align*}
+    In order to see that this is actually the exponential we need to show
+    \begin{itemize}
+        \item $\mathsf{min}(Y^X, X) \le Y$ and
+        \item $Z \le Y^X$, if $\mathsf{min}(Z, X) \le Y$.
+    \end{itemize}
+    Both follow by a simple case analysis.
+    For simplicity we write $X -> Y$ instead of $Y^X$.
+    Let us assume a pure term $s$ such that $ \vdash s: ((G \to H) \to G) \to G$ for two different ground types $G$ and $H$.
+    We define $M$ as:
+    \begin{align*}
+        M(G') := \begin{cases}
+                \frac{1}{2}, \text{ if } G' = G\\
+                0, \text{ else}
+            \end{cases}
+    \end{align*}
+    We obtain for $M|[\ \vdash s: ((G \to H) \to G) \to G|]$:
+    \begin{align*}
+              & M|[\emptyset|] \le M|[((G \to H) \to G) \to G|] \\
+        <=>\, & 1 \le M|[(G \to H) \to G|] -> M|[G|] \\
+        <=>\, & 1 \le (M|[G \to H|] -> M|[G|]) -> M|[G|] \\
+        <=>\, & 1 \le ((M|[G|] -> M|[H|]) -> M|[G|]) -> M|[G|] \\
+        <=>\, & 1 \le ((\frac{1}{2} -> 0) -> \frac{1}{2}) -> \frac{1}{2} \\
+        <=>\, & 1 \le (0 -> \frac{1}{2}) -> \frac{1}{2} \\
+        <=>\, & 1 \le 1 -> \frac{1}{2} \\
+        <=>\, & 1 \le \frac{1}{2}
+    \end{align*}
+    But $1 \nleq \frac{1}{2}$ and we arrived at a contradiction.
+    Therefore the assumption of the existence of such a pure term $s$ is false.
+\end{answer}
+
+\pagebreak
+
+\begin{definition}{Cartesian Closed Pre-order}
+    Let $(X, \le)$ be a pre-ordered set.
+    The corresponding category is cartesian closed iff it has:
+    \begin{itemize}
+        \item a greatest element $\top$ such that $\forall x \in X: x \le \top$,
+        \item binary meets $x \land y$ such that $\forall z \in X: z \le x \land y <=> z \le x \land z \le y$ and
+        \item Heyting implications $x -> y$ such that $\forall z \in X: z \le x -> y <=> z \land x \le y$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{Intuitionistic Propositional Logic (IPL)}
+    Formulas in IPL are defined on the following grammar:
+    \[\varphi, \psi ::= p \mid \top \mid \varphi \land \psi \mid \varphi => \psi\]
+    where $p$ corresponds to propositional variables, $\top$ to the proposition which is always true,
+    $\varphi \land \psi$ to conjunction and $\varphi => \psi$ to implication.
+    We define an entailment relation $\Phi \vdash \varphi$ where $\varphi$ is a formula and $\Phi$ is a list of formulas:
+    \begin{align*}
+        & \qquad\quad \inference{}{\Phi, \varphi \vdash \varphi}\qquad\qquad
+        \inference{\Phi \vdash \varphi}{\Phi, \psi \vdash \varphi}\qquad\qquad
+        \inference{}{\Phi \vdash \top}\\[1em]
+        & \inference{\Phi \vdash \varphi \quad \Phi \vdash \psi}{\Phi \vdash \varphi \land \psi}\qquad\qquad
+        \inference{\Phi \vdash \varphi \land \psi}{\Phi \vdash \varphi}\qquad\qquad
+        \inference{\Phi \vdash \varphi \land \psi}{\Phi \vdash \psi}\\[1em]
+        & \qquad\qquad \inference{\Phi, \varphi \vdash \psi}{\Phi \vdash \varphi => \psi}\qquad\qquad
+        \inference{\Phi \vdash \varphi => \psi \quad \Phi \vdash \varphi}{\Phi \vdash \psi}
+    \end{align*}
+\end{definition}
+
+\begin{exercise}
+    Let $(X, \le)$ be a cartesian closed pre-order and assume a function $M$ which assigns to each propositional variable $p$ an element of $X$, i.e. $M(p) \in X$.
+    \begin{itemize}
+        \item[a)] Lift $M$ to arbitrary formulas $\varphi$ by defining $M|[\varphi|] \in X$ and to lists of variables $\Phi$ such that:
+            \begin{itemize}
+                \item If $\Phi \vdash \varphi$, then $M|[\Phi|] \le M|[\varphi|]$ (Soundness).
+                \item If $M|[\Phi|] \le M|[\varphi|]$ holds for every cartesian closed pre-order $\cat{C}$ and every choice of $M$, then $\Phi \vdash \varphi$ (Completeness).
+            \end{itemize}
+            You do not have to prove the above statements.
+        \item[b)] Show that Peirce's law $\emptyset \vdash ((\varphi => \psi) => \varphi) => \varphi$ is not provable in IPL.
+            How is this related to exercise \ref{ex:pure-peirce}? Why?
+    \end{itemize}
+\end{exercise}
+\begin{answer}
+    \begin{itemize}
+        \item[a)]
+            \begin{align*}
+                M|[p|] & := M(p)\\
+                M|[\top|] & := \top && (\text{greatest element})\\
+                M|[\varphi \land \psi|] & := M|[\varphi|] \land M|[\psi|] && (\text{binary meet})\\
+                M|[\varphi => \psi|] & := M|[\varphi|] -> M|[\psi|] && (\text{Heyting implication})\\
+                \\
+                M|[\emptyset|] & := \top && (\text{greatest element})\\
+                M|[\Phi, \varphi|] & := M|[\Phi|] \land M|[\varphi|] && (\text{binary meet})
+            \end{align*}
+        \item[b)] Let us consider the cartesian closed pre-order $([0,1], \le)$.
+            The Heyting implication $x -> y$ in the category is defined as:
+            \begin{align*}
+                x -> y := \begin{cases}
+                    1, \text{ if } x \le y\\
+                    y, \text{ if } y < x
+                       \end{cases}
+            \end{align*}
+            We assume Peirce's law $\emptyset \vdash ((\varphi => \psi) => \varphi) => \varphi$ for two formulas $\varphi$ and $\psi$.
+            We define $M$ as:
+            \begin{align*}
+                M(\varphi') := \begin{cases}
+                        \frac{1}{2}, \text{ if } \varphi' = \varphi\\
+                        0, \text{ else}
+                    \end{cases}
+            \end{align*}
+            By soundness we obtain:
+            \begin{align*}
+                      & M|[\emptyset|] \le M|[((\varphi \to \psi) \to \varphi) \to \varphi|] \\
+                <=>\, & 1 \le M|[((\varphi \to \psi) \to \varphi) \to \varphi|] \\
+                <=>\, & 1 \le M|[(\varphi \to \psi) \to \varphi|] -> M|[\varphi|] \\
+                <=>\, & 1 \le (M|[\varphi \to \psi|] -> M|[\varphi|]) -> M|[\varphi|] \\
+                <=>\, & 1 \le ((M|[\varphi|] -> M|[\psi|]) -> M|[\varphi|]) -> M|[\varphi|] \\
+                <=>\, & 1 \le ((\frac{1}{2} -> 0) -> \frac{1}{2}) -> \frac{1}{2} \\
+                <=>\, & 1 \le (0 -> \frac{1}{2}) -> \frac{1}{2} \\
+                <=>\, & 1 \le 1 -> \frac{1}{2} \\
+                <=>\, & 1 \le \frac{1}{2}
+            \end{align*}
+            Peirce's law $\emptyset \vdash ((\varphi => \psi) => \varphi) => \varphi$ is not provable in IPL since $1 \nleq \frac{1}{2}$.
+            We used the same proof as in exercise \ref{ex:pure-peirce}.
+            This is due to the fact that IPL and STLC are connected via the Curry-Howard correspondence.
+    \end{itemize}
+\end{answer}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

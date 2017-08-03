@@ -1,0 +1,189 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}{
+	\raisebox{0.5em}{\makebox[\paperwidth-0.5em][r]{
+		\color{gray}\scriptsize\insertframenumber}}}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{cd, shapes, tikzmark}
+\def\pathToRoot{../../}\input{\pathToRoot headers/sharedHeader}
+
+
+\title{Special Constructions in Categories}
+\subtitle{Examples for limits and colimits}
+\author{Maximilian Wuttke}
+\date{June 7, 2017}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Product}
+
+  Let $\cat{A}$ be a category and $X, Y \in \cat{A}$.
+  A \demph{product} of $X$ and $Y$ consists of an object $P$ and maps \\
+  $ \xymatrix{
+    X &P \ar[l]_{p_1} \ar[r]^{p_2} & Y
+  } $
+  with the property that for all objects and maps \\
+  $ \xymatrix{
+    X &A \ar[l]_{f_1} \ar[r]^{f_2} & Y
+  } $
+  in $\cat{A}$, there exists a unique map $\bar{f}\from A \to P$ such that
+  \[ \xymatrix{
+    & A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}} \ar[rdd]^{f_2} & \\
+    & P \ar[ld]^{p_1} \ar[rd]_{p_2} & \\
+    X & & Y
+  } \]
+  commutes. The maps $p_1$ and $p_2$ are called the \demph{projections}.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Coproduct}
+
+  Let $\cat{A}$ be a category and $X, Y \in \cat{A}$.
+  A \demph{coproduct} of $X$ and $Y$ consists of an object $S$ and maps \\
+  $ \xymatrix{
+    X \ar[r]^{p_1} & S & Y \ar[l]_{p_2}
+  } $
+  with the property that for all objects and maps \\
+  $ \xymatrix{
+    X \ar[r]^{f_1} & A & Y \ar[l]_{f_2}
+  } $
+  in $\cat{A}$, there exists a unique map $\bar{f}\from S \to A$ such that
+  \[ \xymatrix{
+    X \ar[rdd]_{f_1}\ar[rd]^{p_1} & & Y \ar[ldd]^{f_2} \ar[ld]_{p_2} \\
+    & S \ar@{.>}[d]|{\bar{f}} & \\
+    & A &
+  } \]
+  commutes. The maps $p_1$ and $p_2$ are called the \demph{coprojections}.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Equalizer}
+
+  Let $\cat{A}$ be a category and
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  } $
+  a diagram in $\cat{A}$.
+  An \demph{equalizer} of this diagram is a \demph{fork} \\
+  $ \xymatrix{
+    E \ar[r]^i & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  } $
+  with the property that for all other forks
+  $ \xymatrix{
+    A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  } $
+  in $\cat{A}$, there exists a unique map $\bar{f}\from A \to E$ such that
+  \[ \xymatrix{
+    A \ar[rd]^f \ar@{.>}[dd]|{\bar{f}} & & \\
+    & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \\
+    E \ar[ru]_i & &
+  } \]
+  commutes.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Coequalizer}
+
+  Let $\cat{A}$ be a category and
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  } $
+  a diagram in $\cat{A}$.
+  A \demph{coequalizer} of this diagram is a \demph{cofork} \\
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+  } $
+  with the property that for all other coforks
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
+  } $
+  in $\cat{A}$, there exists a unique map $\bar{f}\from C \to A$ such that
+  \[ \xymatrix{
+    & & A  \\
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[ru]^f \ar[rd]_i \\
+    & & C \ar@{.>}[uu]|{\bar{f}}
+  } \]
+  commutes.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pullback}
+
+  Let $\cat{A}$ be a category and
+  $ \xymatrix{
+    X \ar[r]^s & Z & Y\ar[l]_t \\
+  } $
+  a diagram in $\cat{A}$.
+  A \demph{pullback} of this diagram is a \demph{pullback square} \\
+  $ \xymatrix{
+    P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+    X \ar[r]^s & Z
+  } $
+  with the property that for all other pull back squares \\
+  $ \xymatrix{
+    A \ar[r]_{f_2} \ar[d]^{f_1} & Y \ar[d]_{t} \\
+    X \ar[r]^s & Z
+  } $
+  in $\cat{A}$, there exists a unique map $\bar{f}\from A \to P$ such that
+  \[ \xymatrix{
+    A \ar[drr]^{f_2} \ar[ddr]_{f_1} \ar@{.>}[dr]|{\bar{f}} & & \\
+    & P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+    & X \ar[r]^s & Z
+  } \]
+  commutes.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pushout}
+
+  Let $\cat{A}$ be a category and
+  $ \xymatrix{
+    X & Z \ar[l]_s \ar[r]^t & Y \\
+  } $
+  a diagram in $\cat{A}$.
+  A \demph{pushout} of this diagram is a \demph{pushout square} \\
+  $ \xymatrix{
+    Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \\
+    Y \ar[r]^{p_2} & P
+  } $
+  with the property that for all other pushout squares
+  $ \xymatrix{
+    Z \ar[r]_s \ar[d]^t & X \ar[d]_{f_1} \\
+    Y \ar[r]^{f_2} & A
+  } $
+  in $\cat{A}$, there exists a unique map $\bar{f}\from P \to A$ such that
+  \[ \xymatrix{
+    Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \ar[ddr]^{f_1} & \\
+    Y \ar[r]^{p_2} \ar[drr]_{f_2}& P \ar@{.>}[dr]|{\bar{f}} & \\
+    & & A  \\
+  } \]
+  commutes.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Summary}
+    \begin{table}
+    \begin{tabular}{l | l}
+      Limit & Colimit \\ \hline
+      Product & Coproduct \\
+      Equalizer & Coequalizer \\
+      Pullback & Pushout
+    \end{tabular}
+    \end{table}
+\end{frame}
+
+
+\end{document}
+
+
+% vim mode line:
+% vim: ts=2 sts=2 sw=2 expandtab

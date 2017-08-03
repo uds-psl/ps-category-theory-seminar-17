@@ -1,0 +1,259 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
+
+\usepackage{upgreek}
+
+\begin{document}
+
+\uebunghead{Talk 7}{General Limits}
+\author{Leonhard Staut}
+
+\begin{exercise}[Limit definition]
+  \begin{enumerate}
+  \item Verify that terminal objects are a valid instance of the general limit definition.
+  \item Verify that equalizers are a valid instance of the general limit definition.
+  \end{enumerate}
+\end{exercise}
+\begin{answer}
+  Recall that general limits are universal cones over a diagram.
+  Therefore, instances of general limits are defined by the shape of their diagram.
+  In the following let $\mathscr{C}$ be any category.
+  \begin{enumerate}
+  \item
+    We choose the empty category as the shape $\bf{I}$.
+    Let $D : \bf{I} \to \mathscr{C}$ a diagram. A cone over $D$ is an object $U$ with
+    maps to every object in the diagram. Since the diagram is empty, the cone is just
+    the object $U$.
+    $U$ is universal if for any other cone $V$ in $\mathscr{C}$, there is a unique map
+    $h : V \to U$.
+    Any other cone $V$ is also just an object in $\mathscr{C}$.
+    Therefore $U$ is a terminal object.
+  \item
+    As the shape $\bf{I}$ we choose the following category.
+    \[
+      \begin{tikzcd}
+        I \arrow[r,shift left, "m"] \arrow[r,shift right,swap,"n"] & J
+      \end{tikzcd}
+    \]
+    Let $D : \bf{I} \to \mathscr{C}$ a diagram.
+    A cone over $D$ is an object $U$ with maps to every object in the diagram, such that all triangles commute.
+    \[
+      \begin{tikzcd}
+        U \arrow{d}{f_I} \arrow{dr}{f_J} & \\
+        D(I) \arrow[r,shift left, "Dm"] \arrow[r,shift right,swap,"Dn"] & D(J)
+      \end{tikzcd}
+    \]
+    Specifically, the commuting condition says that $Dm \circ f_I = f_J = Dn \circ f_I$.
+    Since $f_J$ is already completely determined by $f_I$, we can ignore the arrow
+    and state equivalently that the following diagram commutes.
+    \[
+      \begin{tikzcd}
+        U \arrow{r}{f_I} & D(I) \arrow[r,shift left, "Dm"] \arrow[r,shift right,swap,"Dn"] & D(J)
+      \end{tikzcd}
+    \]
+    The arrow $f_J$ is simply left implicit.\\
+    $U$ is a universal cone, i.e. a limit, if for any other cone $V$ in $\mathscr{C}$, there is a unique map
+    $h : V \to U$.
+    \[
+      \begin{tikzcd}
+        U \arrow{r}{f_I} & D(I) \arrow[r,shift left, "Dm"] \arrow[r,shift right,swap,"Dn"] & D(J) \\
+        V \arrow{ur}{g_I} \arrow[dashed]{u}{h}& &
+      \end{tikzcd}
+    \]
+    This is exactly the definition of an equalizer.
+  \end{enumerate}
+\end{answer}
+
+\begin{exercise}[Pullback monic]
+  Let $\mathscr{C}$ be any category and $X, Y$ objects.
+  Show that a map $X \overset{f}{\to} Y$ is monic iff the following square is a pullback.
+  \[
+    \begin{tikzcd}
+      X \arrow{r}{1}  \arrow{d}{1}  & X \arrow{d}{f}    \\
+      X \arrow{r}{f}                & Y                  
+    \end{tikzcd}
+  \]
+\end{exercise}
+
+\begin{answer}
+  $"\Leftarrow":$ \\
+  Let $g_1, g_2 : Z \to X$ be two maps. If $f \circ g_1 = f \circ g_2$
+  we have the following commuting diagram.
+  \[
+    \begin{tikzcd}
+      Z \arrow[bend right=30]{ddr}{g_1} \arrow[bend left=30]{drr}{g_2}&   &\\
+             & X \arrow{r}{1}  \arrow{d}{1}  & X \arrow{d}{f}    \\
+             & X \arrow{r}{f}                & Y
+    \end{tikzcd}
+  \]
+  Therefore $Z$ is a cone. Since is $X$ is a pullback we have a unique map $h : Z \to X$,
+  such that the following diagram commutes.
+  \[
+    \begin{tikzcd}
+      Z \arrow[bend right=30]{ddr}{g_1} \arrow[bend left=30]{drr}{g_2} \arrow[dashed]{dr}{h}&   &\\
+             & X \arrow{r}{1}  \arrow{d}{1}  & X \arrow{d}{f}    \\
+             & X \arrow{r}{f}                & Y
+    \end{tikzcd}
+  \]
+  It follows that $1 \circ h = h = g_1 = g_2$.
+  Because there is only one map $Z \to X$, $f$ is trivially monic.\\
+  $"\Rightarrow":$ \\
+  The following square certainly commutes because $f \circ 1 = f \circ 1$.
+  \[
+    \begin{tikzcd}
+      X \arrow{r}{1}  \arrow{d}{1}  & X \arrow{d}{f}    \\
+      X \arrow{r}{f}                & Y
+    \end{tikzcd}
+  \]
+  Therefore it is a cone and we only need to show its universality.
+  We have to show that, assuming f is monic, for any other cone $Z$ there is a unique map
+  $h : Z \to X$ making the following diagram commute.
+  \[
+    \begin{tikzcd}
+      Z \arrow[bend right=30]{ddr}{g_1} \arrow[bend left=30]{drr}{g_2} \arrow[dashed]{dr}{h}&   &\\
+             & X \arrow{r}{1}  \arrow{d}{1}  & X \arrow{d}{f}    \\
+             & X \arrow{r}{f}                & Y
+    \end{tikzcd}
+  \]
+  We know the outer diagram commutes because $Z$ is a cone, so $f \circ g_1 = f \circ g_2$
+  Therefore we have $g_1 = g_2$ because $f$ is monic.
+  Since all the maps $Z \to X$
+  are the same there is exactly one map which is unique.
+\end{answer}
+
+\begin{definition}
+  {Cone Category}
+  Let $\mathscr{C}$ be any category, $D : \bf{I} \to \mathscr{C}$ a diagram.
+  \texttt{Cone(D)} is the category of cones in $\mathscr{C}$ over $D$.
+  \begin{itemize}
+  \item The objects of \texttt{Cone(D)} are cones in $\mathscr{C}$ over $D$, that is, if
+    $(U \overset{f_I}{\to} D(I))_{I \in \bf{I}}$ is a cone in $\mathscr{C}$, then there is a corresponding object
+    in \texttt{Cone(D)}.
+  \item The morphisms of \texttt{Cone(D)} are morphisms between two cones in $\mathscr{C}$, that is,
+    if $(U \overset{f_I}{\to} D(I))_{I \in \bf{I}}, (V \overset{g_I}{\to}~ D(I))_{I \in \bf{I}}$
+    are two cones in $\mathscr{C}$ and there is a morphism $V \overset{m}{\to} U$, then there
+    is a corresponding morphism in \texttt{Cone(D)}.
+  \end{itemize}
+\end{definition}
+
+\begin{exercise}[Cone category]
+  Consider an object $L \in$ \texttt{Cone(D)} that corresponds to a limit in $\mathscr{C}$ over $D$.
+  What kind of object is $L$?\\
+\end{exercise}
+\begin{answer}
+  If $L$ corresponds to a limit, then by definition any other cone with vertex $V$ in $\mathscr{C}$ has a unique map
+  from $V$ to the limit that corresponds to a map in \texttt{Cone(D)}.
+  Because the cones in $\mathscr{C}$ are exactly the objects in \texttt{Cone(D)},
+  $L$ has a unique arrow from every object \texttt{Cone(D)}.
+  Therefore $L$ is a terminal object.\\
+  There is also a dual category $\texttt{Cone(D)}^{Op}$, the category of cocones. By duality,
+  an object $L'$ corresponding to a colimit in $\mathscr{C}$ is an initial object in $\texttt{Cone(D)}^{Op}$.
+\end{answer}
+
+\begin{definition}
+  {Constant Functor}
+  For any two categories $\mathscr{C}$ and $\mathscr{D}$,
+  the constant functor $\Updelta _ V : \mathscr{C} \to \mathscr{D} $ for some object $V \in \mathscr{D}$
+  is defined by:
+  \begin{itemize}
+    \item $\forall A \in \mathscr{C}. \ \Updelta _ V (A) = V$
+    \item $\forall A \overset{f}{\to} B \in \mathscr{C}. \ \Updelta _ V (f) = 1_V$
+  \end{itemize}
+  
+\end{definition}
+
+\begin{exercise}[Cones as natural transformations]
+  Let $\mathscr{C}$ and $\bf{I}$ be any categories, $D : \bf{I} \to \mathscr{C}$ a diagram.
+  Verify that a natural transformation $\pi : \Updelta_V \to D$ is a cone over $D$ with vertex $V$.
+\end{exercise}
+\begin{answer}
+  Recall that a natural transformation $\pi : \Updelta_V \to D$ has components for every object $I \in \bf{I}$
+  and for every morphism $m : I \to J \in \bf{I}$ the following square commutes.
+  \[
+    \begin{tikzcd}
+      \Updelta_V (I) \arrow{r}{\pi_I}  \arrow{d}{\Updelta_V (m)}  & D(I) \arrow{d}{D(m)}    \\
+      \Updelta_V (J) \arrow{r}{\pi_J}                & D(J)
+    \end{tikzcd}
+  \]
+  Now we unfold the definition of $\Updelta_V$.
+  \[
+    \begin{tikzcd}
+      \Updelta_V (I) \arrow{r}{\pi_I}  \arrow{d}{\Updelta_V (m)}  & D(I) \arrow{d}{D(m)}    \\
+      \Updelta_V (J) \arrow{r}{\pi_J}                & D(J)
+    \end{tikzcd}
+    \ = \
+    \begin{tikzcd}
+      V \arrow{r}{\pi_I}  \arrow{d}{1_V}  & D(I) \arrow{d}{D(m)}    \\
+      V \arrow{r}{\pi_J}                & D(J)
+    \end{tikzcd}
+    \ = \
+    \begin{tikzcd}
+      V \arrow{r}{\pi_I} \arrow{dr}{\pi_J} & D(I) \arrow{d}{D(m)}    \\
+                     & D(J)
+    \end{tikzcd}
+  \]
+  To summarize, the natural transformation $\pi$ has maps $\pi_I$ for all $I \in \bf{I}$,
+  and the above triangle commutes for all maps $m : I \to J$.
+  This is exactly the definition of a cone with vertex $V$.
+  In fact this yields an alternative equivalent characterization of cones.
+\end{answer}
+
+\begin{exercise}[Uniqueness of limits]
+  Let $\mathscr{C}$ be any category. Show that limits in $\mathscr{C}$ are unique up to isomorphism.
+\end{exercise}
+\begin{answer}
+  Let $U, V$ be two limits. Then there are unique morphisms $f : U \to V$ and $g : V \to U$.
+  Consider the morphism $g \circ f : U \to U$. As there is a unique morphism $U \to U$, it has to be
+  the identity $g \circ f = 1_U$.
+  Similarly $f \circ g = 1_V$, so $U$ and $V$ are isomorphic.
+\end{answer}
+
+\begin{exercise}[Limit construction]
+  Recall the construction:
+  \[
+    \begin{tikzcd}
+      E \arrow{r}{e} &
+      \displaystyle \prod_{I \in \bf{I}} D(I) \arrow[r,shift left, "s"] \arrow[r,shift right,swap,"t"] &
+      \displaystyle \prod_{J \overset{q}{\to} K \in \bf{I}} D(K)
+    \end{tikzcd}
+  \]
+  where $E$ is the equalizer of $s$ and $t$.
+  We have shown that $E$ is a cone for any diagram $D$. Show that $E$ is also the limit,
+  i.e. a universal cone over $D$.
+\end{exercise}
+\begin{hint}
+  \begin{itemize}
+  \item You may use the fact that $E$ is a cone iff $E$ is a fork of $s$ and $t$.
+  \item You do not need the concrete definitions of $s$ and $t$.
+  \end{itemize}
+\end{hint}
+\begin{answer}
+  To show that $E$ is a universal cone, we need to show that for any other cone $F$, there is a unique 
+  morphism $h : F \to E$.
+  If $F$ is a cone, then it is also a fork of $s$ and $t$.
+  \[
+    \begin{tikzcd}
+      E \arrow{r}{e} &
+      \displaystyle \prod_{I \in \bf{I}} D(I) \arrow[r,shift left, "s"] \arrow[r,shift right,swap,"t"] &
+      \displaystyle \prod_{J \overset{q}{\to} K \in \bf{I}} D(K) \\
+      F \arrow{ur}{f} & &
+    \end{tikzcd}
+  \]
+  Since $E$ is an equalizer, and $F$ is a cone over the same diagram, we have a unique map $h : F \to E$.
+  \[
+    \begin{tikzcd}
+      E \arrow{r}{e} &
+      \displaystyle \prod_{I \in \bf{I}} D(I) \arrow[r,shift left, "s"] \arrow[r,shift right,swap,"t"] &
+      \displaystyle \prod_{J \overset{q}{\to} K \in \bf{I}} D(K) \\
+      F \arrow{ur}{f} \arrow[dashed]{u}{h} & &
+    \end{tikzcd}
+  \]
+
+
+\end{answer}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
