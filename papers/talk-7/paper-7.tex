@@ -1,0 +1,76 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/header-7}
+
+\title{General limits}
+\author{Leonhard Staut}
+
+\begin{document}
+
+\maketitle
+\chapter{Introduction}
+We have seen examples of limits.\\
+Insert examples here.\\
+Now we generalize them...
+\chapter{Definition}
+
+\begin{definition}
+  Let $\bm{I}, \mathscr{C}$ be categories.
+  A \textbf{diagram} is a functor $D \from \bm{I} \to \mathscr{C}$.
+  The category $\bm{I}$ is called the \textbf{shape} of the diagram.
+\end{definition}
+
+%% TODO: explain reasoning behind this definition and give example
+
+\begin{definition}
+  Let $D \from \bm{I} \to \mathscr{C}$ be a diagram.
+  A \textbf{cone} $U$ over $D$ is an object $U \in \mathscr{C}$
+  with maps $f_I, \forall\ I \in \bm{I}$, such that
+  $\forall\ I \overset{m}{\to} J \in \bm{I}$, the following triangle commutes:
+  \[
+    \begin{tikzcd}
+      & U \arrow[dl, swap, "f_I"] \arrow{dr}{f_J}&\\
+      D_I \arrow[rr, swap, "D(m)"] & & D_J\\
+    \end{tikzcd}
+  \]
+  That is $f_J = D(m) \circ f_I$.\\
+  For a cone we write $(U \overset{f_I}{\to} D(I))_{I\in \bm{I}}$.
+  We call $U$ the \textbf{vertex}, and $f_I$ the \textbf{projection maps} of the cone.
+\end{definition}
+\begin{remark}
+  When $U$ is the vertex of a cone, then we sometimes use just $U$ to refer to the whole cone
+  for better readability.
+\end{remark}
+
+%% TODO: write a sentence like "In other words, ..." and give example. example might be tricky to draw
+
+\begin{definition}
+  A cone $(U \overset{f_I}{\to} D(I))_{I\in \bm{I}}$ is universal, if
+  for all other cones $(V \overset{g_I}{\to} D(I))_{I\in \bm{I}}$ there is a unique
+  map $h \from V \to U$, such that for all $I \in \bm{I}$ the following triangles commute.
+  \[
+    \begin{tikzcd}
+      V \arrow[dr, swap, "g_I"] \arrow{r}{h} & U \arrow{d}{f_I} \\
+      & D_I
+    \end{tikzcd}
+  \]
+  That is $g_i = f_i \circ h$.
+\end{definition}
+
+In other words, any cone over $D$ has maps into $D$, and a cone $U$ is universal if
+for any other cone $V$, you can first go to $U$, that is the unique morphism.
+From $U$ you can go to $D_I$, and the commuting condition says that this is equal
+to the morphism that immediately takes you from $V$ to $D_I$.
+
+%TODO: give example. might be tricky to draw.
+
+\chapter{Building new limits}
+It is possible to build new limits...
+
+\chapter{Colimits}
+Just dualize it... 
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
