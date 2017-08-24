@@ -12,13 +12,61 @@ Insert examples here.\\
 Now we generalize them...
 \chapter{Definition}
 
+In category theory we take limits over diagrams.
+We begin by formally defining what a diagram is.
+
 \begin{definition}
   Let $\bm{I}, \mathscr{C}$ be categories.
   A \textbf{diagram} is a functor $D \from \bm{I} \to \mathscr{C}$.
   The category $\bm{I}$ is called the \textbf{shape} of the diagram.
 \end{definition}
+\begin{example}
+  \label{diagramexample}
+  This is an example of a diagram of shape $\bm I$. \\[1cm]
+  \begin{minipage}{0.3\linewidth}
+    \hspace{2cm}
+    \begin{tikzcd}
+      & \bullet \arrow{d} \\
+      \bullet\arrow{r} & \bullet
+    \end{tikzcd}\\
+  \end{minipage}%
+  \begin{minipage}{0.2\linewidth}
+    $\qquad\quad\overset{D}{\Longrightarrow}$
+  \end{minipage}%
+  \begin{minipage}{0.1\linewidth}
+    \begin{tikzpicture}
+      \draw(1,0) circle (1.5cm);
+      \begin{tikzcd}
+        & \bullet \arrow{d} \\
+        \bullet\arrow{r} & \bullet
+      \end{tikzcd}
+    \end{tikzpicture}
+  \end{minipage}\\[2em]
+  \begin{minipage}{0.3\linewidth}
+    \hspace{2cm}
+    $\qquad \bm I$
+  \end{minipage}%
+  \begin{minipage}{0.2\linewidth}
+    \
+  \end{minipage}%
+  \begin{minipage}{0.3\linewidth}
+    \hspace{2cm}
+    $\qquad \mathscr C$
+  \end{minipage}\\[1em]
+\end{example}
 
-%% TODO: explain reasoning behind this definition and give example
+The functor $D$ yields
+a part of the category $\mathscr C$ that essentially looks like $\bm I$.
+We also say $D$ \textbf{identifies} diagrams of shape $\bm I$,
+which is why we use $\bm I$ to denote the shape.
+Especially with diagrams of such a small shape
+there might be many parts in $\mathscr C$ that have the shape of $\bm I$.
+We therefore get all different diagrams of that shape by considering
+all different functors $D$.
+Diagrams do not need to be small though. Their shape can also be infinite.\\
+We are typically interested in diagrams of a specific category,
+$\mathscr C$ in the example. Therefore we usually leave out $\bm I$ and $D$,
+and we just draw the identified part of $\mathscr C$ instead.
 
 \begin{definition}
   Let $D \from \bm{I} \to \mathscr{C}$ be a diagram.
@@ -39,13 +87,31 @@ Now we generalize them...
   When $U$ is the vertex of a cone, then we sometimes use just $U$ to refer to the whole cone
   for better readability.
 \end{remark}
+%% TODO: Notation DI, D(I), D_I ??
+\begin{example}
+  A cone over the diagram of
+  \hyperref[diagramexample]{Example \ref*{diagramexample}} looks like this.
+  \[
+    \begin{tikzcd}
+      U \arrow[bend right=30]{ddr}{f_I} \arrow[bend left=30]{drr}{f_k} \arrow[bend left=20, swap]{ddrr}{f_J}&   &\\
+      & & D_K \arrow{d}{D_n} \\
+      & D_I \arrow{r}{D_m} & D_J
+    \end{tikzcd}
+  \]
+  The commuting condition says that $D_m \circ f_I = f_J$ and $D_n \circ f_K = f_J$.
+\end{example}
 
 %% TODO: write a sentence like "In other words, ..." and give example. example might be tricky to draw
+
+Now we define what it means for a cone to be universal. Intuitively,
+a cone is universal if it satisfies a property that makes it universal among cones,
+specifically, that all other cones factor through it uniquely.
 
 \begin{definition}
   A cone $(U \overset{f_I}{\to} D(I))_{I\in \bm{I}}$ is universal, if
   for all other cones $(V \overset{g_I}{\to} D(I))_{I\in \bm{I}}$ there is a unique
-  map $h \from V \to U$, such that for all $I \in \bm{I}$ the following triangles commute.
+  map $h \from V \to U$, such that for all $I \in \bm{I}$
+  the following triangles commute.
   \[
     \begin{tikzcd}
       V \arrow[dr, swap, "g_I"] \arrow{r}{h} & U \arrow{d}{f_I} \\
@@ -60,13 +126,68 @@ for any other cone $V$, you can first go to $U$, that is the unique morphism.
 From $U$ you can go to $D_I$, and the commuting condition says that this is equal
 to the morphism that immediately takes you from $V$ to $D_I$.
 
-%TODO: give example. might be tricky to draw.
+\begin{example}
+    \[
+    \begin{tikzcd}
+      {\color{red}V}
+      \arrow[bend right=40,color=red]{dddrr}{g_I}
+      \arrow[bend left=40, color=red]{ddrrr}{g_k}
+      \arrow[bend left=30, color=red, swap]{dddrrr}{g_J}
+      \arrow[dashed,swap]{dr}{h}
+      & & & \\
+      & {\color{blue}U}
+      \arrow[bend right=30,color=blue]{ddr}{f_I}
+      \arrow[bend left=30, color=blue]{drr}{f_k}
+      \arrow[bend left=20, color=blue, swap]{ddrr}{f_J}&   &\\
+      & & & D_K \arrow{d}{D_n} \\
+      & & D_I \arrow{r}{D_m} & D_J
+    \end{tikzcd}
+  \]
+  The universal cone {\color{blue}U}
+  is drawn in blue and the other cone {\color{red}V} is drawn in red.
+  Both cones obviously have to satisfy the commuting condition for cones.
+  Additionally the commuting condition for universal cones states that
+  $g_I = f_I \circ h$, $g_J = f_J \circ h$, and $g_K = f_k \circ h$.
+\end{example}
+
+\begin{definition}
+  A limit is a universal cone over a diagram.
+\end{definition}
+
+A limit is therefore characterized by the kind of diagram
+over which it is a universal cone, meaning we get different instances of limits
+by choosing diagrams of different shapes.
+
+%% TODO: terminal object, pullback, equalizer, product.
 
 \chapter{Building new limits}
 It is possible to build new limits...
+%% TODO: example
+%% TODO: general limits
+%% TODO: possibly other construction mentioned in awodey.
 
 \chapter{Colimits}
-Just dualize it... 
+Colimits are the dual of limits.
+\begin{definition}
+  A \textbf{colimit} is a universal co-cone over a diagram.
+\end{definition}
+%% TODO: complete definition
+
+\[
+    \begin{tikzcd}
+      & D_K \arrow{d}{D_n}
+      \arrow[bend left=30,color=blue]{ddr}{f_K}
+      \arrow[bend left=50,color=red]{dddrr}{g_K} & & \\
+      D_I \arrow{r}{D_m}
+      \arrow[bend right=30,color=blue]{drr}{f_I}
+      \arrow[bend right=40,color=red]{ddrrr}{g_I} &
+      D_J \arrow[bend left=20,swap, color=blue]{dr}{f_J}
+      \arrow[bend left=40,color=red]{ddrr}{g_J} & & \\
+      & & {\color{blue}U} \arrow[dashed]{dr}{h}& \\
+      & & & {\color{red}V}
+    \end{tikzcd}
+\]
+%% TODO: example drawing
 
 \end{document}
 
