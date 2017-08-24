@@ -7,8 +7,35 @@
 
 \maketitle
 \chapter{Introduction}
-We have seen examples of limits.\\
-Insert examples here.\\
+We have seen three special structures in categories.\\[1em]
+\begin{minipage}{.35\linewidth}
+  \begin{tikzcd}
+    & V \arrow[bend right=40]{ddl} \arrow[bend left=40]{ddr} \arrow[dashed]{d} &\\
+    & U \arrow{dl} \arrow{dr} &\\
+    \bullet &&\bullet
+  \end{tikzcd}
+\end{minipage}%
+\begin{minipage}{.35\linewidth}
+  \begin{tikzcd}
+    V
+    \arrow[bend left=40]{drr}
+    \arrow[bend right=40]{ddr}
+    \arrow[dashed,swap]{dr}
+    && \\
+    &U
+    \arrow{r}
+    \arrow{d}
+    &\bullet \arrow{d} \\
+    & \bullet \arrow{r} & \bullet
+  \end{tikzcd}
+\end{minipage}%
+\begin{minipage}{.3\linewidth}
+  \begin{tikzcd}
+    V \arrow[dashed]{dd} \arrow{dr}&& \\
+    & \bullet \arrow[shift left]{r} \arrow[shift right]{r} & \bullet \\\
+    U \arrow{ur} &&
+  \end{tikzcd}
+\end{minipage}\\[2em]
 Now we generalize them...
 \chapter{Definition}
 
