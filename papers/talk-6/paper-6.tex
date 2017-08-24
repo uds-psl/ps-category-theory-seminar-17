@@ -23,6 +23,8 @@
 \newcommand{\class}[1]{\left[ #1 \right]}
 % < _ >
 \newcommand{\choice}[1]{\left< #1 \right>}
+% explanation over relation sign
+\newcommand{\explainRel}[2]{\stackrel{\text{#1}}{#2}}
 
 % Theorem Environments
 \newtheorem{definition}{Definition}
@@ -31,6 +33,8 @@
 
 % Title page
 \title{Special Constructions in Categories}
+\subtitle{Examples for limits and colimits}
+
 \author{Maximilian Wuttke}
 
 \begin{document}
@@ -51,7 +55,7 @@ First we want to generalize the Cartesian product to general categories.
   \label{ex:prod:cart}
   Let $X$ and $Y$ be sets.
   Then we define the \demph{Cartesian Product}
-  $$X \times Y := \setMap{\pair{x}{y}}{x \in X, \; y \in Y}. $$
+  $$X \times Y := \setMap{\pair{x}{y}}{x \in X, \; y \in Y}.$$
   Also we define the \demph{projection functions} $p_1 \from X \times Y \to X$, $p_2 \from X \times Y \to Y$ in a canonical way:
   \begin{alignat*}{2}
     p_1(x,y) &:= x \\
@@ -60,13 +64,13 @@ First we want to generalize the Cartesian product to general categories.
 
   Let $A$ be another set and $f_1 \from A \to X, f_2 \from A \to Y$ functions.
   If we want to define a function $\fbar \from A \to X \times Y$, such that
-  $p_1(\fbar(a)) = f_1(a)$ and $p_2(\fbar(a)) = f_2(a)$ for every $a \in A$,
+  $p_1(\fbar(a)) = f_1(a)$ and $p_2(\fbar(a)) = f_2(a)$ for every $a \in A$ holds,
   there is only one possible way to define $\fbar \from A \to X \times Y$:
   $$\fbar(a) := \pair{f_1(a)}{f_2(a)}.$$
-  We have $p_1(\fbar(a)) = p_1(f_1(a), f_2(b)) = f_1(a)$ and $p_2(\fbar(a)) = p_2(f_1(a), f_2(a)) = f_2(a)$.
+  By construction we have $p_1(\fbar(a)) = p_1(f_1(a), f_2(b)) = f_1(a)$ and $p_2(\fbar(a)) = p_2(f_1(a), f_2(a)) = f_2(a)$.
   If we have another $\ftilde \from A \to X \times Y$ with $p_1(\ftilde(a)) = f_1(a)$ and $p_2(\ftilde(a)) = f_2(a)$ we show $\fbar(a) = \ftilde(a)$ for every $a \in A$:
-  $$\ftilde(a) = \pair{f_1(a)}{f_2(a)} = \pair{p_1(\ftilde(a)}{p_2(\ftilde(a))} = \ftilde(a).$$
-  The last step is because we have $\pair{p_1(z)}{p_2(z)} = x$ for every $z \in X \times Y$.
+  $$\fbar(a) = \pair{f_1(a)}{f_2(a)} = \pair{p_1(\ftilde(a)}{p_2(\ftilde(a))} = \ftilde(a).$$
+  The last step is because we have $\pair{p_1(z)}{p_2(z)} = z$ for every $z \in X \times Y$.
 \end{example}
 
 We can use this knowledge to define products in arbitrary categories.
@@ -82,9 +86,9 @@ We can use this knowledge to define products in arbitrary categories.
   $ \xymatrix{
     X &A \ar[l]_{f_1} \ar[r]^{f_2} & Y
   } $
-  in $\cat{A}$, there exists a unique map $\bar{f}\from A \to P$ such that
+  in $\cat{A}$, there exists a unique map $\fbar\from A \to P$ such that
   \[ \xymatrix{
-    & A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}} \ar[rdd]^{f_2} & \\
+    & A \ar[ldd]_{f_1} \ar@{.>}[d]|{\fbar} \ar[rdd]^{f_2} & \\
     & P \ar[ld]^{p_1} \ar[rd]_{p_2} & \\
     X & & Y
   } \]
@@ -102,42 +106,31 @@ We can use this knowledge to define products in arbitrary categories.
 \begin{proof}
   Let $X, Y \in \cat{A}$ and $P$ be a product of $X$ and $Y$ together with $p_1 \from P \to X, p_2 \from P \to Y$
   and $P'$ be a product of $X$ and $Y$ together with $p'_1 \from P' \to X, p'_2 \from P' \to Y$.
-
-  Lets reconsider the definition of the \emph{product}:
-  For every object $A \in \cat{A}$ and arrows $f_1 \from A \to X, f_2 \from A \to Y$ we get that there exists a unique map
-  $\bar{f} \from A \to P$, such that
-  \[ \xymatrix{
-      &A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}\vphantom{\bar{\bar{f}}}}
-      \ar[rdd]^{f_2}&       \\
-              &P \ar[ld]^{p_1} \ar[rd]_{p_2}                  &       \\
-      X       &                                               &Y
-  } \]
-  commutes.
-  Now we can instantiate $A$ with $P'$, $f_1$ with $p_1$, $f_2$ with $p_2$. By analogous instantiations we get the commuting diagram
+  We apply definition \ref{def:prod} multiple times and get the following commuting diagram:
   \[ \xymatrix{
     & P \ar@/_/[ldd]_{p_1} \ar@/^/[rdd]^{p_2} & \\
-    & P \ar[ld]^{p_1} \ar@/_/@{.>}[dd]|{\bar{f}} \ar@{.>}[u]|{f} \ar[rd]_{p_2} & \\
+    & P \ar[ld]^{p_1} \ar@/_/@{.>}[dd]|{\fbar} \ar@{.>}[u]|{f} \ar[rd]_{p_2} & \\
     X & & Y \\
-    & P' \ar[lu]_{p_1'} \ar@/_/@{.>}[uu]|{\tilde{f}} \ar@{.>}[d]|{f'} \ar[ru]^{p'_2} & \\
+    & P' \ar[lu]_{p_1'} \ar@/_/@{.>}[uu]|{\ftilde} \ar@{.>}[d]|{f'} \ar[ru]^{p'_2} & \\
     & P' \ar@/^/[luu]^{p'_1} \ar@/_/[ruu]_{p'_2} &
   } \]
-  for exactly one $f, f', \tilde{f}, \bar{f}$. With the inner triangles we get:
+  for exactly one $f, f', \fbar, \ftilde$. With the inner triangles we get:
   \begin{alignat*}{2}
-    p_1  \of \tilde{f} &= p'_1 &\qquad p_2  \of \tilde{f} &= p'_2 \\
-    p'_1 \of \bar{f}   &= p_1  &       p'_2 \of \bar{f}   &= p_2
+    p_1  \of \ftilde &= p'_1 &\qquad p_2  \of \ftilde &= p'_2 \\
+    p'_1 \of \fbar   &= p_1  &       p'_2 \of \fbar   &= p_2
   \end{alignat*}
-  By substitution we get
+  By substitution we get:
   \begin{alignat*}{2}
-    p_1   \of (\tilde{f} \of \bar{f}) &= p_1  &\qquad p_2  \of (\tilde{f} \of \bar{f}) &= p_2 \\
-    p'_1  \of (\bar{f} \of \tilde{f}) &= p'_1 &       p'_2 \of (\bar{f} \of \tilde{f}) &= p'_2
+    p_1   \of (\ftilde \of \fbar) &= p_1  &\qquad p_2  \of (\ftilde \of \fbar) &= p_2 \\
+    p'_1  \of (\fbar \of \ftilde) &= p'_1 &       p'_2 \of (\fbar \of \ftilde) &= p'_2
   \end{alignat*}
   With the outer triangles we get:
   \begin{alignat*}{5}
     p_1  &\;\of&&\; f  &= p_1  &\qquad p_2  &\;\of&\; f  &= p_2 \\
     p'_1 &\;\of&&\; f' &= p'_1 &\qquad p'_2 &\;\of&\; f' &= p'_2
   \end{alignat*}
-  Note that $f$ and $f'$ are \emph{unique} and the first equations hold for $f = 1_P$ and $f = \tilde{f} \of \bar{f}$, thus $\tilde{f} \of \bar{f} = 1_P$.
-  The second equations holds for $f' = 1_{P'}$ and for $f' = \bar{f} \of \tilde{f}$, thus $\bar{f} \of \tilde{f} = 1_{P'}$.
+  Note that $f$ and $f'$ are \emph{unique} and the first equations hold for $f = 1_P$ and $f = \ftilde \of \fbar$, thus $\ftilde \of \fbar = 1_P$.
+  The second equations holds for $f' = 1_{P'}$ and for $f' = \fbar \of \ftilde$, thus $\fbar \of \ftilde = 1_{P'}$.
   Thus $P$ and $P'$ are isomorphic. \qedhere
 \end{proof}
 
@@ -146,8 +139,8 @@ We can use this knowledge to define products in arbitrary categories.
   For sets we can define another product, where we reverse the order of the elements, i.~e.:
   \begin{alignat*}{2}
     X \times' Y &:= \setMap{\pair{y}{x}}{x \in X, \; y \in Y} \\
-    p'_1(x,y)   &:= y \\
-    p'_2(x,y)   &:= x
+    p'_1(y,x)   &:= x \\
+    p'_2(y,x)   &:= y
   \end{alignat*}
   Now $X \times Y$ and $X \times' Y$ are isomorphic with the involution $i(a, b) := \pair{b}{a}$.
 \end{example}
@@ -173,13 +166,13 @@ We can use this knowledge to define products in arbitrary categories.
   \label{ex:prod:vspace}
   Let $K$ be a field with the operations $+_K$ and $\cdot_K$ and $V, W$ vector spaces over this field with the operations $+_V, \cdot_V, +_W, \cdot_W$.
   Then we define\footnote{One should verify that the defined structure is indeed a vector field.}
-  the \demph{direct sum} $V \oplus W$ of $V$ with $V \oplus W := \bigl(V \times W, +, \cdot \bigr)$ and with the following operations:
+  the \demph{direct sum} $V \oplus W := \bigl(V \times W, +, \cdot \bigr)$ as a new vector field with the following operations:
   \begin{alignat*}{4}
     \pair{v_1}{w_1} + \pair{v_2}{w_2} &:= \pair{v_1 +_V v_2}{w_1 +_W w_2}           &\quad& \forall v_1, v_2 \in V, \forall w_1, w_2 \in W \\
     \alpha \cdot \pair{v}{w}          &:= \pair{\alpha \cdot_V v}{\alpha \cdot_W w} &     & \forall v \in V, \forall w \in W
   \end{alignat*}
-  We can now show that $U \oplus V$ is the product of $U$ and $V$ in $\Vect$.
-  Therefore we can forget that $U$ and $V$ are vector spaces and follow the proof in example \ref{ex:prod:cart}.
+  We can show that $U \oplus V$ is the product of $U$ and $V$ in $\Vect$.
+  The proof follows the same structure as in example \ref{ex:prod:cart}.
 \end{example}
 
 Now we want to abstract the concept of the disjoint union of sets.
@@ -207,7 +200,7 @@ Now we want to abstract the concept of the disjoint union of sets.
   \end{alignat*}
 \end{example}
 
-We can again use this knowledge to define coproducts in arbitrary categories.
+Again we can use this knowledge to define coproducts in arbitrary categories.
 
 \begin{definition}[Coproduct]
   \label{def:coproduct}
@@ -220,10 +213,10 @@ We can again use this knowledge to define coproducts in arbitrary categories.
   $ \xymatrix{
     X \ar[r]^{f_1} & A & Y \ar[l]_{f_2}
   } $
-  in $\cat{A}$, there exists a unique map $\bar{f}\from S \to A$ such that
+  in $\cat{A}$, there exists a unique map $\fbar\from S \to A$ such that
   \[ \xymatrix{
     X \ar[rdd]_{f_1}\ar[rd]^{p_1} & & Y \ar[ldd]^{f_2} \ar[ld]_{p_2} \\
-    & S \ar@{.>}[d]|{\bar{f}} & \\
+    & S \ar@{.>}[d]|{\fbar} & \\
     & A &
   } \]
   commutes. The maps $p_1$ and $p_2$ are called the \demph{coprojections}.
@@ -231,7 +224,7 @@ We can again use this knowledge to define coproducts in arbitrary categories.
 
 \begin{example}[Direct sum of vector spaces]
   \label{ex:coprod:vspace}
-  In the example \ref{ex:prod:vspace} we have seen that the direct sum of two vectorspaces $U$ and $V$ is the product of $V$ and $W$ in $\Vect$.
+  In the example \ref{ex:prod:vspace} we have seen that the direct sum of two vector spaces $U$ and $V$ is the product of $V$ and $W$ in $\Vect$.
   We will now see that it is \emph{also} the coproduct.
   In general products and coproducts are not the same as we have seen in the examples \ref{ex:prod:cart} and \ref{ex:coprod:dunion}.
   First we have to define the two coprojection functions $p_1 \from V \to V \oplus W, p_2 \from W \to V \oplus W$:
@@ -241,22 +234,22 @@ We can again use this knowledge to define coproducts in arbitrary categories.
   \end{alignat*}
   Then let $A \in \Vect$ and $f_1 \from V \to A, f_2 \from W \to A$ be vector morphisms.
   We define the vector morphism $\fbar \from V \oplus W \to A$ with $\fbar(v, w) := f_1(v) + f_2(w)$.
-  By construction and because $f_1$ and $f_2$ are vector morphims we have:
+  By construction and because $f_1$ and $f_2$ are vector morphism we have:
   \begin{alignat*}{4}
     \fbar(p_1(u)) &= \fbar(u, 0) &= f_1(u) + f_2(0) &= f_1(u) \\
     \fbar(p_2(v)) &= \fbar(0, v) &= f_1(0) + f_2(v) &= f_2(v).
   \end{alignat*}
-  Now we have to show that $\fbar$ is the only vector morphims with this property.
-  Let $\ftilde \from V \oplus W \to A$ be another vector morphims with $\ftilde(p_1(u)) = f_1(u)$ and $\ftilde(p_2(v)) = f_2(v)$.
+  Now we have to show that $\fbar$ is the only vector morphism with this property.
+  Let $\ftilde \from V \oplus W \to A$ be another vector morphism with $\ftilde(p_1(u)) = f_1(u)$ and $\ftilde(p_2(v)) = f_2(v)$.
   Then we have for every $v \in V$ and $w \in W$:
   $$ \fbar(v,w) = f_1(v) + f_2(w)\ = \ftilde(p_1(v)) + \ftilde(p_2(w)) = \ftilde(p_1(v) + p_2(w)) = \ftilde(v, w). $$
-  Thus $\fbar = \ftilde$ and $V \oplus W$ is indeed the product of $V$ and $W$ in the the category $\Vect$.
+  Thus $\fbar = \ftilde$ and $V \oplus W$ is indeed the product of $V$ and $W$ in the category $\Vect$.
 \end{example}
 
 \section*{Equalizers and Coequalizer}
 
 %% XXX Weiterhin erst Beispiel und dann Definition oder erst Definition und dann Beispiel?
-Now We present abstract concepts and give examples.
+Now we present more abstract concepts and give examples.
 
 \begin{definition}[Equalizer]
   \label{def:equa}
@@ -265,7 +258,7 @@ Now We present abstract concepts and give examples.
     X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
   } $
   a diagram in $\cat{A}$.
-  An \demph{equalizer} of this diagram is a commuting diagram called \demph{fork} \\
+  An \demph{equalizer} of this diagram is a commuting diagram called \demph{fork}
   $ \xymatrix{
     E \ar[r]^i & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
   } $
@@ -273,9 +266,9 @@ Now We present abstract concepts and give examples.
   $ \xymatrix{
     A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
   } $
-  in $\cat{A}$, there exists a unique map $\bar{f}\from A \to E$ such that
+  in $\cat{A}$, there exists a unique map $\fbar\from A \to E$ such that
   \[ \xymatrix{
-    A \ar[rd]^f \ar@{.>}[dd]|{\bar{f}} & & \\
+    A \ar[rd]^f \ar@{.>}[dd]|{\fbar} & & \\
     & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \\
     E \ar[ru]_i & &
   } \]
@@ -319,22 +312,22 @@ Now We present abstract concepts and give examples.
   $ \xymatrix{
     X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
   } $
-  in $\cat{A}$, there exists a unique map $\bar{f}\from C \to A$ such that
+  in $\cat{A}$, there exists a unique map $\fbar\from C \to A$ such that
   \[ \xymatrix{
     & & A  \\
     X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[ru]^f \ar[rd]_i \\
-    & & C \ar@{.>}[uu]|{\bar{f}}
+    & & C \ar@{.>}[uu]|{\fbar}
   } \]
   commutes.
 \end{definition}
 
-For our next example we need the definition of the reflexive transitive closure.
+For our next example we need the definition of the symmetric reflexive transitive closure.
 
-\begin{definition}[Symmetric transitive closure]
+\begin{definition}[Symmetric reflexive transitive closure]
   Let $R$ be a binary relation over a set $X$.
   $\hat{R} := R \cup R^{-1}$ is the symmetric closure of $R$ where $R^{-1}$ is defined by
   $R^{-1} := \setMap{\pair{b}{a}}{\pair{a}{b} \in R}$.
-  The \demph{symmetric transitive closure} of $R$ is $\sim := \bigcup_{n\in\nat} {(\hat{R})^n}$
+  The \demph{symmetric transitive closure} of $R$ is $\sim := \bigcup_{n\in\nat} {\hat R}^n$
   where ${\hat R}^n$ is defined recursively with
   ${\hat R}^0 := \setMap{\pair{a}{a}}{a \in X}$ and
   ${\hat R}^{n+1} := R_n \of \hat R = \setMap{\pair{a}{c}}{\pair{a}{b} \in {\hat R}^n \land \pair{b}{c} \in \hat R}$.
@@ -349,8 +342,8 @@ For our next example we need the definition of the reflexive transitive closure.
   } $
   commutes.
   Therefore we define the relation
-  $R := \setMap{\pair{s(a)}{t(a)}}{a \in Y} \subseteq Y^2$ the relation of values in $Y$ that correspond from the same $x \in X$.
-  Let $\sim \subseteq Y^2$ be the symmetric transitive closure of $R$.
+  $R := \setMap{\pair{s(a)}{t(a)}}{a \in Y} \subseteq Y^2$.
+  Let $\sim \; \subseteq Y^2$ be the symmetric reflexive transitive closure of $R$.
   Now we define $C := Y / \sim = \setMap{\class y}{y \in Y}$ where $\class y := \setMap{y'}{y \sim y'}$ are the equivalence classes.
   For the function $i \from Y \to E$ we choose $i(y) := \class y$.
   Then the diagram
@@ -365,14 +358,15 @@ For our next example we need the definition of the reflexive transitive closure.
   be a cofork.
   By induction we can show that $f$ ``does not care'' about equal values, i.~e. $f(y_1) = f(y_2)$ whenever $y_1 \sim y_2$.
 
-  To define the function $\fbar \from C \to A$ we need a choice function $\choice \cdot$ that returns for every equivalence class in $\sim$ a member of it, i.~e.
-  $\forall c \in C, \forall y \in e, \choice{e} \sim y$.
-  Therefore we also know $\forall c \in C, \class {\choice c} = c$.
+  To define the function $\fbar \from C \to A$ we need a choice function $\choice \cdot \from C \to Y$ that returns for every equivalence class in $\sim$ a member of it, i.~e.
+  $\forall c \in C, \forall y \in Y, y \in c \Leftrightarrow y \sim \choice{c}$
+  which is equivalent to $\forall c \in C, \class {\choice c} = c$.
 
   Now we can define $\fbar \from C \to A$ by $\fbar(e) := f(\choice e)$.
-  We now have  $\fbar(i(y)) = f(\choice{\class y}) = f(y)$ because $\choice{\class y} \sim y$ (by reflexivity of $\sim$).
-  Now we only have to show that this $\fbar$ is unique. So we assume another function $\ftilde \from C \to A$ with $\ftilde \of i = f$. But then we have
-  $$ \fbar(c) = f(\choice c) = \ftilde(i(\choice c)) = \ftilde(\class{\choice c}) = \ftilde(c).$$
+  We now have  $\fbar(i(y)) = f(\choice{\class y}) = f(y)$ because $y \sim \choice{\class y}$ (by the choice axiom and reflexivity of $\sim$).
+  Now we only have to show that this $\fbar$ is unique in respect to that property.
+  So we assume another function $\ftilde \from C \to A$ with $\ftilde \of i = f$. But then we have
+  $$ \fbar(c) \explainRel{Def}= f(\choice c) \explainRel{Ass.}= \ftilde(i(\choice c)) \explainRel{Def}= \ftilde(\class{\choice c}) \explainRel{Choice}= \ftilde(c).$$
 \end{example}
 
 
@@ -395,9 +389,9 @@ For our next example we need the definition of the reflexive transitive closure.
     A \ar[r]_{f_2} \ar[d]^{f_1} & Y \ar[d]_{t} \\
     X \ar[r]^s & Z
   } \]
-  in $\cat{A}$, there exists a unique map $\bar{f}\from A \to P$ such that
+  in $\cat{A}$, there exists a unique map $\fbar\from A \to P$ such that
   \[ \xymatrix{
-    A \ar[drr]^{f_2} \ar[ddr]_{f_1} \ar@{.>}[dr]|{\bar{f}} & & \\
+    A \ar[drr]^{f_2} \ar[ddr]_{f_1} \ar@{.>}[dr]|{\fbar} & & \\
     & P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
     & X \ar[r]^s & Z
   } \]
@@ -431,7 +425,7 @@ The pullback is also called ``fibred product''. This will be clear in the follow
   Now let $A$ be a set and $f_1 \from A \to X, f_2 \from A \to Y$ be functions with $s \of f_1 = t \of f_2$.
   Then we define $\fbar \from A \to P$ by
   $\fbar(a) := \pair{f_1(a)}{f_2(a)}$.
-  This is well defined because for $a \in A$ we have $\fbar(a) = \pair{f_1(a)}{f_2(a)} \in P \Leftrightarrow s(f_1(a) = t(f_2(a))$ wich is true by assumption.
+  This is well defined because for $a \in A$ we have $\fbar(a) = \pair{f_1(a)}{f_2(a)} \in P \Leftrightarrow s(f_1(a) = t(f_2(a))$ which is true by assumption.
   We also have $p_1(\fbar(a)) = f_1(a)$ and $p_2(\fbar(a)) = f_2(a)$ by constructions.
   We also see that $\fbar$ is unique with this property.
 \end{example}
@@ -453,10 +447,10 @@ The pullback is also called ``fibred product''. This will be clear in the follow
     Z \ar[r]_s \ar[d]^t & X \ar[d]_{f_1} \\
     Y \ar[r]^{f_2} & A
   } \]
-  in $\cat{A}$, there exists a unique map $\bar{f}\from P \to A$ such that
+  in $\cat{A}$, there exists a unique map $\fbar\from P \to A$ such that
   \[ \xymatrix{
     Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \ar[ddr]^{f_1} & \\
-    Y \ar[r]^{p_2} \ar[drr]_{f_2}& P \ar@{.>}[dr]|{\bar{f}} & \\
+    Y \ar[r]^{p_2} \ar[drr]_{f_2}& P \ar@{.>}[dr]|{\fbar} & \\
     & & A  \\
   } \]
   commutes.
@@ -467,6 +461,7 @@ The pullback is also called ``fibred product''. This will be clear in the follow
 \section*{Conclusion}
 We have seen much analogous definitions and proofs.
 Our definitions follow a simple ``pattern'':
+\todo{Pattern könnte besser erklärt werden aber nicht zu formal!}
 \begin{itemize}
   \item First we have a some objects or a commuting diagram ($D_0$).
   \item Then we ``insert'' a object $P$ and get a new commuting diagram ($D_1$) where we ``connect'' $P$ with the objects of $D_0$ with ``projection functions''.
