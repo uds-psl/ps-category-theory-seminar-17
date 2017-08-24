@@ -1,0 +1,485 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/header_lecturenotes}
+
+\usepackage{todonotes}
+
+% Shortcuts
+\newcommand{\catA}[0]{\cat{A}}
+\newcommand{\catB}[0]{\cat{B}}
+\newcommand{\fbar}[0]{\bar{f}}
+\newcommand{\ftilde}[0]{\tilde{f}}
+\newcommand{\gbar}[0]{\bar{g}}
+\newcommand{\gtilde}[0]{\tilde{g}}
+\newcommand{\dunion}[0]{\sqcup}
+\newcommand{\bigdunion}[0]{\bigsqcup}
+\renewcommand{\demph}[1]{\emph{#1}} % Definition
+
+% { _ }
+\newcommand{\setCon}[1]{\bigl \{ #1 \bigr \}}
+% { _ | _ }
+\newcommand{\setMap}[2]{\setCon{#1 \,\big|\, #2}}
+% ( _ , _ )
+\newcommand{\pair}[2]{\left( #1 , #2 \right)}
+% [ _ ]
+\newcommand{\class}[1]{\left[ #1 \right]}
+% < _ >
+\newcommand{\choice}[1]{\left< #1 \right>}
+
+% Theorem Environments
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{lemma}{Lemma}
+
+% Title page
+\title{Special Constructions in Categories}
+\author{Maximilian Wuttke}
+
+\begin{document}
+
+\maketitle
+
+\section*{Motivation}
+We want to generalize some concepts of sets like the Cartesian product, disjoint union, solution sets and quotient sets.
+In this chapter we define six constructions in categories.
+We will introduce the constructions \emph{products}, \emph{equalizer} and \emph{pullbacks} and their duals
+\emph{coproducts}, \emph{coequalizer} and \emph{pushouts}, respectively.
+
+\section*{Products and Coproducts}
+
+First we want to generalize the Cartesian product to general categories.
+
+\begin{example}[Cartesian Product]
+  \label{ex:prod:cart}
+  Let $X$ and $Y$ be sets.
+  Then we define the \demph{Cartesian Product}
+  $$X \times Y := \setMap{\pair{x}{y}}{x \in X, \; y \in Y}. $$
+  Also we define the \demph{projection functions} $p_1 \from X \times Y \to X$, $p_2 \from X \times Y \to Y$ in a canonical way:
+  \begin{alignat*}{2}
+    p_1(x,y) &:= x \\
+    p_2(x,y) &:= y
+  \end{alignat*}
+
+  Let $A$ be another set and $f_1 \from A \to X, f_2 \from A \to Y$ functions.
+  If we want to define a function $\fbar \from A \to X \times Y$, such that
+  $p_1(\fbar(a)) = f_1(a)$ and $p_2(\fbar(a)) = f_2(a)$ for every $a \in A$,
+  there is only one possible way to define $\fbar \from A \to X \times Y$:
+  $$\fbar(a) := \pair{f_1(a)}{f_2(a)}.$$
+  We have $p_1(\fbar(a)) = p_1(f_1(a), f_2(b)) = f_1(a)$ and $p_2(\fbar(a)) = p_2(f_1(a), f_2(a)) = f_2(a)$.
+  If we have another $\ftilde \from A \to X \times Y$ with $p_1(\ftilde(a)) = f_1(a)$ and $p_2(\ftilde(a)) = f_2(a)$ we show $\fbar(a) = \ftilde(a)$ for every $a \in A$:
+  $$\ftilde(a) = \pair{f_1(a)}{f_2(a)} = \pair{p_1(\ftilde(a)}{p_2(\ftilde(a))} = \ftilde(a).$$
+  The last step is because we have $\pair{p_1(z)}{p_2(z)} = x$ for every $z \in X \times Y$.
+\end{example}
+
+We can use this knowledge to define products in arbitrary categories.
+
+\begin{definition}[Product]
+  \label{def:prod}
+  Let $\cat{A}$ be a category and $X, Y \in \cat{A}$ objects.
+  A \demph{product} of $X$ and $Y$ consists of an object $P$ and maps
+  $ \xymatrix{
+    X &P \ar[l]_{p_1} \ar[r]^{p_2} & Y
+  } $
+  with the property that for all objects and maps
+  $ \xymatrix{
+    X &A \ar[l]_{f_1} \ar[r]^{f_2} & Y
+  } $
+  in $\cat{A}$, there exists a unique map $\bar{f}\from A \to P$ such that
+  \[ \xymatrix{
+    & A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}} \ar[rdd]^{f_2} & \\
+    & P \ar[ld]^{p_1} \ar[rd]_{p_2} & \\
+    X & & Y
+  } \]
+  commutes. The maps $p_1$ and $p_2$ are called the \demph{projections}.
+\end{definition}
+
+\begin{lemma}[Products are unique up-to isomorphism]
+  \label{lem:prod:uniq}
+  For every category $\cat{A}$ and every objects $X, Y \in \cat{A}$
+  all products of $X$ and $Y$ are isomorphic. Thus we can speak of \emph{the} product of $X$ and $Y$.
+
+  This fact is also true for all the following constructions but we omit the proofs and will do them in the next chapter.
+\end{lemma}
+
+\begin{proof}
+  Let $X, Y \in \cat{A}$ and $P$ be a product of $X$ and $Y$ together with $p_1 \from P \to X, p_2 \from P \to Y$
+  and $P'$ be a product of $X$ and $Y$ together with $p'_1 \from P' \to X, p'_2 \from P' \to Y$.
+
+  Lets reconsider the definition of the \emph{product}:
+  For every object $A \in \cat{A}$ and arrows $f_1 \from A \to X, f_2 \from A \to Y$ we get that there exists a unique map
+  $\bar{f} \from A \to P$, such that
+  \[ \xymatrix{
+      &A \ar[ldd]_{f_1} \ar@{.>}[d]|{\bar{f}\vphantom{\bar{\bar{f}}}}
+      \ar[rdd]^{f_2}&       \\
+              &P \ar[ld]^{p_1} \ar[rd]_{p_2}                  &       \\
+      X       &                                               &Y
+  } \]
+  commutes.
+  Now we can instantiate $A$ with $P'$, $f_1$ with $p_1$, $f_2$ with $p_2$. By analogous instantiations we get the commuting diagram
+  \[ \xymatrix{
+    & P \ar@/_/[ldd]_{p_1} \ar@/^/[rdd]^{p_2} & \\
+    & P \ar[ld]^{p_1} \ar@/_/@{.>}[dd]|{\bar{f}} \ar@{.>}[u]|{f} \ar[rd]_{p_2} & \\
+    X & & Y \\
+    & P' \ar[lu]_{p_1'} \ar@/_/@{.>}[uu]|{\tilde{f}} \ar@{.>}[d]|{f'} \ar[ru]^{p'_2} & \\
+    & P' \ar@/^/[luu]^{p'_1} \ar@/_/[ruu]_{p'_2} &
+  } \]
+  for exactly one $f, f', \tilde{f}, \bar{f}$. With the inner triangles we get:
+  \begin{alignat*}{2}
+    p_1  \of \tilde{f} &= p'_1 &\qquad p_2  \of \tilde{f} &= p'_2 \\
+    p'_1 \of \bar{f}   &= p_1  &       p'_2 \of \bar{f}   &= p_2
+  \end{alignat*}
+  By substitution we get
+  \begin{alignat*}{2}
+    p_1   \of (\tilde{f} \of \bar{f}) &= p_1  &\qquad p_2  \of (\tilde{f} \of \bar{f}) &= p_2 \\
+    p'_1  \of (\bar{f} \of \tilde{f}) &= p'_1 &       p'_2 \of (\bar{f} \of \tilde{f}) &= p'_2
+  \end{alignat*}
+  With the outer triangles we get:
+  \begin{alignat*}{5}
+    p_1  &\;\of&&\; f  &= p_1  &\qquad p_2  &\;\of&\; f  &= p_2 \\
+    p'_1 &\;\of&&\; f' &= p'_1 &\qquad p'_2 &\;\of&\; f' &= p'_2
+  \end{alignat*}
+  Note that $f$ and $f'$ are \emph{unique} and the first equations hold for $f = 1_P$ and $f = \tilde{f} \of \bar{f}$, thus $\tilde{f} \of \bar{f} = 1_P$.
+  The second equations holds for $f' = 1_{P'}$ and for $f' = \bar{f} \of \tilde{f}$, thus $\bar{f} \of \tilde{f} = 1_{P'}$.
+  Thus $P$ and $P'$ are isomorphic. \qedhere
+\end{proof}
+
+\begin{example}[Reversed Cartesian product]
+  \label{ex:prod:cart2}
+  For sets we can define another product, where we reverse the order of the elements, i.~e.:
+  \begin{alignat*}{2}
+    X \times' Y &:= \setMap{\pair{y}{x}}{x \in X, \; y \in Y} \\
+    p'_1(x,y)   &:= y \\
+    p'_2(x,y)   &:= x
+  \end{alignat*}
+  Now $X \times Y$ and $X \times' Y$ are isomorphic with the involution $i(a, b) := \pair{b}{a}$.
+\end{example}
+
+\begin{example}[Posets]
+  \label{ex:prod:poset}
+  Let $\pair{A}{\le}$ be a poset.
+  A \demph{lower bound} for two objects $x, y \in A$ is a element $a \in A$ such that $a \le x$ and $a \le y$.
+  A \demph{greatest lover bound} of $x, y \in A$ is a lower bound $z \in A$ of $x$ and $y$ such that for all lower bounds $a \in A$ of $x$ and $y$, $a \le z$.
+  With other words: $z$ is a greatest lower bound of $x$ and $y$ if and only if
+  $$z \le x \land z \le y \land \forall a \in A, a \le x \land a \le y \Rightarrow a \le z.$$
+
+  When we see the poset $\pair{A}{\le}$ as a category $\catA$ and have a greatest lower bound $z$ of $x, y \in A$, then $z$ is the product of $x$ and $y$.
+  To see this, we apply the definition \ref{def:prod}.
+  Let $x, y \in \catA$ and $z \in \catA$ be a greatest lower bound of $x$ and $y$.
+  Let $a \in \catA$ be another object.
+  If we have $f_1 \from a \to x$ and $f_2 \from a \to y$ then by definition of $\catA$, $a$ is a lower bound of $x$ and $y$.
+  Now because $z$ is a greatest lower bound, $a \le z$ holds and therefore is a unique map $\fbar \from a \to z$.
+  The diagram commutes trivially.
+\end{example}
+
+\begin{example}[Direct sum of vector spaces]
+  \label{ex:prod:vspace}
+  Let $K$ be a field with the operations $+_K$ and $\cdot_K$ and $V, W$ vector spaces over this field with the operations $+_V, \cdot_V, +_W, \cdot_W$.
+  Then we define\footnote{One should verify that the defined structure is indeed a vector field.}
+  the \demph{direct sum} $V \oplus W$ of $V$ with $V \oplus W := \bigl(V \times W, +, \cdot \bigr)$ and with the following operations:
+  \begin{alignat*}{4}
+    \pair{v_1}{w_1} + \pair{v_2}{w_2} &:= \pair{v_1 +_V v_2}{w_1 +_W w_2}           &\quad& \forall v_1, v_2 \in V, \forall w_1, w_2 \in W \\
+    \alpha \cdot \pair{v}{w}          &:= \pair{\alpha \cdot_V v}{\alpha \cdot_W w} &     & \forall v \in V, \forall w \in W
+  \end{alignat*}
+  We can now show that $U \oplus V$ is the product of $U$ and $V$ in $\Vect$.
+  Therefore we can forget that $U$ and $V$ are vector spaces and follow the proof in example \ref{ex:prod:cart}.
+\end{example}
+
+Now we want to abstract the concept of the disjoint union of sets.
+
+\begin{example}[Disjoint union]
+  \label{ex:coprod:dunion}
+  Let $X$ and $Y$ be sets.
+  Let furthermore $0$ and $1$ be some sets with $0 \ne 1$.
+  Then we define the \demph{disjoint union} of the sets $X$ and $Y$:
+  $$X \dunion Y := (X \times \setCon 0) \cup (Y \times \setCon 1) = \setMap{\pair{x}{0}}{x \in X} \cup \setMap{\pair{y}{1}}{y \in Y}.$$
+
+  Also we define the \demph{coprojection functions} $p_1 \from A \to X \dunion Y$, $p_2 \from Y \to X \dunion Y$:
+  \begin{alignat*}{2}
+    p_1(x) &:= \pair{x}{0} \\
+    p_2(y) &:= \pair{y}{1}
+  \end{alignat*}
+
+  Let $A$ be another set and $f_1 \from X \to A, f_2 \from Y \to A$ functions.
+  If we want to define a function $\fbar \from X \dunion Y \to A$, such that
+  $\fbar(p_1(x)) = f_1(x)$ and $\fbar(p_2(y)) = f_2(y)$ for every $x \in X, y \in Y$,
+  there is only one possible way to define $\fbar$:
+  \begin{alignat*}{2}
+    \fbar(x, 0) &:= f_1(x) \\
+    \fbar(y, 1) &:= f_2(y).
+  \end{alignat*}
+\end{example}
+
+We can again use this knowledge to define coproducts in arbitrary categories.
+
+\begin{definition}[Coproduct]
+  \label{def:coproduct}
+  Let $\cat{A}$ be a category and $X, Y \in \cat{A}$.
+  A \demph{coproduct} of $X$ and $Y$ consists of an object $S$ and maps
+  $ \xymatrix{
+    X \ar[r]^{p_1} & S & Y \ar[l]_{p_2}
+  } $
+  with the property that for all objects and maps
+  $ \xymatrix{
+    X \ar[r]^{f_1} & A & Y \ar[l]_{f_2}
+  } $
+  in $\cat{A}$, there exists a unique map $\bar{f}\from S \to A$ such that
+  \[ \xymatrix{
+    X \ar[rdd]_{f_1}\ar[rd]^{p_1} & & Y \ar[ldd]^{f_2} \ar[ld]_{p_2} \\
+    & S \ar@{.>}[d]|{\bar{f}} & \\
+    & A &
+  } \]
+  commutes. The maps $p_1$ and $p_2$ are called the \demph{coprojections}.
+\end{definition}
+
+\begin{example}[Direct sum of vector spaces]
+  \label{ex:coprod:vspace}
+  In the example \ref{ex:prod:vspace} we have seen that the direct sum of two vectorspaces $U$ and $V$ is the product of $V$ and $W$ in $\Vect$.
+  We will now see that it is \emph{also} the coproduct.
+  In general products and coproducts are not the same as we have seen in the examples \ref{ex:prod:cart} and \ref{ex:coprod:dunion}.
+  First we have to define the two coprojection functions $p_1 \from V \to V \oplus W, p_2 \from W \to V \oplus W$:
+  \begin{alignat*}{2}
+    p_1(x) &:= \pair{x}{0} \\
+    p_2(y) &:= \pair{0}{y}
+  \end{alignat*}
+  Then let $A \in \Vect$ and $f_1 \from V \to A, f_2 \from W \to A$ be vector morphisms.
+  We define the vector morphism $\fbar \from V \oplus W \to A$ with $\fbar(v, w) := f_1(v) + f_2(w)$.
+  By construction and because $f_1$ and $f_2$ are vector morphims we have:
+  \begin{alignat*}{4}
+    \fbar(p_1(u)) &= \fbar(u, 0) &= f_1(u) + f_2(0) &= f_1(u) \\
+    \fbar(p_2(v)) &= \fbar(0, v) &= f_1(0) + f_2(v) &= f_2(v).
+  \end{alignat*}
+  Now we have to show that $\fbar$ is the only vector morphims with this property.
+  Let $\ftilde \from V \oplus W \to A$ be another vector morphims with $\ftilde(p_1(u)) = f_1(u)$ and $\ftilde(p_2(v)) = f_2(v)$.
+  Then we have for every $v \in V$ and $w \in W$:
+  $$ \fbar(v,w) = f_1(v) + f_2(w)\ = \ftilde(p_1(v)) + \ftilde(p_2(w)) = \ftilde(p_1(v) + p_2(w)) = \ftilde(v, w). $$
+  Thus $\fbar = \ftilde$ and $V \oplus W$ is indeed the product of $V$ and $W$ in the the category $\Vect$.
+\end{example}
+
+\section*{Equalizers and Coequalizer}
+
+%% XXX Weiterhin erst Beispiel und dann Definition oder erst Definition und dann Beispiel?
+Now We present abstract concepts and give examples.
+
+\begin{definition}[Equalizer]
+  \label{def:equa}
+  Let $\cat{A}$ be a category and
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  } $
+  a diagram in $\cat{A}$.
+  An \demph{equalizer} of this diagram is a commuting diagram called \demph{fork} \\
+  $ \xymatrix{
+    E \ar[r]^i & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  } $
+  with the property that for all other forks
+  $ \xymatrix{
+    A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  } $
+  in $\cat{A}$, there exists a unique map $\bar{f}\from A \to E$ such that
+  \[ \xymatrix{
+    A \ar[rd]^f \ar@{.>}[dd]|{\bar{f}} & & \\
+    & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \\
+    E \ar[ru]_i & &
+  } \]
+  commutes.
+\end{definition}
+
+\begin{example}[Solution sets]
+  Let $X, Y$ be sets and $s, t \from X \to Y$ functions.
+  We define $E := \setMap{x \in X}{s(x)=t(x)}$.
+  Because $E \subseteq X$ we can define the \emph{inclusion function} $i \from E \to X$ with $i(e) := e$.
+  Now we show that the fork
+  $ \xymatrix{
+    E \ar[r]^i & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  } $
+  is the equalizer of $s$ and $t$. This diagram commutes by construction.
+  Let $A$ be another set and
+  $ \xymatrix{
+    A \ar[r]^f & X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  } $
+  be another fork.
+  We then define $\fbar \from A \to E$ with $\fbar(a) = f(a)$.
+  Then $i \of \fbar = f$ holds by definition.
+  Let $\ftilde \from A \to E$ be another function such that $i \of \ftilde = f$.
+  Then $\ftilde(a) = i (\ftilde(a)) = f(a) = i (\fbar(a)) = \fbar(a)$.
+\end{example}
+
+\todo{Mehr Beispiele dazu?}
+
+\begin{definition}[Coequalizer]
+  \label{def:coequa}
+  Let $\cat{A}$ be a category and
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
+  } $
+  a diagram in $\cat{A}$.
+  A \demph{coequalizer} of this diagram is a commuting diagram called \demph{cofork} \\
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+  } $
+  with the property that for all other coforks
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
+  } $
+  in $\cat{A}$, there exists a unique map $\bar{f}\from C \to A$ such that
+  \[ \xymatrix{
+    & & A  \\
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[ru]^f \ar[rd]_i \\
+    & & C \ar@{.>}[uu]|{\bar{f}}
+  } \]
+  commutes.
+\end{definition}
+
+For our next example we need the definition of the reflexive transitive closure.
+
+\begin{definition}[Symmetric transitive closure]
+  Let $R$ be a binary relation over a set $X$.
+  $\hat{R} := R \cup R^{-1}$ is the symmetric closure of $R$ where $R^{-1}$ is defined by
+  $R^{-1} := \setMap{\pair{b}{a}}{\pair{a}{b} \in R}$.
+  The \demph{symmetric transitive closure} of $R$ is $\sim := \bigcup_{n\in\nat} {(\hat{R})^n}$
+  where ${\hat R}^n$ is defined recursively with
+  ${\hat R}^0 := \setMap{\pair{a}{a}}{a \in X}$ and
+  ${\hat R}^{n+1} := R_n \of \hat R = \setMap{\pair{a}{c}}{\pair{a}{b} \in {\hat R}^n \land \pair{b}{c} \in \hat R}$.
+  It can be shown that $\sim$ is the \emph{least equivalence relation} containing $R$.
+\end{definition}
+
+\begin{example}[Quotient sets]
+  Let $X, Y$ be sets and $s, t \from X \to Y$ be functions.
+  We have to give a set $C$ and a function $i$ such that the diagram
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+  } $
+  commutes.
+  Therefore we define the relation
+  $R := \setMap{\pair{s(a)}{t(a)}}{a \in Y} \subseteq Y^2$ the relation of values in $Y$ that correspond from the same $x \in X$.
+  Let $\sim \subseteq Y^2$ be the symmetric transitive closure of $R$.
+  Now we define $C := Y / \sim = \setMap{\class y}{y \in Y}$ where $\class y := \setMap{y'}{y \sim y'}$ are the equivalence classes.
+  For the function $i \from Y \to E$ we choose $i(y) := \class y$.
+  Then the diagram
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
+  } $
+  commutes because for $x \in X$, $s(x)$ and $t(x)$ are in $R$ and therefore also in $\sim$; because $s(x) \sim t(x)$ we have $i(s(x)) = \class{s(x)} = \class{t(x)} = i(t(x))$.
+  Now let
+  $ \xymatrix{
+    X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
+  } $
+  be a cofork.
+  By induction we can show that $f$ ``does not care'' about equal values, i.~e. $f(y_1) = f(y_2)$ whenever $y_1 \sim y_2$.
+
+  To define the function $\fbar \from C \to A$ we need a choice function $\choice \cdot$ that returns for every equivalence class in $\sim$ a member of it, i.~e.
+  $\forall c \in C, \forall y \in e, \choice{e} \sim y$.
+  Therefore we also know $\forall c \in C, \class {\choice c} = c$.
+
+  Now we can define $\fbar \from C \to A$ by $\fbar(e) := f(\choice e)$.
+  We now have  $\fbar(i(y)) = f(\choice{\class y}) = f(y)$ because $\choice{\class y} \sim y$ (by reflexivity of $\sim$).
+  Now we only have to show that this $\fbar$ is unique. So we assume another function $\ftilde \from C \to A$ with $\ftilde \of i = f$. But then we have
+  $$ \fbar(c) = f(\choice c) = \ftilde(i(\choice c)) = \ftilde(\class{\choice c}) = \ftilde(c).$$
+\end{example}
+
+
+\section*{Pullbacks and Pushouts}
+
+\begin{definition}[Pullback]
+  \label{def:pullback}
+  Let $\cat{A}$ be a category and
+  $ \xymatrix{
+    X \ar[r]^s & Z & Y\ar[l]_t \\
+  } $
+  a diagram in $\cat{A}$.
+  A \demph{pullback} of this diagram is a \demph{pullback square}
+  \[ \xymatrix{
+    P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+    X \ar[r]^s & Z
+  } \]
+  with the property that for all other pull back squares
+  \[ \xymatrix{
+    A \ar[r]_{f_2} \ar[d]^{f_1} & Y \ar[d]_{t} \\
+    X \ar[r]^s & Z
+  } \]
+  in $\cat{A}$, there exists a unique map $\bar{f}\from A \to P$ such that
+  \[ \xymatrix{
+    A \ar[drr]^{f_2} \ar[ddr]_{f_1} \ar@{.>}[dr]|{\bar{f}} & & \\
+    & P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+    & X \ar[r]^s & Z
+  } \]
+  commutes.
+\end{definition}
+
+The pullback is also called ``fibred product''. This will be clear in the following example:
+\todo{Besser erklären, was das Beispiel damit zu tun hat}
+
+\begin{example}[Fibred product]
+  When the pullback square
+  \[ \xymatrix{
+    P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+    X \ar[r]^s & Z
+  } \]
+  is the pullback of
+  $ \xymatrix{
+    X \ar[r]^s & Z & Y\ar[l]_t \\
+  } $
+  and $Z$ is a terminal object then $P$ is the product of $X$ and $Y$.
+\end{example}
+
+\begin{example}[Pullbacks in sets]
+  Let $X, Y$ be sets and $s \from X \to Z, t \from Y \to Z$ be functions.
+  Then $P := \setMap{\pair{x}{y}}{s(x) = t(y)}$ with the projection functions
+  $p_1(x,y) := x$ and $p_2(x, y) = y$ is the pullback of
+  $ \xymatrix{
+    X \ar[r]^s & Z & Y\ar[l]_t \\
+  } $.
+  The pullback square commutes by construction.
+  Now let $A$ be a set and $f_1 \from A \to X, f_2 \from A \to Y$ be functions with $s \of f_1 = t \of f_2$.
+  Then we define $\fbar \from A \to P$ by
+  $\fbar(a) := \pair{f_1(a)}{f_2(a)}$.
+  This is well defined because for $a \in A$ we have $\fbar(a) = \pair{f_1(a)}{f_2(a)} \in P \Leftrightarrow s(f_1(a) = t(f_2(a))$ wich is true by assumption.
+  We also have $p_1(\fbar(a)) = f_1(a)$ and $p_2(\fbar(a)) = f_2(a)$ by constructions.
+  We also see that $\fbar$ is unique with this property.
+\end{example}
+
+\begin{definition}[Pushout]
+  \label{def:pushout}
+  Let $\cat{A}$ be a category and
+  $ \xymatrix{
+    X & Z \ar[l]_s \ar[r]^t & Y \\
+  } $
+  a diagram in $\cat{A}$.
+  A \demph{pushout} of this diagram is a \demph{pushout square} \\
+  \[ \xymatrix{
+    Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \\
+    Y \ar[r]^{p_2} & P
+  } \]
+  with the property that for all other pushout squares
+  \[ \xymatrix{
+    Z \ar[r]_s \ar[d]^t & X \ar[d]_{f_1} \\
+    Y \ar[r]^{f_2} & A
+  } \]
+  in $\cat{A}$, there exists a unique map $\bar{f}\from P \to A$ such that
+  \[ \xymatrix{
+    Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \ar[ddr]^{f_1} & \\
+    Y \ar[r]^{p_2} \ar[drr]_{f_2}& P \ar@{.>}[dr]|{\bar{f}} & \\
+    & & A  \\
+  } \]
+  commutes.
+\end{definition}
+
+\todo{Beispiele}
+
+\section*{Conclusion}
+We have seen much analogous definitions and proofs.
+Our definitions follow a simple ``pattern'':
+\begin{itemize}
+  \item First we have a some objects or a commuting diagram ($D_0$).
+  \item Then we ``insert'' a object $P$ and get a new commuting diagram ($D_1$) where we ``connect'' $P$ with the objects of $D_0$ with ``projection functions''.
+  \item Then we ``replace'' this object with a new object, called $A$, and replace the ``projection functions'' with new functions. We get a new diagram ($D_2$).
+  \item For each $A$ there exists a unique map $\fbar$ such if we ``merge'' $D_1$ and $D_2$ we get a new commuting diagram $D_3$, where $A$ and $P$ are connected with $\fbar$.
+\end{itemize}
+
+In the next chapter we will see that all this six constructions are instances of a more general concept: limits and colimits.
+We will formalize the ``pattern'' above.
+
+We have assumed that all instances of the six special constructions above are unique up-to isomorphism
+and have shown this fact only for products. We will see a proof for all limits and colimits.
+
+\end{document}
+
+% vim: ts=2 ss=2 sw=2 expandtab
