@@ -67,7 +67,7 @@ First we want to generalize the Cartesian product to general categories.
   $p_1(\fbar(a)) = f_1(a)$ and $p_2(\fbar(a)) = f_2(a)$ for every $a \in A$ holds,
   there is only one possible way to define $\fbar \from A \to X \times Y$:
   $$\fbar(a) := \pair{f_1(a)}{f_2(a)}.$$
-  By construction we have $p_1(\fbar(a)) = p_1(f_1(a), f_2(b)) = f_1(a)$ and $p_2(\fbar(a)) = p_2(f_1(a), f_2(a)) = f_2(a)$.
+  By construction we have $p_1(\fbar(a)) = p_1(f_1(a), f_2(a)) = f_1(a)$ and $p_2(\fbar(a)) = p_2(f_1(a), f_2(a)) = f_2(a)$.
   If we have another $\ftilde \from A \to X \times Y$ with $p_1(\ftilde(a)) = f_1(a)$ and $p_2(\ftilde(a)) = f_2(a)$ we show $\fbar(a) = \ftilde(a)$ for every $a \in A$:
   $$\fbar(a) = \pair{f_1(a)}{f_2(a)} = \pair{p_1(\ftilde(a)}{p_2(\ftilde(a))} = \ftilde(a).$$
   The last step is because we have $\pair{p_1(z)}{p_2(z)} = z$ for every $z \in X \times Y$.
@@ -105,7 +105,7 @@ We can use this knowledge to define products in arbitrary categories.
 
 \begin{proof}
   Let $X, Y \in \cat{A}$ and $P$ be a product of $X$ and $Y$ together with $p_1 \from P \to X, p_2 \from P \to Y$
-  and $P'$ be a product of $X$ and $Y$ together with $p'_1 \from P' \to X, p'_2 \from P' \to Y$.
+  and $P'$ be another product of $X$ and $Y$ together with $p'_1 \from P' \to X, p'_2 \from P' \to Y$.
   We apply definition \ref{def:prod} multiple times and get the following commuting diagram:
   \[ \xymatrix{
     & P \ar@/_/[ldd]_{p_1} \ar@/^/[rdd]^{p_2} & \\
@@ -115,7 +115,7 @@ We can use this knowledge to define products in arbitrary categories.
     & P' \ar@/^/[luu]^{p'_1} \ar@/_/[ruu]_{p'_2} &
   } \]
   for exactly one $f, f', \fbar, \ftilde$. With the inner triangles we get:
-  \begin{alignat*}{2}
+    \begin{alignat*}{2}
     p_1  \of \ftilde &= p'_1 &\qquad p_2  \of \ftilde &= p'_2 \\
     p'_1 \of \fbar   &= p_1  &       p'_2 \of \fbar   &= p_2
   \end{alignat*}
@@ -149,7 +149,7 @@ We can use this knowledge to define products in arbitrary categories.
   \label{ex:prod:poset}
   Let $\pair{A}{\le}$ be a poset.
   A \demph{lower bound} for two objects $x, y \in A$ is a element $a \in A$ such that $a \le x$ and $a \le y$.
-  A \demph{greatest lover bound} of $x, y \in A$ is a lower bound $z \in A$ of $x$ and $y$ such that for all lower bounds $a \in A$ of $x$ and $y$, $a \le z$.
+  A \demph{greatest lower bound} of $x, y \in A$ is a lower bound $z \in A$ of $x$ and $y$ such that for all lower bounds $a \in A$ of $x$ and $y$, $a \le z$.
   With other words: $z$ is a greatest lower bound of $x$ and $y$ if and only if
   $$z \le x \land z \le y \land \forall a \in A, a \le x \land a \le y \Rightarrow a \le z.$$
 
@@ -157,8 +157,8 @@ We can use this knowledge to define products in arbitrary categories.
   To see this, we apply the definition \ref{def:prod}.
   Let $x, y \in \catA$ and $z \in \catA$ be a greatest lower bound of $x$ and $y$.
   Let $a \in \catA$ be another object.
-  If we have $f_1 \from a \to x$ and $f_2 \from a \to y$ then by definition of $\catA$, $a$ is a lower bound of $x$ and $y$.
-  Now because $z$ is a greatest lower bound, $a \le z$ holds and therefore is a unique map $\fbar \from a \to z$.
+  If we have $f_1 \from a \to x$ and $f_2 \from a \to y$ then by definition of $\catA$, $a \le x$ and $a \le y$ and thus $a$ is a lower bound of $x$ and $y$.
+  Now because $z$ is a greatest lower bound, $a \le z$ holds and therefore there is a unique map $\fbar \from a \to z$.
   The diagram commutes trivially.
 \end{example}
 
@@ -171,9 +171,11 @@ We can use this knowledge to define products in arbitrary categories.
     \pair{v_1}{w_1} + \pair{v_2}{w_2} &:= \pair{v_1 +_V v_2}{w_1 +_W w_2}           &\quad& \forall v_1, v_2 \in V, \forall w_1, w_2 \in W \\
     \alpha \cdot \pair{v}{w}          &:= \pair{\alpha \cdot_V v}{\alpha \cdot_W w} &     & \forall v \in V, \forall w \in W
   \end{alignat*}
-  We can show that $U \oplus V$ is the product of $U$ and $V$ in $\Vect$.
+  We can show that $V \oplus W$ is the product of $V$ and $W$ in $\Vect$.
   The proof follows the same structure as in example \ref{ex:prod:cart}.
 \end{example}
+
+\todo{Soll ich die Verallgemeinerten Produkte über Klassen von Objekten auch einführen?}
 
 Now we want to abstract the concept of the disjoint union of sets.
 
@@ -224,7 +226,7 @@ Again we can use this knowledge to define coproducts in arbitrary categories.
 
 \begin{example}[Direct sum of vector spaces]
   \label{ex:coprod:vspace}
-  In the example \ref{ex:prod:vspace} we have seen that the direct sum of two vector spaces $U$ and $V$ is the product of $V$ and $W$ in $\Vect$.
+  In the example \ref{ex:prod:vspace} we have seen that the direct sum of two vector spaces $V$ and $W$ is the product of $V$ and $W$ in the category $\Vect$.
   We will now see that it is \emph{also} the coproduct.
   In general products and coproducts are not the same as we have seen in the examples \ref{ex:prod:cart} and \ref{ex:coprod:dunion}.
   First we have to define the two coprojection functions $p_1 \from V \to V \oplus W, p_2 \from W \to V \oplus W$:
@@ -234,19 +236,19 @@ Again we can use this knowledge to define coproducts in arbitrary categories.
   \end{alignat*}
   Then let $A \in \Vect$ and $f_1 \from V \to A, f_2 \from W \to A$ be vector morphisms.
   We define the vector morphism $\fbar \from V \oplus W \to A$ with $\fbar(v, w) := f_1(v) + f_2(w)$.
-  By construction and because $f_1$ and $f_2$ are vector morphism we have:
+  By construction and because $f_1$ and $f_2$ are linear maps we have:
   \begin{alignat*}{4}
-    \fbar(p_1(u)) &= \fbar(u, 0) &= f_1(u) + f_2(0) &= f_1(u) \\
-    \fbar(p_2(v)) &= \fbar(0, v) &= f_1(0) + f_2(v) &= f_2(v).
+    \fbar(p_1(v)) &= \fbar(v, 0) &= f_1(v) + f_2(0) &= f_1(v) \\
+    \fbar(p_2(w)) &= \fbar(0, w) &= f_1(0) + f_2(w) &= f_2(w).
   \end{alignat*}
   Now we have to show that $\fbar$ is the only vector morphism with this property.
-  Let $\ftilde \from V \oplus W \to A$ be another vector morphism with $\ftilde(p_1(u)) = f_1(u)$ and $\ftilde(p_2(v)) = f_2(v)$.
+  Let $\ftilde \from V \oplus W \to A$ be another vector morphism with $\ftilde(p_1(v)) = f_1(v)$ and $\ftilde(p_2(w)) = f_2(w)$.
   Then we have for every $v \in V$ and $w \in W$:
   $$ \fbar(v,w) = f_1(v) + f_2(w)\ = \ftilde(p_1(v)) + \ftilde(p_2(w)) = \ftilde(p_1(v) + p_2(w)) = \ftilde(v, w). $$
   Thus $\fbar = \ftilde$ and $V \oplus W$ is indeed the product of $V$ and $W$ in the category $\Vect$.
 \end{example}
 
-\section*{Equalizers and Coequalizer}
+\section*{Equalizers and Coequalizers}
 
 %% XXX Weiterhin erst Beispiel und dann Definition oder erst Definition und dann Beispiel?
 Now we present more abstract concepts and give examples.
@@ -304,7 +306,7 @@ Now we present more abstract concepts and give examples.
     X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
   } $
   a diagram in $\cat{A}$.
-  A \demph{coequalizer} of this diagram is a commuting diagram called \demph{cofork} \\
+  A \demph{coequalizer} of this diagram is a commuting diagram called \demph{cofork}
   $ \xymatrix{
     X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^i & C
   } $
@@ -328,9 +330,9 @@ For our next example we need the definition of the symmetric reflexive transitiv
   $\hat{R} := R \cup R^{-1}$ is the symmetric closure of $R$ where $R^{-1}$ is defined by
   $R^{-1} := \setMap{\pair{b}{a}}{\pair{a}{b} \in R}$.
   The \demph{symmetric transitive closure} of $R$ is $\sim := \bigcup_{n\in\nat} {\hat R}^n$
-  where ${\hat R}^n$ is defined recursively with
+  where ${\hat R}^n$ is recursively defined with
   ${\hat R}^0 := \setMap{\pair{a}{a}}{a \in X}$ and
-  ${\hat R}^{n+1} := R_n \of \hat R = \setMap{\pair{a}{c}}{\pair{a}{b} \in {\hat R}^n \land \pair{b}{c} \in \hat R}$.
+  ${\hat R}^{n+1} := {\hat R}^n \of \hat R = \setMap{\pair{a}{c}}{\pair{a}{b} \in {\hat R}^n \land \pair{b}{c} \in \hat R}$.
   It can be shown that $\sim$ is the \emph{least equivalence relation} containing $R$.
 \end{definition}
 
@@ -358,7 +360,7 @@ For our next example we need the definition of the symmetric reflexive transitiv
   be a cofork.
   By induction we can show that $f$ ``does not care'' about equal values, i.~e. $f(y_1) = f(y_2)$ whenever $y_1 \sim y_2$.
 
-  To define the function $\fbar \from C \to A$ we need a choice function $\choice \cdot \from C \to Y$ that returns for every equivalence class in $\sim$ a member of it, i.~e.
+  To define the function $\fbar \from C \to A$ we need a choice function $\choice \cdot \from C \to Y$ that returns for every equivalence class of $\sim$ a member of it, i.~e.
   $\forall c \in C, \forall y \in Y, y \in c \Leftrightarrow y \sim \choice{c}$
   which is equivalent to $\forall c \in C, \class {\choice c} = c$.
 
@@ -379,7 +381,7 @@ For our next example we need the definition of the symmetric reflexive transitiv
     X \ar[r]^s & Z & Y\ar[l]_t \\
   } $
   a diagram in $\cat{A}$.
-  A \demph{pullback} of this diagram is a \demph{pullback square}
+  A \demph{pullback} of this diagram is a diagram called \demph{pullback square}
   \[ \xymatrix{
     P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
     X \ar[r]^s & Z
@@ -398,10 +400,7 @@ For our next example we need the definition of the symmetric reflexive transitiv
   commutes.
 \end{definition}
 
-The pullback is also called ``fibred product''. This will be clear in the following example:
-\todo{Besser erklären, was das Beispiel damit zu tun hat}
-
-\begin{example}[Fibred product]
+\begin{example}[Pullbacks and products]
   When the pullback square
   \[ \xymatrix{
     P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
@@ -415,9 +414,9 @@ The pullback is also called ``fibred product''. This will be clear in the follow
 \end{example}
 
 \begin{example}[Pullbacks in sets]
-  Let $X, Y$ be sets and $s \from X \to Z, t \from Y \to Z$ be functions.
+  Let $X, Y, Z$ be sets and $s \from X \to Z, t \from Y \to Z$ be functions.
   Then $P := \setMap{\pair{x}{y}}{s(x) = t(y)}$ with the projection functions
-  $p_1(x,y) := x$ and $p_2(x, y) = y$ is the pullback of
+  $p_1(x,y) := x$ and $p_2(x, y) := y$ is the pullback of
   $ \xymatrix{
     X \ar[r]^s & Z & Y\ar[l]_t \\
   } $.
@@ -425,9 +424,9 @@ The pullback is also called ``fibred product''. This will be clear in the follow
   Now let $A$ be a set and $f_1 \from A \to X, f_2 \from A \to Y$ be functions with $s \of f_1 = t \of f_2$.
   Then we define $\fbar \from A \to P$ by
   $\fbar(a) := \pair{f_1(a)}{f_2(a)}$.
-  This is well defined because for $a \in A$ we have $\fbar(a) = \pair{f_1(a)}{f_2(a)} \in P \Leftrightarrow s(f_1(a) = t(f_2(a))$ which is true by assumption.
+  This is well defined because for $a \in A$ we have $\fbar(a) = \pair{f_1(a)}{f_2(a)} \in P \Leftrightarrow s(f_1(a)) = t(f_2(a))$ which is true by assumption.
   We also have $p_1(\fbar(a)) = f_1(a)$ and $p_2(\fbar(a)) = f_2(a)$ by constructions.
-  We also see that $\fbar$ is unique with this property.
+  We also see that $\fbar$ is unique in respect to that property.
 \end{example}
 
 \begin{definition}[Pushout]
@@ -437,7 +436,7 @@ The pullback is also called ``fibred product''. This will be clear in the follow
     X & Z \ar[l]_s \ar[r]^t & Y \\
   } $
   a diagram in $\cat{A}$.
-  A \demph{pushout} of this diagram is a \demph{pushout square} \\
+  A \demph{pushout} of this diagram is a commuting diagram called \demph{pushout square} \\
   \[ \xymatrix{
     Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \\
     Y \ar[r]^{p_2} & P
@@ -459,12 +458,12 @@ The pullback is also called ``fibred product''. This will be clear in the follow
 \todo{Beispiele}
 
 \section*{Conclusion}
-We have seen much analogous definitions and proofs.
+We have seen much analogous definitions.
 Our definitions follow a simple ``pattern'':
 \todo{Pattern könnte besser erklärt werden aber nicht zu formal!}
 \begin{itemize}
-  \item First we have a some objects or a commuting diagram ($D_0$).
-  \item Then we ``insert'' a object $P$ and get a new commuting diagram ($D_1$) where we ``connect'' $P$ with the objects of $D_0$ with ``projection functions''.
+  \item First we have some objects or a commuting diagram ($D_0$).
+  \item Then we ``insert'' an object $P$ and get a new commuting diagram ($D_1$) where we ``connect'' $P$ with the objects of $D_0$ with ``projection functions''.
   \item Then we ``replace'' this object with a new object, called $A$, and replace the ``projection functions'' with new functions. We get a new diagram ($D_2$).
   \item For each $A$ there exists a unique map $\fbar$ such if we ``merge'' $D_1$ and $D_2$ we get a new commuting diagram $D_3$, where $A$ and $P$ are connected with $\fbar$.
 \end{itemize}
