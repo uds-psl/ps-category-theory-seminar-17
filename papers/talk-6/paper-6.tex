@@ -278,6 +278,7 @@ Now we present more abstract concepts and give examples.
 \end{definition}
 
 \begin{example}[Solution sets]
+  \label{ex:equalizer:solset}
   Let $X, Y$ be sets and $s, t \from X \to Y$ functions.
   We define $E := \setMap{x \in X}{s(x)=t(x)}$.
   Because $E \subseteq X$ we can define the \emph{inclusion function} $i \from E \to X$ with $i(e) := e$.
@@ -326,6 +327,7 @@ Now we present more abstract concepts and give examples.
 For our next example we need the definition of the symmetric reflexive transitive closure.
 
 \begin{definition}[Symmetric reflexive transitive closure]
+  \label{def:srtc}
   Let $R$ be a binary relation over a set $X$.
   $\hat{R} := R \cup R^{-1}$ is the symmetric closure of $R$ where $R^{-1}$ is defined by
   $R^{-1} := \setMap{\pair{b}{a}}{\pair{a}{b} \in R}$.
@@ -337,6 +339,7 @@ For our next example we need the definition of the symmetric reflexive transitiv
 \end{definition}
 
 \begin{example}[Quotient sets]
+  \label{ex:coequa:quotient}
   Let $X, Y$ be sets and $s, t \from X \to Y$ be functions.
   We have to give a set $C$ and a function $i$ such that the diagram
   $ \xymatrix{
@@ -365,10 +368,10 @@ For our next example we need the definition of the symmetric reflexive transitiv
   which is equivalent to $\forall c \in C, \class {\choice c} = c$.
 
   Now we can define $\fbar \from C \to A$ by $\fbar(e) := f(\choice e)$.
-  We now have  $\fbar(i(y)) = f(\choice{\class y}) = f(y)$ because $y \sim \choice{\class y}$ (by the choice axiom and reflexivity of $\sim$).
+  We now have  $\fbar(i(y)) \explainRel{def}= f(\choice{\class y}) = f(y)$ because $y \sim \choice{\class y}$ (by the choice axiom and reflexivity of $\sim$).
   Now we only have to show that this $\fbar$ is unique in respect to that property.
   So we assume another function $\ftilde \from C \to A$ with $\ftilde \of i = f$. But then we have
-  $$ \fbar(c) \explainRel{Def}= f(\choice c) \explainRel{Ass.}= \ftilde(i(\choice c)) \explainRel{Def}= \ftilde(\class{\choice c}) \explainRel{Choice}= \ftilde(c).$$
+  $$ \fbar(c) \explainRel{def}= f(\choice c) \explainRel{ass}= \ftilde(i(\choice c)) \explainRel{def}= \ftilde(\class{\choice c}) \explainRel{choice}= \ftilde(c).$$
 \end{example}
 
 
@@ -401,6 +404,7 @@ For our next example we need the definition of the symmetric reflexive transitiv
 \end{definition}
 
 \begin{example}[Pullbacks and products]
+  \label{ex:pullback:product}
   When the pullback square
   \[ \xymatrix{
     P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
@@ -414,6 +418,7 @@ For our next example we need the definition of the symmetric reflexive transitiv
 \end{example}
 
 \begin{example}[Pullbacks in sets]
+  \label{ex:pullback:set}
   Let $X, Y, Z$ be sets and $s \from X \to Z, t \from Y \to Z$ be functions.
   Then $P := \setMap{\pair{x}{y}}{s(x) = t(y)}$ with the projection functions
   $p_1(x,y) := x$ and $p_2(x, y) := y$ is the pullback of
@@ -455,10 +460,59 @@ For our next example we need the definition of the symmetric reflexive transitiv
   commutes.
 \end{definition}
 
-\todo{Beispiele}
+\begin{example}[Pushouts in sets]
+  \label{ex:pushout:set}
+  To give an example for pushouts in sets we somehow have to combine the coproduct (disjoint union; see example \ref{ex:coprod:dunion}) and the coequalizer (quotient set; see example \ref{ex:coequa:quotient}).
+  Let
+  $ \xymatrix{
+    X & Z \ar[l]_s \ar[r]^t & Y
+  } $
+  be a functions and sets.
+  We want to define a set $P$ and two functions $f_1 \from X \to A, f_2 \from Y \to A$, such that the diagram
+  \[ \xymatrix{
+    Z \ar[r]_s \ar[d]^t & X \ar[d]_{p_1} \\
+    Y \ar[r]^{p_2} & P
+  } \]
+  commutes.
+  We define $P := (X \dunion Y) / \sim$ where $\sim \; \subseteq (X \dunion Y)^2$ is the symmetric reflexive transitive closure (see definition \ref{def:srtc}) over the relation
+  $R := \setMap{\pair{\pair{s(z)}{0}}{\pair{t(z)}{1}}}{z \in Z} \subseteq (X \dunion Y)^2$.
+  When we choose the projection functions
+  \begin{alignat*}{2}
+    p_1(x) &:= \class{\pair{x}{0}} \\
+    p_2(y) &:= \class{\pair{y}{1}}
+  \end{alignat*}
+  the diagram commutes by construction. Now let
+  \[ \xymatrix{
+    Z \ar[r]_s \ar[d]^t & X \ar[d]_{f_1} \\
+    Y \ar[r]^{f_2} & A
+  } \]
+  be another pushout square. To define the function $\fbar \from P \to A$ we first define a helper function $\fbar' \from X \dunion Y \to A$.
+  Therefore we use the choice function
+  $\choice \cdot \from P \to X \dunion Y$:
+  \begin{alignat*}{2}
+    \fbar'(x, 0) &:= f_1(x) \\
+    \fbar'(y, 1) &:= f_2(y) \\
+    \fbar(p)     &:= \fbar'(\choice p)
+  \end{alignat*}
+  By induction we can show that $\fbar'$ ``does not care'' about equal values, i.~e. $\forall a,b \in X \dunion Y, a \sim b \Rightarrow \fbar'(a) = \fbar'(b)$.
+
+  We show $f_1 = \fbar \of p_1$; $f_2 = \fbar \of p_2$ follows analogously.
+  $$\fbar(p_1(x)) \explainRel{def}= \fbar'(\choice {\class {\pair x 0}}) = \fbar'(x, 0) \explainRel{def}= f_1(x).$$
+  The second step follows by $\pair x 0 \sim \choice{\class {\pair x 0}}$ which holds by the choice axiom and reflexivity of $\sim$.
+
+  The last step is again to show that $\fbar$ is unique in respect to that property. So we assume another function $\ftilde \from X \dunion Y \to A$ with $f_1 = \ftilde \of p_1$ and $f_2 = \ftilde \of p_2$.
+  Let $p \in P$. We assume without loss of generality $\choice p = \pair x 0$ for some $x \in X$. Then
+  $$\fbar(p)
+    \explainRel{def}    = \fbar'(\choice p)
+    \explainRel{ass}    = \fbar'(x, 0)
+    \explainRel{def}    = f_1(x)
+    \explainRel{ass}    = \ftilde(p_1(x)) \explainRel{def}= \ftilde(\class{\pair x 0})
+    \explainRel{ass}    = \ftilde(\class{\choice p})
+    \explainRel{choice} = \ftilde(p).$$
+\end{example}
 
 \section*{Conclusion}
-We have seen much analogous definitions.
+We have seen much analogous definitions and proofs.
 Our definitions follow a simple ``pattern'':
 \todo{Pattern könnte besser erklärt werden aber nicht zu formal!}
 \begin{itemize}
