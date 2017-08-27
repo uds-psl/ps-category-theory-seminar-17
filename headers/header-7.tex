@@ -3,6 +3,16 @@
 \input{\pathToRoot headers/sharedHeader}
 
 \usepackage{bm}
+\usepackage{upgreek}
+\usepackage{titlesec}
+
+\geometry{margin=1.2in}
+
+\titleformat{\chapter}[display]
+{\normalfont\LARGE\bfseries}{\chaptertitlename~\thechapter}{4pt}{\LARGE}
+\titlespacing*{\chapter}{0pt}{2pt}{10pt}
+
+
 
 % Environments theorem, lemma, definition and corollary.
 % They all use the counter from theorem, except remark which has no counter

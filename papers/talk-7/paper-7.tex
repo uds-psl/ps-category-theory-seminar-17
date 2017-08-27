@@ -5,6 +5,8 @@
 
 \begin{document}
 
+%% TODO: consistent notation, DI D(I) D_I, also for maps D_m Dm
+
 \maketitle
 \chapter{Introduction}
 We have seen three special structures in categories.\\[1em]
@@ -36,9 +38,18 @@ We have seen three special structures in categories.\\[1em]
     U \arrow{ur} &&
   \end{tikzcd}
 \end{minipage}\\[2em]
-Now we generalize them...
-\chapter{Definition}
+These three examples follow a pattern.
+In each example there is an object $U$ with some arrows. This object $U$
+has a universal property which states that any other object $V$ which has arrows
+similar to $U$
+factors uniquely through $U$, that is, there is a unique morphism $V \to U$,
+such that the resulting triangles commute.\\
+Products, pullbacks, and equalizers are instances of a more general concept called
+limit which expresses the common pattern between these examples.
+%% TODO: possibly give further applications of limits too
+%% TODO: maybe some more intuition what limits are about
 
+\chapter{Definition}
 In category theory we take limits over diagrams.
 We begin by formally defining what a diagram is.
 
@@ -83,9 +94,9 @@ We begin by formally defining what a diagram is.
 \end{example}
 
 The functor $D$ yields
-a part of the category $\mathscr C$ that essentially looks like $\bm I$.
-We also say $D$ \textbf{identifies} diagrams of shape $\bm I$,
-which is why we use $\bm I$ to denote the shape.
+a collection of objects and morphisms in the category $\mathscr C$
+that essentially looks like $\bm I$.
+We also say $D$ \textbf{identifies} diagrams of shape $\bm I$.
 Especially with diagrams of such a small shape
 there might be many parts in $\mathscr C$ that have the shape of $\bm I$.
 We therefore get all different diagrams of that shape by considering
@@ -98,7 +109,7 @@ and we just draw the identified part of $\mathscr C$ instead.
 \begin{definition}
   Let $D \from \bm{I} \to \mathscr{C}$ be a diagram.
   A \textbf{cone} $U$ over $D$ is an object $U \in \mathscr{C}$
-  with maps $f_I, \forall\ I \in \bm{I}$, such that
+  with maps $U \overset{f_I}{rightarrow} D_I, \forall\ I \in \bm{I}$, such that
   $\forall\ I \overset{m}{\to} J \in \bm{I}$, the following triangle commutes:
   \[
     \begin{tikzcd}
@@ -135,7 +146,7 @@ a cone is universal if it satisfies a property that makes it universal among con
 specifically, that all other cones factor through it uniquely.
 
 \begin{definition}
-  A cone $(U \overset{f_I}{\to} D(I))_{I\in \bm{I}}$ is universal, if
+  A cone $(U \overset{f_I}{\to} D(I))_{I\in \bm{I}}$ is \textbf{universal}, if
   for all other cones $(V \overset{g_I}{\to} D(I))_{I\in \bm{I}}$ there is a unique
   map $h \from V \to U$, such that for all $I \in \bm{I}$
   the following triangles commute.
@@ -149,9 +160,10 @@ specifically, that all other cones factor through it uniquely.
 \end{definition}
 
 In other words, any cone over $D$ has maps into $D$, and a cone $U$ is universal if
-for any other cone $V$, you can first go to $U$, that is the unique morphism.
-From $U$ you can go to $D_I$, and the commuting condition says that this is equal
-to the morphism that immediately takes you from $V$ to $D_I$.
+any other cone $V$ has a unique morphism to $U$.
+The commuting condition states that for any cone the projection maps $g_I$ are equivalent
+to the map that is obtained by composing the unique limit map $h$ with the
+projection maps of the limit $f_I$.
 
 \begin{example}
     \[
@@ -175,26 +187,261 @@ to the morphism that immediately takes you from $V$ to $D_I$.
   Both cones obviously have to satisfy the commuting condition for cones.
   Additionally the commuting condition for universal cones states that
   $g_I = f_I \circ h$, $g_J = f_J \circ h$, and $g_K = f_k \circ h$.
+  Therefore this diagram commutes in its entirety.
 \end{example}
 
 \begin{definition}
-  A limit is a universal cone over a diagram.
+  A \textbf{limit} is a universal cone over a diagram.
 \end{definition}
 
 A limit is therefore characterized by the kind of diagram
 over which it is a universal cone, meaning we get different instances of limits
 by choosing diagrams of different shapes.
 
-%% TODO: terminal object, pullback, equalizer, product.
+\begin{example}
+  Consider a diagram of the following shape
+  \begin{tikzcd}
+    \bullet &\bullet
+  \end{tikzcd},
+  which is just two objects without non-trivial arrows.
+  A limit over this diagram looks like this.
+  \[
+    \begin{tikzcd}
+      & {\color{red} V}
+      \arrow[bend right=40,color=red, swap]{ddl}{g_I}
+      \arrow[bend left=40,color=red]{ddr}{g_J}
+      \arrow[dashed]{d}{h} &\\
+      & {\color{blue} U}
+      \arrow[color=blue, swap]{dl}{f_I}
+      \arrow[color=blue]{dr}{f_J} &\\
+      I && J
+    \end{tikzcd}
+  \]
+  This is the ordinary binary product.
+  The commuting condition for limits states that
+  $f_I \circ h = g_I$, and $f_J \circ h = g_J$, which
+  is exactly the commuting condition for products.
+  We have therefore verified that the product is indeed an instance of the general limit definition.
+  Using discrete categories with more than two objects we get products of arbitrary size.
+  \[
+    \begin{tikzcd}
+      && {\color{red} V}
+      \arrow[bend right=40,color=red]{ddll}
+      \arrow[bend right=40,color=red]{ddl}
+      \arrow[bend left=40,color=red]{ddrr}
+      \arrow[bend left=40,color=red]{ddr}
+      \arrow[dashed]{d} &&\\
+      && {\color{blue} U}
+      \arrow[color=blue]{dl}
+      \arrow[color=blue]{dll}
+      \arrow[color=blue]{dr}
+      \arrow[color=blue]{drr} &&\\
+      \bullet & \bullet & \ldots & \bullet &\bullet
+    \end{tikzcd}
+  \]  
+\end{example}
+
+\begin{example}
+  If we take the empty category as the shape for a diagram, then a cone
+  over that diagram is just a single object $U$ that has no other required arrows.
+  Then the universal property for limits states that every other cone, i.e. an object $V$,
+  has a unique map $V \to U$. A limit over the empty diagram is therefore just a terminal object,
+  and terminal objects are therefore another instance of the general limit definition.
+\end{example}
+
+\begin{example}
+  Consider the following diagram.
+  \begin{tikzcd}
+    I \arrow{r}{m} & J & K \arrow[swap]{l}{n}
+  \end{tikzcd}
+  A cone over this diagram looks like this:
+  \[
+    \begin{tikzcd}
+      U
+      \arrow[]{r}{\ \ \ f_K}
+      \arrow[swap]{rd}{\ f_J}
+      \arrow[swap]{d}{f_I}
+      &K \arrow{d}{n} \\
+      I \arrow[swap]{r}{m} & J
+    \end{tikzcd}
+  \]
+  The commuting condition for cones states however that
+  $f_J = m\circ f_I$, and $f_J = n\circ f_K$. Since $f_J$ is uniquely determined
+  by composition of other arrows, we do not need to draw it and leave it implicit.
+  With this in mind a limit over this diagram looks like this:
+  \[
+    \begin{tikzcd}
+      {\color{red}V}
+      \arrow[bend left=50,color=red]{drr}{g_K}
+      \arrow[bend right=50,color=red,swap]{ddr}{g_I}
+      \arrow[dashed,swap]{dr}{h}
+      && \\
+      &{\color{blue}U}
+      \arrow[color=blue]{r}{f_K}
+      \arrow[color=blue, swap]{d}{f_I}
+      &K \arrow{d}{n} \\
+      & I \arrow[swap]{r}{m} & J
+    \end{tikzcd}
+  \]
+  The commuting condition for limits results in exactly the known commuting condition for
+  pullbacks. We have therefore verified that pullbacks are a valid instance of the general limit definition.
+  It follows similarly that equalizers are limit instances over diagrams of the shape
+  \begin{tikzcd}
+    I \arrow[r,shift left, "m"] \arrow[r,shift right,swap,"n"] & J
+  \end{tikzcd}.
+\end{example}
 
 \chapter{Building new limits}
-It is possible to build new limits...
-%% TODO: example
-%% TODO: general limits
+It is easy to see that limits do not necessarily exists in all categories.
+Sometimes we want to show that a category has certain limits,
+but it might be difficult to show for this category that the limits
+of interest exist.
+We now study how some limits can be used to construct other limits.
+We start with an example.
+
+\begin{example}
+  Let $\mathscr C$ be a category with all products and all equalizers,
+  that is, for all diagrams of the respective shape, there exists the product
+  and the equalizer.
+  We can use these limits to construct arbitrary pullbacks.
+  We start with the diagram for pullbacks.
+  \[
+    \begin{tikzcd}
+      & K \arrow{d}{n} \\
+      I \arrow[swap]{r}{m} & J
+    \end{tikzcd}
+  \]
+  Now we take the product of $I$ and $K$. This product exists by assumption.
+  \[
+    \begin{tikzcd}
+      I \times K \arrow{r}{p_K} \arrow{d}{p_I} & K \arrow{d}{n} \\
+      I \arrow[swap]{r}{m} & J
+    \end{tikzcd}
+  \]
+  This looks already similar to a pullback.
+  However, we need to ensure the commuting condition.
+  For this purpose we use an equalizer which also exists by assumption.
+  \[
+    \begin{tikzcd}
+      E \arrow{r}{e} &
+      I \times K
+      \arrow[r,shift right,swap, "m \circ p_I"] \arrow[r,shift left, "n \circ p_K"]
+      & J \\
+    \end{tikzcd}
+  \]
+  We now unfold this drawing.
+  \[
+    \begin{tikzcd}
+      E \arrow[swap]{d}{p_I \circ e} \arrow{r}{p_K \circ e} & K \arrow{d}{n} \\
+      I \arrow[swap]{r}{m} & J
+    \end{tikzcd}
+  \]
+  $E$ satisfies the commuting and universality conditions of limits
+  since it is already an equalizer.
+  Therefore it is a pullback.
+\end{example}
+
+We now generalize
+the approach used in the example. It turns out that we can construct all
+limits with it.
+Let $D : \bm I \to \mathscr C$ be any diagram.
+We use the following construction:
+\[
+  \begin{tikzcd}
+    E \arrow{r}{e} &
+    \displaystyle \prod_{I \in \bm{I}} D(I)
+    \arrow[r,shift left, "s"] \arrow[r,shift right,swap,"t"] &
+    \displaystyle \prod_{K \overset{n}{\to} J \in \bm{I}} D(J)
+  \end{tikzcd}
+\]
+with
+\begin{align*}
+  s_n &= Dn \circ p_K\ \hat{=} \prod_{I \in \bm{I}} D(I)
+        \overset{p_K}{\rightarrow} D_K \overset{Dn}{\rightarrow} D_J \\
+  t_n &= p_J\ \hat{=} \prod_{I \in \bm{I}} D(I)
+        \overset{p_J}{\rightarrow} D_J
+\end{align*}
+The second product has components $p_n$ for each arrow
+$K \overset{n}{\to} J \in \bm{I}$ with a projection on
+the destination of the arrow.
+For example for the diagram of a pullback
+\[
+  \begin{tikzcd}
+    & K \arrow{d}{n} \\
+    I \arrow[swap]{r}{m} & J
+  \end{tikzcd}
+\]
+the mentioned product has projections $p_{1_I} = I$, $p_{1_J} = J$, and $p_{1_K} = K$
+for each identity arrow.
+Additionally there are projections for the remaining arrows $p_n = J$, and $p_m = J$.
+Since $E$ is an equalizer we get
+\begin{align*}
+  s \circ e &= t \circ e\\
+  s_n \circ e &= t_n \circ e, \quad \forall\ K \overset{n}{\rightarrow} J \in \bm I \\
+  Dn \circ p_K \circ e &= p_J \circ e \\
+  Dn \circ \uprho_K &= \uprho_J
+\end{align*}
+For all maps $K \overset{n}{\rightarrow} J$ we get the commuting diagram
+\[
+  \begin{tikzcd}
+    E \arrow{r}{\uprho_K} \arrow{dr}[swap]{\uprho_J} & D_K \arrow{d}{Dn}\\
+    & D_J
+  \end{tikzcd}
+\]
+This is the commuting condition for a cone.
+Since any other cone over $D$
+is also a fork of $s$ and $t$
+it follows that the equalizer $E$ is also a universal cone
+and therefore a limit over $D$.
+
+\begin{remark}
+  We can even construct arbitrary limits over infinite diagrams
+  because we assumed that $\mathscr C$ has all products.
+  If $\mathscr C$ only has finite products, then we can
+  use this construction for
+  limits over finite diagrams only which is still useful since
+  most practical limits are constructed using very small shapes for the diagram.\\
+  Finite products themselves can in turn be constructed if $\mathscr C$
+  has a terminal object and binary products. The terminal object is
+  only needed for unary products. All other finite products
+  can be constructed by cascading binary products.
+\end{remark}
+
 %% TODO: possibly other construction mentioned in awodey.
+%% pullbacks + term constructs fin products + eq, which is the other direction
+%% than the example.
 
 \chapter{Colimits}
-Colimits are the dual of limits.
+To define colimits we dualize the concept of limits.
+\begin{definition}
+  Let $D : \bm I \to \mathscr C$ be a diagram.
+  A \textbf{cocone} $U$ over $D$ is an object $U \in \mathscr{C}$
+  with maps $D_I \overset{ f_I}{\rightarrow} U,\ \forall\ I \in \bm{I}$, such that
+  $\forall\ I \overset{m}{\to} J \in \bm{I}$, the following triangle commutes:
+  \[
+    \begin{tikzcd}
+      D_I \arrow[rr, "D(m)"]\arrow[dr, swap, "f_I"] & & D_J \arrow{dl}{f_J}\\
+      & U  &
+    \end{tikzcd}
+  \]
+  That is $f_I = f_J \circ D(m)$.\\
+\end{definition}
+A cone has maps from the vertex into the diagram,
+while a cocone has maps from the diagram into the vertex.
+\begin{definition}
+  A cocone $(D(I)\overset{f_I}{\to} U)_{I\in \bm{I}}$ is \textbf{universal}, if
+  for all other cones $(\D(I) \overset{g_I}{\to} V)_{I\in \bm{I}}$ there is a unique
+  map $h \from U \to V$, such that for all $I \in \bm{I}$
+  the following triangles commute.
+  \[
+    \begin{tikzcd}
+      D_I \arrow[dr, swap, "g_I"] \arrow{r}{f_I} & U \arrow{d}{h} \\
+      & V
+    \end{tikzcd}
+  \]
+  That is $g_i = f_i \circ h$.
+\end{definition}
+
 \begin{definition}
   A \textbf{colimit} is a universal co-cone over a diagram.
 \end{definition}
