@@ -139,8 +139,8 @@ and we just draw the identified part of $\mathscr C$ instead.
   The commuting condition says that $D_m \circ f_I = f_J$ and $D_n \circ f_K = f_J$.
 \end{example}
 
-%% TODO: write a sentence like "In other words, ..." and give example. example might be tricky to draw
-
+In other words a cone is an object that covers the diagram with projection maps
+which commute with the whole diagram.\\
 Now we define what it means for a cone to be universal. Intuitively,
 a cone is universal if it satisfies a property that makes it universal among cones,
 specifically, that all other cones factor through it uniquely.
@@ -161,7 +161,8 @@ specifically, that all other cones factor through it uniquely.
 
 In other words, any cone over $D$ has maps into $D$, and a cone $U$ is universal if
 any other cone $V$ has a unique morphism to $U$.
-The commuting condition states that for any cone the projection maps $g_I$ are equivalent
+The commuting condition states that for any cone
+the projection maps $g_I$ are equivalent
 to the map that is obtained by composing the unique limit map $h$ with the
 projection maps of the limit $f_I$.
 
@@ -221,8 +222,10 @@ by choosing diagrams of different shapes.
   The commuting condition for limits states that
   $f_I \circ h = g_I$, and $f_J \circ h = g_J$, which
   is exactly the commuting condition for products.
-  We have therefore verified that the product is indeed an instance of the general limit definition.
-  Using discrete categories with more than two objects we get products of arbitrary size.
+  We have therefore verified that the product is
+  indeed an instance of the general limit definition.
+  Using discrete categories with more than two objects
+  we get products of arbitrary size.
   \[
     \begin{tikzcd}
       && {\color{red} V}
@@ -361,7 +364,7 @@ with
   t_n &= p_J\ \hat{=} \prod_{I \in \bm{I}} D(I)
         \overset{p_J}{\rightarrow} D_J
 \end{align*}
-The second product has components $p_n$ for each arrow
+To clarify, the second product has components $p_n$ for each arrow
 $K \overset{n}{\to} J \in \bm{I}$ with a projection on
 the destination of the arrow.
 For example for the diagram of a pullback
@@ -373,22 +376,30 @@ For example for the diagram of a pullback
 \]
 the mentioned product has projections $p_{1_I} = I$, $p_{1_J} = J$, and $p_{1_K} = K$
 for each identity arrow.
-Additionally there are projections for the remaining arrows $p_n = J$, and $p_m = J$.
+Additionally there are projections for the remaining arrows $p_n = J$, and $p_m = J$.\\
 Since $E$ is an equalizer we get
 \begin{align*}
   s \circ e &= t \circ e\\
   s_n \circ e &= t_n \circ e, \quad \forall\ K \overset{n}{\rightarrow} J \in \bm I \\
+  Dn \circ p_K \circ e &= p_J \circ e
+\end{align*}
+The goal is to construct a limit, i.e. a universal cone.
+We take $E$ as the vertex and
+$\uprho_I \coloneqq p_I \circ e, \forall\ I \in \bm I$
+as the projection maps of the cone and we get
+for all maps $K \overset{n}{\rightarrow} J \in \bm I$
+\begin{align*}
   Dn \circ p_K \circ e &= p_J \circ e \\
   Dn \circ \uprho_K &= \uprho_J
 \end{align*}
-For all maps $K \overset{n}{\rightarrow} J$ we get the commuting diagram
+which corresponds to the commuting diagram
 \[
   \begin{tikzcd}
     E \arrow{r}{\uprho_K} \arrow{dr}[swap]{\uprho_J} & D_K \arrow{d}{Dn}\\
     & D_J
   \end{tikzcd}
 \]
-This is the commuting condition for a cone.
+This is exactly the commuting condition we need for a cone.\\
 Since any other cone over $D$
 is also a fork of $s$ and $t$
 it follows that the equalizer $E$ is also a universal cone
@@ -430,7 +441,7 @@ A cone has maps from the vertex into the diagram,
 while a cocone has maps from the diagram into the vertex.
 \begin{definition}
   A cocone $(D(I)\overset{f_I}{\to} U)_{I\in \bm{I}}$ is \textbf{universal}, if
-  for all other cones $(\D(I) \overset{g_I}{\to} V)_{I\in \bm{I}}$ there is a unique
+  for all other cones $(D(I) \overset{g_I}{\to} V)_{I\in \bm{I}}$ there is a unique
   map $h \from U \to V$, such that for all $I \in \bm{I}$
   the following triangles commute.
   \[
