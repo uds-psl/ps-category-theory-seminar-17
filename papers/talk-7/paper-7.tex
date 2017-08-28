@@ -299,54 +299,106 @@ It is easy to see that limits do not necessarily exists in all categories.
 Sometimes we want to show that a category has certain limits,
 but it might be difficult to show for this category that the limits
 of interest exist.
-We now study how some limits can be used to construct other limits.
-We start with an example.
 
-\begin{example}
-  Let $\mathscr C$ be a category with all products and all equalizers,
-  that is, for all diagrams of the respective shape, there exists the product
-  and the equalizer.
-  We can use these limits to construct arbitrary pullbacks.
-  We start with the diagram for pullbacks.
-  \[
-    \begin{tikzcd}
-      & K \arrow{d}{n} \\
-      I \arrow[swap]{r}{m} & J
-    \end{tikzcd}
-  \]
-  Now we take the product of $I$ and $K$. This product exists by assumption.
-  \[
-    \begin{tikzcd}
-      I \times K \arrow{r}{p_K} \arrow{d}{p_I} & K \arrow{d}{n} \\
-      I \arrow[swap]{r}{m} & J
-    \end{tikzcd}
-  \]
-  This looks already similar to a pullback.
-  However, we need to ensure the commuting condition.
-  For this purpose we use an equalizer which also exists by assumption.
-  \[
-    \begin{tikzcd}
-      E \arrow{r}{e} &
-      I \times K
-      \arrow[r,shift right,swap, "m \circ p_I"] \arrow[r,shift left, "n \circ p_K"]
-      & J \\
-    \end{tikzcd}
-  \]
-  We now unfold this drawing.
-  \[
-    \begin{tikzcd}
-      E \arrow[swap]{d}{p_I \circ e} \arrow{r}{p_K \circ e} & K \arrow{d}{n} \\
-      I \arrow[swap]{r}{m} & J
-    \end{tikzcd}
-  \]
-  $E$ satisfies the commuting and universality conditions of limits
-  since it is already an equalizer.
-  Therefore it is a pullback.
-\end{example}
+\section{Construction of pullbacks using products and equalizers}
+Let $\mathscr C$ be a category with all products and all equalizers,
+that is, for all diagrams of the respective shape, there exists the product
+and the equalizer.
+We can use these limits to construct arbitrary pullbacks.
+We start with the diagram for pullbacks.
+\[
+  \begin{tikzcd}
+    & K \arrow{d}{n} \\
+    I \arrow[swap]{r}{m} & J
+  \end{tikzcd}
+\]
+Now we take the product of $I$ and $K$. This product exists by assumption.
+\[
+  \begin{tikzcd}
+    I \times K \arrow{r}{p_K} \arrow{d}{p_I} & K \arrow{d}{n} \\
+    I \arrow[swap]{r}{m} & J
+  \end{tikzcd}
+\]
+This looks already similar to a pullback.
+However, we need to ensure the commuting condition.
+For this purpose we use an equalizer which also exists by assumption.
+\[
+  \begin{tikzcd}
+    E \arrow{r}{e} &
+    I \times K
+    \arrow[r,shift right,swap, "m \circ p_I"] \arrow[r,shift left, "n \circ p_K"]
+    & J \\
+  \end{tikzcd}
+\]
+We now unfold this drawing.
+\[
+  \begin{tikzcd}
+    E \arrow[swap]{d}{p_I \circ e} \arrow{r}{p_K \circ e} & K \arrow{d}{n} \\
+    I \arrow[swap]{r}{m} & J
+  \end{tikzcd}
+\]
+$E$ satisfies the commuting and universality conditions of limits
+since it is already an equalizer.
+Therefore it is a pullback.
 
-We now generalize
-the approach used in the example. It turns out that we can construct all
-limits with it.
+\section{Construction of finite products using pullbacks and terminal objects}
+
+Finite products themselves can in turn be constructed if $\mathscr C$
+has a terminal object and binary products. The terminal object is
+only needed for unary products. All other finite products
+can be constructed by cascading binary products.
+Binary products again can be constructed using pullbacks and a terminal object
+in the following way.
+Suppose $\mathscr C$ has pullbacks and a terminal object $1$. Consider the diagram
+\[
+  \begin{tikzcd}
+    & B \arrow{d} \\
+    A \arrow{r} & 1
+  \end{tikzcd}
+\]
+We have the pullback $U$, such that the following square commutes.
+\[
+  \begin{tikzcd}
+    U \arrow{r}{p_B} \arrow{d}{p_A} & B \arrow{d}{f} \\
+    A \arrow{r}{g} & 1
+  \end{tikzcd}
+\]
+It is easy to see that $U$ is the product of $A$ and $B$ by
+simply leaving out $f$ and $g$. In general, a pullback
+is like a binary product with some additional structure.
+
+\section{Construction of equalizers using pullbacks and finite products}
+
+Suppose we are again in a category $\mathscr C$ with pullbacks and a terminal objects.
+We can therefore construct products, as shown in. %%TODO: add reference
+We now show that we can also construct equalizers for any arrows $f, g \from A \to B$
+in the following way. Consider the diagram.
+\[
+  \begin{tikzcd}
+    & B \arrow{d}{\langle 1_B, 1_B \rangle} \\
+    A \arrow{r}{\langle f,g \rangle} & B \times B
+  \end{tikzcd}
+\]
+The product $B \times B$ exists by construction.
+We then have the pullback $E$, such that the following diagram commutes.
+\[
+  \begin{tikzcd}
+    E \arrow{r}{h} \arrow{d}{e} & B \arrow{d}{\langle 1_B, 1_B \rangle} \\
+    A \arrow{r}{\langle f,g \rangle} & B \times B
+  \end{tikzcd}
+\]
+By the commuting condition we get $f \circ e = h = g \circ e$, and $E$ is therefore
+indeed an equalizer.
+
+%% TODO: possibly construct terminal object from products and equalizers to get the nice equivalence
+
+
+\section{Construction of arbitrary limits}
+We now study how arbitrary limits can be constructed using only a
+few specific instances.
+We assume a category $\mathscr C$ that has all products and equalizers.
+The approach is similar to the construction of pullbacks in section.
+%% TODO: add reference
 Let $D : \bm I \to \mathscr C$ be any diagram.
 We use the following construction:
 \[
@@ -404,23 +456,13 @@ Since any other cone over $D$
 is also a fork of $s$ and $t$
 it follows that the equalizer $E$ is also a universal cone
 and therefore a limit over $D$.
-
 \begin{remark}
-  We can even construct arbitrary limits over infinite diagrams
+  We can even construct limits over infinite diagrams
   because we assumed that $\mathscr C$ has all products.
   If $\mathscr C$ only has finite products, then we can
   use this construction for
-  limits over finite diagrams only which is still useful since
-  most practical limits are constructed using very small shapes for the diagram.\\
-  Finite products themselves can in turn be constructed if $\mathscr C$
-  has a terminal object and binary products. The terminal object is
-  only needed for unary products. All other finite products
-  can be constructed by cascading binary products.
+  limits over finite diagrams.
 \end{remark}
-
-%% TODO: possibly other construction mentioned in awodey.
-%% pullbacks + term constructs fin products + eq, which is the other direction
-%% than the example.
 
 \chapter{Colimits}
 To define colimits we dualize the concept of limits.
@@ -435,7 +477,7 @@ To define colimits we dualize the concept of limits.
       & U  &
     \end{tikzcd}
   \]
-  That is $f_I = f_J \circ D(m)$.\\
+  That is $f_I = f_J \circ D(m)$.
 \end{definition}
 A cone has maps from the vertex into the diagram,
 while a cocone has maps from the diagram into the vertex.
