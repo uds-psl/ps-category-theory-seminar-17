@@ -237,9 +237,9 @@ Again we can use this knowledge to define coproducts in arbitrary categories.
   Then let $A \in \Vect$ and $f_1 \from V \to A, f_2 \from W \to A$ be vector morphisms.
   We define the vector morphism $\fbar \from V \oplus W \to A$ with $\fbar(v, w) := f_1(v) + f_2(w)$.
   By construction and because $f_1$ and $f_2$ are linear maps we have:
-  \begin{alignat*}{4}
-    \fbar(p_1(v)) &= \fbar(v, 0) &= f_1(v) + f_2(0) &= f_1(v) \\
-    \fbar(p_2(w)) &= \fbar(0, w) &= f_1(0) + f_2(w) &= f_2(w).
+  \begin{alignat*}{6}
+    & \fbar(p_1(v)) ~&& =~ \fbar(v, 0) ~&&=~ f_1(v) + f_2(0) ~&&=~ f_1(v) \\
+    & \fbar(p_2(w)) ~&& =~ \fbar(0, w) ~&&=~ f_1(0) + f_2(w) ~&&=~ f_2(w) .
   \end{alignat*}
   Now we have to show that $\fbar$ is the only vector morphism with this property.
   Let $\ftilde \from V \oplus W \to A$ be another vector morphism with $\ftilde(p_1(v)) = f_1(v)$ and $\ftilde(p_2(w)) = f_2(w)$.
