@@ -13,18 +13,15 @@
 \newcommand{\bigdunion}[0]{\bigsqcup}
 \renewcommand{\demph}[1]{\emph{#1}} % Definition
 
-% { _ }
-\newcommand{\setCon}[1]{\bigl \{ #1 \bigr \}}
-% { _ | _ }
-\newcommand{\setMap}[2]{\setCon{#1 \,\big|\, #2}}
-% ( _ , _ )
-\newcommand{\pair}[2]{\left( #1 , #2 \right)}
-% [ _ ]
-\newcommand{\class}[1]{\left[ #1 \right]}
-% < _ >
-\newcommand{\choice}[1]{\left< #1 \right>}
-% explanation over relation sign
+\newcommand{\setOf}[1]{\bigl \{ #1 \bigr \}}
+\newcommand{\setMap}[2]{\setOf{#1 \,\big|\, #2}}
+\newcommand{\pair}[2]{\bigl( #1 , #2 \bigr)}
+\newcommand{\class}[1]{\bigl[ #1 \bigr]}
+\newcommand{\choice}[1]{\bigl< #1 \bigr>}
 \newcommand{\explainRel}[2]{\stackrel{\text{#1}}{#2}}
+\newcommand{\family}[2]{\bigl( #1 \bigr)_{#2}}
+
+\DeclareMathOperator{\core}{core}
 
 % Theorem Environments
 \newtheorem{definition}{Definition}
@@ -42,19 +39,22 @@
 \maketitle
 
 \section*{Motivation}
-We want to generalize some concepts of sets like the Cartesian product, disjoint union, solution sets and quotient sets.
-In this chapter we define six constructions in categories.
-We will introduce the constructions \emph{products}, \emph{equalizer} and \emph{pullbacks} and their duals
-\emph{coproducts}, \emph{coequalizer} and \emph{pushouts}, respectively.
+
+In category theory, we want to unite similar structures from different areas of mathematics.
+For example we can unite the Cartesian product, the direct sum of vector spaces and greatest lower bounds in posets.
+We can also unite solution sets and the core in vector spaces.
+We will see how to generalize structures of sets like the Cartesian product, disjoint union, solution sets and quotient sets and how some of these structures correspond to structures in vector spaces.
+In this chapter we define six constructions in general categories.
+We will introduce the structures \emph{products}, \emph{equalizer} and \emph{pullbacks} and their duals \emph{coproducts}, \emph{coequalizer} and \emph{pushouts}.
 
 \section*{Products and Coproducts}
 
 First we want to generalize the Cartesian product to general categories.
 
-\begin{example}[Cartesian Product]
+\begin{example}[Cartesian product]
   \label{ex:prod:cart}
   Let $X$ and $Y$ be sets.
-  Then we define the \demph{Cartesian Product}
+  Then we define the \demph{Cartesian product}
   $$X \times Y := \setMap{\pair{x}{y}}{x \in X, \; y \in Y}.$$
   Also we define the \demph{projection functions} $p_1 \from X \times Y \to X$, $p_2 \from X \times Y \to Y$ in a canonical way:
   \begin{alignat*}{2}
@@ -134,6 +134,8 @@ We can use this knowledge to define products in arbitrary categories.
   Thus $P$ and $P'$ are isomorphic. \qedhere
 \end{proof}
 
+We see a simple instance of Lemma \ref{lem:prod:uniq} in the following example for the Cartesian product.
+
 \begin{example}[Reversed Cartesian product]
   \label{ex:prod:cart2}
   For sets we can define another product, where we reverse the order of the elements, i.~e.:
@@ -152,7 +154,6 @@ We can use this knowledge to define products in arbitrary categories.
   A \demph{greatest lower bound} of $x, y \in A$ is a lower bound $z \in A$ of $x$ and $y$ such that for all lower bounds $a \in A$ of $x$ and $y$, $a \le z$.
   With other words: $z$ is a greatest lower bound of $x$ and $y$ if and only if
   $$z \le x \land z \le y \land \forall a \in A, a \le x \land a \le y \Rightarrow a \le z.$$
-
   When we see the poset $\pair{A}{\le}$ as a category $\catA$ and have a greatest lower bound $z$ of $x, y \in A$, then $z$ is the product of $x$ and $y$.
   To see this, we apply the definition \ref{def:prod}.
   Let $x, y \in \catA$ and $z \in \catA$ be a greatest lower bound of $x$ and $y$.
@@ -164,34 +165,53 @@ We can use this knowledge to define products in arbitrary categories.
 
 \begin{example}[Direct sum of vector spaces]
   \label{ex:prod:vspace}
-  Let $K$ be a field with the operations $+_K$ and $\cdot_K$ and $V, W$ vector spaces over this field with the operations $+_V, \cdot_V, +_W, \cdot_W$.
+  Let $K$ be a field and $V, W$ vector spaces over this field.
   Then we define\footnote{One should verify that the defined structure is indeed a vector field.}
   the \demph{direct sum} $V \oplus W := \bigl(V \times W, +, \cdot \bigr)$ as a new vector field with the following operations:
   \begin{alignat*}{4}
-    \pair{v_1}{w_1} + \pair{v_2}{w_2} &:= \pair{v_1 +_V v_2}{w_1 +_W w_2}           &\quad& \forall v_1, v_2 \in V, \forall w_1, w_2 \in W \\
-    \alpha \cdot \pair{v}{w}          &:= \pair{\alpha \cdot_V v}{\alpha \cdot_W w} &     & \forall v \in V, \forall w \in W
+    \pair{v_1}{w_1} + \pair{v_2}{w_2} &:= \pair{v_1 + v_2}{w_1 + w_2}           &\quad& \forall v_1, v_2 \in V, \forall w_1, w_2 \in W \\
+    \alpha \cdot \pair{v}{w}          &:= \pair{\alpha \cdot v}{\alpha \cdot w} &     & \forall \alpha \in K, \forall v \in V, \forall w \in W
   \end{alignat*}
-  We can show that $V \oplus W$ is the product of $V$ and $W$ in $\Vect$.
-  The proof follows the same structure as in example \ref{ex:prod:cart}.
+  We can show that $V \oplus W$ is the product of $V$ and $W$ in $\Vect_K$.
+  The proof follows the same structure as in Example \ref{ex:prod:cart}.
 \end{example}
 
-\todo{Soll ich die Verallgemeinerten Produkte über Klassen von Objekten auch einführen?}
+We have seen how for an arbitrary category the product of \emph{two} objects is defined.
+We can generalize this to products of families of objects.
+
+\begin{definition}[Arbitrary product]
+  \label{def:arb:prod}
+  Let $\catA$ be a category, $I$ a set (i.~e. of indices) and $\family{X_i}{i \in I}$ be a family of objects of $\catA$.
+  A product of $\family{X_i}{i \in I}$ consists of an object $P \in \catA$ and the projection maps $\family{P \toby{p_i} X_i}{i \in I}$, such that:
+  For all objects $A \in \catA$ and for all families of maps $\family{A \toby{f_i} X_i}{i \in I}$ there exists a unique map $\fbar \from A \to P$, such that $p_i \of \fbar = f_i$ holds for every index $i \in I$.
+\end{definition}
+
+\begin{example}[Arbitrary Cartesian product]
+  \label{ex:arb:prod:cart}
+  Let $I$ be a set of indices and $\family{X_i}{i \in I}$ be a family of objects.
+  An \demph{arbitrary Cartesian tuple} of $\family{X_i}{i \in I}$ consists of a family of elements $\pi = \family{\pi_i \in X_i}{i \in I}$.
+  The \demph{arbitrary Cartesian product} $\prod_{i \in I}{X_i}$ is then set set of all such tuples.
+  We define the projection functions $p_i(\pi) := \pi_i$ for $i \in I$.
+  Let $A$ be a set and $\family{A \toby{f_i} X_i}{i \in I}$ be a family of maps.
+  Then we define $\fbar(a) := \family{f_i(a)}{i \in I}$. $p_i \of \fbar = f_i$ holds by definition for $i \in I$.
+  When we have another function $\ftilde \from A \to \bigl(\prod_{i \in I}{X_i}\bigr)$ with $p_i \of \ftilde = f_i$ for $i \in I$, then $\fbar = \ftilde$, since for every $i \in I$:
+  $\fbar(a) \explainRel{def}= \family{f_i(a)}{i \in I} \explainRel{ass}= \family{p_i(\ftilde(a))}{i \in I} \explainRel{ext}= \ftilde(a)$.
+\end{example}
 
 Now we want to abstract the concept of the disjoint union of sets.
+We will see that the generalized structure is the dual of the product.
 
 \begin{example}[Disjoint union]
   \label{ex:coprod:dunion}
   Let $X$ and $Y$ be sets.
   Let furthermore $0$ and $1$ be some sets with $0 \ne 1$.
   Then we define the \demph{disjoint union} of the sets $X$ and $Y$:
-  $$X \dunion Y := (X \times \setCon 0) \cup (Y \times \setCon 1) = \setMap{\pair{x}{0}}{x \in X} \cup \setMap{\pair{y}{1}}{y \in Y}.$$
-
+  $$X \dunion Y := (X \times \setOf 0) \cup (Y \times \setOf 1) = \setMap{\pair{x}{0}}{x \in X} \cup \setMap{\pair{y}{1}}{y \in Y}.$$
   Also we define the \demph{coprojection functions} $p_1 \from A \to X \dunion Y$, $p_2 \from Y \to X \dunion Y$:
   \begin{alignat*}{2}
     p_1(x) &:= \pair{x}{0} \\
     p_2(y) &:= \pair{y}{1}
   \end{alignat*}
-
   Let $A$ be another set and $f_1 \from X \to A, f_2 \from Y \to A$ functions.
   If we want to define a function $\fbar \from X \dunion Y \to A$, such that
   $\fbar(p_1(x)) = f_1(x)$ and $\fbar(p_2(y)) = f_2(y)$ for every $x \in X, y \in Y$,
@@ -226,32 +246,56 @@ Again we can use this knowledge to define coproducts in arbitrary categories.
 
 \begin{example}[Direct sum of vector spaces]
   \label{ex:coprod:vspace}
-  In the example \ref{ex:prod:vspace} we have seen that the direct sum of two vector spaces $V$ and $W$ is the product of $V$ and $W$ in the category $\Vect$.
+  In Example \ref{ex:prod:vspace} we have seen that the direct sum of two vector spaces $V$ and $W$ is the product of $V$ and $W$ over a field $K$ in the category $\Vect_K$.
   We will now see that it is \emph{also} the coproduct.
-  In general products and coproducts are not the same as we have seen in the examples \ref{ex:prod:cart} and \ref{ex:coprod:dunion}.
+  In general products and coproducts are not the same as we have seen in Examples \ref{ex:prod:cart} and \ref{ex:coprod:dunion}.
   First we have to define the two coprojection functions $p_1 \from V \to V \oplus W, p_2 \from W \to V \oplus W$:
   \begin{alignat*}{2}
     p_1(x) &:= \pair{x}{0} \\
     p_2(y) &:= \pair{0}{y}
   \end{alignat*}
-  Then let $A \in \Vect$ and $f_1 \from V \to A, f_2 \from W \to A$ be vector morphisms.
+  Then let $A \in \Vect_K$ and $f_1 \from V \to A, f_2 \from W \to A$ be vector morphisms.
   We define the vector morphism $\fbar \from V \oplus W \to A$ with $\fbar(v, w) := f_1(v) + f_2(w)$.
   By construction and because $f_1$ and $f_2$ are linear maps we have:
   \begin{alignat*}{6}
-    & \fbar(p_1(v)) ~&& =~ \fbar(v, 0) ~&&=~ f_1(v) + f_2(0) ~&&=~ f_1(v) \\
-    & \fbar(p_2(w)) ~&& =~ \fbar(0, w) ~&&=~ f_1(0) + f_2(w) ~&&=~ f_2(w) .
+    & \fbar(p_1(v)) ~&\explainRel{def}=&~ \fbar(v, 0) ~&\explainRel{def}=&~ f_1(v) + f_2(0) ~&\explainRel{lin}=&~ f_1(v) \\
+    & \fbar(p_2(w)) ~&\explainRel{def}=&~ \fbar(0, w) ~&\explainRel{def}=&~ f_1(0) + f_2(w) ~&\explainRel{lin}=&~ f_2(w) .
   \end{alignat*}
   Now we have to show that $\fbar$ is the only vector morphism with this property.
   Let $\ftilde \from V \oplus W \to A$ be another vector morphism with $\ftilde(p_1(v)) = f_1(v)$ and $\ftilde(p_2(w)) = f_2(w)$.
   Then we have for every $v \in V$ and $w \in W$:
-  $$ \fbar(v,w) = f_1(v) + f_2(w)\ = \ftilde(p_1(v)) + \ftilde(p_2(w)) = \ftilde(p_1(v) + p_2(w)) = \ftilde(v, w). $$
-  Thus $\fbar = \ftilde$ and $V \oplus W$ is indeed the product of $V$ and $W$ in the category $\Vect$.
+  $$\fbar(v,w) \explainRel{def}= f_1(v) + f_2(w)\ \explainRel{ass}= \ftilde(p_1(v)) + \ftilde(p_2(w)) \explainRel{lin}= \ftilde(p_1(v) + p_2(w)) \explainRel{def}= \ftilde(v, w).$$
+  Thus $\fbar = \ftilde$ and $V \oplus W$ is indeed the product of $V$ and $W$ in the category $\Vect_K$.
+\end{example}
+
+We can also generalize the coproduct as we have generalized the product in Definition \ref{def:arb:prod}.
+
+\begin{definition}[Arbitrary coproduct]
+  \label{def:arb:coprod}
+  Let $\catA$ be a category, $I$ a set (i.~e. of indices) and $\family{X_i}{i \in I}$ be a family of objects of $\catA$.
+  A product of $\family{X_i}{i \in I}$ consists of an object $C \in \catA$ and the coprojection maps $\family{X_i \toby{p_i} C}{i \in I}$, such that:
+  For all objects $A \in \catA$ and for all families of maps $\family{X_i \toby{f_i} A}{i \in I}$ there exists a unique map $\fbar \from P \to A$, such that $\fbar \of p_i = f_i$ holds for every index $i \in I$.
+\end{definition}
+
+In Example \ref{ex:arb:prod:cart} we have generalized the Cartesian product.
+No we will generalize Example \ref{ex:coprod:dunion} and define the disjoint union of a a family of sets.
+
+\begin{example}[Arbitrary disjoint union]
+  \label{ex:arb:coprod:dunion}
+  Let $\family{X_i}{i \in I}$ be a familiy of sets. We define the \demph{arbitrary disjoint union}
+  $$\bigdunion_{i \in I}{X_i} := \bigcup_{i \in I} \setMap{\pair{x}{i}}{x \in X_i}.$$
+  We define the coprojection functions $p_i \from X_i \to \bigl(\bigdunion_{i' \in I}{X_{i'}}\bigr)$ simply by $p_i(x) := \pair{x}{i}$ for every index $i \in I$.
+  Let $A$ be a set and $\family{X_i \toby{f_i} A}{i \in I}$ be a family of maps. We define $\fbar \from \bigl(\bigdunion_{i \in I}{X_i}\bigr) \to A$ by $\fbar(x, i) := f_i(x)$.
+  Now $\fbar \of p_i = f_i$ holds per definition for $i \in I$.
+  Let $\ftilde \from \bigl(\bigdunion_{i \in I}{X_i}\bigr) \to A$ be another function such that $\ftilde \of p_i = f_i$ holds for $i \in I$. Then
+  $\fbar(x, i) \explainRel{def}= f_i(x) \explainRel{ass}= \ftilde(p_i(a)) \explainRel{def}= \ftilde(x, i)$ for $\pair{x}{i} \in \bigl(\bigdunion_{i \in I}{X_i}\bigr)$ and thus $\fbar = \ftilde$.
+  Therefore $\bigdunion_{i \in I}{X_i}$ is the arbitrary disjoint union of $\family{X_i}{i \in I}$.
 \end{example}
 
 \section*{Equalizers and Coequalizers}
 
-%% XXX Weiterhin erst Beispiel und dann Definition oder erst Definition und dann Beispiel?
-Now we present more abstract concepts and give examples.
+Solutions sets and minus cores (as defined bellow) share the same structure.
+We will generalize that structure and it equalizer.
 
 \begin{definition}[Equalizer]
   \label{def:equa}
@@ -278,7 +322,7 @@ Now we present more abstract concepts and give examples.
 \end{definition}
 
 \begin{example}[Solution sets]
-  \label{ex:equalizer:solset}
+  \label{ex:equa:solset}
   Let $X, Y$ be sets and $s, t \from X \to Y$ functions.
   We define $E := \setMap{x \in X}{s(x)=t(x)}$.
   Because $E \subseteq X$ we can define the \emph{inclusion function} $i \from E \to X$ with $i(e) := e$.
@@ -295,10 +339,20 @@ Now we present more abstract concepts and give examples.
   We then define $\fbar \from A \to E$ with $\fbar(a) = f(a)$.
   Then $i \of \fbar = f$ holds by definition.
   Let $\ftilde \from A \to E$ be another function such that $i \of \ftilde = f$.
-  Then $\ftilde(a) = i (\ftilde(a)) = f(a) = i (\fbar(a)) = \fbar(a)$.
+  Then $\fbar(a) \explainRel{def}= f(a) \explainRel{ass}= i(\ftilde(a)) \explainRel{def}= \ftilde(a)$ holds for every $a \in A$, thus $\fbar = \ftilde$.
 \end{example}
 
-\todo{Mehr Beispiele dazu?}
+\begin{example}[Minus-core of linear maps between vector spaces]
+  \label{ex:equa:core}
+  Let $V$ and $W$ be vector spaces over a field $K$.
+  The \demph{core} of a linear map $h \from V \to W$ is defined by $$\core(h) := \setMap{v \in V}{h(v) = 0}.$$
+
+  Let $s, t \from V \to W$ be linear maps between $V$ and $W$.
+  The \demph{minus core} of $s$ and $t$ $$\core(s - t) \explainRel{def}= \setMap{v \in V}{s(v) = t(v)}$$ is the coequalizer of $s$ and $t$ in $\Vect_K$.
+  The proof follows the structure of Example \ref{ex:equa:solset}.
+\end{example}
+
+We define coequalizer as the dual of the equalizer. We will see that an example for this structure are quotient sets that are generated by a equivalence relation. 
 
 \begin{definition}[Coequalizer]
   \label{def:coequa}
@@ -329,13 +383,13 @@ For our next example we need the definition of the symmetric reflexive transitiv
 \begin{definition}[Symmetric reflexive transitive closure]
   \label{def:srtc}
   Let $R$ be a binary relation over a set $X$.
-  $\hat{R} := R \cup R^{-1}$ is the symmetric closure of $R$ where $R^{-1}$ is defined by
+  $\hat{R} := R \cup R^{-1}$ is the \demph{symmetric closure} of $R$ where $R^{-1}$ is defined by
   $R^{-1} := \setMap{\pair{b}{a}}{\pair{a}{b} \in R}$.
   The \demph{symmetric transitive closure} of $R$ is $\sim := \bigcup_{n\in\nat} {\hat R}^n$
   where ${\hat R}^n$ is recursively defined with
   ${\hat R}^0 := \setMap{\pair{a}{a}}{a \in X}$ and
   ${\hat R}^{n+1} := {\hat R}^n \of \hat R = \setMap{\pair{a}{c}}{\pair{a}{b} \in {\hat R}^n \land \pair{b}{c} \in \hat R}$.
-  It can be shown that $\sim$ is the \emph{least equivalence relation} containing $R$.
+  It can be shown that $\sim$ is the least equivalence relation containing $R$.
 \end{definition}
 
 \begin{example}[Quotient sets]
@@ -347,9 +401,9 @@ For our next example we need the definition of the symmetric reflexive transitiv
   } $
   commutes.
   Therefore we define the relation
-  $R := \setMap{\pair{s(a)}{t(a)}}{a \in Y} \subseteq Y^2$.
+  $R := \setMap{\pair{s(a)}{t(a)}}{a \in X} \subseteq Y^2$.
   Let $\sim \; \subseteq Y^2$ be the symmetric reflexive transitive closure of $R$.
-  Now we define $C := Y / \sim = \setMap{\class y}{y \in Y}$ where $\class y := \setMap{y'}{y \sim y'}$ are the equivalence classes.
+  Now we define $C := Y / \sim ~:= \setMap{\class y}{y \in Y}$ where $\class y := \setMap{y'}{y \sim y'}$ are the equivalence classes.
   For the function $i \from Y \to E$ we choose $i(y) := \class y$.
   Then the diagram
   $ \xymatrix{
@@ -361,7 +415,7 @@ For our next example we need the definition of the symmetric reflexive transitiv
     X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y \ar[r]^f & A
   } $
   be a cofork.
-  By induction we can show that $f$ ``does not care'' about equal values, i.~e. $f(y_1) = f(y_2)$ whenever $y_1 \sim y_2$.
+  By induction we can show that $f$ respects the relation $\sim$, i.~e. $f(y_1) = f(y_2)$ whenever $y_1 \sim y_2$.
 
   To define the function $\fbar \from C \to A$ we need a choice function $\choice \cdot \from C \to Y$ that returns for every equivalence class of $\sim$ a member of it, i.~e.
   $\forall c \in C, \forall y \in Y, y \in c \Leftrightarrow y \sim \choice{c}$
@@ -369,13 +423,17 @@ For our next example we need the definition of the symmetric reflexive transitiv
 
   Now we can define $\fbar \from C \to A$ by $\fbar(e) := f(\choice e)$.
   We now have  $\fbar(i(y)) \explainRel{def}= f(\choice{\class y}) = f(y)$ because $y \sim \choice{\class y}$ (by the choice axiom and reflexivity of $\sim$).
-  Now we only have to show that this $\fbar$ is unique in respect to that property.
+  Now we only have to show that this $\fbar$ is unique with respect to that property.
   So we assume another function $\ftilde \from C \to A$ with $\ftilde \of i = f$. But then we have
   $$ \fbar(c) \explainRel{def}= f(\choice c) \explainRel{ass}= \ftilde(i(\choice c)) \explainRel{def}= \ftilde(\class{\choice c}) \explainRel{choice}= \ftilde(c).$$
 \end{example}
 
+% XXX Insert exercise 6.7 as further example?
+
 
 \section*{Pullbacks and Pushouts}
+
+In this section we will define our last two structures: pullbacks and their duals, pushouts.
 
 \begin{definition}[Pullback]
   \label{def:pullback}
@@ -403,7 +461,7 @@ For our next example we need the definition of the symmetric reflexive transitiv
   commutes.
 \end{definition}
 
-\begin{example}[Pullbacks and products]
+\begin{lemma}[Pullbacks and products]
   \label{ex:pullback:product}
   When the pullback square
   \[ \xymatrix{
@@ -415,7 +473,47 @@ For our next example we need the definition of the symmetric reflexive transitiv
     X \ar[r]^s & Z & Y\ar[l]_t \\
   } $
   and $Z$ is a terminal object then $P$ is the product of $X$ and $Y$.
-\end{example}
+\end{lemma}
+\begin{proof}
+  We show that $P$ is the product of $X$ and $Y$ together with the projection functions $p_1$ and $p_2$.
+  Let
+  $ \xymatrix{
+    X &A \ar[l]_{f_1} \ar[r]^{f_2} & Y
+  } $
+  be a diagram in $\cat{A}$.
+  We have to show that there is a unique map $\fbar' \from P \to A$ such that
+  \[ \xymatrix{
+    & A \ar[ldd]_{f_1} \ar@{.>}[d]|{\fbar} \ar[rdd]^{f_2} & \\
+    & P \ar[ld]^{p_1} \ar[rd]_{p_2} & \\
+    X & & Y
+  } \]
+  commutes. We know that the diagram
+  \[ \xymatrix{
+    A \ar[r]_{f_2} \ar[d]^{f_1} & Y \ar[d]_{t} \\
+    X \ar[r]^s & Z
+  } \]
+  commutes, since $s \of f_1$ and $t \of f_2$ are both arrows from $A$ to $Z$ and $Z$ is a terminal object.
+  Now because this square is then a pullback square there exists a unique map $\fbar \from A \to P$ such that
+  \[ \xymatrix{
+    A \ar[drr]^{f_2} \ar[ddr]_{f_1} \ar@{.>}[dr]|{\fbar} & & \\
+    & P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+    & X \ar[r]^s & Z
+  } \]
+  commutes. We see that we can choose $\fbar' := \fbar$.
+  Suppose we have another $\tilde{f} \from P \to A$ such that
+  \[ \xymatrix{
+    & A \ar[ldd]_{f_1} \ar@{.>}[d]|{\ftilde} \ar[rdd]^{f_2} & \\
+    & P \ar[ld]^{p_1} \ar[rd]_{p_2} & \\
+    X & & Y
+  } \]
+  commutes. Then
+  \[ \xymatrix{
+    A \ar[drr]^{f_2} \ar[ddr]_{f_1} \ar@{.>}[dr]|{\ftilde} & & \\
+    & P \ar[r]_{p_2} \ar[d]^{p_1} & Y \ar[d]_{t} \\
+    & X \ar[r]^s & Z
+  } \]
+  would also commute (because $Z$ is terminal), but $\bar{f}$ is unique, hence $\bar{f} = \tilde{f}$.
+\end{proof}
 
 \begin{example}[Pullbacks in sets]
   \label{ex:pullback:set}
@@ -430,9 +528,11 @@ For our next example we need the definition of the symmetric reflexive transitiv
   Then we define $\fbar \from A \to P$ by
   $\fbar(a) := \pair{f_1(a)}{f_2(a)}$.
   This is well defined because for $a \in A$ we have $\fbar(a) = \pair{f_1(a)}{f_2(a)} \in P \Leftrightarrow s(f_1(a)) = t(f_2(a))$ which is true by assumption.
-  We also have $p_1(\fbar(a)) = f_1(a)$ and $p_2(\fbar(a)) = f_2(a)$ by constructions.
-  We also see that $\fbar$ is unique in respect to that property.
+  We also have $p_1(\fbar(a)) = f_1(a)$ and $p_2(\fbar(a)) = f_2(a)$ by construction.
+  We also see that $\fbar$ is unique with respect to that property.
 \end{example}
+
+We define the dual of the pullbacks: pushouts.
 
 \begin{definition}[Pushout]
   \label{def:pushout}
@@ -462,7 +562,7 @@ For our next example we need the definition of the symmetric reflexive transitiv
 
 \begin{example}[Pushouts in sets]
   \label{ex:pushout:set}
-  To give an example for pushouts in sets we somehow have to combine the coproduct (disjoint union; see example \ref{ex:coprod:dunion}) and the coequalizer (quotient set; see example \ref{ex:coequa:quotient}).
+  To give an example for pushouts in sets we somehow have to combine the coproduct (disjoint union; see Example \ref{ex:coprod:dunion}) and the coequalizer (quotient set; see Example \ref{ex:coequa:quotient}).
   Let
   $ \xymatrix{
     X & Z \ar[l]_s \ar[r]^t & Y
@@ -494,13 +594,13 @@ For our next example we need the definition of the symmetric reflexive transitiv
     \fbar'(y, 1) &:= f_2(y) \\
     \fbar(p)     &:= \fbar'(\choice p)
   \end{alignat*}
-  By induction we can show that $\fbar'$ ``does not care'' about equal values, i.~e. $\forall a,b \in X \dunion Y, a \sim b \Rightarrow \fbar'(a) = \fbar'(b)$.
+  By induction we can show that $\fbar'$ respects the relatation $\sim$, i.~e. $\forall a,b \in X \dunion Y, a \sim b \Rightarrow \fbar'(a) = \fbar'(b)$.
 
   We show $f_1 = \fbar \of p_1$; $f_2 = \fbar \of p_2$ follows analogously.
   $$\fbar(p_1(x)) \explainRel{def}= \fbar'(\choice {\class {\pair x 0}}) = \fbar'(x, 0) \explainRel{def}= f_1(x).$$
   The second step follows by $\pair x 0 \sim \choice{\class {\pair x 0}}$ which holds by the choice axiom and reflexivity of $\sim$.
 
-  The last step is again to show that $\fbar$ is unique in respect to that property. So we assume another function $\ftilde \from X \dunion Y \to A$ with $f_1 = \ftilde \of p_1$ and $f_2 = \ftilde \of p_2$.
+  The last step is again to show that $\fbar$ is unique with respect to that property. So we assume another function $\ftilde \from X \dunion Y \to A$ with $f_1 = \ftilde \of p_1$ and $f_2 = \ftilde \of p_2$.
   Let $p \in P$. We assume without loss of generality $\choice p = \pair x 0$ for some $x \in X$. Then
   $$\fbar(p)
     \explainRel{def}    = \fbar'(\choice p)
@@ -512,9 +612,8 @@ For our next example we need the definition of the symmetric reflexive transitiv
 \end{example}
 
 \section*{Conclusion}
-We have seen much analogous definitions and proofs.
+We have seen many analogous definitions and proofs.
 Our definitions follow a simple ``pattern'':
-\todo{Pattern könnte besser erklärt werden aber nicht zu formal!}
 \begin{itemize}
   \item First we have some objects or a commuting diagram ($D_0$).
   \item Then we ``insert'' an object $P$ and get a new commuting diagram ($D_1$) where we ``connect'' $P$ with the objects of $D_0$ with ``projection functions''.
