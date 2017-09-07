@@ -1,10 +1,11 @@
-\documentclass[a4paper,oneside]{scrbook}
+\documentclass[a4paper,oneside,11pt]{scrartcl}
 \usepackage[dvipsnames]{xcolor}
 \input{\pathToRoot headers/sharedHeader}
 
 \usepackage{bm}
 \usepackage{upgreek}
 \usepackage{titlesec}
+\usepackage{hyperref}
 
 
 
@@ -16,7 +17,7 @@
 
 % Environments theorem, lemma, definition and corollary.
 % They all use the counter from theorem, except remark which has no counter
-\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{fact}[theorem]{Fact}

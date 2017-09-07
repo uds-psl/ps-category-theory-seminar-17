@@ -8,8 +8,36 @@
 %% TODO: consistent notation, DI D(I) D_I, also for maps D_m Dm
 
 \maketitle
-\chapter*{Introduction}
-We have seen three special structures in categories.\\[1em]
+\section*{Introduction}
+We have seen three special structures in categories,
+the product, the pullback, and the equalizer.
+As an example, the binary product is constructed in the following way.
+We start with two objects. Then an object $U$ with maps to these objects is the product,
+if it exists an satisfies the universal property for products, that is, all other such objects $V$
+factor through $U$ uniquely.\\[1em]
+\begin{minipage}{.35\linewidth}
+  \begin{tikzcd}
+    \bullet &&\bullet
+  \end{tikzcd}
+\end{minipage}%
+\begin{minipage}{.35\linewidth}
+  \begin{tikzcd}
+    & U \arrow{dl} \arrow{dr} &\\
+    \bullet &&\bullet
+  \end{tikzcd}
+\end{minipage}%
+\begin{minipage}{.35\linewidth}
+  \begin{tikzcd}
+    & V \arrow[bend right=40]{ddl} \arrow[bend left=40]{ddr} \arrow[dashed]{d} &\\
+    & U \arrow{dl} \arrow{dr} &\\
+    \bullet &&\bullet
+  \end{tikzcd}
+\end{minipage}
+\\[1em]
+The pullback and the equalizer are constructed similarly.
+They all have an input diagram, and we call an object $U$ with maps into this diagram
+product/pullback/equalizer if it satisfies the universal property.
+\\[1em]
 \begin{minipage}{.35\linewidth}
   \begin{tikzcd}
     & V \arrow[bend right=40]{ddl} \arrow[bend left=40]{ddr} \arrow[dashed]{d} &\\
@@ -38,24 +66,29 @@ We have seen three special structures in categories.\\[1em]
     U \arrow{ur} &&
   \end{tikzcd}
 \end{minipage}\\[2em]
-These three examples follow a pattern.
-In each example there is an object $U$ with some arrows. This object $U$
-has a universal property which states that any other object $V$ which has arrows
-similar to $U$
-factors uniquely through $U$, that is, there is a unique morphism $V \to U$,
-such that the resulting triangles commute.\\
-Products, pullbacks, and equalizers are instances of a more general concept called
-limit which expresses the common pattern between these examples.\\
 %% TODO: possibly give further applications of limits too
 %% TODO: maybe some more intuition what limits are about
 
-{
-  %% Nice hack to get rid of page break just for the introduction chapter
-  \renewcommand{\clearpage}{}
-  \chapter{Definition}
-}
-In category theory we take limits of diagrams.
-Therefore we first make the notion of a diagram more precise.
+\section{Definition}
+Products, pullbacks, and equalizers are instances of a more general concept called
+limit which expresses the common pattern between the examples above.
+The goal is to make this abstract common pattern more formal
+and establish relations between concrete instances of it.
+We start with the definition of a limit.\\
+
+\begin{definition}
+  A \textbf{limit} is a universal cone over a diagram.
+\end{definition}
+
+In the following section we explain this definition. We need to clarify three things
+in particular.
+First we need to define the concept of a diagram more formally.
+Then we define what a cone over a diagram is. Lastly we state what it means for a cone
+to be universal.
+We start with diagrams. They are the initial entities of which we take the limit.
+In the examples above the diagrams
+are the various collections of objects (and arrows) that we start with
+and over which the object $U$ has maps.
 
 \begin{definition}
   Let $\bm{I}, \mathscr{C}$ be categories.
@@ -64,7 +97,7 @@ Therefore we first make the notion of a diagram more precise.
 \end{definition}
 \begin{example}
   \label{diagramexample}
-  This is an example of a diagram of shape $\bm I$. \\[1cm]
+  This is an example of a diagram we use to build a pullback. \\[1cm]
   \begin{minipage}{0.3\linewidth}
     \hspace{2cm}
     \begin{tikzcd}
@@ -95,11 +128,12 @@ Therefore we first make the notion of a diagram more precise.
     \hspace{2cm}
     $\qquad \mathscr C$
   \end{minipage}\\[1em]
+  We did not give names to the objects as we are not concerned with them.
 \end{example}
 
 The functor $D$ yields
 a collection of objects and morphisms in the category $\mathscr C$
-that essentially looks like $\bm I$.
+that looks just like $\bm I$.
 We also say $D$ \textbf{identifies} diagrams of shape $\bm I$.
 The shape category has no further meaning. Its only purpose
 is to define how the diagram is supposed to look like.
@@ -113,8 +147,9 @@ Diagrams do not necessarily have to be small. Their shape can even be infinite.
 However most interesting diagrams tend to be very small.\\
 We are typically interested in diagrams of a specific category,
 $\mathscr C$ in the example. Therefore we usually leave out $\bm I$ and $D$,
-and we just draw the identified part of $\mathscr C$ instead.
-
+and we just draw the identified part of $\mathscr C$ instead.\\
+The next part on the way to the limit definition is the concept of a cone which
+is what we address now.
 \begin{definition}
   Let $D \from \bm{I} \to \mathscr{C}$ be a diagram.
   A \textbf{cone} $U$ over $D$ is an object $U \in \mathscr{C}$
@@ -123,7 +158,7 @@ and we just draw the identified part of $\mathscr C$ instead.
   \[
     \begin{tikzcd}
       & U \arrow[dl, swap, "f_I"] \arrow{dr}{f_J}&\\
-      D_I \arrow[rr, swap, "D(m)"] & & D_J\\
+      D_I \arrow[rr, swap, "D_m"] & & D_J\\
     \end{tikzcd}
   \]
   That is $f_J = D(m) \circ f_I$.\\
@@ -133,12 +168,13 @@ and we just draw the identified part of $\mathscr C$ instead.
 \begin{remark}
   When it is clear from the context that $U$ is the vertex of a cone, then we use just
   the vertex $U$
-  to refer to the whole cone.
+  to refer to the whole cone.\\
+  Note that the underlying diagram determines how the cone looks like.
 \end{remark}
 %% TODO: Notation DI, D(I), D_I ??
 \begin{example}
-  A cone over the diagram of
-  \hyperref[diagramexample]{Example \ref*{diagramexample}} looks like this.
+  A cone over the diagram of pullbacks
+  (\hyperref[diagramexample]{Example \ref*{diagramexample}}) looks like this.
   \[
     \begin{tikzcd}
       U \arrow[bend right=30]{ddr}{f_I} \arrow[bend left=30]{drr}{f_k} \arrow[bend left=20, swap]{ddrr}{f_J}&   &\\
@@ -151,10 +187,9 @@ and we just draw the identified part of $\mathscr C$ instead.
 
 In other words a cone is an object that covers the diagram with projection maps,
 such that all triangles commute.\\
-Now we define what it means for a cone to be universal. Intuitively,
-a cone is universal if it
-is universally the closest to the diagram,
-and that all other cones factor through it uniquely.
+The last step we need for the
+general limit definition is
+to define what a universal cone is.
 
 \begin{definition}
   A cone $(U \overset{f_I}{\to} D(I))_{I\in \bm{I}}$ is \textbf{universal}, if
@@ -170,25 +205,24 @@ and that all other cones factor through it uniquely.
   That is $g_i = f_i \circ h$.
 \end{definition}
 
-In other words, any cone over $D$ has maps into $D$, and a cone $U$ is universal if
-any other cone $V$ has a unique morphism to $U$.
-The commuting condition states that for any cone
-the projection maps $g_I$ are equivalent
-to the map that is obtained by composing the unique limit map $h$ with the
-projection maps of the limit $f_I$.
+Intuitively, a cone is universal if it
+is universally the ``closest'' to the diagram.
 
 \begin{example}
+  This is an example of a universal cone over the
+  diagram of pullbacks
+  (\hyperref[diagramexample]{Example \ref*{diagramexample}}).
     \[
     \begin{tikzcd}
       {\color{red}V}
       \arrow[bend right=40,color=red]{dddrr}{g_I}
-      \arrow[bend left=40, color=red]{ddrrr}{g_k}
+      \arrow[bend left=40, color=red]{ddrrr}{g_K}
       \arrow[bend left=30, color=red, swap]{dddrrr}{g_J}
       \arrow[dashed,swap]{dr}{h}
       & & & \\
       & {\color{blue}U}
       \arrow[bend right=30,color=blue]{ddr}{f_I}
-      \arrow[bend left=30, color=blue]{drr}{f_k}
+      \arrow[bend left=30, color=blue]{drr}{f_K}
       \arrow[bend left=20, color=blue, swap]{ddrr}{f_J}&   &\\
       & & & D_K \arrow{d}{D_n} \\
       & & D_I \arrow{r}{D_m} & D_J
@@ -198,15 +232,12 @@ projection maps of the limit $f_I$.
   is drawn in blue and the other cone {\color{red}V} is drawn in red.
   Both cones obviously have to satisfy the commuting condition for cones.
   Additionally the commuting condition for universal cones states that
-  $g_I = f_I \circ h$, $g_J = f_J \circ h$, and $g_K = f_k \circ h$.
-  Therefore this example commutes in its entirety.
+  $g_I = f_I \circ h$, $g_J = f_J \circ h$, and $g_K = f_K \circ h$.
+  Therefore this example commutes in its entirety.\\
+  Note that there could be several other cones like $V$.
 \end{example}
 
-\begin{definition}
-  A \textbf{limit} is a universal cone over a diagram.
-\end{definition}
-
-A limit of a diagram is therefore characterized by the kind of diagram
+A limit is therefore characterized by the kind of diagram
 over which it is a universal cone, meaning we get different instances of limits
 by choosing diagrams of different shapes.
 
@@ -235,33 +266,14 @@ by choosing diagrams of different shapes.
   is exactly the commuting condition for products.
   We have therefore verified that the product is
   indeed an instance of the general limit definition.
-  Using discrete categories with more than two objects
-  we get products of arbitrary size.
-  \[
-    \begin{tikzcd}
-      && {\color{red} V}
-      \arrow[bend right=40,color=red]{ddll}
-      \arrow[bend right=40,color=red]{ddl}
-      \arrow[bend left=40,color=red]{ddrr}
-      \arrow[bend left=40,color=red]{ddr}
-      \arrow[dashed]{d} &&\\
-      && {\color{blue} U}
-      \arrow[color=blue]{dl}
-      \arrow[color=blue]{dll}
-      \arrow[color=blue]{dr}
-      \arrow[color=blue]{drr} &&\\
-      \bullet & \bullet & \ldots & \bullet &\bullet
-    \end{tikzcd}
-  \]  
 \end{example}
 
 \begin{example}
   \label{terminallimit}
   If we take the empty category as the shape for a diagram, then a cone
   over that diagram is just a single object $U$ that has no other required arrows.
-  Then the universal property for limits states that every other cone, i.e. an object $V$,
-  has a unique map $V \to U$. A limit of the empty diagram is therefore just a terminal object,
-  and terminal objects are therefore another instance of the general limit definition.
+  The universal property for limits then states that every other cone, i.e. any object $V$,
+  has a unique map $V \to U$. A limit of the empty diagram is therefore just a terminal object.
 \end{example}
 
 \begin{example}
@@ -282,7 +294,8 @@ by choosing diagrams of different shapes.
   \]
   The commuting condition for cones states however that
   $f_J = m\circ f_I$, and $f_J = n\circ f_K$. Since $f_J$ is uniquely determined
-  by composition of other arrows, we do not need to draw it and leave it implicit.
+  by composition of other arrows, we do not need to draw it and leave it implicit here
+  and for all other cones over this diagram.
   With this in mind a limit of this diagram looks like this:
   \[
     \begin{tikzcd}
@@ -298,30 +311,98 @@ by choosing diagrams of different shapes.
       & I \arrow[swap]{r}{m} & J
     \end{tikzcd}
   \]
-  The commuting condition for limits results in exactly the known commuting condition for
-  pullbacks. We have therefore verified that pullbacks are a valid instance of the general limit definition.
+  The commuting condition for $U$ being a limit is exactly the commuting condition for
+  $U$ being a pullback.
+  Thus pullbacks are a valid instance of the general limit definition.
   It follows similarly that equalizers are limit instances over diagrams of the shape
   \begin{tikzcd}
     I \arrow[r,shift left, "m"] \arrow[r,shift right,swap,"n"] & J
-  \end{tikzcd}.
+  \end{tikzcd}. For equalizers we use the same approach we used above to ignore the morphism
+  $f_J$ to make the limit look like the conventional equalizer.
 \end{example}
 
-\chapter{Building new limits}
-It is easy to see that limits do not necessarily exists in all categories.
-Sometimes we want to show that a category has certain limits,
-but it might be difficult to show for this category that the limits
-of interest exist.\\
-In this chapter we show the following:\\
+\section{Building new limits}
+
+\begin{definition}
+We say a category \textbf{has limits} over diagrams of shape $\bm I$, if for all
+diagrams of shape $\bm I$, there exists a universal cone over it.
+\end{definition}
+A question that often arises is if a given category $\mathscr C$ has certain limits,
+e.g. products or a terminal object. Now that we have a abstract definition of limits
+we can approach this problem in a more systematic way.
+This leads to two observations:\\
 \hyperref[equiinstance]{(\ref*{equiinstance})} A category $\mathscr C$ has finite products and equalizers iff
 it has pullbacks and a terminal
-object, that is,
-the limits on the right hand side can be constructed from the left hand side
-and vice versa.\\
+object.\\
 \hyperref[arbitrarylimits]{(\ref*{arbitrarylimits})}
 If a category $\mathscr C$ has products and equalizers, then it has all limits, that is,
-limits of an arbitrary diagram can be constructed using these two instances.
+limits of diagrams of arbitrary shape can be constructed using these two instances.
 
-\section{Equivalence of instances}
+\subsection{Products}
+So far we have only been concerned with the product of two objects, i.e. the binary product.
+We now study the concept of products more generally.
+\begin{lemma}
+  \label{emptyproduct}
+  The empty product, i.e. the product of zero objects, is a terminal objects
+\end{lemma}
+\begin{proof}
+  The empty product is a limit over the empty diagram just as the terminal object
+  as discussed in
+  \hyperref[terminallimit]{Example \ref*{terminallimit}}
+\end{proof}
+
+Using discrete categories with more than two objects
+we get products of arbitrary size.
+\begin{example}
+  This is an example of a product of $k$ objects. We use the symbol $\prod$ for
+  arbitrary products.
+  \[
+    \begin{tikzcd}
+      && {\color{red} V}
+      \arrow[bend right=40,color=red]{ddll}
+      \arrow[bend right=40,color=red]{ddl}
+      \arrow[bend left=40,color=red]{ddrr}
+      \arrow[bend left=40,color=red]{ddr}
+      \arrow[dashed]{d} &&\\
+      && {\color{blue} {\displaystyle \prod_{i \in \{1,\ldots,k\} } D_i}}
+      \arrow[color=blue]{dl}
+      \arrow[color=blue]{dll}
+      \arrow[color=blue]{dr}
+      \arrow[color=blue]{drr} &&\\
+      D_1 & D_2 & \ldots & D_{k-1} & D_k
+    \end{tikzcd}
+  \]
+\end{example}
+
+\begin{lemma}
+  \label{finiteproducts}
+  Let $\mathscr C$ be a category with a terminal object $1$ and binary products.
+  Then we can construct all finite products.
+\end{lemma}
+\begin{proof}
+  \begin{itemize}
+  \item The empty product is just the terminal object by
+    \hyperref[emptyproduct]{Example \ref*{emptyproduct}}
+  \item The unary product of any object $A$ is constructed by the binary product
+    $A\times 1$ %% TODO: explain why this works...
+  \item The binary product exists by assumption
+  \item We want to build some finite product over objects $D_1, \dots D_k$.
+    Assume by induction that the following two products exist.
+    \[ P_1 \coloneqq \displaystyle \prod_{i \in \{1, \dots, m \} } D_i \text{ , and } P_2 \coloneqq \displaystyle \prod_{i \in \{m+1, \dots, k\} } D_i \]
+    with projection maps $(\pi_i)_{i \in \{1, \dots, m \} }$ for $P_1$, and $(\tau_i)_{i \in \{m+1, \dots, k\} }$ for $P_2$.
+    Then there exists a binary product of $P_1 \times P_2$ with projection maps $f_{P_1}, f_{P_2}$.
+    $P_1 \times P_2$ has maps $\pi_i \circ f_{P_1}$ and $\tau_i \circ f_{P_2}$.
+    $P_1 \times P_2$ is therefore a cone.
+    Since $P_1$ and $P_2$ are products, any other cone $V$ over them has unique maps $h_{P_1}$ and $h_{P_2}$.
+    The unique morphism $V \rightarrow P_1 \times P_2$ is given by $\langle h_{P_1}, h_{P_2} \rangle$.
+    $P_1 \times P_2$ is therefore universal.
+  \end{itemize}
+  Intuitively the construction works by stacking binary products on top of each other.
+  Since we assume $\mathscr C$ to have all products, the product of two products exists. This way we can create
+  arbitrarily large finite products.
+\end{proof}
+
+\subsection{Equivalence of instances}
 \label{equiinstance}
 
 In this section we establish that the instances of limits we have seen are related
@@ -329,11 +410,11 @@ in a way that allows us to show how to construct these instances using others.
 This implies that if we know that a category has some of the right instances
 we can construct other limits for free using only category theoretical arguments.
 
-\begin{fact}
+\begin{theorem}
   \label{pullbackconstruction}
   Let $\mathscr C$ be a category with finite products and equalizers.
   Then we can construct pullbacks.
-\end{fact}
+\end{theorem}
 \begin{proof}
 We start with the diagram for pullbacks.
 \[
@@ -343,7 +424,7 @@ We start with the diagram for pullbacks.
   \end{tikzcd}
 \]
 We need to construct a limit of this diagram.
-First we the product of $I$ and $K$. This product exists by assumption.
+First we take the binary product of $I$ and $K$ which exists by assumption.
 \[
   \begin{tikzcd}
     I \times K \arrow{r}{p_K} \arrow{d}{p_I} & K \arrow{d}{n} \\
@@ -364,24 +445,20 @@ For this purpose we use an equalizer which also exists by assumption.
 We now unfold this drawing.
 \[
   \begin{tikzcd}
+    E \arrow{dr}{e}& &\\
+    & I \times K \arrow[swap]{d}{p_I} \arrow{r}{p_K}& K \arrow{d}{n}\\
+    & I \arrow[swap]{r}{m} & J
+  \end{tikzcd}
+  \qquad \bm{\rightsquigarrow} \qquad 
+  \begin{tikzcd}
     E \arrow[swap]{d}{p_I \circ e} \arrow{r}{p_K \circ e} & K \arrow{d}{n} \\
     I \arrow[swap]{r}{m} & J
   \end{tikzcd}
 \]
 $E$ satisfies the commuting and universality conditions of limits
 since it is already an equalizer.
+%% TODO: more detail...
 Therefore it is a pullback.
-\end{proof}
-\begin{fact}
-  \label{terminalproduct}
-  Let $\mathscr C$ be a category with finite products and equalizers.
-  Then we have a terminal object.
-\end{fact}
-\begin{proof}
-  Recall a terminal object is a limit of the empty diagram as mentioned in
-  \hyperref[terminallimit]{Example \ref*{terminallimit}}.
-  Since we have finite products we have in particular the empty product
-  which is nothing else than a limit of the empty diagram.
 \end{proof}
 
 \begin{fact}
@@ -391,12 +468,8 @@ Therefore it is a pullback.
 \end{fact}
 \begin{proof}
 Finite products can be constructed
-with the terminal object and binary products. For any object
-$A$, unary products are
-constructed using the binary product $A \times 1$.
-The empty product is just the terminal object $1$ as discussed in
-\hyperref[terminalproduct]{Fact \ref*{terminalproduct}}.
-All other finite products can be constructed by cascading binary products.
+with the terminal object and binary products by
+\hyperref[finiteproducts]{Lemma \ref*{finiteproducts}}.
 Therefore we only show how to construct binary products.
 Consider following the diagram:
 \[
@@ -412,41 +485,49 @@ The pullback $U$ exists by assumption.
     A \arrow{r}{g} & 1
   \end{tikzcd}
 \]
-We used the suggestive names $p_A$ and $p_B$ since it
-is easy to see that $U$ is already the product of $A$ and $B$ by
-simply leaving out $f$ and $g$. Their existence does not matter for the product.
-In general, a pullback
-is like a binary product with some additional structure.
+The arrows $f$ and $g$ are unique and therefore monic.
+Hence $U$ satisfies the universality condition and is indeed the product.
+%% TODO: possibly show this for one calculation
 \end{proof}
 
-\begin{fact}
+Now that we know that a category with pullbacks and a terminal object
+also has finite products, we can proceed to construct equalizers as well
+as their construction build on the existence of products in this category.
+
+\begin{theorem}
   Let $\mathscr C$ be a category with pullbacks and a terminal object $1$.
   Then we can construct equalizers.
-\end{fact}
+\end{theorem}
 \begin{proof}
-This construction uses the fact that $\mathscr C$ has products
-as shown in \hyperref[pullbackproduct]{Fact \ref*{pullbackproduct}}.
-Consider the following diagram.
-\[
-  \begin{tikzcd}
-    & B \arrow{d}{\langle 1_B, 1_B \rangle} \\
-    A \arrow{r}{\langle f,g \rangle} & B \times B
-  \end{tikzcd}
-\]
-The product $B \times B$ exists by construction.
-We then have the pullback $E$, such that the following diagram commutes.
-\[
-  \begin{tikzcd}
-    E \arrow{r}{h} \arrow{d}{e} & B \arrow{d}{\langle 1_B, 1_B \rangle} \\
-    A \arrow{r}{\langle f,g \rangle} & B \times B
-  \end{tikzcd}
-\]
-Since $E$ is a pullback the square above commutes and
-we get $f \circ e = h = g \circ e$, and $E$ is therefore
-indeed an equalizer of $f$ and $g$.
+  We start with the initial diagram for equalizers.
+  \[
+    \begin{tikzcd}
+      A \arrow[shift left]{r}{f} \arrow[shift right, swap]{r}{g} & B
+    \end{tikzcd}
+  \]
+  We transform this into the following diagram.
+  %%TODO: explain why they're equivalent
+  \[
+    \begin{tikzcd}
+      & B \arrow{d}{\langle 1_B, 1_B \rangle} \\
+      A \arrow{r}{\langle f,g \rangle} & B \times B
+    \end{tikzcd}
+  \]
+  The product $B \times B$ exists by \hyperref[pullbackproduct]{Theorem \ref*{pullbackproduct}}.
+  We then have the pullback $E$, such that the following diagram commutes.
+  \[
+    \begin{tikzcd}
+      E \arrow{r}{h} \arrow{d}{e} & B \arrow{d}{\langle 1_B, 1_B \rangle} \\
+      A \arrow{r}{\langle f,g \rangle} & B \times B
+    \end{tikzcd}
+  \]
+  Since $E$ is a pullback the square above commutes and
+  we get $f \circ e = 1_B \circ h = h = 1_B \circ h = g \circ e$, and $E$ is therefore
+  indeed an equalizer of $f$ and $g$.
 \end{proof}
 
-\section{Construction of arbitrary limits}
+%%TODO: fix this section
+\subsection{Construction of arbitrary limits}
 \label{arbitrarylimits}
 We now study how arbitrary limits can be constructed using only a
 few specific instances.
@@ -525,7 +606,8 @@ and therefore a limit of $D$.
   we can alternatively require pullbacks and a terminal object instead of finite products.
 \end{remark}
 
-\chapter{Colimits}
+%%TODO: fix this section
+\section{Colimits}
 To define colimits we dualize the concept of limits.
 \begin{definition}
   Let $D : \bm I \to \mathscr C$ be a diagram.
