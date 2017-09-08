@@ -384,8 +384,14 @@ we get products of arbitrary size.
   \item The empty product is just the terminal object by
     \hyperref[emptyproduct]{Example \ref*{emptyproduct}}
   \item The unary product of any object $A$ is constructed by the binary product
-    $A\times 1$ %% TODO: explain why this works...
-  \item The binary product exists by assumption
+    $A \times A$.
+    We have $1_A \from A \to A$, and $\pi_1, \pi_2 \from A \times A \to A$.
+    By the universal property of products there exists a unique map $h \from A \to A \times A$.
+    We have $1_A = \pi_1 \circ h$.\\
+    On the other hand we have $(\pi_1 \circ h) \circ \pi_1 = 1_a \circ \pi_1 = \pi_1 \circ ( h \circ \pi_1)$,
+    and therefore $1_A = h \circ \pi_1$.
+    We have constructed an isomorphism and therefore $A \times A \iso A$.
+  \item The binary product exists by assumption for all objects $A, B$.
   \item We want to build some finite product over objects $D_1, \dots D_k$.
     Assume by induction that the following two products exist.
     \[ P_1 \coloneqq \displaystyle \prod_{i \in \{1, \dots, m \} } D_i \text{ , and } P_2 \coloneqq \displaystyle \prod_{i \in \{m+1, \dots, k\} } D_i \]
@@ -485,9 +491,10 @@ The pullback $U$ exists by assumption.
     A \arrow{r}{g} & 1
   \end{tikzcd}
 \]
-The arrows $f$ and $g$ are unique and therefore monic.
-Hence $U$ satisfies the universality condition and is indeed the product.
-%% TODO: possibly show this for one calculation
+Since $U$ is a pullback we have for any other cone $V$ with projections $q_A, q_B$
+a unique map $h \from V \to U$, such that
+$q_A = p_A \circ h$, and $q_B = p_B \circ h$, which is exactly the commuting condition
+for products.
 \end{proof}
 
 Now that we know that a category with pullbacks and a terminal object
@@ -495,6 +502,7 @@ also has finite products, we can proceed to construct equalizers as well
 as their construction build on the existence of products in this category.
 
 \begin{theorem}
+  \label{pullbackequalizer}
   Let $\mathscr C$ be a category with pullbacks and a terminal object $1$.
   Then we can construct equalizers.
 \end{theorem}
@@ -506,7 +514,6 @@ as their construction build on the existence of products in this category.
     \end{tikzcd}
   \]
   We transform this into the following diagram.
-  %%TODO: explain why they're equivalent
   \[
     \begin{tikzcd}
       & B \arrow{d}{\langle 1_B, 1_B \rangle} \\
@@ -514,6 +521,8 @@ as their construction build on the existence of products in this category.
     \end{tikzcd}
   \]
   The product $B \times B$ exists by \hyperref[pullbackproduct]{Theorem \ref*{pullbackproduct}}.
+  Furthermore we have $B \times B \iso B$ by \hyperref[finiteproducts]{Lemma \ref*{finiteproducts}}.
+  The above diagram is therefore equivalent.\\
   We then have the pullback $E$, such that the following diagram commutes.
   \[
     \begin{tikzcd}
@@ -534,11 +543,12 @@ few specific instances.
 The approach is similar to the construction of pullbacks in
 \hyperref[pullbackconstruction]{Fact \ref*{pullbackconstruction}}.
 
-\begin{fact}
-  Let $\mathscr C$ be a category that has all products and equalizers.
-  Let $D : \bm I \to \mathscr C$ be any diagram.
+\begin{theorem}
+  \label{arbitrarylimits}
+  Let $\mathscr C$ be a category that has all (finite) products and equalizers.
+  Let $D : \bm I \to \mathscr C$ be a (finite) diagram.
   Then we can construct a limit of $D$.
-\end{fact}
+\end{theorem}
 \begin{proof}
 We use the following construction:
 \[
@@ -556,12 +566,19 @@ with the maps $s, t$ that have components $s_n, t_n$ for all $K \overset{n}{\to}
   t_n &= p_J\ \hat{=} \prod_{I \in \bm{I}} D(I)
         \overset{p_J}{\rightarrow} D_J
 \end{align*}
-All products exist by assumption.
-To clarify, the product over all maps $K \overset{n}{\to} J \in \bm{I}$
-has components $p_n = J$ for each map $n$.\\
+
+The product $\displaystyle \prod_{K \overset{n}{\to} J \in \bm{I}} D(J)$ has components for each map in the diagram.
+We take the diagram for pullbacks as an example for clarification:
+\begin{tikzcd}
+ I \arrow{r}{m} & J & \arrow[swap]{l}{n} K
+\end{tikzcd}.\\
+For this example diagram the product has the following projections. One for each identity:
+$p_{1_I} \from \prod \to I,\ p_{1_J} \from \prod \to J,\ p_{1_K} \from \prod \to K$,
+and one for each remaining map in the diagram: $p_m \from \prod \to J,\ p_n \from \prod \to J$.\\
+All products in the above construction exist by assumption.
 We take $E$ as the equalizer of $s$ and $t$ which also exists by assumption.
 We therefore have $s \circ e = t \circ e$.
-The maps $s$ and $t$ have components. Therefore the equality has to hold for all
+The maps $s$ and $t$ have components. The equality has to hold for all
 components and we get
 \begin{align*}
   s \circ e &= t \circ e\\
@@ -597,14 +614,26 @@ it follows that the equalizer $E$ is also a universal cone
 and therefore a limit of $D$.
 \end{proof}
 \begin{remark}
-  We can even construct limits of infinite diagrams
-  because we assumed that $\mathscr C$ has all products.
+  If $\mathscr C$ has all products including infinite products then
+  this construction works even for infinite diagrams.
   If $\mathscr C$ only has finite products, then we can
   use this construction for
-  limits of finite diagrams.\\
-  Using \hyperref[equiinstance]{Section \ref*{equiinstance}}
-  we can alternatively require pullbacks and a terminal object instead of finite products.
+  limits of finite diagrams.
 \end{remark}
+
+To summarize, we can construct arbitrary limits in the following way.
+If $\mathscr C$ has all products and equalizers then we can
+construct all limits by
+\hyperref[arbitrarylimits]{Theorem \ref*{arbitrarylimits}}.
+Equalizer can be constructed using finite products and pullbacks
+by \hyperref[arbitrarylimits]{Theorem \ref*{pullbackequalizer}}.
+Finite products can in turn be constructed from binary products and a terminal object
+by \hyperref[finiteproducts]{Lemma \ref*{finiteproducts}}.
+Binary products can be constructed using a pullback and a terminal object
+by \hyperref[arbitrarylimits]{Theorem \ref*{pullbackproduct}}.
+Having pullbacks and a terminal object is therefore the lowest requirement from
+which it is possible to bootstrap the constructions of other limit instances
+and even of arbitrary limits.
 
 %%TODO: fix this section
 \section{Colimits}
