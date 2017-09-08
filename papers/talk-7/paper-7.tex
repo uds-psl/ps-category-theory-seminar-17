@@ -15,16 +15,22 @@ As an example, the binary product is constructed in the following way.
 We start with two objects. Then an object $U$ with maps to these objects is the product,
 if it exists an satisfies the universal property for products, that is, all other such objects $V$
 factor through $U$ uniquely.\\[1em]
-\begin{minipage}{.35\linewidth}
+\begin{minipage}{.26\linewidth}
   \begin{tikzcd}
     \bullet &&\bullet
   \end{tikzcd}
 \end{minipage}%
-\begin{minipage}{.35\linewidth}
+\begin{minipage}{.1\linewidth}
+  $\rightsquigarrow \quad$
+\end{minipage}%
+\begin{minipage}{.3\linewidth}
   \begin{tikzcd}
     & U \arrow{dl} \arrow{dr} &\\
     \bullet &&\bullet
   \end{tikzcd}
+\end{minipage}%
+\begin{minipage}{.1\linewidth}
+  $\rightsquigarrow \quad$
 \end{minipage}%
 \begin{minipage}{.35\linewidth}
   \begin{tikzcd}
@@ -74,8 +80,7 @@ Products, pullbacks, and equalizers are instances of a more general concept call
 limit which expresses the common pattern between the examples above.
 The goal is to make this abstract common pattern more formal
 and establish relations between concrete instances of it.
-We start with the definition of a limit.\\
-
+We start with the definition of a limit.
 \begin{definition}
   A \textbf{limit} is a universal cone over a diagram.
 \end{definition}
@@ -83,7 +88,7 @@ We start with the definition of a limit.\\
 In the following section we explain this definition. We need to clarify three things
 in particular.
 First we need to define the concept of a diagram more formally.
-Then we define what a cone over a diagram is. Lastly we state what it means for a cone
+Then we define cones over a diagram. Lastly we state what it means for a cone
 to be universal.
 We start with diagrams. They are the initial entities of which we take the limit.
 In the examples above the diagrams
@@ -97,7 +102,7 @@ and over which the object $U$ has maps.
 \end{definition}
 \begin{example}
   \label{diagramexample}
-  This is an example of a diagram we use to build a pullback. \\[1cm]
+  This is an example of the diagram used for the pullback. \\[1cm]
   \begin{minipage}{0.3\linewidth}
     \hspace{2cm}
     \begin{tikzcd}
@@ -637,7 +642,16 @@ and even of arbitrary limits.
 
 %%TODO: fix this section
 \section{Colimits}
-To define colimits we dualize the concept of limits.
+ Colimits are the dual of limits.
+The motivation to dualize limits is to obtain dualized versions of theorems for limits.
+Many concepts in mathematics turn out to be colimits and it is
+therefore useful to have a general definition for them as well.
+\begin{definition}
+  A \textbf{colimit} is a universal cocone over a diagram.
+\end{definition}
+A cocone is the dualized version of a cone.
+Recall that a cone has maps from the vertex into the diagram. Dually,
+a cocone has maps from the diagram into the vertex.
 \begin{definition}
   Let $D : \bm I \to \mathscr C$ be a diagram.
   A \textbf{cocone} $U$ over $D$ is an object $U \in \mathscr{C}$
@@ -651,11 +665,14 @@ To define colimits we dualize the concept of limits.
   \]
   That is $f_I = f_J \circ D(m)$.
 \end{definition}
-A cone has maps from the vertex into the diagram,
-while a cocone has maps from the diagram into the vertex.
+The universality condition is also dualized as expected.
+For limits the condition is the existence of a unique map from
+any other cone to the limit cone.
+For colimits the condition is therefore dually the existence of a unique map
+from the colimit to any other cocone.
 \begin{definition}
   A cocone $(D(I)\overset{f_I}{\to} U)_{I\in \bm{I}}$ is \textbf{universal}, if
-  for all other cones $(D(I) \overset{g_I}{\to} V)_{I\in \bm{I}}$ there is a unique
+  for all other cocones $(D(I) \overset{g_I}{\to} V)_{I\in \bm{I}}$ there is a unique
   map $h \from U \to V$, such that for all $I \in \bm{I}$
   the following triangles commute.
   \[
@@ -666,12 +683,7 @@ while a cocone has maps from the diagram into the vertex.
   \]
   That is $g_i = f_i \circ h$.
 \end{definition}
-
-\begin{definition}
-  A \textbf{colimit} is a universal co-cone over a diagram.
-\end{definition}
-%% TODO: complete definition
-
+\begin{example}
 \[
     \begin{tikzcd}
       & D_K \arrow{d}{D_n}
@@ -685,8 +697,54 @@ while a cocone has maps from the diagram into the vertex.
       & & {\color{blue}U} \arrow[dashed]{dr}{h}& \\
       & & & {\color{red}V}
     \end{tikzcd}
-\]
-%% TODO: example drawing
+  \]
+\end{example}
+
+\begin{example}
+  We now verify that our three examples are indeed instances of the general colimit definition.
+  The diagram for the colimit is the dualized diagram of the limit.
+  For coproducts the diagram is therefore the same as for products.
+  We just construct a cocone instead of a cone.
+  \[
+    \begin{tikzcd}
+      \bullet \arrow{dr} \arrow[bend right=30]{ddr}&& \bullet \arrow{dl} \arrow[bend left= 30]{ddl}\\
+      & U \arrow[dashed]{d} & \\
+      & V &
+    \end{tikzcd}
+  \]
+  It is easy to see that the commuting condition for universal cocones is exactly the commuting condition
+  for coproducts.\\
+  Next we study the coequalizer.
+  We start with the diagram
+  \[
+    \begin{tikzcd}
+      X \arrow[shift left]{r}{f} \arrow[shift right, swap]{r}{g} & Y
+    \end{tikzcd}
+  \]
+  We construct a cocone over it
+  \[
+    \begin{tikzcd}
+      X \arrow[shift left]{r}{f} \arrow[shift right, swap]{r}{g} \arrow[swap]{d}{p_X} & Y \arrow[bend left=30]{dl}{p_Y}\\
+      U
+    \end{tikzcd}
+  \]
+  Because of the commuting condition for cocones we have
+  $p_1 = p_2 \circ f = p_2 \circ g$.
+  Since $p_1$ is uniquely determined by composition we leave the arrow implicit and do not draw it for all further cones.
+  If $U$ is a colimit, then we have
+  \[
+    \begin{tikzcd}
+      X \arrow[shift left]{r}{f} \arrow[shift right, swap]{r}{g} & Y \arrow{r}{p_Y} \arrow{dr}{q_Y}& U \arrow[dashed]{d}{h} \\
+      && V
+    \end{tikzcd}
+  \]
+  The commuting condition says that the diagram commutes.
+  Specifically we have $h \circ p \circ f= q \circ f$ and $h \circ p \circ g = q \circ g$ which is exactly
+  the commuting condition for coequalizers.\\
+  We have similarly that a pushout is a colimit of the diagram \begin{tikzcd} I & J \arrow{l}{f} \arrow{r}{g} & K \end{tikzcd}
+  by leaving out the projection map $p_J$.
+\end{example}
+
 
 \end{document}
 
