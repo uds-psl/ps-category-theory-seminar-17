@@ -1,0 +1,471 @@
+\def\pathToRoot{../../}\input{\pathToRoot headers/header_lecturenotes}
+
+\usepackage{todonotes}
+\usepackage{semantic}
+
+\DeclareMathOperator{\core}{core}
+
+% Theorem Environments
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{lemma}{Lemma}
+
+% Title page
+\title{Presheaf Model for Dependent Types}
+
+\author{Nikita Ziuzin}
+
+\begin{document}
+
+\maketitle
+
+\section*{Dependent types}
+
+Dependent types are types that unlike simple types like functions and products
+may depend on or vary with values.  A classical example of a dependent type is
+a type of lists $List_{A}(N)$ of a given length $N : \NN$ over some
+type $A$. The elements of such type are $Nil_{A} : List(0)$ and
+$Cons_{A}(x, l) : List(N+1)$, where $x : {A}$ and $l : List_{A}(N)$.
+Now let us consider a function that takes $n : \NN$ and returns a list of
+length $n$ containing $0$ in all entries.  This function would have the type
+$\Pi n : \NN.List_\NN(n)$, a type of functions for which the type
+of the return value depends on the argument.  The important point of the
+dependent typing is that it reveals more information about the function.
+Another example is an exception-free head function that returns the first
+element of the list:
+\[
+  hd: \Pi x : \mathbb{N}.List_{A}(Suc(x)) \to A
+\]
+The type of this function prevents it from being applied to an empty list,
+showing clearly that the function is defined only for non empty lists.
+
+\section*{Formalization}
+
+To formalize dependent types we build a system that allows us to make
+judgements of the form $a : A$ (term $a$ has type $A$) and $A~type$ ($A$ is a
+type). We will also want a notion of definitional equality to be built into the
+system, for example we want to consider $0 : \NN$ and $0 + 0 : \NN$ to be
+(definitionally) equal terms and $List_A(0)$, $List_A(0 + 0)$ as
+(definitionally) equal types: if $l : List_A(0)$ then also $l : List_A(0 + 0)$.
+This leads to two more forms of the judgements: $a = b : A$ ($a$ and $b$ are
+definitionally equal terms of type $A$) and $A = B~type$ ($A$ and $B$ are
+definitionally equal types). Finally, we must know types of the free variables
+occurring in a judgement: we cannot assert $x + y : \NN$ unless we know $x :
+\NN$ and $y : \NN$. Since such declarations may depend on each other like in $x
+: \NN$, $y : List_\NN(x)$ it is convenient to make all judgements relative to a
+list of variable declarations including at least the free variables occurring
+inside the judgement. Such lists are called contexts and sometimes also type
+assignments.
+
+Intuitively, a context $x_1 : A_1, \dots, x_n : A_n$ is well-formed if each
+$A_i$ is a type in the context $x_1 : A_1, \dots, x_{n-1} : A_{n-1}$ and all
+the variables $x_i$ are pairwise distinct. Thus we arrive to six kinds of
+judgements:
+
+\begin{align*}
+  &\vdash \Gamma~ctxt && \text{$\Gamma$ is a valid context} \\
+  &\Gamma \vdash A~type && \text{$A$ is a type in $\Gamma$} \\
+  &\Gamma \vdash a : A && \text{$a$ is a term of type $A$ in context $\Gamma$} \\
+  &\vdash \Gamma = \Delta && \text{$\Gamma$ and $\Delta$ are definitionally equal contexts} \\
+  &\Gamma \vdash A = B && \text{$A$ and $B$ are definitionally equal types in context $\Gamma$} \\
+  &\Gamma \vdash a = b : A && \text{$a$ and $b$ are definitionally equal terms of type $A$ in context $\Gamma$}
+\end{align*}
+
+We also have the following structural rules:
+\begin{itemize}
+  \item The empty context construction, context extension and context equality
+    rules
+    \[
+      \inference[C-Emp]{}{\vdash \diamond~ctxt}
+      \qquad
+      \inference[C-Ext]{\Gamma \vdash A~type}{\vdash \Gamma, x : A~ctxt}
+    \]
+    \[
+      \inference[C-Ext-Eq]{\vdash \Gamma = \Delta~ctxt \qquad \Gamma \vdash A = B~type}{\vdash \Gamma, x:A = \Delta, y:B~ctxt}
+    \]
+    where $x$ and $y$ are assumed to be fresh variables.
+  \item The variable rule
+    \[
+      \inference[Var]{\vdash \Gamma, x:A,\Delta~ctxt}{\Gamma,x:A,\Delta \vdash x:A}
+    \]
+  \item Rules expressing that definitional equality is an equivalence relation:
+    \[
+      \inference[C-Eq-R]{\vdash \Gamma~ctxt}{\vdash \Gamma = \Gamma~ctxt}
+    \]
+    \[
+      \inference[C-Eq-S]{\vdash \Gamma = \Delta~ctxt}{\vdash \Delta = \Gamma~ctxt}
+    \]
+    \[
+      \inference[C-Eq-T]{\vdash \Gamma = \Delta~ctxt \qquad \vdash \Delta = \Theta~ctxt}{\vdash \Gamma = \Theta~ctxt}
+    \]
+    with analogous rules for terms and types (omitted).
+  \item Rules relating typing and definitional equality:
+    \[
+      \inference[Tm-Conv]{\Gamma \vdash a : A \qquad \vdash \Gamma = \Delta~ctxt \qquad \Gamma \vdash A = B~type}{\Delta \vdash a : B}
+    \]
+    \[
+      \inference[Ty-Conv]{\vdash \Gamma = \Delta~ctxt \qquad \Gamma \vdash A~type}{\Delta \vdash A~type}
+    \]
+  \item And rules for weakening and substitution, where $\mathcal{J}$ ranges over judgements of the form $a : A, A~type, a = b: A, A = B~type$:
+    \[
+      \inference[Weak]{\Gamma, \Delta \vdash \mathcal{J} \qquad \Gamma \vdash C~type}{\Gamma, x : C, \Delta \vdash \mathcal{J}}
+    \]
+    \[
+      \inference[Subst]{\Gamma, x: C, \Delta \vdash \mathcal{J} \qquad \Gamma \vdash c: C}{\Gamma, \Delta[c/x] \vdash \mathcal{J}[c/x]}
+    \]
+    Here $\mathcal{J}[c/x]$ (and $\Delta[c/x]$) denotes the capture-free
+    substitution of $x$ for $c$ in $\mathcal{J}$. This means that bound
+    variables in $\mathcal{J}$ are systematically renamed to prevent any free
+    variables in $c$ from becoming bound in $\mathcal{J}[c/x]$. The contexts,
+    types, and terms will be considered equal if they agree up to names of
+    bound variables and we will assume existence of capture-free substitution
+    function on these equivalence classes.
+\end{itemize}
+
+\section*{Type formers}
+
+Type and term formers are introduced by formation, introduction, elimination,
+and equality rules. We present several type formers to give an example of how
+they may be constructed.
+
+\subsection*{Dependent product}
+
+Dependent product (also known as dependent function space or $\Pi$-type)
+corresponds to set-theoretic notion of cartesian product over a family of sets
+$\Pi_{i \in I}B_i$ which has as elements functions mapping an index $i$ to an
+element of a corresponding set $B_i$. In type theory this is expressed as
+follows:
+
+\[
+  \inference[$\Pi$-F]{\Gamma \vdash A~type \qquad \Gamma, x:A \vdash B~type}{\Gamma \vdash \Pi x:A. B~type}
+\]
+
+\[
+  \inference[$\Pi$-Eq]{\Gamma \vdash A_1 = A_2 ~type \qquad \Gamma, x:A \vdash B_1 = B_2 ~type}{\Gamma \vdash \Pi x:A_1. B_1 = \Pi x:A_2. B_2~type}
+\]
+
+The first rule expresses that a dependent product consists of a type $A$ (that
+possibly depends on other types in $\Gamma$) and a type depending on $A$ (and
+$\Gamma$), namely $B$. The rule $\Pi$-Eq expresses that the definitional
+equality is respected by the $\Pi$-former. Note that the variable $x$ becomes
+bound in $\Pi x:A. B$.
+
+To form the elements of the $\Pi$-type we have the introduction rules with
+associated congruence rule:
+
+\[
+  \inference[$\Pi$-I]{\Gamma, x:A \vdash b : B}{\Gamma \vdash \lambda x : A. b : \Pi x:A. B}
+\]
+
+\[
+  \inference[$\Pi$-I-Eq]{\Gamma, x:A_1 \vdash b_1 = b_2 : B_1 \qquad \Gamma A_1 = A_2~type \qquad \Gamma x: A_1 \vdash B_1 = B_2~type}{\Gamma \vdash \lambda x : A_1. b^{B_1} = \lambda x : A_2. b^{B_2} : \Pi x:A_1. B_1}
+\]
+
+So to give an element of $\Pi x:A. B$ one must give an element of $B[x]$ in the
+presence of a variable $x$ of type $A$. The congruence rule $\Pi$-I-Eq
+expresses that definitional equality preserves $\Pi$-introduction. In the
+following we will refrain from writing down the congruence rules explicitly,
+having them present implicitly for every type and term formers we introduce.
+
+Elements of $\Pi$-type are consumed using application:
+\[
+  \inference[$\Pi$-E]{\Gamma \vdash u : \Pi x:A. B \qquad \Gamma \vdash a : A}
+  {\Gamma \vdash App_{[x:A]B}(u, a): B[a / x]}
+\]
+
+Square brackets in the typing annotation $[x : A] B$ here mean that the
+variable $x$ is bound in $B$.
+
+The following rule gives definitional equality to applications --- applying a
+function $\lambda x : A. b^B$ to a term $a : A$ results in $b$ with $x$
+replaced by $a$:
+
+\[
+  \inference[$\Pi$-C]{\Gamma \vdash \lambda x : A. b : \Pi x:A. B \qquad \Gamma \vdash a : A}
+  {\Gamma \vdash App_{[x:A]B}(\lambda x : A. b, a) = b[a / x]: B [a / x]}
+\]
+
+Note that the substitution plays more prominent role here than in simply typed
+lambda calculus: substitution is needed to formulate not only the term
+conversion rules, but also the typing rules.
+
+\subsection*{Dependent sum}
+
+The next type former we consider is the $\Sigma$-type, or dependent sum,
+corresponding to disjoint union in set theory. If we are given a family of sets
+$(B_i)_{i \in I}$ we can form the set $\Sigma_{i \in I} B_i := \{ (i, b)~|~i
+\in I \land b \in B_i\}$ whose elements consist of an index $i$ and an element
+of the corresponding set $B_i$. In type theory the corresponding formation and
+introduction rules look as follows.
+\[
+  \inference[$\Sigma$-F]{\Gamma \vdash A \text{ type}\\ \Gamma, x:A \vdash B \text{ type}}{\Gamma \vdash \Sigma x : A. B \text{ type}}
+\]
+\[
+  \inference[$\Sigma$-I]{\Gamma \vdash a : A\\ \Gamma\vdash b: B[a / x]}{\Gamma Pair_{[x:A]B} (a,b) : \Sigma x : A. B}
+\]
+
+Elimination rule:
+\[
+  \inference[$\Sigma$-E]{\Gamma, z : \Sigma x: A. B \vdash C \text{ type}\\ \Gamma, x: A, y: B \vdash c : C[Pair_{[x:A]B}(x, y)/z]\\ \Gamma \vdash u : \Sigma x: A. B}
+  {R^\Sigma_{[z : \Sigma x: A. B]C}([x : A, y: B]c, u): C[u/z]}
+\]
+
+And definitional equality:
+\[
+  \inference{\Gamma\vdash R^\Sigma_{[z : \Sigma x: A. B]C}([x : A, y: B]c, Pair_{[x:A]B}(a,b)): C[Pair_{[x:A]B}/z]}
+  {\Gamma\vdash R^\Sigma_{[z : \Sigma x: A. B]C}([x : A, y: B]c, Pair_{[x:A]B}(a,b)) = c[a/x,b/y] : C [Pair_{[x:A]B}/z}
+\]
+
+The projection functions for the dependent sum can be defined using these
+rules:
+\[
+  \mathbf{p}(a) := R^\Sigma_{[z : \Sigma x: A. B]A}([x : A, y: B]x, a) : A
+\]
+for the first projection and
+\[
+  \mathbf{q}(a) := R^\Sigma_{[z : \Sigma x: A. B]B[z.1/x]}([x : A, y: B]y, a) : B[\mathbf{p}(a)/x]
+\]
+for the second projection, assuming $\Gamma \vdash A~type$, $\Gamma, x:A \vdash
+B~type$, and $\Gamma \vdash a : \Sigma x: A. B$.
+
+The important special cases of $\Pi x: A. B$ and $\Sigma x : A. B$ arise when
+$B$ does not actually depend on $A$. The we write
+\[
+  A \to B := \Pi x: A. B
+\]
+and
+\[
+  A \times B := \Sigma x: A. B
+\]
+indicating that in this cases $\Pi$- and $\Sigma$-types correspond to ordinary
+non-dependent function and cartesian product types respectively.
+
+\section*{Categories with Families}
+
+We will use categories with families (CwF) to model dependent types. First
+consider what is a category of families. The category of families of sets,
+$\fcat{Fam}$, has as objects $(A, B)$ where $A$ is a set and $B = (B_a~|~a \in
+A)$ is an $A$-indexed family of sets $B_a$, $a \in A$. A morphism $(A, B) \to
+(A', B')$ is given by a pair $(f, g)$ where $f: A \to A'$ and $g$ is an
+$A$-indexed famiy of functions such that $g_a: B_a \to B_{fa}'$.
+
+A \emph{category with families} is given by ($\cat{C}$,$F$) where:
+
+\begin{itemize}
+  \item[$\bullet$] $\cat{C}$ is a category, objects: $\Gamma, \Delta, \dots$ are
+    \emph{contexts}, morphisms:  $\sigma, \tau, \dots$ are
+    \emph{substitutions} or context morphisms
+
+  \item[$\bullet$] A terminal object $1$ in $\cat{C}$ is the empty context ($\diamond$).
+
+  \item[$\bullet$] $F$ is a functor $F\from \cat{C}^\op \to \fcat{Fam}$; For a
+    context $\Gamma$ we write $Ty_F(\Gamma)$ for the indexing set of the family
+    $F(\Gamma)$ and its family as $(Ter_F(\Gamma;A) | A \in Ty_F(\Gamma))$;
+    $\Gamma \vdash A~type$ means that $A \in Ty_F(\Gamma)$ and $\Gamma \vdash a
+    : A$ means $a \in Ter_F(\Gamma;A)$. For a context morphism $\sigma \from
+    \Delta \to \Gamma$ the morphism $F(\sigma)$ acts on types $\Gamma \vdash
+    A~type$ as $A\sigma$ and on terms $\Gamma \vdash a : A$ as $a\sigma$. The
+    following equations also hold:
+
+    \[
+      A1=A \quad (A\sigma)\tau = A(\sigma\tau) \quad a1=a \quad (a\sigma)\tau=a(\sigma\tau)
+    \]
+
+  \item[$\bullet$] There is also the operation of \emph{context extension}: if
+    $\vdash \Gamma~ctxt$ and $\Gamma \vdash A~type$, there is a context
+    $\Gamma, x:A$ (for brevity also written as $\Gamma.A$ from now on), a
+    context morphism $\mathbf{p}: \Gamma.A \to \Gamma$, and a term $\Gamma.A
+    \vdash \mathbf{q} : A \mathbf{p}$. This should satisfy the following
+    property: for each $\vdash \Delta~ctxt$ and a context morphism
+    $\sigma \from \Delta \to \Gamma$ and $\Delta \vdash a : A \sigma$, there is
+    a context morphism $(\sigma, a): \Delta \to \Gamma.A$ such that:
+    \[
+      \mathbf{p}(\sigma, a) = \sigma \quad \mathbf{q}(\sigma, a) = a \quad (\sigma, a) \tau =
+      (\sigma \tau, a \tau) \quad (\mathbf{p}, \mathbf{q}) = 1
+    \]
+    Where in the last equation $1: \Gamma.A \to \Gamma.A$
+\end{itemize}
+
+\section*{Presheaf model}
+
+Let $\cat{C}$ be a small category. In the following objects of $\cat{C}$ will
+be denoted as $I,J,K$ and morphisms as $f,g,h$.
+
+The context $\Gamma$ is then a presheaf on $\cat{C}$, $\Gamma \from
+\cat{C}^\op \to \Set$, that is, we are given a set $\Gamma(I)$ for each
+$I$ in $\ob(\cat{C})$, and functions $\Gamma(I) \to \Gamma(J)$, $\rho \mapsto \rho
+f$ (called \emph{restriction} and written as $f$ acting on the right) for each
+$f: J \to I$ such that
+\[
+  \rho 1 = \rho \quad \text{and} \quad (\rho f) g = \rho (f g)
+\]
+for $g: K \to J$ and $f: J \to I$. We write $\Gamma_f$ for $\rho \mapsto \rho
+f$.
+
+The empty context then is a terminal presheaf and a context morphism $\sigma
+\from \Delta \to \Gamma$ is a natural transformation making the diagram
+commute.
+
+\[
+  \xymatrix{
+    \Delta(I) \ar[r]^{\sigma_I} \ar[d]^{\Delta_f} & \Gamma(I) \ar[d]^{\Gamma_f} \\
+    \Delta(J) \ar[r]^{\sigma_J} & \Gamma(J)
+  }
+\]
+
+If we write $\Gamma_f$ and $\Delta_f$ as $f$ acting on the right, the
+equation becomes:
+\[
+  (\sigma \rho) f = \sigma (\rho f)
+\]
+for $\rho$ in $\Delta(I)$.
+
+Now we consider how to give a dependent type $\Gamma \vdash A~type$ in context
+$\Gamma$. For each object $I \in \ob(\cat{C})$ and $\rho \in \Gamma(I)$ we require a
+set $A \rho$, and for each $f \from J \to I$, we require a function $A \rho \to
+A (\rho f)$, written as $a \mapsto af$ satisfying $a1 = a$ and $afg = a (f g)$
+if $g \from K \to J$. The dependence on $I$ in $A\rho$ and on $I$ and $\rho$ in
+$af$ is omitted for brevity. Substitution $\Delta \vdash A \sigma$ with $\sigma
+\from \Delta \to \Gamma$ is simply given $(A \sigma) \rho = A (\sigma \rho)$
+for $\rho \in \Gamma(I)$, together with the induced map
+\[
+  (A\sigma)\rho = A (\sigma \rho) \to A ((\sigma \rho)f) = A (\sigma (\rho f)) = (A \sigma) (\rho f)
+\]
+for $f \from J \to I$.
+
+The definition of a dependent type can be rephrased more categorically: $A$ is
+a presheaf on $\int_C \Gamma$, where $\int_C \Gamma$ is a category of elements
+of the presheaf $\Gamma$, defined as follows:
+\begin{itemize}
+  \item objects are pairs $(I, \rho)$, where $I \in \ob(\cat{C})$ and $\rho \in
+    \Gamma(I)$
+  \item a morphism $(J, \rho') \to (I, \rho)$ is a morphism $f \from J \to I$
+    in $\cat{C}$ such that $\rho' = \Gamma_f \rho$
+\end{itemize}
+
+A term $\Gamma \vdash a : A$ of a dependent type $\Gamma \vdash A~type$ is
+given by a family of elements $a \rho \in A \rho$ for each $I \in \ob(\cat{C})$
+and $\rho \in \Gamma(I)$, such that $a \rho f = a (\rho f)$ for each $f \from J
+\to I$. The substitution $\Delta \vdash a \sigma : A \sigma$ with $\sigma \from
+\Delta \to \Gamma$ is given by the family $(a \sigma) \rho = a (\sigma \rho)$.
+
+For $\Gamma \vdash A~type$ the context extension $\vdash \Gamma.A~ctxt$ is
+defined by
+\begin{align*}
+  &(\Gamma.A)(I) = \{(\rho, u)~|~\rho \in \Gamma(I) \land u \in A \rho\} &&
+  \text{for $I \in \cat{C}$}\\
+  &(\rho, u)f = (\rho f, u f) && \text{for $f \from J \to I$}
+\end{align*}
+and the projections are defined by $\mathbf{p} \from \Gamma.A \to \Gamma$,
+$\mathbf{p}(\rho, u) = \rho$, and $\Gamma.A \vdash \mathbf{q} : Ap$ by
+$\mathbf{q}(\rho, u) = u$.  Now assume $\sigma \from \Delta \to \Gamma$ and
+$\Delta \vdash a : A\sigma$; we define $(\sigma, a) \from \Delta \to \Gamma.A$
+by $(\sigma, a)\rho = (\sigma \rho, a \rho)$.
+
+\subsection*{Dependent product}
+
+As a motivation for dependent products recall how to define exponents in
+presheaf categories. Let $\Gamma$ and $\Delta$ be presheaves and suppose we
+already know how the exponent $\Delta^\Gamma$ is constructed. Then we get by
+the Yoneda Lemma and the fact that $-^\Gamma$ should be right adjoint to $-
+\times \Gamma$, that
+\[
+  (\Delta^\Gamma)(I) \cong Hom(\mathbf{y}I, \Delta^\Gamma) \cong Hom(\mathbf{y}I \times \Gamma, \Delta)
+\]
+where $\mathbf{y}$ is Yoneda embedding.
+
+The latter can be taken up as a definition. So an element $w$ of
+$(\Delta^\Gamma)(I)$ is a natural transformation $w \from \mathbf{y}I\times
+\Gamma \to \Delta$, so it is given by functions
+\[
+  w_J \from (\mathbf{y}I)(J) \times \Gamma(J) \to \Delta(J),
+\]
+and the naturality condition becomes $(w_J(f, \rho))g = w_K(fg, \rho g)$ for $f
+\from J \to I$, $\rho \in \Gamma(J)$, and $g \from K \to J$.
+
+We will now show that CwF associated to a presheaf category supports
+$\Pi$-types. Given $\Gamma \vdash A$ and $\Gamma.A \vdash B$ we have to define
+$\Gamma \vdash \Pi x: A. B~type$, that is, we have to define the set $(\Pi x:
+A.B) \rho$ for $I \in \cat{C}$ and $\rho \in \Gamma(I)$. The elements $w$ of
+$(\Pi x:A.B)\rho$ are families $w = (w_f~|~J\in \cat{C}, f \from J \to I)$ of
+(dependent) functions such that
+\[
+  w_f u \in B(\rho f, u) \qquad \text{for $J \in \cat{C}, f \from J \to I, and u \in A(\rho f)$},
+\]
+with the requirement that for $g \from K \to J$
+\[
+  (w_f u)g = w_{fg}(ug).
+\]
+
+For such a family $w \in (\Pi x: A. B)\rho$, the restriction $wf \in (\Pi
+x:A.B)(\rho f)$ for $f: \from J \to I$ is defined by taking
+\[
+  (w f)_g u = w_{fg}u \in B(\rho f g, u)
+\]
+where $g \from K \to J$ and $u \in A(\rho f g)$. This definition satisfies $w 1
+= w$ and $w f g = w(f g)$.
+
+Now let $\Gamma.A \vdash b : B$; we have to define $\Gamma \vdash \lambda b :
+\Pi x:A.B$, that is , give $(\lambda b)\rho \in (\Pi x:A.B)\rho$. For $f \from
+J \to I$ and $u \in A(\rho f)$ we set
+\[
+  ((\lambda b)\rho)_f u = b (\rho f, u) \in B(\rho f, u)
+\]
+This satisfies for $g \from K \to J$
+\[
+  (((\lambda b)\rho)_f u)g = (b(\rho f, u))g = b(\rho(fg), ug) = ((\lambda b)\rho)_{fg}(ug)
+\]
+and defines a term since
+\[
+  (((\lambda b)\rho)f)_g u = ((\lambda b) \rho)_{fg} u = b(\rho fg, u) = ((\lambda b)(\rho f))_g u.
+\]
+
+To define the application let $\Gamma \vdash u : \Pi x:A.B$ and $\Gamma \vdash
+v : A$, and we set $App(u, v)\rho = (u\rho)_1 (v\rho) \in B(\rho, v\rho)$, thus
+$App(u, v)\rho \in B(1, v)\rho$ as $(\rho, v \rho) = (1, v)\rho$.
+$\beta$-equality is readily checked
+\[
+  App(\lambda b, v)\rho = ((\lambda b)\rho)_1(v\rho)=b(\rho, v\rho)
+\]
+and similarly for $\eta$-equality and other equations.
+
+\begin{example}[Ordinary function type]
+  Let us consider a term of type $A \to A$, and the elements in $Ty(\Gamma)$
+  and $Ter(\Gamma, A \to A)$ for some $\vdash \Gamma~ctxt$, $\Gamma \vdash
+  A~type$.
+
+  For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we give the
+  element of $\mathit{Ty}(\Gamma)$ corresponding to the type $A \to A$:
+  \[
+    (A \to A)\rho = \{w | w_f u \in A(\rho f), u \in A(\rho f)\} = \{\lambda I f u.u\}
+  \]
+  The required equalities hold trivially for any $g \from K \to J$, $((\lambda
+  I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$.
+
+  $\Gamma, x : A \vdash x : A$ corresponds to $q$ in the model. Thus $\Gamma
+  \vdash \lambda x.x : A -> A$ corresponds to $\lambda q$ being defined as
+  follows:
+  \[
+    ((\lambda q) \rho)_f u = q(\rho f, u) = u
+  \]
+\end{example}
+
+\subsection*{Dependent sum}
+The interpretation of $\Gamma \vdash \Sigma x:A.B~type$ for $\Gamma \vdash
+A~type$ and $\Gamma.A \vdash B~type$ is defined by
+\[
+  (\Sigma x :A. B)\rho = \{(a, b)~|~a \in A\rho \land b \in B(\rho, a)\}
+\]
+for $\rho \in \Gamma(I), I \in \ob(\cat{C})$. The restrictions are defined
+componentwise $(a, b)f = (af, bf)$ for $f \from J \to I$. The pairing operation
+$\Gamma \vdash (u, v) : \Sigma x:A.B$ of $\Gamma \vdash u : A$ and $\Gamma.A
+\vdash v : B(1, u)$ is defined by the componentwise pairing: $(u, v)\rho =
+(u\rho, v\rho)$. Likewise for the projections $\mathbf{p}$ and $\mathbf{q}$,
+$(\mathbf{p}w)\rho = a$ and $(\mathbf{q}w)\rho = b$ for $w\rho = (a, b)$. This
+validates the necessary equations.
+
+\section*{Conclusion}
+
+\end{document}
+
+% vim: ts=2 ss=2 sw=2 expandtab
