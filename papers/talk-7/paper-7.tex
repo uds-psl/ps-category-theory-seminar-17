@@ -5,8 +5,6 @@
 
 \begin{document}
 
-%% TODO: consistent notation, DI D(I) D_I, also for maps D_m Dm
-
 \maketitle
 \section*{Introduction}
 We have seen three special structures in categories,
@@ -163,26 +161,23 @@ is what we address now.
   \[
     \begin{tikzcd}
       & U \arrow[dl, swap, "f_I"] \arrow{dr}{f_J}&\\
-      D_I \arrow[rr, swap, "D_m"] & & D_J\\
+      D_I \arrow[rr, swap, "D_m"] & & D_J
     \end{tikzcd}
   \]
-  That is $f_J = D(m) \circ f_I$.\\
-  For a cone we write $(U \overset{f_I}{\to} D(I))_{I\in \bm{I}}$.
+  That is, $f_J = D_m \circ f_I$.\\
+  For a cone we write $(U \overset{f_I}{\to} D_I)_{I\in \bm{I}}$.
   We call $U$ the \textbf{vertex}, and $f_I$ the \textbf{projection maps} of the cone.
 \end{definition}
 \begin{remark}
   When it is clear from the context that $U$ is the vertex of a cone, then we use just
-  the vertex $U$
-  to refer to the whole cone.\\
-  Note that the underlying diagram determines how the cone looks like.
+  the vertex $U$ to refer to the whole cone.
 \end{remark}
-%% TODO: Notation DI, D(I), D_I ??
 \begin{example}
   A cone over the diagram of pullbacks
   (\hyperref[diagramexample]{Example \ref*{diagramexample}}) looks like this.
   \[
     \begin{tikzcd}
-      U \arrow[bend right=30]{ddr}{f_I} \arrow[bend left=30]{drr}{f_k} \arrow[bend left=20, swap]{ddrr}{f_J}&   &\\
+      U \arrow[bend right=30]{ddr}{f_I} \arrow[bend left=30]{drr}{f_K} \arrow[bend left=20, swap]{ddrr}{f_J}&   &\\
       & & D_K \arrow{d}{D_n} \\
       & D_I \arrow{r}{D_m} & D_J
     \end{tikzcd}
@@ -197,8 +192,8 @@ general limit definition is
 to define what a universal cone is.
 
 \begin{definition}
-  A cone $(U \overset{f_I}{\to} D(I))_{I\in \bm{I}}$ is \textbf{universal}, if
-  for all other cones $(V \overset{g_I}{\to} D(I))_{I\in \bm{I}}$ there is a unique
+  A cone $(U \overset{f_I}{\to} D_I)_{I\in \bm{I}}$ is \textbf{universal}, if
+  for all other cones $(V \overset{g_I}{\to} D_I)_{I\in \bm{I}}$ there is a unique
   map $h \from V \to U$, such that for all $I \in \bm{I}$
   the following triangles commute.
   \[
@@ -207,17 +202,15 @@ to define what a universal cone is.
       & D_I
     \end{tikzcd}
   \]
-  That is $g_i = f_i \circ h$.
+  That is, $g_I = f_I \circ h$.
 \end{definition}
-
 Intuitively, a cone is universal if it
 is universally the ``closest'' to the diagram.
 
 \begin{example}
   This is an example of a universal cone over the
-  diagram of pullbacks
-  (\hyperref[diagramexample]{Example \ref*{diagramexample}}).
-    \[
+  diagram of pullbacks.
+  \[
     \begin{tikzcd}
       {\color{red}V}
       \arrow[bend right=40,color=red]{dddrr}{g_I}
@@ -385,22 +378,21 @@ we get products of arbitrary size.
   Then we can construct all finite products.
 \end{lemma}
 \begin{proof}
+  The idea is to first show the existence of the empty and the unary product.
+  For larger products we stack binary products on top of each other.
   \begin{itemize}
   \item The empty product is just the terminal object by
     \hyperref[emptyproduct]{Example \ref*{emptyproduct}}
-  \item The unary product of any object $A$ is constructed by the binary product
-    $A \times A$.
-    We have $1_A \from A \to A$, and $\pi_1, \pi_2 \from A \times A \to A$.
-    By the universal property of products there exists a unique map $h \from A \to A \times A$.
-    We have $1_A = \pi_1 \circ h$.\\
-    On the other hand we have $(\pi_1 \circ h) \circ \pi_1 = 1_a \circ \pi_1 = \pi_1 \circ ( h \circ \pi_1)$,
-    and therefore $1_A = h \circ \pi_1$.
-    We have constructed an isomorphism and therefore $A \times A \iso A$.
+  \item The unary product of any object $A$ is constructed from the binary product
+    $A \times 1$.
+    We have maps $1_A \from A \to A$, $\pi_A \from A \times 1 \to A$, and $\pi_1 \from A \times 1 \to 1$.
+    Every other object $B$ has a unique map $t_B \from B \to 1$. If $B$ has a map $f \from B \to A$, then
+    it factors uniquely through $A \times 1$ by the universal property of products.
   \item The binary product exists by assumption for all objects $A, B$.
-  \item We want to build some finite product over objects $D_1, \dots D_k$.
-    Assume by induction that the following two products exist.
-    \[ P_1 \coloneqq \displaystyle \prod_{i \in \{1, \dots, m \} } D_i \text{ , and } P_2 \coloneqq \displaystyle \prod_{i \in \{m+1, \dots, k\} } D_i \]
-    with projection maps $(\pi_i)_{i \in \{1, \dots, m \} }$ for $P_1$, and $(\tau_i)_{i \in \{m+1, \dots, k\} }$ for $P_2$.
+  \item We build some finite product over objects $D_1, \dots D_k$.
+    Assume by induction that the following two smaller products exist.
+    \[ P_1 \coloneqq \displaystyle \prod_{i \in \{1, \dots, \frac{k}{2} \} } D_i \text{ , and } P_2 \coloneqq \displaystyle \prod_{i \in \{\frac{k}{2} + 1, \dots, k\} } D_i \]
+    with projection maps $(\pi_i)_{i \in \{1, \dots, \frac{k}{2} \} }$ for $P_1$, and $(\tau_i)_{i \in \{\frac{k}{2}+1, \dots, k\} }$ for $P_2$.
     Then there exists a binary product of $P_1 \times P_2$ with projection maps $f_{P_1}, f_{P_2}$.
     $P_1 \times P_2$ has maps $\pi_i \circ f_{P_1}$ and $\tau_i \circ f_{P_2}$.
     $P_1 \times P_2$ is therefore a cone.
@@ -408,9 +400,6 @@ we get products of arbitrary size.
     The unique morphism $V \rightarrow P_1 \times P_2$ is given by $\langle h_{P_1}, h_{P_2} \rangle$.
     $P_1 \times P_2$ is therefore universal.
   \end{itemize}
-  Intuitively the construction works by stacking binary products on top of each other.
-  Since we assume $\mathscr C$ to have all products, the product of two products exists. This way we can create
-  arbitrarily large finite products.
 \end{proof}
 
 \subsection{Equivalence of instances}
@@ -466,10 +455,13 @@ We now unfold this drawing.
     I \arrow[swap]{r}{m} & J
   \end{tikzcd}
 \]
-$E$ satisfies the commuting and universality conditions of limits
-since it is already an equalizer.
-%% TODO: more detail...
-Therefore it is a pullback.
+Since $E$ is an equalizer we have $e \circ p_K \circ n = e \circ p_I \circ m$.
+Therefore, $E$ satisfies the commuting condition for cones over a pullback square.
+Furthermore note that any other cone $V$ over this pullback square has maps $f \from V \to I$,
+$g \from V \to K$.
+By the universal property of products there is a unique map $m \from V \to I \times K$.
+Since $E$ is an equalizer, there is a unique map $h \from V \to E$,
+and $E$ is indeed a universal cone, that is, a pullback.
 \end{proof}
 
 \begin{fact}
@@ -496,15 +488,15 @@ The pullback $U$ exists by assumption.
     A \arrow{r}{g} & 1
   \end{tikzcd}
 \]
-Since $U$ is a pullback we have for any other cone $V$ with projections $q_A, q_B$
-a unique map $h \from V \to U$, such that
-$q_A = p_A \circ h$, and $q_B = p_B \circ h$, which is exactly the commuting condition
-for products.
+Every object has a unique map to $1$ because it is terminal.
+The cones over $A$ and $B$ are therefore exactly the cones
+over $A$, $B$, and $1$.
+Since $U$ is a pullback, it is therefore also the product.
 \end{proof}
 
 Now that we know that a category with pullbacks and a terminal object
-also has finite products, we can proceed to construct equalizers as well
-as their construction build on the existence of products in this category.
+also has finite products, we can proceed to construct equalizers as well.
+Their construction builds on the existence of products in this category.
 
 \begin{theorem}
   \label{pullbackequalizer}
@@ -518,7 +510,7 @@ as their construction build on the existence of products in this category.
       A \arrow[shift left]{r}{f} \arrow[shift right, swap]{r}{g} & B
     \end{tikzcd}
   \]
-  We transform this into the following diagram.
+  To construct the equalizer of $f$ and $g$ we take the pullback of the following diagram
   \[
     \begin{tikzcd}
       & B \arrow{d}{\langle 1_B, 1_B \rangle} \\
@@ -526,18 +518,26 @@ as their construction build on the existence of products in this category.
     \end{tikzcd}
   \]
   The product $B \times B$ exists by \hyperref[pullbackproduct]{Theorem \ref*{pullbackproduct}}.
-  Furthermore we have $B \times B \iso B$ by \hyperref[finiteproducts]{Lemma \ref*{finiteproducts}}.
-  The above diagram is therefore equivalent.\\
-  We then have the pullback $E$, such that the following diagram commutes.
+  We then have the pullback $E$, such that the following square commutes.
   \[
     \begin{tikzcd}
       E \arrow{r}{h} \arrow{d}{e} & B \arrow{d}{\langle 1_B, 1_B \rangle} \\
       A \arrow{r}{\langle f,g \rangle} & B \times B
     \end{tikzcd}
   \]
-  Since $E$ is a pullback the square above commutes and
-  we get $f \circ e = 1_B \circ h = h = 1_B \circ h = g \circ e$, and $E$ is therefore
-  indeed an equalizer of $f$ and $g$.
+  The product $B \times B$ has projection maps $\pi_1, \pi_2$.
+  By the commuting condition we get
+  \begin{align*}
+    & f \circ e \\
+    =\ & \pi_1 \circ \langle f, g \rangle \circ e\\
+    =\ & \pi_1 \circ \langle 1_B, 1_B \rangle \circ h\\
+    =\ & \pi_2 \circ \langle 1_B, 1_B \rangle \circ h\\
+    =\ & \pi_2 \circ \langle f,g \rangle \circ e\\
+    =\ & g \circ e
+  \end{align*}
+  Therefore, $E$ satisfies the commuting condition for equalizers.
+  Universality follows, since any other fork of $f$ and $g$ is also a pullback
+  cone over the above pullback square.
 \end{proof}
 
 %%TODO: fix this section
@@ -559,24 +559,24 @@ We use the following construction:
 \[
   \begin{tikzcd}
     E \arrow{r}{e} &
-    \displaystyle \prod_{I \in \bm{I}} D(I)
+    \displaystyle \prod_{I \in \bm{I}} D_I
     \arrow[r,shift left, "s"] \arrow[r,shift right,swap,"t"] &
-    \displaystyle \prod_{K \overset{n}{\to} J \in \bm{I}} D(J)
+    \displaystyle \prod_{K \overset{n}{\to} J \in \bm{I}} D_J
   \end{tikzcd}
 \]
 with the maps $s, t$ that have components $s_n, t_n$ for all $K \overset{n}{\to} J \in \bm{I}$:
 \begin{align*}
-  s_n &= Dn \circ p_K\ \hat{=} \prod_{I \in \bm{I}} D(I)
+  s_n &= Dn \circ p_K\ \hat{=} \prod_{I \in \bm{I}} D_I
         \overset{p_K}{\rightarrow} D_K \overset{Dn}{\rightarrow} D_J \\
-  t_n &= p_J\ \hat{=} \prod_{I \in \bm{I}} D(I)
+  t_n &= p_J\ \hat{=} \prod_{I \in \bm{I}} D_I
         \overset{p_J}{\rightarrow} D_J
 \end{align*}
 
-The product $\displaystyle \prod_{K \overset{n}{\to} J \in \bm{I}} D(J)$ has components for each map in the diagram.
-We take the diagram for pullbacks as an example for clarification:
+The product $\displaystyle \prod_{K \overset{n}{\to} J \in \bm{I}} D_J$ has components for each map in the diagram.
+We take the diagram for pullbacks as an example:
 \begin{tikzcd}
  I \arrow{r}{m} & J & \arrow[swap]{l}{n} K
-\end{tikzcd}.\\
+\end{tikzcd}.
 For this example diagram the product has the following projections. One for each identity:
 $p_{1_I} \from \prod \to I,\ p_{1_J} \from \prod \to J,\ p_{1_K} \from \prod \to K$,
 and one for each remaining map in the diagram: $p_m \from \prod \to J,\ p_n \from \prod \to J$.\\
@@ -590,11 +590,7 @@ components and we get
   s_n \circ e &= t_n \circ e, \quad \forall\ K \overset{n}{\rightarrow} J \in \bm I \\
   Dn \circ p_K \circ e &= p_J \circ e
 \end{align*}
-The goal is to construct a limit.
-We do this by constructing a cone and showing that it is universal.
-For the construction of a cone
-we need a vertex and projection maps into every object of the diagram,
-such that the commuting condition of cones is satisfied.
+With this setup we show that we have a universal cone over $D$.
 We take $E$ as the vertex and
 $\uprho_I \coloneqq p_I \circ e, \forall\ I \in \bm I$
 as the projection maps of the cone.
@@ -615,8 +611,8 @@ which corresponds to the commuting diagram
 This is exactly the commuting condition we need for a cone.\\
 Since any other cone over $D$
 is also a fork of $s$ and $t$
-it follows that the equalizer $E$ is also a universal cone
-and therefore a limit of $D$.
+it follows that the equalizer $E$ is also a universal cone,
+that is, a limit of $D$.
 \end{proof}
 \begin{remark}
   If $\mathscr C$ has all products including infinite products then
@@ -630,17 +626,19 @@ To summarize, we can construct arbitrary limits in the following way.
 If $\mathscr C$ has all products and equalizers then we can
 construct all limits by
 \hyperref[arbitrarylimits]{Theorem \ref*{arbitrarylimits}}.
-Equalizer can be constructed using finite products and pullbacks
+Equalizers can be constructed using finite products and pullbacks
 by \hyperref[arbitrarylimits]{Theorem \ref*{pullbackequalizer}}.
-Finite products can in turn be constructed from binary products and a terminal object
+In the case that we want to construct infinite limits
+the existence of infinite products is necessary
+for which we have no construction.
+If we want to construct finite limits, then finite products are sufficient.
+Finite products can be constructed from binary products and a terminal object
 by \hyperref[finiteproducts]{Lemma \ref*{finiteproducts}}.
-Binary products can be constructed using a pullback and a terminal object
+Binary products can in turn be constructed from a pullback and a terminal object
 by \hyperref[arbitrarylimits]{Theorem \ref*{pullbackproduct}}.
-Having pullbacks and a terminal object is therefore the lowest requirement from
-which it is possible to bootstrap the constructions of other limit instances
-and even of arbitrary limits.
+Having pullbacks and a terminal object is therefore the most basic requirement from
+which it is possible to bootstrap the construction of arbitrary finite limits.
 
-%%TODO: fix this section
 \section{Colimits}
  Colimits are the dual of limits.
 The motivation to dualize limits is to obtain dualized versions of theorems for limits.
@@ -659,11 +657,11 @@ a cocone has maps from the diagram into the vertex.
   $\forall\ I \overset{m}{\to} J \in \bm{I}$, the following triangle commutes:
   \[
     \begin{tikzcd}
-      D_I \arrow[rr, "D(m)"]\arrow[dr, swap, "f_I"] & & D_J \arrow{dl}{f_J}\\
+      D_I \arrow[rr, "D_m"]\arrow[dr, swap, "f_I"] & & D_J \arrow{dl}{f_J}\\
       & U  &
     \end{tikzcd}
   \]
-  That is $f_I = f_J \circ D(m)$.
+  That is $f_I = f_J \circ D_m$.
 \end{definition}
 The universality condition is also dualized as expected.
 For limits the condition is the existence of a unique map from
@@ -671,8 +669,8 @@ any other cone to the limit cone.
 For colimits the condition is therefore dually the existence of a unique map
 from the colimit to any other cocone.
 \begin{definition}
-  A cocone $(D(I)\overset{f_I}{\to} U)_{I\in \bm{I}}$ is \textbf{universal}, if
-  for all other cocones $(D(I) \overset{g_I}{\to} V)_{I\in \bm{I}}$ there is a unique
+  A cocone $(D_I\overset{f_I}{\to} U)_{I\in \bm{I}}$ is \textbf{universal}, if
+  for all other cocones $(D_I \overset{g_I}{\to} V)_{I\in \bm{I}}$ there is a unique
   map $h \from U \to V$, such that for all $I \in \bm{I}$
   the following triangles commute.
   \[
@@ -701,7 +699,8 @@ from the colimit to any other cocone.
 \end{example}
 
 \begin{example}
-  We now verify that our three examples are indeed instances of the general colimit definition.
+  We now verify for coproducts and coequalizers that they are indeed
+  instances of the general colimit definition.\\
   The diagram for the colimit is the dualized diagram of the limit.
   For coproducts the diagram is therefore the same as for products.
   We just construct a cocone instead of a cone.
