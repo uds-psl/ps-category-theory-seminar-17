@@ -11,7 +11,7 @@ We have seen three special structures in categories,
 the product, the pullback, and the equalizer.
 As an example, the binary product is constructed in the following way.
 We start with two objects. Then an object $U$ with maps to these objects is the product,
-if it exists an satisfies the universal property for products, that is, all other such objects $V$
+if it exists and satisfies the universal property for products, that is, all other such objects $V$
 factor through $U$ uniquely.\\[1em]
 \begin{minipage}{.26\linewidth}
   \begin{tikzcd}
@@ -40,7 +40,7 @@ factor through $U$ uniquely.\\[1em]
 \\[1em]
 The pullback and the equalizer are constructed similarly.
 They all have an input diagram, and we call an object $U$ with maps into this diagram
-product/pullback/equalizer if it satisfies the universal property.
+product/pullback/equalizer if makes the diagram commute and satisfies the universal property.
 \\[1em]
 \begin{minipage}{.35\linewidth}
   \begin{tikzcd}
@@ -83,15 +83,13 @@ We start with the definition of a limit.
   A \textbf{limit} is a universal cone over a diagram.
 \end{definition}
 
-In the following section we explain this definition. We need to clarify three things
-in particular.
+In the following section we explain this definition. We need to clarify three things for this.
 First we need to define the concept of a diagram more formally.
 Then we define cones over a diagram. Lastly we state what it means for a cone
 to be universal.
 We start with diagrams. They are the initial entities of which we take the limit.
 In the examples above the diagrams
-are the various collections of objects (and arrows) that we start with
-and over which the object $U$ has maps.
+are the various collections of objects (and arrows) that we start with.
 
 \begin{definition}
   Let $\bm{I}, \mathscr{C}$ be categories.
@@ -143,7 +141,7 @@ is to define how the diagram is supposed to look like.
 The reason we use an intermediate
 category $\bm I$ to define the shape is that
 there might be many parts in $\mathscr C$ which have the shape $\bm I$,
-especially when $\bm I$ is so small.
+especially when $\bm I$ is small.
 We therefore get all different diagrams of that shape by considering
 all different functors $D$.
 Diagrams do not necessarily have to be small. Their shape can even be infinite.
@@ -329,10 +327,10 @@ A question that often arises is if a given category $\mathscr C$ has certain lim
 e.g. products or a terminal object. Now that we have a abstract definition of limits
 we can approach this problem in a more systematic way.
 This leads to two observations:\\
-\hyperref[equiinstance]{(\ref*{equiinstance})} A category $\mathscr C$ has finite products and equalizers iff
+\hyperref[equiinstance]{Section \ref*{equiinstance}:} A category $\mathscr C$ has finite products and equalizers iff
 it has pullbacks and a terminal
 object.\\
-\hyperref[arbitrarylimits]{(\ref*{arbitrarylimits})}
+\hyperref[arbitrarylimits]{Section \ref*{arbitrarylimits}:}
 If a category $\mathscr C$ has products and equalizers, then it has all limits, that is,
 limits of diagrams of arbitrary shape can be constructed using these two instances.
 
@@ -341,7 +339,7 @@ So far we have only been concerned with the product of two objects, i.e. the bin
 We now study the concept of products more generally.
 \begin{lemma}
   \label{emptyproduct}
-  The empty product, i.e. the product of zero objects, is a terminal objects
+  The empty product, i.e. the product of zero objects, is a terminal object.
 \end{lemma}
 \begin{proof}
   The empty product is a limit over the empty diagram just as the terminal object
@@ -382,7 +380,7 @@ we get products of arbitrary size.
   For larger products we stack binary products on top of each other.
   \begin{itemize}
   \item The empty product is just the terminal object by
-    \hyperref[emptyproduct]{Example \ref*{emptyproduct}}
+    \hyperref[emptyproduct]{Lemma \ref*{emptyproduct}}
   \item The unary product of any object $A$ is constructed from the binary product
     $A \times 1$.
     We have maps $1_A \from A \to A$, $\pi_A \from A \times 1 \to A$, and $\pi_1 \from A \times 1 \to 1$.
@@ -406,8 +404,8 @@ we get products of arbitrary size.
 \label{equiinstance}
 
 In this section we establish that the instances of limits we have seen are related
-in a way that allows us to show how to construct these instances using others.
-This implies that if we know that a category has some of the right instances
+in a way that allows us to construct some instances using others.
+This implies that in any category which has the right instances
 we can construct other limits for free using only category theoretical arguments.
 
 \begin{theorem}
@@ -550,8 +548,8 @@ The approach is similar to the construction of pullbacks in
 
 \begin{theorem}
   \label{arbitrarylimits}
-  Let $\mathscr C$ be a category that has all (finite) products and equalizers.
-  Let $D : \bm I \to \mathscr C$ be a (finite) diagram.
+  Let $\mathscr C$ be a category that has all products and equalizers.
+  Let $D : \bm I \to \mathscr C$ be a diagram.
   Then we can construct a limit of $D$.
 \end{theorem}
 \begin{proof}
@@ -573,11 +571,11 @@ with the maps $s, t$ that have components $s_n, t_n$ for all $K \overset{n}{\to}
 \end{align*}
 
 The product $\displaystyle \prod_{K \overset{n}{\to} J \in \bm{I}} D_J$ has components for each map in the diagram.
-We take the diagram for pullbacks as an example:
+To clarify this, we take the diagram for pullbacks as an example:
 \begin{tikzcd}
  I \arrow{r}{m} & J & \arrow[swap]{l}{n} K
 \end{tikzcd}.
-For this example diagram the product has the following projections. One for each identity:
+For this diagram the product has the following projections. One for each identity:
 $p_{1_I} \from \prod \to I,\ p_{1_J} \from \prod \to J,\ p_{1_K} \from \prod \to K$,
 and one for each remaining map in the diagram: $p_m \from \prod \to J,\ p_n \from \prod \to J$.\\
 All products in the above construction exist by assumption.
@@ -594,9 +592,9 @@ With this setup we show that we have a universal cone over $D$.
 We take $E$ as the vertex and
 $\uprho_I \coloneqq p_I \circ e, \forall\ I \in \bm I$
 as the projection maps of the cone.
-Clearly, we have all necessary projection maps and we only need to verify
-the commuting condition of cones.
-We have all maps $K \overset{n}{\rightarrow} J \in \bm I$
+Clearly, we have all necessary projection maps. Now we need to verify
+the commuting condition.
+We have for all maps $K \overset{n}{\rightarrow} J \in \bm I$
 \begin{align*}
   Dn \circ p_K \circ e &= p_J \circ e \\
   Dn \circ \uprho_K &= \uprho_J
