@@ -201,7 +201,7 @@ introduction rules look as follows.
   \inference[$\Sigma$-F]{\Gamma \vdash A \text{ type}\\ \Gamma, x:A \vdash B \text{ type}}{\Gamma \vdash \Sigma x : A. B \text{ type}}
 \]
 \[
-  \inference[$\Sigma$-I]{\Gamma \vdash a : A\\ \Gamma\vdash b: B[a / x]}{\Gamma Pair_{[x:A]B} (a,b) : \Sigma x : A. B}
+  \inference[$\Sigma$-I]{\Gamma \vdash a : A\\ \Gamma\vdash b: B[a / x]}{\Gamma \vdash Pair_{[x:A]B} (a,b) : \Sigma x : A. B}
 \]
 
 Elimination rule:
