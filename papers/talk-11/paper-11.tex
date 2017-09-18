@@ -289,6 +289,16 @@ A \emph{category with families} is given by ($\cat{C}$,$F$) where:
 We say that a category with families supports $\Pi$- and $\Sigma$-types if it's
 closed under the corresponding rules shown in previous sections.
 
+We also add the rules for context morphisms:
+
+\[
+  \inference{\Gamma \vdash A~type \qquad \sigma \from \Delta \to \Gamma}{\Delta \vdash A\sigma} \qquad
+  \inference{\Gamma \vdash a : A \qquad \sigma \from \Delta \to \Gamma}{\Delta \vdash a\sigma : A\sigma}
+\]
+\[
+  \inference{\sigma \from \Delta \to \Gamma \qquad \Gamma \vdash A \qquad \Delta \vdash a : A\sigma}{(\sigma, a) \from \Delta \to \Gamma.A}
+\]
+
 \section*{Presheaf model}
 
 We will now show how any presheaf category gives rise to a category with
