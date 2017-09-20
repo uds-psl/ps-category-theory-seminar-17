@@ -1,0 +1,348 @@
+\def\pathToRoot{../}\input{\pathToRoot headers/uebungHeader}
+\usepackage{charter}
+\fontfamily{bch}\selectfont
+
+\begin{document}
+\title{Galois Connections and Adjunctions}
+\author{Sarah Mameche}
+\maketitle
+
+\section*{Introduction}
+	
+	Apart from isomorphism and equivalence, there is another very common relation between categories, called adjunction or adjointness. Though it is a weaker notion than equivalence, it appears very commonly and characterizes important properties of categories.\\\\We will first only consider adjunctions between partially ordered sets, which are known as Galois connections, to get some intuitions. Afterwards, we will see how Galois connections fit into category theory and how they can be generalized to adjunctions between arbitrary categories.\\
+\section*{Galois Connections}
+
+\subsection*{Motivation}
+	In this section, we concentrate on partially ordered sets, in short posets, i.e. sets together with a binary relation that is reflexive, transitive and antisymmetric.\\ 
+\paragraph{Example 1}
+	Consider the powerset over the integers, $\pset({\mathbb{Z}})$,  and the set of closed intervals, $\mathit{intervals}({\mathbb{Z}})$. Both are partially ordered by inclusion, and the following monotone functions map between them in a natural way:
+	\[\mathit{int} \from \pset({\mathbb{Z}}) \to \mathit{intervals}({\mathbb{Z}}), \,\, x \mapsto [\mathit{inf(x)}, \mathit{sup(x)}]\]
+	\[\;\;\;\;\;\;\;\;\;\;\;\mathit{set} \from  \mathit{intervals}({\mathbb{Z}}) \to\pset({\mathbb{Z}}), \,\, [a, b] \mapsto \{x \in \mathbb{Z} \mid a \leq x \leq b \}\]
+
+	Here, $int$ maps from a concrete set of numbers to a less informative interval which only specifies the range of numbers in the set, and $set$ creates a set with all integers contained in some interval's range. \\\\
+	While the original posets are not isomorphic, we have $Im(int) = \mathit{intervals}(\mathbb Z) \cong Im(set)$ because $Im(set)$ only contains sets with all integers in a certain range. The following properties show in more detail how the posets are related.\\\\
+	Note first that composing $set$ after $int$ on some set $x$ results in a possibly bigger set which contains $x$. Composing the functions the other way on an interval $y$ yields an interval that is contained by (in fact, equal to) $y$.
+	\[\text{(i)}\;x \subseteq set(int(x)) \land int(set(y)) \subseteq y\]
+	
+	Given an arbitrary set $x$ and interval $y$, we can make a second observation. The interval $int(x)$ is contained in $y$ if no numbers from the set $x$ are beyond the interval borders of y. By construction of $set$, it is equivalent to state that $x$ is contained in $set(y)$.	
+	\[\text{(ii)}\;int(x) \subseteq y \Leftrightarrow x \subseteq set(y)\;\;\;\;\;\;\;\;\;\;\;\,\]
+	 
+	We say that the functions form a Galois connection, denoted by  $int \dashv set$.
+	  In the context of this example, you can  think of this as a connection between abstraction and concretization, where sets are the concrete objects and intervals are abstract objects. In general, a Galois connection between a pair of posets always consists of two order-preserving functions which map in both directions between the posets. {\begin{flushright}$\square$\end{flushright}}
+	\begin{definition}{Galois Connection} 
+	Let $\mathcal{P} = (P, \preceq_P)$ and 	$\mathcal{Q} = (Q, \preceq_Q)$ be two partially ordered sets. \\A Galois connection $F \dashv G$ between $\mathcal{P}$ and $\mathcal{Q}$  consists of two monotone functions $F : P \rightarrow Q$ and $G : Q \rightarrow P$, such that 
+	\[F(p) \preceq_Q q \Leftrightarrow p \preceq_P G(q)\] $\;\text{for all } p \in P, \; q \in Q$.
+	\end{definition} The following notation can be used:
+	\[\begin{tikzcd}	
+	[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+	\mathcal{P} \arrow[r, shift left=2,"F","\bot"']
+	\& \mathcal{Q} \arrow[l, shift left=2, "G"]
+	\end{tikzcd}\]
+	
+	
+	Recall from example 1 that we found two properties of the connection $int \dashv set$. The first shows how composition of the functions behaves with respect to the partial orders: elements of a poset can only get bigger when composing one way, and elements of the other poset only get smaller when composing the other way. The second one specifies how a member of one poset relates to one from the other poset which we applied one of the functions to. We used (ii) in the definition because it will be used for generalizations later, but both (i) and (ii) are common characterizations for a Galois connection, and they can be shown to be equivalent.
+	\\
+
+\paragraph{Theorem 2}  
+	Let $\mathcal{P} = (P, \preceq_P)$ and $\mathcal{Q} = (Q, \preceq_Q)$ be posets and $F: P \rightarrow Q$ and $G: Q \rightarrow P$ monotone functions that form a Galois connection $F \dashv G$. The following characterizations for $F \dashv G$ are equivalent:
+	\[\text{(i)}\;p \preceq_P G (F (p)) \land F(G (q)) \preceq_Q q\]
+	\[\text{(ii)}\;  F(p) \preceq_Q q \Leftrightarrow p \preceq_P G(q)\;\;\;\;\;\;\;\;\,\]
+%$\text{for all } p \in P, \; q \in Q$.
+
+\begin{proof}  
+	(i) $\Rightarrow$ (ii):\\
+	Assume (i) and $p \preceq_P G(q)$. Since $F$ is monotone, $F(p) \preceq_Q F(G(q))$, and with (i):  $F(p) \preceq_Q F(G(q)) \preceq_Q q$.
+	Assume (i) and $F(p) \preceq_Q q$. Applying monotone $G$ and using (i), $ p \preceq_P G(F(p)) \preceq_P G(q)$.\\ \\
+	(ii) $\Rightarrow$ (i): \\Let $q := F(p)$. Since $F(p) \preceq_Q F(p)$, (ii) implies $p \preceq_P G (F (p))$. \\
+	Similarly, with $p := G(q)$,  (ii) implies $F(G (q)) \preceq_Q q$.\\
+\end{proof}
+
+
+\vspace{\baselineskip}
+\paragraph{Example 3}
+	 A logic $\mathcal{L}$ can be seen as a poset, consisting of a set of formulas or propositions and the consequence relation $\rightarrow$. $\alpha \rightarrow \beta$ means that $\beta$ follows from $\alpha$ according to $\mathcal{L}$  for propositions $\alpha, \beta \in \mathcal{L}$. Depending on the definition of $\mathcal L$ and $\rightarrow$, $\alpha \rightarrow \beta$ can for example mean that everything made true by $\alpha$ is made true by $\beta$, or that there is a proof for $\beta$ if there is one for $\alpha$. It is obvious that $\to$ is reflexive and transitive, and if we see equivalent propositions as the same, it is antisymmetric.
+	\\\\Fixing some formula $\alpha$, we consider the following functions:
+	\[f = (- \land \alpha) \from \mathcal{L} \to \mathcal{L}, \,\, \beta \mapsto \beta \land \alpha\]
+	\[\;\;\;g = (\alpha \rightarrow - ) \from \mathcal{L} \to \mathcal{L}, \,\, \gamma \mapsto   \alpha \rightarrow \gamma\\\]
+
+	To see that there is a Galois connection $f \dashv g$, we spell out the properties (i) and (ii) from the previous section.\\
+	\[\text{(i)}\;\beta \rightarrow (\alpha \rightarrow (\beta \land \alpha)) \land ((\alpha \rightarrow \gamma) \land \alpha) \rightarrow \gamma\]
+	\[\text{(ii)}\;((\beta \land \alpha) \rightarrow \gamma) \Leftrightarrow (\beta \rightarrow (\alpha \rightarrow \gamma))\;\;\;\;\;\;\;\;\;\;\;\;\;\\\]
+
+
+	It can easily be checked that the statements are logically valid. (i) formulates modus ponens and the introduction rule for $\land$. (ii) it is expresses that assuming two statements subsequently is equivalent to assuming their conjunction. So there is a Galois connection between conjunction and implication.  \\
+		\[\begin{tikzcd}	
+	[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+	\mathcal{L} \arrow[r, shift left=2,"\land","\bot"']
+	\& \mathcal{L} \arrow[l, shift left=2, "\rightarrow"]
+	\end{tikzcd}\]{\begin{flushright}$\square$\end{flushright}}
+\paragraph{Example 4}
+	Take a non-empty poset $\mathcal{P} = (P, \preceq)$ and the singleton poset $\mathcal{O} = (\{0\}, =)$, with an arbitrary object $0$ and the only possible order relation  $ =$. 
+	For monotone functions $F: \mathcal{P} \to \mathcal{O} \text{ and } G, H: \mathcal{O} \to \mathcal{P}$, we look for possible Galois connections $F \dashv G$ and $H \dashv F.$
+	Note that $G$ and $H$ map $0$ to some object in $P$, and $F$ is the constant $0$-function.
+	If the connection $F \dashv G$ exists, then \[F(p)  = 0   \Leftrightarrow   p  \preceq  G(0) \,\,\,(\forall p \in P)\]
+	\[\;\,\Leftrightarrow\;\;\;\;\;\;\top \Leftrightarrow p   \preceq  G(0) \;\;(\forall p \in P),\]
+	which means $G(0)$ is the maximum of $P$.\\\\
+	Analogously, if $H \dashv F$ exists, $H(0)$ is the minimum of $P$.  {\begin{flushright}$\square$\end{flushright}}\vspace{\baselineskip}
+
+\subsection*{Properties of Galois Connections}
+
+\paragraph{Theorem 5} 
+	Given posets $\mathcal P, \mathcal Q, \mathcal R$. If $F \dashv G$ is a Galois connection between $\mathcal P$ and $\mathcal Q$ and $F' \dashv G'$ is one between  $\mathcal Q$ and $\mathcal R$, then also $F'\circ F \dashv G' \circ G$. 
+\begin{proof}
+		Given any $p \in \mathcal P$, $r \in R$, we get $F(p) \preceq G'(r) \Leftrightarrow p \preceq G(G'(r))$ and $F'(F(p)) \preceq r \Leftrightarrow F(p) \preceq G'(r)$  from the connections. Therefore, $F'(F(p)) \preceq r \Leftrightarrow p \preceq G(G'(r))$ which means $F'\circ F \dashv G' \circ G$.\\
+	\end{proof}
+\vspace{\baselineskip}
+\paragraph{Theorem 6}  
+	Let $\mathcal P$ and $\mathcal Q$ be posets and  $F,F' \from P \to Q$ and $G,G' \from Q \to P$ be monotone functions.
+\[\text{(i) If } F \dashv G \text{ and }F \dashv G',\text{ then } G = G'. \]
+\[\text{(ii) If } F \dashv G \text{ and }F' \dashv G,\text{ then } F = F'. \]
+\begin{proof}
+	We show (i) by proving $G' \preceq G$ and $G \preceq G'$.
+	For a $q \in Q$, it follows from $F \dashv G$ that $F(G'(q)) \preceq q \Leftrightarrow G'(q) \preceq G(q)$. With 1.1.2 applied to  $F \dashv G'$, we get $F(G'(q)) \preceq q$, thus $G'(q) \preceq G(q)$.\\\\ Similarily, $F \dashv G'$ implies $F(G(q)) \preceq q \Leftrightarrow G(q) \preceq G'(q)$ and with 1.1.2, $F(G(q)) \preceq q$. Thus also $G(q) \preceq G'(q)$. (ii) can be shown the same way.\\
+\end{proof}
+
+\vspace{\baselineskip}
+	According to Theorem 6, if there exists a Galois connection between two functions, one function uniquely determines the other. However, mind that there may be different Galois connections between the same pair of posets, or none altogether.\\\\
+	The following shows how exactly one function determines the other: \\
+\paragraph{Theorem 7} 
+	 If $F \dashv G$ between  posets $\mathcal{P} = (P, \preceq_P)$ and  $\mathcal{Q} = (Q, \preceq_Q)$ , then
+\[\text{(i)}\; \forall q \in Q.\; G(q) = max\{p \in P \such F(p) \preceq_Q q\} \]
+\[\text{(ii)}\;  \forall p \in P.\; F(p) = min\{q \in Q \such p \preceq_P G(q)\} \]
+\begin{proof}
+ 	(i) For a $q \in Q$, set $D = \{p \in P \such F(p) \preceq_Q q\}$. 
+	\\We know from the definition that $\forall q, F(G(q)) \preceq_Q q$, so $G(q) \in D$.
+	\\\\To show that $G(q)$ is also the maximum of D, take some $d \in D$, i.e. $F(d) \preceq_Q q$. 
+	\\With monotonicity of $G$, $G(F(d)) \preceq_Q G(q)$. From the property 1.1.2 (i), $d \preceq_Q G(F(d))$, so $d \preceq_Q G(q)$.
+	\\\\ (ii) can be shown analogously.\\
+\end{proof}
+\vspace{\baselineskip}\vspace{\baselineskip}\newpage
+\subsection*{Galois Connecions in Category Theory}
+	A partially ordered set $\mathcal{P} = (P, \preceq_P)$ can be seen as a category $\mathscr P$ where objects are the elements of the set, and there is a unique arrow $f \from p \to p'$  between two objects iff $p \preceq_P p'.$\\\\
+	%aturality condition of functors oder so -> monoton? oder nat cond of Def? 
+	When looking for Galois connections between two poset categories $\mathscr P = (P, \preceq_P)$ and $\mathscr Q = (Q, \preceq_Q)$, it makes sense to consider functors  $F : \mathscr P \rightarrow \mathscr Q$ and $G : \mathscr Q \rightarrow \mathscr P$ instead of monotone functions. To see that the functors are order-preserving, recall from the definition of functors that there is a function\[\mathscr P(p, p') \to\mathscr Q(F(p), F(p'))\] for all $p, p' \in \mathscr P$. Given that each set of morphisms in a poset category is either empty or contains exactly one map, the above means that $p \preceq_P p' \Rightarrow F(p) \preceq_Q F(p')$. We can argue analogously for $G$. Therefore, there is no need to require monotonicity here. \\\\
+	The property that every set of morphisms contains at most one element can also be used to formulate the condition for a Galois connection differently.\\
+	
+\paragraph{Lemma 8} 
+	A Galois connection $F \dashv G$ between poset categories $\mathcal{P}$ and $\mathcal{Q}$ can be described by a pair of functors $F : \mathscr P \rightarrow \mathscr Q$ and $G : \mathscr Q \rightarrow \mathscr P$ where
+	\[\mathscr Q(F(p), q) \cong \mathscr P(p, G(q))\]
+	naturally in $p \in \mathscr P, \; q \in \mathscr Q$. 
+	\\
+\begin{proof}
+	The condition that $ \mathscr Q(F(p), q) \cong \mathscr P(p, G(q))$ 
+	 is naturally isomorphic in $p \in \mathscr P, \; q \in \mathscr Q$ means that there is an isomorphism $\alpha _{p,q} \from \mathscr Q(F(p), q) \to \mathscr P(p, G(q))$ for arbitrary $p, q$ (Leinster, 1.3.11). We prove that this is equivalent to $F(p) \preceq_Q  q \Leftrightarrow p \preceq_P G(q)$. 
+	 \\\\
+	$(\Rightarrow)$ Assume $\alpha _{p, q}$ is an isomorphism.
+	\\
+	If $F(p) \preceq_Q  q$, there is a morphism $f \in  \mathscr Q(F(p), q)$. Then $\alpha _{p, q}(f)$ is a morphism in $\mathscr P(p, G(q))$, i.e. $p \preceq_P G(q)$. 
+	\\
+	If $p \preceq_P G(q)$, there exists a morphism $g \in \mathscr P(p, G(q))$. Because $\alpha _{p, q}$ is an isomorphism,  $\alpha^{-1} _{p,q} (g) \in  \mathscr Q(F(p), q)$, therefore $F(p) \preceq_Q  q$.
+	\\\\
+	$(\Leftarrow)$
+	Assume $F(p) \preceq_Q q \Leftrightarrow p \preceq_P G(q)$. Since $\mathscr{P}, \mathscr{Q}$ are posets, we can distinguish between two cases: 
+	 \[\text{(i)} \;\;|\mathscr Q(F(p), q)| =0 \Leftrightarrow (F(p), q) \notin \; \preceq_Q \; \Leftrightarrow (p, G(q)) \notin \; \preceq_P \; \Leftrightarrow |\mathscr P(p, Q(q))| = 0\]
+	 \[\text{(ii)} \;\,|\mathscr Q(F(p), q)| = 1 \Leftrightarrow F(p) \preceq_Q q \Leftrightarrow p \preceq_P G(q) \Leftrightarrow |\mathscr P(p, Q(q))| = 1\;\;\;\;\;\;\;\;\;\;\;\;\;\;\]
+	 In both cases, the second equivalence follows from the assumption, the other ones follow from the definition of poset categories. Because the sets are isomorphic, there is a bijection $\alpha_{p,q} \from \mathscr Q(F(p), q) \to \mathscr P(p, G(q))$.
+	 \\
+\end{proof}
+	
+\section*{Adjunctions}
+	In the previous section, we characterized Galois connections only with the use of functors and a natural isomorphism between certain sets of morphisms. In particular, we are not tied to partially ordered sets anymore and can generalize the result of Lemma 8 for arbitrary categories. In the general case, we no longer speak of Galois connections but of adjunctions and adjoint functors.\\
+\subsection*{Definition}
+\begin{definition}{Adjunction}Let $\mathscr A$, $\mathscr B$ be categories. \\
+	A pair of functors $F: \mathscr A \rightarrow \mathscr B$ and $G: \mathscr B \rightarrow \mathscr A$ is adjoint, written $F \dashv G$, iff
+	\[\mathscr B(F(A), B) \cong \mathscr{A}(A, G(B))\]
+ naturally in $A \in \mathscr A, \; B \in \mathscr B$.
+\end{definition}
+\vspace{\baselineskip}
+ 	If $F \dashv G$,  $F$ is called left adjoint to $G$, and $G$ right adjoint to $F$. We illustrate adjointness with 
+ 	\[
+ 	\begin{tikzcd}	
+ 		[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+ 		\mathscr{A} \arrow[r, shift left=2,"F","\bot"']
+ 		\& \mathscr{B.} \arrow[l, shift left=2, "G"] 
+ 	\end{tikzcd}\]\\
+ 	An adjunction is the natural isomorphism between the sets of morphisms given in the defintition. For every possible choice of objects $A \in \mathscr A$ and $B \in \mathscr B$, the isomorphism fixes a bijecion between $\mathscr B(F(A), B)$ and $\mathscr A(A, G(B))$. Thus, each morphism $g \in \mathscr B(F(A), B)$ has a 
+ 	corresponding arrow $f \in \mathscr A(A, G(B))$, and vice versa. \\\\Corresponding morphisms $f$ and $g$ are called transposes of each other, which can be indicated by $f = \bar{g}$ and $g = \bar{f}$, with $\bar {\bar{f}} = f$ and $\bar {\bar{g}} = g.$
+ 	\\\\
+\subsection*{Naturality}
+	The definition in 2.1 has the requirement that the bijections are natural in $A \in \mathscr A$ and $B \in \mathscr B$. This ensures that the adjuncion agrees with arrow composition in the categories $\mathscr A$ and $\mathscr B$. We will look at the naturality requirement in more detail now.
+	 \\\\
+	First, naturality only in $B \in \mathscr B$ means that maps in $\mathscr B(F(A), B)$ and their transposes compose with outgoing maps $q : B \to B'$ and their transposes in a natural way, as illustrated in the following diagram.
+	
+	\[
+	\begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}, row sep = 7ex, column sep =10ex]
+	\mathscr{B}(F(A), B) \arrow[r, "q \circ -"]  \arrow[d, "\alpha_{A, B}"]
+	\&  \mathscr{B}(F(A), B')  \arrow[d, "\alpha_{A, B'}" ] \\
+	\mathscr{A}(A, G(B)) \arrow[r,  "G(q) \circ -"]
+	\& \mathscr{A}(A, G(B'))
+	\end{tikzcd}
+	\]\\\\
+	Here, $\alpha_{A, B}$ is the natural transformation which sends a morphism to its transpose.\\\\
+	In order to have naturality in $B$, the diagram needs to commute. That is to say, 
+	$\alpha_{A, B'}(q \circ g) = G(q) \circ \alpha_{A, B}(g)$ has to hold for any $g \in \mathscr B(F(A), B)$. Using the notation 
+	 with transposes, 
+	\[\text{(i)}\;\;\overline{q \circ g} = G(q) \circ \bar{g} \;\;\;\;\]\\
+	Naturality in $A \in \mathscr A$ works similarly, but we look at ingoing maps $h: A' \to A$: 
+	
+	\[
+	\begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize},, row sep = 7ex,  column sep =10ex]
+	\mathscr A(A', G(B)) \arrow[r, "- \circ h"]  \arrow[d, "\alpha_{A', B}"]
+	\& \mathscr{A}(A, G(B))  \arrow[d, "\alpha_{A, B}" ] \\
+	\mathscr B(F(A'), B) \arrow[r,  "- \circ F(h)"]
+	\& \mathscr B(F(A), B)
+	\end{tikzcd}
+	\]\\\\
+	The diagram commutes if $\alpha_{A, B}(f \circ h) = \alpha_{A', B}(f) \circ F(h)$
+	for any $ f \in \mathscr A(A, G(B))$. In short,
+	\[\text{(ii)}\;\;\overline{f \of h} = \bar{f} \of F(h) \;\;\;\;\]\\
+	The above conditions (i) and (ii) can be used equivalently to the condition that the isomorphism is natural, and they are known as the naturality axiom.
+	\\\\
+
+	\subsection*{Properties of Adjuncions}
+	The definition of adjointness we have seen was based on one of the characterization of Galois connections in Theorem 2. The other one can also be generalized, which leads to an alternative  definition of adjoints.
+	 \paragraph{Remark 9} For categories and functors \begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+		\mathscr{A} \arrow[r, shift left=1,"F"]
+		\& \mathscr{B} \arrow[l, shift left=1, "G"] 
+	\end{tikzcd}, the following statements are equivalent.
+	\[\text{(i) There is an adjunction } F \dashv G \text{ with } \mathscr B(F(A), B) \cong \mathscr{A}(A, G(B)) \text{ naturally in } A \in \mathscr A, \; B \in \mathscr B.\]
+	\[\text{(ii) There is a pair of natural transformations }
+	\eta \from 1_\mathscr{A} \to G \of F, \epsilon \from F \of G \to 1_\mathscr{B}.\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\\\]\\
+	The natural transformations $(\eta, \epsilon)$	have to satisfy some additional equations to ensure naturality (Leinster, 2.2.2) but we won't go into detail on this here because we focus on the first definition.\\\\
+	We can also genearalize the results of Theorems 5 and 6.\\
+\paragraph{Theorem 10} 
+	Adjunctions compose. \\Given
+\begin{tikzcd}
+	[ampersand replacement=\&, every label/.append style = {font = \scriptsize}]
+	\vspace{\baselineskip}\mathscr{A} \arrow[r, shift left=2,"F","\bot"'] 
+	\& \mathscr{B} \arrow[l, shift left=2, "G"] \arrow[r, shift left=2,"F'","\bot"'] 
+	\& \mathscr{C} \arrow[l, shift left=2,"G'"] 
+\end{tikzcd}
+	it also holds that 
+	\begin{tikzcd}
+		[ampersand replacement=\&, every label/.append style = {font = \scriptsize}]
+		\vspace{\baselineskip}\mathscr{A} \arrow[r, shift left=2,"F' \circ F","\bot"'] 	
+		\& \mathscr{C} \arrow[l, shift left=2,"G' \circ G"] 
+	\end{tikzcd} with
+	\[
+	\mathscr C(F'(F(A)), C) \; \cong \; \mathscr B(F(A), G'(C))\; \cong \; \mathscr A(A, G(G'(C)))
+	\]
+	naturally in $A \in \mathscr A, C \in \mathscr C$.
+	\begin{proof}
+		If there are adjunctions $F \dashv G$ and $F' \dashv G'$, there are natural transformations $\alpha_{A,B}$ and $\beta_{B',C}$ such that $\mathscr B(F(A), B) \cong \mathscr{A}(A, G(B))$ and $\mathscr C(F'(B'), C) \cong \mathscr{B}(B', G(C))$ for any $A \in \mathscr A, B,B' \in \mathscr B, C \in \mathscr C$. \\\\
+		Horizontal composition of natural transformation produces a natural transformation again (Leinster, 1.3.24). With $B = G(C)$ and $B' = F(A)$, composition of $\beta_{F(A), C} $ and $ \alpha_{A, G'(C)}$ results in a natural transformation  $\gamma_{A,C}$ such that $\mathscr C(F'(F(A)), C) \; \cong  \; \mathscr A(A, G(G'(C)))$ naturally in $A$ and $C$.\\
+			\end{proof}\vspace{\baselineskip}
+\paragraph{Remark 11} 
+	Adjoints are unique up to isomorphism. Thus, we speak of "the" left or right adjoint of a functor if the adjoint exists.\\\\
+	The proof of remark 11 requires some more results (see Leinster, 4.3.13 and 4.3.18, which use the Yoneda Lemma). \\\\
+\paragraph{Theorem 12} 
+Adjunctions preserve initial and terminal objects.
+\begin{proof}
+	We want to show:  If \begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+		\mathscr{A} \arrow[r, shift left=2,"F","\bot"']
+		\& \mathscr{B} \arrow[l, shift left=2, "G"] 
+	\end{tikzcd}
+	and $I$ is the initial object of $ \mathscr A$, then $F(I)$ is initial in $\mathscr B$.\\
+	Because $I$ is initial, maps $I \to A$ are unique $\forall A \in \mathscr A$. 
+	This implies that maps  $I \to G(B)$ are unique $\forall B \in \mathscr B$ since $G(B) \in \mathscr A$. 
+	From $F\dashv G$, we get that the corresponding maps $F(I) \to B$ are also unique, in other words, $F(I)$ is the initial object of $\mathscr B$.\\\\Dually, terminal objects are preserved by $G$.\\
+\end{proof}
+\subsection*{Forgetful functors}
+	Recall the pair of functions in the introductory example, where one constructs an interval from a set whereas the other "forgets" that something is an interval and maps it to the underlying set. The upcoming examples follow a similar intuition. They involve free and forgetful functors, which relate a category of algebraic objects with another category where the objects have some additional structure. In the next section, the free functors are named $F$ and the forgetful functors $U$.\\
+\paragraph{Example 13}  For a field $K$, we have
+	  \[ \begin{tikzcd}	
+	[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+	\textbf{Set} \arrow[r, shift left=2,"F","\bot"']
+	\& \textbf{Vect$_K$} \arrow[l, shift left=2, "U"]
+	\end{tikzcd}\]
+	The forgetful functor $U$ maps a vector space to its underlying set and a linear map to a function. Its counterpart $F$ maps a set $S$ to the vector space with basis $S$. %F(S)
+	In more detail, $F(S)$ is the set of functions $\lambda \from S \to K$ such that $\lambda (s) \neq 0$ only for finitely many $s \in S$. This means $F(S)$ contains all $K$-linear combinations of $S$ of the form $\sum\limits_{s \in S} \lambda_s s$. $F$ maps a function between two sets to a linear map between the vector spaces that result from the sets.  \\\\\\
+	To see that $F$ and $U$ are adjoint, we find a bijection
+	\[\textbf{Vect}_K (F(S), V) \cong \textbf{Set}(S, U(V)) \] for a given set $S$ and vector space $V$.\\\\
+	A linear map $g \from F(S) \to V$ is also a function between the underlying sets of the vector spaces, therefore $\bar g \from S \to U(V)$ is given by \[\bar g (s) = g (s) \; \forall s \in S.\]
+	Going the other direction, we want to define a linear map bewteen the vector spaces $F(S)$ and $V$ given a function $f \from S \to U(V)$. Since the vector spaces have basis $S$ and $U(V)$ respectively, $f$ specifies what the basis elements of $F(S)$ are mapped to. This is sufficient to define a linear map between the spaces. We get $\bar f \from F(S) \to V$ with \[\bar f (\sum\limits_{s \in S} \lambda_s s) = \sum\limits_{s \in S} \lambda_s f(s).\]\\\\
+	We verify that the mappings $g \mapsto \bar g, f \mapsto \bar f$ defined above are bijective. For $g \from F(S) \to V,\; \bar {\bar g} = g$ because
+	\[\bar{\bar g} (\sum\limits_{s \in S} \lambda_s s) = \sum\limits_{s \in S} \lambda_s \bar g(s)
+= \sum\limits_{s \in S} \lambda_s  g(s) = g(\sum\limits_{s \in S} \lambda_s  s).\]\\
+	And for $f \from S \to U(V),\; \bar {\bar f} = f$ because $\bar {\bar f} (s) = \bar f (s) = f(s) \; \forall s \in S.$  {\begin{flushright}$\square$\end{flushright}}
+\paragraph{Example 14} 
+	A similar example is the adjunction
+	 \[ \begin{tikzcd}	
+	[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+	\textbf{Set} \arrow[r, shift left=2,"F","\bot"']
+	\& \textbf{Mon} \arrow[l, shift left=2, "U"]
+	\end{tikzcd} \]
+	 where the forgetful functor $U$ maps a monoid to the set of its elements, and homomorphisms to functions. The free monoid of a set $S$ is the set of lists over $S$. So an element of $F(S)$ is a number $n$ and a function from the set $\{i \in \mathbb N \such i < n\}$ into $S$. Monoid multiplication is concatenation of lists, and the identity element is the empty list.\\\\
+	 There is a correspondence between functions $f \from S \to U(M)$ and homomorphisms $h \from F(S) \to M$. As in the previous example, this is explained by the fact that homomorphisms can be seen as functions between the underlying sets, and that functions between the sets $S$ and $U(M)$ uniquely determine a homomorphism between the respective free monoids $F(S)$ and $M$.{\begin{flushright}$\square$\end{flushright}}\vspace{\baselineskip}
+	So far, we discussed the usual case that a forgetful functor is right adjoint to a free functor. However, forgetful functors can also be left adjoints themselves. \\
+\paragraph{Example 15} Consider the following adjunction.
+	\[\begin{tikzcd}	
+	[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+	\textbf{Mon} \arrow[r, shift left=5,"F","\bot"'] \arrow[r, shift right=5,"\bot","R"']
+	\& \textbf{Grp} \arrow[l, shift left=0, "U" description]
+	\end{tikzcd}\] Again, the forgetful functor is inclusion, and it is right adjoint to a free functor $F$. $F$ adds just enough elements to a monoid as needed for it to be a group, namely all the missing inverses. There is a second way to turn a monoid into a group, though: monoid elements which do not have an inverse can be removed. This is realized by $U$'s right adjoint $R$ which maps a monoid to the submonoid of invertible elements. {\begin{flushright}$\square$\end{flushright}}\vspace{\baselineskip}
+%TODO mention (co)reflective subcat?
+\paragraph{Example 16} Here is another example where the forgetful functor $U$ appears as the left adjoint.
+	\[\begin{tikzcd}	
+	[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+	\textbf{Set} \arrow[r, shift left=2,"U","\bot"']
+	\& \textbf{Rel} \arrow[l, shift left=2, "P"]
+	\end{tikzcd}\]
+	  The right adjoint is the powerset functor $P$ which maps a set $A$ to its powerset $\mathcal{P}(A)$. For sets $A, B$, the functor maps a relation $R \subseteq A \times B$ to the function \[f_R \from \mathcal{P}(A) \to \mathcal{P}(B), \; f_R(X) = \{b \in B \such \exists a \in X. \;(a,b) \in R \}.\]
+
+	By construction, a relation $R \subseteq U(A) \times B = A \times B$ describes the same as $f_R \from A \to \mathcal{P}(B)$. Thus, we have \[\textbf{Rel }(U(A), B) \cong \textbf{ Set}(A, P(B)).\]\\
+	Here, we also show how to use the naturality axiom to verify that the isomorphism is natural in $A, B$. \\
+	\paragraph{Lemma 17}The isomorphism $\textbf{Rel }(U(A), B) \cong \textbf{ Set}(A, P(B))$ is natural in $A$ and $B$. \begin{proof} For functions $f \from A \to B, h \from A' \to A$,  the constructed relation for $f \of h$ is $R_{f \of h} = \{(x,y) \such  y \in f(h(x))\}.$ 
+	The relation $R_f \of P(h)$ is the same one:  \[R_f \of P(h)= R_f \of R_h = \{(x,z) \such \exists y. \; z \in f(y) \land y \in h(x)\} = R_{f \of h}.\]
+	For naturality in $B$, take relations $R \subseteq A \times B, R \subseteq B \times B'$, then \[f_{R' \of R} = \{z \in B' \such \exists x \in A. \; (x,z) \in R' \of R \} = \{z \in B' \such \exists x \in A, y \in B. \; (x,y) \in R \land (y,z) \in R' \}\] 
+	\[=\{z \in B' \such \exists y \in B. \; (y,z) \in R' \}\of  \{y \in B \such \exists x \in A. \; (x,y) \in R \} =f_{R'} \of f_R = U(R') \of f_R.\,\,\,\,\,\,\,\,\,\,\,\,\,\,\]\end{proof}
+\vspace{\baselineskip}
+	So as you would expect, composition of functions and relations in \textbf{Set} and \textbf{Rel} behaves in a way that does not violate the naturality condition of the adjunction. In most situations like \begin{tikzcd}[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+		\mathscr{A} \arrow[r, shift left=1,"F"]
+		\& \mathscr{B} \arrow[l, shift left=1, "G"] 
+	\end{tikzcd} where functors go to a  category and back, adjointness follows automatically because of the way functors preserve the existing structure in the catgories. For this reason, forgetful functors like the ones we have seen usually have left adjoints, regardless of how exactly the free functor is constructed.  \\\\
+\subsection*{Use of adjoints to characterize properties of categories}
+
+\paragraph{Example 18} 
+	Recall from Example 1.1.4 that if a poset has a Galois connection with the singleton poset $\mathcal{O}$, the set has a maximum or minimum. Now we take some non-empty category $\mathscr C$ and the one-object category \textbf{1} and look at functors $F:  \mathscr C \to$ \textbf{1} and
+	$G,H$ : \textbf{1} $\to \mathscr C $. \\\\
+	If \textbf{1} has the object $\bullet$ and the map $1{_\bullet}$, $F(A) = \bullet$ and $F(f) = 1{_\bullet}$ for all $f \in \mathscr C (A, B)$ and $A, B \in \mathscr C $.
+	 \\ For $F \dashv G$, we need \[\textbf{1}(F(A), \bullet) \; \cong \;  \mathscr C (A, G(\bullet))\]
+	 \[\Leftrightarrow \textbf{1}(\bullet, \bullet) \; \cong \;  \mathscr C (A, G(\bullet))  \]
+	 \[\Leftrightarrow \textbf{1}_\bullet \; \cong \;  \mathscr C (A, G(\bullet))  \]
+	naturally $\forall A \in\mathscr C $. All this means is that maps from $A$ to $G(\bullet)$ are unique, i.e. $G(\bullet)$ is $\mathscr C $'s initial object.	
+	\\With duality, $H \dashv F$ if and only if $H(\bullet)$ is terminal in $\mathscr C $.
+	\\\\As a result, the existence of an initial (terminal) object in a category $\mathscr C$ is determined by the existence of the right (left) adjoint of the constant functor $F \from \mathscr C \to$ \textbf{1}. {\begin{flushright}$\square$\end{flushright}}
+	\vspace{\baselineskip}
+	\vspace{\baselineskip}
+	 \paragraph{Example 19} 
+	For a category $\mathscr C$, the diagonal functor $\Delta \from \mathscr C \to \mathscr C \times \mathscr C$ maps objects $C$ and morphisms $f$ in $\mathscr C$ to pairs $\langle C,C \rangle$ and $\langle f, f \rangle$ in the product category $\mathscr C \times \mathscr C$. For a right adjoint $\Pi \from \mathscr C \times \mathscr C \to \mathscr C$, we need \[(\mathscr C \times \mathscr C)(\langle A, A \rangle, \langle B, C \rangle) \cong \mathscr C (A, \Pi (B,C))\]
+\[\Leftrightarrow \mathscr C (A, B) \times \mathscr C (A, C) \cong \mathscr C (A, \Pi (B,C)),\]
+by the definition of product categories.\\\\
+	For $\mathscr C =$ \textbf{Set}, $\Pi$ is the Cartesian product, and the above equation means that a pair $\langle f \from A \to B, g \from A \to C \rangle$ can be represented by a single function $h: A \to B \times C$. 
+	In general, there is an adjunction $\Delta \dashv \Pi$ whenever the category $\mathscr C$ has binary products. {\begin{flushright}$\square$\end{flushright}}
+\vspace{\baselineskip}
+\vspace{\baselineskip}
+\paragraph{Example 20} 
+	In 2.4.5, we established that \textbf{Set} and \textbf{Rel} have an adjunction because a function $f \from A \to 2^B$ can be seen as a relation $R \subseteq A \times B$. Note that $R$ can again be interpreted as a function $f \from A \times B \to \{0, 1\}$, so we could have defined this adjunction within the category \textbf{Set}.\\\\In fact, \{0,1\} can be replaced by an arbitrary set $C$ and the resulting functions still describe the same. To see this, consider the following functors:
+	 \[(-\times B) \from \textbf{Set} \to \textbf{Set}, A \mapsto A \times B\]
+	\[(-)^B \from \textbf{Set} \to \textbf{Set}, C \mapsto C^B\]
+	 \\where $B$ is a fixed set and $C^B = B \to C$.\\\\
+	 A function $f \from A \times B \to C$ can be mapped to a function $\bar f \from A \to C^B$ that assigns a map $B \to C$ to each element of $A$, instead of assigning a single element of $C$ to each pair in $ A \times B$. It is defined in the natural way by \[(\bar f (a))(b) = f(a, b)\;\; \forall a \in A, b \in B.\] \\Similarly, given a function $g \from A \to C^B$, we set $\bar g \from A \times B \to C$ to \[\bar g (a, b) = (g(a))(b)\;\; \forall a \in A, b \in B.\]\\
+	 The above defines a bijection \[\textbf{Set}(A \times B, C) \cong \textbf{Set}(A, C^B),\] resulting in the adjunction
+	  	\[\begin{tikzcd}	
+	 	[ampersand replacement=\&, every label/.append style = {font = \footnotesize}]
+	 	\textbf{Set} \arrow[r, shift left=2,"-\times B","\bot"']
+	 	\& \textbf{Set} \arrow[l, shift left=2, "\;\;\;(-)^B"]\\
+	 \end{tikzcd}\]
+	 In other words, a function taking multiple arguments evaluates to the same as a sequence of functions with a single argument each. The process of translating between functions in this way is known as currying and uncurrying.\\\\
+	 Note also that we have actually already seen this adjunction before. In Example 3, the sets are logical propositions (or sets containing the propositions that are equivalent). For propositions $\alpha , \beta$, we interpreted the cartesian product $(\alpha , \beta)$ as conjunction $\alpha \land \beta$ and functions $\alpha \rightarrow \beta$ as implication and found that $\land \dashv \; \to$ holds.{\begin{flushright}$\square$\\\end{flushright}}
+	 \vspace{\baselineskip}
+	 \vspace{\baselineskip}
+\section*{Conclusion}
+	We have discussed Galois connections and found that similar connections can be defined between mathematical structures other than just partially ordered sets. In fact, adjointness can be found in many other areas of mathematics and it can only be "seen" and formally defined with the use of category theory. \\\\
+	Just as Galois connections are an order-isomorphism between sub-posets, adjunctions are an isomorphism of certain subsets of morphisms. So adjointness is a relation between categories that is weaker than isomorphism but still very common. Similarly to an equivalence between categories, an adjunction always consists of two functors, and in situations where there is such a pair of functors between two categories, there is a good chance that the functors are adjoint (Leinster, 2.1).
+	\\\\ 
+	We have seen that this is the case for some free and forgetful functors. Also, we encountered an example for a category where the product is left adjoint to the exponential, and it was shown the existence of certain adjunctions with a category exhibits some important properties of the category, like whether it has an initial or terminal object or whether it has products. 
+
+\end{document}
