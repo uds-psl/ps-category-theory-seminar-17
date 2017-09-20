@@ -391,20 +391,26 @@ The following example illustrates how the internal language can be used to show 
 \end{exmpl}
 
 
-\iffalse
+%\iffalse
 \section{Free Cartesian Closed Categories}
 \label{sec:free}
 
-\begin{theorem}
+The soundness theorem~\ref{thm:sound} has a converse called completeness.
+
+\begin{theorem}{(Completeness)}
     \label{thm:compl}
     If $M|[\Gamma\type s: A|] = M|[\Gamma\type t: A|]$ for every mapping $M$ of ground types and constants and every cartesian closed category $\cat{C}$,
     then $\Gamma \type s =_{\beta\eta} t: A$.
 \end{theorem}
 \begin{proof}
     We give a proof sketch.
-
+    The idea is to construct a freely generated cartesian closed category $\cat{F}$ and instantiate the assumption with $\cat{F}$.
+    Objects of $\cat{F}$ are types of the simply typed lambda calculus.
+    The set of morphisms from $A$ to  $B$ is the quotient of the set $\{s \mid \ \type s: A \to B\}$, where two terms $s$ and $t$ are equivalent iff
+    $\ \type s =_{\beta\eta} t: A \to B$ holds.
+    Showing that $\cat{F}$ is a cartesian closed category concludes the proof.
 \end{proof}
-\fi
+%\fi
 
 
 \nocite{*}
