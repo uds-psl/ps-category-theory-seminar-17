@@ -1,0 +1,414 @@
+\documentclass{article}
+\def\pathToRoot{../../}\input{\pathToRoot headers/sharedHeader}
+
+\usepackage{todonotes}
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage{semantic}
+
+\usetikzlibrary{cd, shapes, tikzmark}
+
+\allowdisplaybreaks
+
+\newtheorem{defn}{Definition}[section]
+\newtheorem{exmpl}[defn]{Example}
+\newtheorem{lemma}[defn]{Lemma}
+\newtheorem{theorem}[defn]{Theorem}
+
+\newcommand{\type}{\vdash}
+\newcommand{\term}{1}
+\newcommand{\unit}{\mathsf{unit}}
+\newcommand{\app}{\mathsf{app}}
+\newcommand{\cur}{\mathsf{cur}}
+\newcommand{\fst}{\mathsf{fst}\,}
+\newcommand{\snd}{\mathsf{snd}\,}
+\newcommand{\id}{\mathsf{id}}
+\newcommand{\eenv}{\diamond}
+
+
+\title{Cartesian Closed Categories as a Model for the Simply Typed Lambda Calculus}
+\author{Joachim Bard}
+
+\begin{document}
+
+
+\maketitle
+
+\section{Motivation}
+\label{sec:motiv}
+
+Recall the Curry-Howard correspondence which relates logic and type theory.
+According to this correspondence proposotions are types and proofs are terms.
+A prominent example is the relation between intuitionistic propositional logic and simply typed lambda calculus.
+We can extend the correspondence to the so called Curry-Howard-Lawvere/Lambek correspondence by adding category theory as shown in the following table.
+
+\begin{center}
+    \begin{tabular}{l|l|l}
+        Logic & Type theory & Category theory\\
+        \hline
+        Propositions & Types & Objects\\
+        Proofs & Terms & Morphisms
+    \end{tabular}
+\end{center}
+
+In the following sections we will draw a connection between the simply typed lambda calculus and cartesian closed categories.
+
+
+\section{Simply Typed Lambda Calculus}
+
+The simply types lambda calculus has types $A$ and terms $s$ as shown in the following definition.
+
+\begin{defn}{(Simply Typed Lambda Calculus)}
+    \label{def:stlc}
+    \begin{align*}
+        A, B & ::= G \mid \unit \mid A \times B \mid A \to B \\
+        s, t & ::= x \mid c^A \mid () \mid (s, t) \mid \fst s \mid \snd s \mid \lambda x: A.\, s \mid s\, t
+    \end{align*}
+\end{defn}
+
+Types consists of ground types $G$, the unit type $\unit$, product types $A \times B$ and function types $A \to B$.
+Possible ground types are \textsf{int} and \textsf{bool}.
+Terms are variables $x$, constants $c^A$ annotated by its type $A$, the empty tuple $()$, pairs $(s, t)$, first ($\fst s$) and second ($\snd s$) projections,
+function definitions $\lambda x: A.\, s$ and function applications $s\,t$.
+Common constants are integers like $3^{\mathsf{int}}$ and booleans ($\mathsf{true}^{\mathsf{bool}}$ and $\mathsf{false}^{\mathsf{bool}}$).
+In order to state that a term has some type we use environments.
+Environments are lists of variables and their types.
+Thus we have the empty environment $\eenv$ and we can extend an environment $\Gamma$ with a variable $x$ of type $A$ (written $\Gamma, x: A$).
+Often the empty environment is ommited.
+For example the environment $x: \mathsf{int}, y: \mathsf{bool}$ has a variable $x$ of type \textsf{int} and a variable $y$ of type \textsf{bool}.
+Variables in environments are always distinct, that means $x: \mathsf{int}, x: \mathsf{int}$ is not an environment.
+We use environments to `remember' the type of a variable in a function definition.
+The following definition shows how environments $\Gamma$ are used to state that a term $s$ has a type $A$.
+We write $\Gamma \type s: A$ for this statement.
+If the environment is empty we write just $\type s: A$ instead of $\eenv \type s: A$.
+Also, we say that a term $s$ is well-typed, if an  environment $\Gamma$ and a type $A$ exists, such that the judgement $\Gamma \type s: A$ holds.
+
+\begin{defn}{(Typing Rules)}
+    \label{def:type}
+    \begin{align*}
+        &\qquad\qquad \inference{}{\Gamma, x: A \type x: A} \qquad \inference{\Gamma \type x : A}{\Gamma , y: B \type x: A}\\
+        \\
+        &\inference{}{\Gamma \type c^A: A} \qquad \inference{}{\Gamma \type () : \mathsf{unit}}\qquad
+        \inference{\Gamma \type s: A \quad \Gamma \type t:B}{\Gamma \type (s, t) : A \times B}\\
+        \\
+        & \qquad\qquad \inference{\Gamma \type s : A \times B}{\Gamma \type \mathsf{fst}\,s: A} \qquad
+        \inference{\Gamma \type s : A \times B}{\Gamma \type \mathsf{snd}\,s: B}\\
+        \\
+        & \quad \inference{\Gamma, x:A \type s: B}{\Gamma \type \lambda x: A.\, s: A \to B} \qquad
+        \inference{\Gamma \type s: A \to B \quad \Gamma \type t: A}{\Gamma \type s\,t: B}
+    \end{align*}
+\end{defn}
+
+We observe that the type of a variable is determined by looking into the environment.
+The empty tuple $()$ is the only term of type $\unit$.
+Furthermore, projections are only applicable to pairs.
+As already mentioned above, the defined variable $x$ in a function definition $\lambda x: A.\, s$ is added to the environment
+in order to specify the type of the body $s$.
+But this directs to a problem if we consider the term $s := \lambda x: A.\,\lambda x: B.\,x$.
+Applying the rules starting from the empty environment leads to $x: A, x: B \type x: B$.
+The problem is that we have the variable $x$ twice in our `environment' $x: A, x: B$.
+This is the reason why variables have to be distinct in environments.
+To resolve this problem we consistently rename variables.
+We rename the second $x$ to $y$ and obtain $s = \lambda x: A.\,\lambda y: B.\, y$.
+Now $s$ has the type $A \to B \to B$, because we can derive $\type \lambda x: A.\,\lambda y: B.\, y: A \to B \to B$.
+The consistent renaming of variables does not alter the term significantly.
+Therefore, we always allow this renaming in the following sections
+and call two terms $\alpha$-equivalent if one can be transformed into the other.
+
+
+\section{Reminder: Cartesian Closed Category}
+
+Before connecting cartesian closed categories and the simply typed lambda calculus in the next section,
+we recall the definition of cartesian closed categories.
+
+\begin{defn}
+    \label{def:ccc}
+    A cartesian closed category $\cat{C}$ consists of:
+    \begin{itemize}
+        \item A teminal object $\term \in \cat{C}$: $\forall X \in \cat{C}.\, \exists! \langle\rangle: X \to \term$.
+        \item Binary products $X \times Y \in \cat{C}$ with projections $\pi_1 \from X \times Y \to X$ and $\pi_2 \from X \times Y \to Y$
+            for all $X, Y \in \cat{C}$:
+            For every $Z \in \cat{C}$ and morphisms $f \from Z \to X$ and $g \from Z \to Y$,
+            there is exactly one morphism $\langle f, g \rangle \from Z \to X \times Y$, such that the following diagram commutes:
+            \[
+                \begin{tikzcd}
+                    & Z \arrow[bend right]{ddl}{f} \arrow{d}{\langle f, g \rangle} \arrow[bend left]{ddr}{g} & \\
+                    & X \times Y \arrow{dl}{\pi_1} \arrow{dr}{\pi_2} & \\
+                    X & & Y
+                \end{tikzcd}
+            \]
+            For two morphisms $p \from X \to X'$ and $q \from Y \to Y'$ we define
+            \[ p \times q := \langle p \circ \pi_1, q \circ \pi_2 \rangle \from X \times Y \to X' \times Y'.\]
+        \item Exponentials $Y^X \in \cat{C}$ together with a morphism $\app \from Y^X \times X \to Y$ for all $X, Y \in \cat{C}$:
+            For every $Z \in \cat{C}$ and morphism $f \from Z \times X \to Y$,
+            there is a unique morphism $\cur(f) \from Z \to Y^X$, such that following diagram commutes:
+            \[
+                \begin{tikzcd}
+                    Z \times X \arrow{d}[left]{\cur(f) \times \id_X} \arrow{r}{f} & Y \\
+                    Y^X \times X \arrow{ur}[right=7pt, below]{\app}
+                \end{tikzcd}
+            \]
+    \end{itemize}
+\end{defn}
+
+
+\section{Semantics in a Cartesian Closed Category}
+\label{sec:sem}
+
+Let $\cat{C}$ be a cartesian closed category.
+We want to express well-typed terms as morphisms in $\cat{C}$.
+To that end, we first map types to objects of $\cat{C}$.
+Thus, let $M$ be a function which maps every ground type $G$ to $M(G) \in \cat{C}$.
+We can extend $M$ to arbitrary types:
+
+\begin{align*}
+    M|[G|] & := M(G) \\
+    M|[\unit|] & := \term && (\text{terminal object}) \\
+    M|[A \times B |] & := M|[A|] \times M|[B|] && (\text{product}) \\
+    M|[A \to B |] & := M|[B|]^{M|[A|]} && (\text{exponential})
+\end{align*}
+
+In addition we map environments to objects of $\cat{C}$:
+
+\begin{align*}
+    M|[\eenv|] & := \term && (\text{terminal object}) \\
+    M|[\Gamma, x: A|] & := M|[\Gamma|] \times M|[A|] && (\text{product})
+\end{align*}
+
+Furthermore, if $M$ maps every constant $c^A$ to a morphism $M(c^A) \from \term \to M|[A|]$,
+then we define $M|[\Gamma \type s: A|] \from M|[\Gamma|] \to M|[A|]$ by recursion on $\Gamma \type s: A$ as follows.
+
+\begin{defn}
+    \label{def:type-C}
+    \begin{align*}
+        M|[\Gamma, x: A \type x: A|] & := M|[\Gamma|] \times M|[A|] \toby{\pi_2} M|[A|] \\
+        M|[\Gamma, y: B \type x: A|] & := M|[\Gamma|] \times M|[B|] \toby{\pi_1} M|[\Gamma|] \xrightarrow{M\llbracket\Gamma \type x: A\rrbracket} M|[A|] \\
+        M|[\Gamma \type c^A: A|] & := M|[\Gamma|] \toby{\langle\rangle} \term \xrightarrow{M(c^A)} M|[A|] \\
+        M|[\Gamma \type (): \unit|] & := M|[\Gamma|] \toby{\langle\rangle} \term \\
+        M|[\Gamma \type (s, t): A \times B|] & := M|[\Gamma|]
+        \xrightarrow{\langle M\llbracket\Gamma \type s: A\rrbracket, M\llbracket\Gamma \type s: A\rrbracket\rangle} M|[A|] \times M|[B|] \\
+        M|[\Gamma \type \fst s: A|] & := M|[\Gamma|] \xrightarrow{M\llbracket\Gamma \type s: A \times B\rrbracket} M|[A|] \times M|[B|] \toby{\pi_1} M|[A|] \\
+        M|[\Gamma \type \snd s: A|] & := M|[\Gamma|] \xrightarrow{M\llbracket\Gamma \type s: A \times B\rrbracket} M|[A|] \times M|[B|] \toby{\pi_2} M|[B|] \\
+        M|[\Gamma \type \lambda x: A.\, s: A \to B|] & := \cur(M|[\Gamma|] \times M|[A|] \xrightarrow{M\llbracket\Gamma, x: A \type s : B\rrbracket} M|[B|]) \\
+        M|[\Gamma \type s\,t: B|] & := M|[\Gamma|]
+        \xrightarrow{\langle M\llbracket\Gamma \type s: A \to B\rrbracket, M\llbracket\Gamma \type t: A\rrbracket\rangle}
+        M|[B|]^{M|[A|]} \times M|[A|] \xrightarrow{\app} M|[B|]
+    \end{align*}
+\end{defn}
+
+%The case for constants 
+\todo{explain, esp. $M(c^A)$}
+
+\begin{exmpl}
+    \label{exp:sem}
+    \begin{align*}
+            & M |[ \ \type \lambda f: A \to B.\, \lambda x: A.\, f\,x: (A \to B) \to A \to B |] \\
+        = \,& \mathsf{cur}(M |[ f: A \to B \type \lambda x: A. \, f\,x : A \to B |]) \\
+        = \,& \mathsf{cur}(\mathsf{cur}( M |[ f: A \to B, x: A \type f \, x : B |])) \\
+        = \,& \mathsf{cur}(\mathsf{cur}(\mathsf{app} \circ (M |[\Gamma \type f: A \to B |], M |[\Gamma \type x : A|]))) \\
+            &  \text{ where } \Gamma = f: A \to B, x: A \\
+        = \,& \mathsf{cur}(\mathsf{cur}(\mathsf{app} \circ (M |[ f: A \to B \type f : A \to B |] \circ \pi_1, \pi_2))) \\
+        = \,& \mathsf{cur}(\mathsf{cur}(\mathsf{app} \circ (M |[ f: A \to B \type f : A \to B |] \times \mathsf{id}))) && (\text{definition}~\ref{def:ccc}) \\
+        = \,& \mathsf{cur}(M |[ f: A \to B \type f : A \to B |]) && (\text{definition}~\ref{def:ccc})\\
+        = \,& M |[ \ \type \lambda f: A \to B.\, f: (A \to B) \to A \to B |]
+    \end{align*}
+\end{exmpl}
+
+
+\section[beta-eta-equivalence]{$\beta\eta$-equivalence}
+
+In the previous section we saw how to express well-typed terms as morphisms in a cartesian closed category.
+Example~\ref{exp:sem} showed that there are terms which are mapped to the same morphism.
+It turns out that this holds for all $\beta$- and $\eta$-equivalent terms.
+In order to define this equivalence we need substitutions.
+A substitution corresponds to a function application $(\lambda x: A.\, s)\, t$, where the function is called with an argument $t$.
+It replaces in the term $s$ all occurences of the variable $x$ with the term $t$.
+We write $s[t/x]$ and define it as follows.
+
+\begin{defn}{(Substitution)}
+    \begin{align*}
+        x[t/x] & := t\\
+        y[t/x] & := y \qquad && y \neq x\\
+        c^A[t/x] & := c^A\\
+        ()[t/x] & := ()\\
+        (s_1, s_2)[t/x] & := (s_1[t/x], s_2[t/x])\\
+        (\mathsf{fst}\, s)[t/x] & := \mathsf{fst}(s[t/x])\\
+        (\mathsf{snd}\, s)[t/x] & := \mathsf{snd}(s[t/x])\\
+        (\lambda y:A.\, s)[t/x] & := \lambda y:A.\,(s[t/x]) \qquad && y \neq x \text{ and } y \text{ not in } t \\
+        (s_1\, s_2)[t/x] & := (s_1[t/x])\,(s_2[t/x])
+    \end{align*}
+\end{defn}
+
+The interesting case ($\lambda y: A.\, s)[t/x]$) is only applicable if $y \neq x$ and $y$ does not occur in $t$.
+But because of $\alpha$-equivalence, we can always rename $y$ to a \emph{fresh} variable $z$ in order to ensure this condition.
+\par
+The next lemma illustrates how substitutions are interpreted in the category $\cat{C}$.
+
+\begin{lemma}
+    \label{lem:subst}
+    If $\Gamma \type t: A$ and $\Gamma, x: A \type s: B$, then the diagram
+    \[
+        \begin{tikzcd}
+            M \llbracket \Gamma \rrbracket \arrow{rr}{\langle \mathsf{id}, M\llbracket\Gamma \type t: A\rrbracket \rangle}
+                                           \arrow{drr}[left=1cm, below]{M\llbracket\Gamma \type s[t/x] : B\rrbracket}
+            & & M \llbracket\Gamma\rrbracket \times M \llbracket A \rrbracket \arrow{d}{M \llbracket\Gamma, x:A \type s: B\rrbracket} \\
+            & & M \llbracket B \rrbracket
+        \end{tikzcd}
+    \]
+    commutes.
+\end{lemma}
+\begin{proof}
+    We omit the proof here.
+    It can be found in~\cite{CT-STLC}.
+\end{proof}
+
+Using substitutions we can now define $\beta\eta$-equivalence.
+If we read the $\beta$-conversions from left to right they correspond to computation steps.
+Also the $\eta$-conversions relate terms, which have the same computational behavior.
+The equivalence and congruence rules ensure that the $\beta\eta$-equivalence is an congruence relation.
+
+\begin{defn}{($\beta\eta$-equivalence)}
+    \begin{description}
+        \item[$\beta$-conversions:]
+            \begin{align*}
+                & \qquad\qquad\qquad \inference{\Gamma, x:A \type s: B \quad \Gamma \type t:A}{\Gamma \type (\lambda x:A.\, s)\, t =_{\beta\eta} s[t/x]: B}\\
+                \\
+                & \quad \inference{\Gamma \type s: A \quad \Gamma \type t:B}{\Gamma \type \mathsf{fst}(s, t) =_{\beta\eta} s: A}\qquad
+                \inference{\Gamma \type s: A \quad \Gamma \type t:B}{\Gamma \type \mathsf{snd}(s, t) =_{\beta\eta} t: B}
+            \end{align*}
+        \item[$\eta$-conversions:]
+            \begin{align*}
+                & \qquad\qquad\qquad \inference{\Gamma \type s: A \to B \quad x \text{ not in } s}{\Gamma \type s =_{\beta\eta} \lambda x: A.\,(s\,x): A \to B}\\
+                \\
+                & \inference{\Gamma \type s: A \times B}{\Gamma \type s =_{\beta\eta} (\mathsf{fst}\,s, \mathsf{snd}\,s): A \times B}\qquad
+                \inference{\Gamma \type s: \mathsf{unit}}{\Gamma \type s =_{\beta\eta} () : \mathsf{unit}}
+            \end{align*}
+        \item[equivalence rules:]
+            \begin{align*}
+                & \inference{}{\Gamma \type s =_{\beta\eta} s: A} \qquad
+                \inference{\Gamma \type s =_{\beta\eta} t: A}{\Gamma \type t =_{\beta\eta} s: A}
+                \qquad \inference{\Gamma \type s =_{\beta\eta} t: A \quad \Gamma \type t =_{\beta\eta} u: A}{\Gamma \type s =_{\beta\eta} u: A}
+            \end{align*}
+        \item[congruence rules:]
+            \begin{align*}
+                & \inference{\Gamma \type s =_{\beta\eta} s': A \quad \Gamma \type t =_{\beta\eta} t': B}{\Gamma \type (s,t) =_{\beta\eta} (s',t'): A \times B}
+                \qquad\inference{\Gamma \type s =_{\beta\eta} t : A \times B}{\Gamma \type \fst s =_{\beta\eta} \fst t: A} \\
+                \\
+                & \inference{\Gamma \type s =_{\beta\eta} t : A \times B}{\Gamma \type \snd s =_{\beta\eta} \snd t: B} \qquad
+                \inference{\Gamma, x: A \type s =_{\beta\eta} t: B}{\Gamma \type \lambda x:A.\, s =_{\beta\eta} \lambda x:A.\, t: A \to B} \\
+                \\
+                & \qquad\qquad \inference{\Gamma\type s =_{\beta\eta} s': A \to B \quad \Gamma\type t =_{\beta\eta} t': A}{\Gamma\type s\,t =_{\beta\eta} s'\,t': B}
+            \end{align*}
+    \end{description}
+\end{defn}
+
+The following theorem shows that $\beta\eta$-equivalent terms are indeed mapped to the same morphism in a cartesian closed category.
+
+\begin{theorem}{(Soundness)}
+    \label{thm:sound}
+    Let $\cat{C}$ be a cartesian closed category and
+    let $M$ be a function which maps ground types to objects of $\cat{C}$ and constants to morphisms in $\cat{C}$ as required by section~\ref{sec:sem}.
+    Every two terms $s$ and $t$ which are $\beta\eta$-equivalent of type $A$ under environment $\Gamma$ lead to equal morphisms in $\cat{C}$, i.\,e.
+    if $\Gamma \type s =_{\beta\eta} t: A$, then $M|[\Gamma \type s: A|] = M|[\Gamma \type t: A|]$.
+\end{theorem}
+\begin{proof}
+    The proof goes by induction on $\Gamma \type s =_{\beta\eta} t: A$.
+    We will show the case for
+    \[\Gamma \type (\lambda x:A.\, s)\, t =_{\beta\eta} s[t/x]: B.\]
+    Let $f := M|[\Gamma, x: A \type s: B|]$ and $g := M|[\Gamma \type t: A|]$.
+    By definition~\ref{def:type-C} we get \[\cur(f) = M|[\Gamma \type \lambda x: A.\, s: A \to B|].\]
+    Using this we obtain
+    \begin{align*}
+        M|[\Gamma \type (\lambda x: A.\, s)\, t: B|] & = \app \circ \underbrace{\langle \cur(f), g \rangle}_{= (\cur(f) \times \mathsf{id}) \circ \langle \mathsf{id}, g \rangle} && (\text{definition}~\ref{def:type-C}) \\
+                                                     & = \underbrace{\app \circ (\cur(f) \times \mathsf{id})}_{= f} \circ \langle \mathsf{id}, g \rangle && (\text{definition}~\ref{def:ccc})\\
+                                                     & = f \circ \langle \mathsf{id}, g \rangle && (\text{definition}~\ref{def:ccc})\\
+                                                     & = M|[\Gamma \type s[t/x]|] && (\text{lemma}~\ref{lem:subst})
+    \end{align*}
+\end{proof}
+
+
+\section{Internal Language of a Cartesian Closed Category}
+
+In the previous section we established a connection between $\beta\eta$-equivalent terms and equal morphisms.
+We can exploit this connection to use the simply type lambda calculus to describe cartesian closed categories.
+To do so, let $\cat{C}$ be a cartesian closed category.
+We want to define a simply type lambda calculus which resembles $\cat{C}$, which we call internal language of $\cat{C}$.
+Therefore, we take every object $G$ of $\cat{C}$ as ground type.
+Furthermore, for every morphism $f \from \term \to A$, where $\term$ is the terminal object, we have a constant $f^A$ of type $A$.
+The mapping from section~\ref{sec:sem} is defined as $M(G) := G$ for every ground type $G$ and $M(f^A) := f$ for every constant $f^A$.
+The following example illustrates how the internal language can be used to show properties of $\cat{C}$.
+
+\begin{exmpl}
+    We show that $C^{A \times B} \iso (C^B)^A$ for all objects $A, B$ and $C$ from $\cat{C}$.
+    Note that $A, B$ and $C$ are types in the internal language of $\cat{C}$.
+    First, we  define lambda terms $cas$ and $car$:
+    \begin{align*}
+        & cas := \lambda f: A \times B \to C.\,\lambda x: A.\,\lambda y: B.\,f(x, y) \\
+        & car := \lambda g: A \to B \to C.\,\lambda p: A \times B.\,g\,(\mathsf{fst}\,p)\,(\mathsf{snd}\,p),
+    \end{align*}
+    such that they satisfy the following typing judgements and $\beta\eta$-equivalences:
+    \begin{align*}
+        & \vdash cas: (A \times B \to C) \to A \to B \to C \\
+        & \vdash car: (A \to B \to C) \to A \times B \to C\\
+        & f: A \times B \to C \vdash car\, (cas\, f) =_{\beta\eta} f : A \times B \to C \\
+        & g: A \to B \to C \vdash cas\, (car\, g) =_{\beta\eta} g : A \to B \to C.
+    \end{align*}
+    Furthermore, we define
+    \begin{align*}
+        h & := M|[f: A \times B \to C \vdash cas\,f: A \to B \to C|] \\
+        h' & := M|[g: A \to B \to C \vdash car\,g: A \times B \to C|].
+    \end{align*}
+    Note that $\langle\rangle \circ h = \pi_1$ and thus
+    \begin{align*}
+        (\mathsf{cur}(h') \times \id_{\term}) \circ \langle \langle\rangle, \id_{(C^B)^A} \rangle \circ h = \langle \mathsf{cur}(h') \circ \pi_1, h \rangle. \tag{1}
+    \end{align*}
+    We obtain
+    \begin{align*}
+        & h' \circ \langle\langle\rangle, \id_{(C^B)^A}\rangle \circ h \\
+        = \,& \mathsf{app} \circ (\mathsf{cur}(h') \times \id_\term) \circ \langle\langle\rangle, \id_{(C^B)^A}\rangle \circ h && (\text{definition}~\ref{def:ccc})\\
+        = \,& \mathsf{app} \circ \langle \mathsf{cur}(h') \circ \pi_1, h \rangle && (\text{equation}~(1))\\
+        = \,& \mathsf{app} \circ \langle M|[\ \vdash car: (A \to B \to C) \to A \times B \to C|] \circ \pi_1, h \rangle && (\text{definition}~\ref{def:type-C})\\
+        = \,& \mathsf{app} \circ \langle M|[f: A \times B \to C \vdash car: (A \to B \to C) \to A \times B \to C|] , h \rangle && (\text{definition}~\ref{def:type-C})\\
+        = \,& M|[f: A \times B \to C \vdash car\,(cas \,f): A \times B \to C|] && (\text{definition}~\ref{def:type-C}) \\
+        = \,& M|[f: A \times B \to C \vdash f: A \times B \to C|] && (\text{theorem}~\ref{thm:sound})\\
+        = \,& \pi_2 && (\text{definition}~\ref{def:type-C})
+    \end{align*}
+    and therefore
+    \begin{align*}
+        & h' \circ \langle\langle\rangle, \id_{(C^B)^A}\rangle \circ h \circ \langle \langle\rangle, \id_{C^{A \times B}} \rangle \\
+        =\, & \pi_2 \circ \langle \langle\rangle, \id_{C^{A \times B}} \rangle \\
+        =\, & \id_{C^{A \times B}} && (\text{definition}~\ref{def:ccc}).
+    \end{align*}
+    Analogously we obtain
+    \[ h \circ \langle \langle\rangle, \id_{C^{A \times B}} \rangle \circ h' = \pi_2 \tag{2} \]
+    and thus
+    \begin{align*}
+        & h \circ \langle \langle\rangle, \id_{C^{A \times B}} \rangle \circ h' \circ \langle\langle\rangle, \id_{(C^B)^A}\rangle \\
+        =\, & \pi_2 \circ \langle\langle\rangle, \id_{(C^B)^A}\rangle && (\text{equation}~(2))\\
+        =\, & \id_{(C^B)^A} && (\text{definition}~\ref{def:ccc}).
+    \end{align*}
+    This shows $C^{A \times B} \iso (C^B)^A$.
+\end{exmpl}
+
+
+\iffalse
+\section{Free Cartesian Closed Categories}
+\label{sec:free}
+
+\begin{theorem}
+    \label{thm:compl}
+    If $M|[\Gamma\type s: A|] = M|[\Gamma\type t: A|]$ for every mapping $M$ of ground types and constants and every cartesian closed category $\cat{C}$,
+    then $\Gamma \type s =_{\beta\eta} t: A$.
+\end{theorem}
+\begin{proof}
+    We give a proof sketch.
+
+\end{proof}
+\fi
+
+
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{bib}
+
+\end{document}
