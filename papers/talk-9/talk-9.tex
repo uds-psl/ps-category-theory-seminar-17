@@ -38,7 +38,7 @@
 \label{sec:motiv}
 
 Recall the Curry-Howard correspondence which relates logic and type theory.
-According to this correspondence proposotions are types and proofs are terms.
+According to this correspondence propositions are types and proofs are terms.
 A prominent example is the relation between intuitionistic propositional logic and simply typed lambda calculus.
 We can extend the correspondence to the so called Curry-Howard-Lawvere/Lambek correspondence by adding category theory as shown in the following table.
 
@@ -74,7 +74,7 @@ Common constants are integers like $3^{\mathsf{int}}$ and booleans ($\mathsf{tru
 In order to state that a term has some type we use environments.
 Environments are lists of variables and their types.
 Thus we have the empty environment $\eenv$ and we can extend an environment $\Gamma$ with a variable $x$ of type $A$ (written $\Gamma, x: A$).
-Often the empty environment is ommited.
+Often the empty environment is omitted.
 For example the environment $x: \mathsf{int}, y: \mathsf{bool}$ has a variable $x$ of type \textsf{int} and a variable $y$ of type \textsf{bool}.
 Variables in environments are always distinct, that means $x: \mathsf{int}, x: \mathsf{int}$ is not an environment.
 We use environments to `remember' the type of a variable in a function definition.
@@ -125,7 +125,7 @@ we recall the definition of cartesian closed categories.
     \label{def:ccc}
     A cartesian closed category $\cat{C}$ consists of:
     \begin{itemize}
-        \item A teminal object $\term \in \cat{C}$: $\forall X \in \cat{C}.\, \exists! \langle\rangle: X \to \term$.
+        \item A terminal object $\term \in \cat{C}$: $\forall X \in \cat{C}.\, \exists! \langle\rangle: X \to \term$.
         \item Binary products $X \times Y \in \cat{C}$ with projections $\pi_1 \from X \times Y \to X$ and $\pi_2 \from X \times Y \to Y$
             for all $X, Y \in \cat{C}$:
             For every $Z \in \cat{C}$ and morphisms $f \from Z \to X$ and $g \from Z \to Y$,
@@ -196,8 +196,9 @@ then we define $M|[\Gamma \type s: A|] \from M|[\Gamma|] \to M|[A|]$ by recursio
     \end{align*}
 \end{defn}
 
-%The case for constants 
-\todo{explain, esp. $M(c^A)$}
+The case for constants illustrates why we choose $M(c^A) \from \term \to M|[A|]$.
+Since the type of a constant does not depend on the environment $\Gamma$, it is natural to take the empty environment.
+We can easily construct morphisms for arbitrary environments, because the empty environment is mapped to the terminal object.
 
 \begin{exmpl}
     \label{exp:sem}
@@ -222,7 +223,7 @@ Example~\ref{exp:sem} showed that there are terms which are mapped to the same m
 It turns out that this holds for all $\beta$- and $\eta$-equivalent terms.
 In order to define this equivalence we need substitutions.
 A substitution corresponds to a function application $(\lambda x: A.\, s)\, t$, where the function is called with an argument $t$.
-It replaces in the term $s$ all occurences of the variable $x$ with the term $t$.
+It replaces in the term $s$ all occurrences of the variable $x$ with the term $t$.
 We write $s[t/x]$ and define it as follows.
 
 \begin{defn}{(Substitution)}
