@@ -466,7 +466,15 @@ by $(\sigma, a)\rho = (\sigma \rho, a \rho)$.
 
 \subsection*{Dependent product}
 
-As a motivation for dependent products recall how to define exponents in
+\begin{example}
+  The type for the function $A \to A$ (where $A$ is a ground type) is expressed
+  as an exponential $M(A)^{M(A)}$ in STLC with $M$ being the interpretation
+  function and $M(A)$ an object corresponding to the ground type in cartesian
+  closed category.
+\end{example}
+
+To represent the same type in the model with dependent types we will also use
+exponentials, but on the presheaves. Let us consider how to define exponents in
 presheaf categories. Let $\Gamma$ and $\Delta$ be presheaves and suppose we
 already know how the exponent $\Delta^\Gamma$ is constructed. Then we get by
 the Yoneda Lemma and the fact that $-^\Gamma$ should be right adjoint to $-
@@ -474,62 +482,69 @@ the Yoneda Lemma and the fact that $-^\Gamma$ should be right adjoint to $-
 \[
   (\Delta^\Gamma)(I) \cong Hom(\mathbf{y}I, \Delta^\Gamma) \cong Hom(\mathbf{y}I \times \Gamma, \Delta)
 \]
-where $\mathbf{y}$ is Yoneda embedding.
+where $\mathbf{y}$ is the Yoneda embedding.
 
-The latter can be taken up as a definition. So an element $w$ of
-$(\Delta^\Gamma)(I)$ is a natural transformation $w \from \mathbf{y}I\times
-\Gamma \to \Delta$, so it is given by functions
+We can take that as a definition. Then an element $w$ of $(\Delta^\Gamma)(I)$
+is a natural transformation $w \from \mathbf{y}I\times \Gamma \to \Delta$ given
+by functions
 \[
   w_J \from (\mathbf{y}I)(J) \times \Gamma(J) \to \Delta(J),
 \]
 and the naturality condition becomes $(w_J(f, \rho))g = w_K(fg, \rho g)$ for $f
 \from J \to I$, $\rho \in \Gamma(J)$, and $g \from K \to J$.
 
-We will now show that CwF associated to a presheaf category supports
-$\Pi$-types. Given $\Gamma \vdash A$ and $\Gamma.A \vdash B$ we have to define
-$\Gamma \vdash \Pi x: A. B~type$, that is, we have to define the set $(\Pi x:
-A.B) \rho$ for $I \in \cat{C}$ and $\rho \in \Gamma(I)$. The elements $w$ of
-$(\Pi x:A.B)\rho$ are families $w = (w_f~|~J\in \cat{C}, f \from J \to I)$ of
-(dependent) functions such that
-\[
-  w_f u \in B(\rho f, u) \qquad \text{for $J \in \cat{C}, f \from J \to I, and u \in A(\rho f)$},
-\]
-with the requirement that for $g \from K \to J$
-\[
-  (w_f u)g = w_{fg}(ug).
-\]
+\begin{lemma}
+  CwF associated to a presheaf category supports $\Pi$-types.
+  \begin{proof}
+    We give a proof sketch as seen in \cite{Huber}. More detailed proof may be
+    found in \cite{Hofmann}.
 
-For such a family $w \in (\Pi x: A. B)\rho$, the restriction $wf \in (\Pi
-x:A.B)(\rho f)$ for $f: \from J \to I$ is defined by taking
-\[
-  (w f)_g u = w_{fg}u \in B(\rho f g, u)
-\]
-where $g \from K \to J$ and $u \in A(\rho f g)$. This definition satisfies $w 1
-= w$ and $w f g = w(f g)$.
+    Given $\Gamma \vdash A$ and $\Gamma.A \vdash B$ we have to define $\Gamma
+    \vdash \Pi x: A. B~type$, that is, we have to define the set $(\Pi x: A.B)
+    \rho$ for $I \in \cat{C}$ and $\rho \in \Gamma(I)$. The elements $w$ of
+    $(\Pi x:A.B)\rho$ are families $w = (w_f~|~J\in \cat{C}, f \from J \to I)$
+    of (dependent) functions such that
+    \[
+      w_f u \in B(\rho f, u) \qquad \text{for $J \in \cat{C}, f \from J \to I, and u \in A(\rho f)$},
+    \]
+    with the requirement that for $g \from K \to J$
+    \[
+      (w_f u)g = w_{fg}(ug).
+    \]
 
-Now let $\Gamma.A \vdash b : B$; we have to define $\Gamma \vdash \lambda b :
-\Pi x:A.B$, that is , give $(\lambda b)\rho \in (\Pi x:A.B)\rho$. For $f \from
-J \to I$ and $u \in A(\rho f)$ we set
-\[
-  ((\lambda b)\rho)_f u = b (\rho f, u) \in B(\rho f, u)
-\]
-This satisfies for $g \from K \to J$
-\[
-  (((\lambda b)\rho)_f u)g = (b(\rho f, u))g = b(\rho(fg), ug) = ((\lambda b)\rho)_{fg}(ug)
-\]
-and defines a term since
-\[
-  (((\lambda b)\rho)f)_g u = ((\lambda b) \rho)_{fg} u = b(\rho fg, u) = ((\lambda b)(\rho f))_g u.
-\]
+    For such a family $w \in (\Pi x: A. B)\rho$, the restriction $wf \in (\Pi
+    x:A.B)(\rho f)$ for $f: \from J \to I$ is defined by taking
+    \[
+      (w f)_g u = w_{fg}u \in B(\rho f g, u)
+    \]
+    where $g \from K \to J$ and $u \in A(\rho f g)$. This definition satisfies
+    $w 1 = w$ and $w f g = w(f g)$.
 
-To define the application let $\Gamma \vdash u : \Pi x:A.B$ and $\Gamma \vdash
-v : A$, and we set $App(u, v)\rho = (u\rho)_1 (v\rho) \in B(\rho, v\rho)$, thus
-$App(u, v)\rho \in B(1, v)\rho$ as $(\rho, v \rho) = (1, v)\rho$.
-$\beta$-equality is readily checked
-\[
-  App(\lambda b, v)\rho = ((\lambda b)\rho)_1(v\rho)=b(\rho, v\rho)
-\]
-and similarly for $\eta$-equality and other equations.
+    Now let $\Gamma.A \vdash b : B$; we have to define $\Gamma \vdash \lambda b
+    : \Pi x:A.B$, that is , give $(\lambda b)\rho \in (\Pi x:A.B)\rho$. For $f
+    \from J \to I$ and $u \in A(\rho f)$ we set
+    \[
+      ((\lambda b)\rho)_f u = b (\rho f, u) \in B(\rho f, u)
+    \]
+    This satisfies for $g \from K \to J$
+    \[
+      (((\lambda b)\rho)_f u)g = (b(\rho f, u))g = b(\rho(fg), ug) = ((\lambda b)\rho)_{fg}(ug)
+    \]
+    and defines a term since
+    \[
+      (((\lambda b)\rho)f)_g u = ((\lambda b) \rho)_{fg} u = b(\rho fg, u) = ((\lambda b)(\rho f))_g u.
+    \]
+
+    To define the application let $\Gamma \vdash u : \Pi x:A.B$ and $\Gamma
+    \vdash v : A$, and we set $App(u, v)\rho = (u\rho)_1 (v\rho) \in B(\rho,
+    v\rho)$, thus $App(u, v)\rho \in B(1, v)\rho$ as $(\rho, v \rho) = (1,
+    v)\rho$. $\beta$-equality is readily checked
+    \[
+      App(\lambda b, v)\rho = ((\lambda b)\rho)_1(v\rho)=b(\rho, v\rho)
+    \]
+    and similarly for $\eta$-equality and other equations.
+  \end{proof}
+\end{lemma}
 
 \begin{example}
   Let us consider a term of type $A \to A$, and the elements in $Ty(\Gamma)$
@@ -558,13 +573,31 @@ A~type$ and $\Gamma.A \vdash B~type$ is defined by
 \[
   (\Sigma x :A. B)\rho = \{(a, b)~|~a \in A\rho \land b \in B(\rho, a)\}
 \]
-for $\rho \in \Gamma(I), I \in \ob(\cat{C})$. The restrictions are defined
-componentwise $(a, b)f = (af, bf)$ for $f \from J \to I$. The pairing operation
-$\Gamma \vdash (u, v) : \Sigma x:A.B$ of $\Gamma \vdash u : A$ and $\Gamma.A
-\vdash v : B(1, u)$ is defined by the componentwise pairing: $(u, v)\rho =
-(u\rho, v\rho)$. Likewise for the projections $\mathbf{p}$ and $\mathbf{q}$,
-$(\mathbf{p}w)\rho = a$ and $(\mathbf{q}w)\rho = b$ for $w\rho = (a, b)$. This
-validates the necessary equations.
+for $\rho \in \Gamma(I), I \in \ob(\cat{C})$.
+\begin{lemma}
+  CwF associated to a presheaf category supports $\Sigma$-types.
+  \begin{proof}
+    Again we give a proof sketch as seen in \cite{Huber}. More detailed proof
+    is also found in \cite{Hofmann}.
+
+    The restrictions are defined componentwise:
+    \[
+      (a, b)f = (af, bf)
+    \]
+    for $f \from J \to I$.
+
+    The pairing operation $\Gamma \vdash (u, v) : \Sigma x:A.B$ of $\Gamma
+    \vdash u : A$ and $\Gamma.A \vdash v : B(1, u)$ is defined by the
+    componentwise pairing:
+    \[
+      (u, v)\rho = (u\rho, v\rho)
+    \]
+
+    Likewise for the projections $\mathbf{p}$ and $\mathbf{q}$,
+    $(\mathbf{p}w)\rho = a$ and $(\mathbf{q}w)\rho = b$ for $w\rho = (a, b)$.
+    This validates the necessary equations.
+  \end{proof}
+\end{lemma}
 
 \section*{Credits}
 
