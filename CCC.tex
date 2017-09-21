@@ -1,0 +1,379 @@
+
+\def\pathToRoot{../}\input{\pathToRoot headers/uebungHeader}
+
+
+\begin{document}
+\title{Cartesian Closed Categories}
+\author{Andreas Meyer}
+\maketitle
+
+\section{Introduction}
+If we take a look on, for instance, the category of sets \textbf{Sets}, we may observe that the cartesian product $A \times B$, $\forall A, B \in ob(\textbf{Sets})$ generates again objects in \textbf{Sets}. There are more categories equipped with the property, that their products give rise to a new elements in the collection of their objects, in addition, there are often other functors with the same behaviour.
+\\
+In some cases, where these other functors happen to be left adjoints to the product, these categories' objects posess a natural- number like arithmetic and we talk about cartesian closed categories.
+Furthermore, the internal logic of cartesian closed categories is the simply typed lambda calculus, which will not be topic of this write up, but shortly mentioning it provides some more context to argue, why  it is appropriate to have a look onto the abstract concept of cartesian closed categories.
+In the following, CCC will serve as an abbrevation.
+\\
+This writeup will range over a this introduction with a short defintion of CCC, the concept of exponentials, and detail a more compact characterisation as well as the mentioned arithmetical properties.
+Examples of CCC's like \textbf{Sets}, \textbf{Posets} and, \textbf{HA}, where \textbf{HA} will be the category of Heyting Algebras, shall provide a better intuition for what CCC looks like, and how they can be identified.
+This is complemented by some counterexamples like  $\boldsymbol{Vect_k}$. 
+\\
+
+
+To be cartesian closed, a category $\mathcal{A}$ has to meet two requirements, as coarsly detailed in the subsequent definition.
+\begin{definition}{Cartesian Closed Category}
+  A Cartesian Closed Category has all finite products and exponentials.
+
+\end{definition}
+\\
+While it is required, that the reader knows about products, the idea of exponentials is assumed to be new and needs some more explanations.
+\\
+Regarding the products, just assess at this point, that the notion of all finite products is exhaustively described by terminal objects and binary products, because a terminal object represents the empty product, whereas every other product can be constructed with binary products. Since the whole concept of CCC is based on categories, whose functors are again objects, the existence of all finite products follows inductively, as long as it is clear that binary products are again objects.
+
+\section{Exponentials}
+
+Exponentials can be best described as right adjoints to binary products.
+They are equipped with evaluation arrows $\epsilon$ and transposition $\lambda$.
+This is an extension of the definition beyond the characterisation as right adjoint and it is necessary to at least mention the existence of both arrows at this point, because some of the examples would not work without introducing them here, for assuming and verifying the existence of exponential arrows for some category $\mathcal{A}$ does not always imply these being elements of $ob(\mathcal{A})$.
+So for an exponential of $\mathcal{A}$ to be an object of $\mathcal{A}$, we sometimes need to verify that the categories defining properties hold for the evaluation arrow as well as for the transposition.
+So we obtain the following as a "working definition".
+
+\newpage
+
+\begin{definition}{Exponentials}
+  An Exponential $A^B$ of a category $\mathcal{A}$ with binary product $A \times B$ is a right adjoint to this product, such that, $\forall B \in \mathcal{A}, \ Hom( - \times B, -) \cong Hom(- , (-)^B)$ holds, which comes $\forall A,B,C \in \mathcal{A}$ with
+  \begin{itemize}
+    \item an evaluation arrow $\epsilon : C^B \times B \to C$
+    \item an transposition $\lambda f: A \to C^B$ for each arrow $f: A \times B \to C$
+  \end{itemize}
+  such that this diagram commutes:
+\[
+  \begin{tikzcd}[row sep=huge]
+    & A \times B \arrow{dr}{f}  \arrow{rr}{\lambda f \times 1_B} && C^B\times B \arrow{dl}{\epsilon} \\
+    &&C 
+  \end{tikzcd}
+\]
+\end{definition}
+
+%\begin{tikzcd}
+%      & 0' \arrow{dr}{g} \arrow{rr}{id_{0'}}    &&  0'\\
+%      0 \arrow{ur}{f} \arrow{rr}{id_0} && 0 \arrow{ur}{f}
+%    \end{tikzcd}
+
+
+\section{Examples}
+Now, we have what is necessary to look at a few examples to justify, that there is a need for the abstract concept of CCC. 
+\subsection{\textbf{Sets}}
+\begin{itemize}
+\item \underline{\textit{Products:}} As already argued in the introduction, the cartesian product yields new objects $A\timesB\in ob(\textbf{Sets})$. Furthermore, it delivers the empty product $\emptyset \times \emptyset \to \emptyset$. Because all larger products can be build form binary products, \textbf{Sets} meets the first requirement to be a CCC. 
+\item  \underline{\textit{Exponentials:}} As exponential, we choose the function space $\forall A, B \in ob(\textbf{Sets}), A^B := \{ f: A \to B| f functional\}$.
+  \\ As proof obligation arises, that $\textbf{Sets}(A \times B, C ) \cong \textbf{Sets}(A, C^B), \forall A,B,C \in ob(\textbf{Sets})$ holds; that means that there are two arrows $f:A \times B \to C$ and $f':A \to C^B$ with $f (x,y) = f' (x) (y), \forall x \in A, y \in B$.
+  \begin{itemize}
+\item "$\Rightarrow$" : Assume $f: A \times B \to C$ with $f(x,y) \in A \times B \to C, x \in A, y \in B$.
+\\ By fixing $x \in A$, one obtains an arrow $$f_x$$ with $$f_x(y) \in C^B.$$ By unfixing x, $f_x$ is morphed in the curried function $$\mu f:A\toC^B$$ with $$\mu f (x)(y) \in A \to C^B,$$ such that $$\mu f(x)(y)=f(x,y).$$ 
+\item "$\Leftarrow$" : Assume $f': A \to C^B$. One simply defines a cartesian function $$g: A \times B \to C$$ as $$g(x,y) := f(x)(y), x \in A, y \in B$$ and is done.
+  \end{itemize}
+\end{itemize}
+
+\newpage
+
+  \subsection{\textbf{Posets}}
+  The example of the category of preordered sets requires to exploit the evaluation arrow $\epsilon$ and the transposition $\lambda$ to verify the existence of exponential objects.
+    \begin{itemize}
+  \item \underline{\textit{Products:}}
+    For all elements P, Q $\in ob(\textbf{Posets})$, the arrows are the monotone functions,
+    \\ Hom(P,Q) := $\{f: P \to Q \mid f \quad  monotone \}$ with $\forall p,p', p\leq p' \to f p \leq f p'$.
+  We can construct a binary product $P \times Q$, which is again a poset,using pairs $$(p,q) \in ob(P\timesQ)$$ and a partial ordering $$(p,q) \leq (p',q') \quad iff\quad p \leq p' \wedge q \leq q' .$$
+  From this follow monotone projections: \\
+\[
+  \begin{tikzcd}
+    & P && P\times Q \arrow{ll}{\pi_2} \arrow{rr}{\pi_1}  &&  Q\\
+  \end{tikzcd}
+\]
+  And a monontone pairing
+  $$ <f,g>: X \to P\times Q$$
+  if $f:X \to P$ and $g: X\to Q$ are monotone.
+
+\item \underline{\textit{Exponentials}}
+  As exponential $Q^P$, we consider a set of monotone functions
+  $$Q^P:=\{f:Q\toP \mid f \quad monotone \}$$
+  with an pointwise ordering, such that $\forall f,g \in Q^P$,
+  $$ f \leq g \leftrightarrow f p \leq g p,\forall p \in P.$$
+
+  The evalution comes as an arrow
+  $$\epsilon: Q^P\times P \to Q \quad with \quad \epsilon(f,p):=f(p)$$
+  and the transposition is the arrow
+  $$\lambda f : X \to Q^P \quad with \quad \lambda f(x) \in Q^P$$
+  for some poset X and arrow
+  $$f:X \times P \to Q \quad with \quad f(x,p):=\lambda f(x)(p)$$
+  If these arrows proof to be monotone, $Q^P$ is an exponential object within \textbf{Posets}
+  For this, we take some pairs $(f,p),(f',p')\in Q^P\times P, (f,p)\leq(f',p')$ and plug them into $\epsilon$:
+  $$\epsilon(f,p) = f(p)$$
+  $$\leq f(p')$$
+  $$\leq f'(p') $$
+  $$=\epsilon(f',p') $$
+  Hence, $\epsilon$ is monotone. To show monotonicity of the transposition, we assume
+  $f:X\timesP\to Q$ to be monotone and $x\leq x'$ for some $x,x' \in X$.
+  $$\lambda f(x) \leq \lambda f(x') \in Q^P$$
+  changes for any $p \in P$ to
+  $$\lambda f(x)(p)\leq \lambda f(x')(p)$$
+  which is by defintionß
+  $$f(x,p)= \lambda f (x)(p) \leq \lambda f(x')(p) = f(x',p),$$
+  so the proposition holds by equality $f(x,p)=\lambda f (x)(p)$ and assumption.
+  \end{itemize}
+  \newpage
+
+ \subsection{\textbf{HA}}
+\begin{definition}{Heyting Algebra}
+  A Heyting Algebra is a poset with
+  \begin{itemize}
+  \item finite meets: 1 and $p \land q$,
+  \item finite joint: 0 and $p \lor q$,
+  \item exponential object $a \Rightarrow b$, such that $a \land b \leq c$ iff $a \leq b \Rightarrow c$.
+  \end{itemize}
+
+\end{definition}
+Since products and exponentials are given in the definition, the remainung task is, whether
+ $$\textbf{HA}(a \land b, c) \cong \textbf{HA}(a, b \Rightarrow c)$$ holds.
+\\
+Heyting Algbras are partially ordered sets, so as in the example for \textbf{posets}, the monotonicity constraint must hold for exponentials $b^a= a \Rightarrow q$.
+In the following, exponentation is written as $a \Rightarrow b = \neg a \lor b$, when necessary.
+\\
+So the monotonicity constraint imposes $$ a \Rightarrow b \leq b \Rightarrow c \ iff \ a \leq b \ and \ b \leq c.$$
+Hence $$a \Rightarrow b  \leq a \Rightarrow b$$
+$$ a \Rightarrow b \land \a \leq b$$ by the condition $a \land b \leq c$ iff $a \leq b \Rightarrow c$, which is the evaluation arrow, and it is monotone
+$$ a \Rightarrow b \land a = (\neg a \lor b) \land a$$
+$$ = (\neg a \land a) \lor (b \land a)$$
+$$ = 0 \lor b \land a \leq b$$ what always holds.
+
+\\
+The transpose $$a\leq b \Rightarrow c $$ is monotone as well, as shown by these inequations:
+$$ a \land b \leq c \ to \neg b \lor (a \land b) \leq \neg b \lor c $$
+$$ (\neg b \lor a) \land (\neg b \lor b) \leq b \Rightarrow c$$
+$$ \neg b \lor a \leq (\neg b \lor a) \land (\neg b \lor b) $$
+$$ a \leq \neg b \lor a$$
+Hence
+$$ a \leq b \Rightarrow c.
+$$
+\subsection{Counterexamples}
+
+One striking property of any cartesian closed categories $\mathcal{A}$ with an initial object 0 and some object A is, that the isomorphism $0 \times A \cong 0$ holds,
+because $$Hom(0 \times A, -) \cong Hom(0, (-)^A) \cong \{ \ast \}$$
+where {$\ast$} denotes the one object, one arrow category, which is isomorphic to 0.
+ \\
+ So, to dismiss cartesian closedness for some category $\mathcal{B}$ with object A and an initial object C, it suffices to show, that $0 \times A \cong 0$ does not hold.
+So in the case of $\boldsymbol{Vect_k}$ with the initial object 0:= ({x},$\lambda \cdot x=x$, x+x=x), the binary product is the direct product of two vectorspaces, but $0 \oplus A \cong A$. Therefore, $\boldsymbol{Vect_k}$ is not cartesian closed.
+ \\
+The identity above can be exploited to argue, that pointed categories, where the terminal object is identical to the initial object, are only CCC if they are trivial.
+Because assuming \mathcal{A} to be a pointed category yields $$Hom(A,B) \cong Hom(1,A^B) \cong Hom(0,A^B) \cong 1$$  $\forall A,B \in ob(\mathcal{A})$.
+With this argument, the category of relations \textbf{Rel} or of groups \textbf{Grp} can be ruled out to be a CCC, because both are pointed with the empty set, resp. the trivial group as zero objects. 
+ 
+
+
+\section{Equational Characterisation}
+Finally, there is a more compact characterisation to identify a CCC $\mathcal{A}$, by offering a few equations which must hold for $\mathcal{A}$.
+The first two arise from the first constraint that $\mathcal{A}$ has all finite products, the remaining from the exponentials.
+They sometimes offer a shortcut to verifying cartesian closedness.
+\subsection{Terminal objects}
+$\mathcal{A}$ must have a terminal object 1. The reason is, that the terminal object is the limit of the empty product.
+If there is no terminal object, there is no empty product and hence not all finite products.
+\subsection{Binary products are objects of $\mathcal{A}$}
+$\forall A,B,Z\in \mathcal{A}$, there is given an object $A \times B$ and arrows $p_1:A \times B \to A$, $p_2:A \times B \to B$ and for each pair of arrows <f,g> with $f:Z \to A$ and $g:Z \to B$ such that
+$$ p_1<f,g> = f, p_2<f,g>=g$$ and $$<p_1 \circ  h,P_2 \circ h> = h, \forall h : Z \to A \times B $$ holds.
+\subsection{Evaluation Arrow and Transpose}
+$\forall A, B. Z\in \mathcal{A}$, there is  an object $B^A$ and an arrow $\epsilon: B^A \times A \to B$ and for each arrow $f:Z \times A \to B$, there is an transpose $\lambda f: Z \to B^A$ such that the equation:
+$$(i) \quad \epsilon \circ (\lambda f \circ 1_A) = f$$
+and $\forall g: Z \to B^A$:
+$$(ii) \quad \lambda (\epsilon \circ (g \circ 1_A))=g$$
+with the identity functor on A $1_A: A \to A$, hold.
+\\
+For that these equations indeed imply exponentials, we have to verify the properties of exponentials:
+\begin{itemize}
+\item  $- \times A$ is left adjoint to $(-)^A$:
+\\Define $\lambda^{-1}: Hom(Z, B^A) \to Hom(Z \times A,B)$ with $\lambda^{-1}(f) = \epsilon \circ (f \times 1_A), f: Z \to B^A$.
+Now verify the equation $(\lambda \circ \lambda^{-1}) = (\lambda^{-1} \circ \lambda) = 1_f$ by unfolding definitions.
+$$(\lambda \circ \lambda^{-1})f=\lambda(\epsilon \circ (f \times 1_A)) =f \quad by \quad ii$$ 
+$$(\lambda^{-1} \circ \lambda)f=\epsilon \circ (\lambda f \times 1_A) =f \quad by \quad i$$
+\item $Hom(- \times B, -) \cong Hom(-,(-)^B)$ is natural:
+  \\
+  The naturality axiom consists of two identities:
+  \\
+  For categories $\mathcal{A}, \mathcal{B}$, for all objects $A,A' \in ob(\mathcal{A}), B,B' \in ob(\mathcal{B})$, functors $F: \mathcal{A} \to \mathcal{B}, G: \mathcal{B} \to \mathcal{A}$,
+  mappings $g:F(A) \to B, f: A \to G(B)$  and transpositions $\lambda:A' \to G(B'),\mu: F(A') \to B'$,
+  \[
+  \begin{tikzcd}[column sep=normal]
+    \lambda(F(A) \arrow{r}{g} & B \arrow{r}{q} & B') = A \arrow{r}{\lambda g} & G(B) \arrow{r}{G(q)} & G(B') 
+  \end{tikzcd}
+  \]
+
+   \[
+   \begin{tikzcd}[column sep=normal]
+    \mu(A' \arrow{r}{p} & A \arrow{r}{f} & G(B)) = F(A') \arrow{r}{F(p)} & F(A) \arrow{r}{\mu f} & B 
+  \end{tikzcd}
+   \]
+
+   \\ So we instantiate this with the category $\mathcal{A}$ having exponential objects $B^A, A,B \in ob(\mathcal{A})$ , $\epsilon: B^A \times A \to B$, and an invertible transpose $\lambda$.
+   Lets define $$F(Z):=Z \times B, G(Z):= Z^B$$. 
+   For g, we take $1_B$, for $\epsilon$ and have
+   $$1_B \circ \epsilon: A \times B \to B \to B $$ with the transpose
+   $$\lambda (1_B \circ \epsilon) : A \to (B \to B)^B = A \to B^B \to B^B$$ which is the type of
+   $$(1_B)^B \circ \lambda\epsilon$$ what instantiates the first axiom as
+   \[
+   \begin{tikzcd}[column sep=normal]
+     \lambda(A \times B \arrow{r}{\epsilon} & B \arrow{r}{1_B} & B) = A \arrow{r}{\lambda \epsilon} & B^B \arrow{r}{(1_B)^B} & B^B 
+   \end{tikzcd}
+   \]
+
+   \\ For the second axiom, choose $f:A\to B^B$ as and $p:=1_A$.Let $\mu := \lambda^{-1}$
+   $$f \circ 1_A : A \to A \to B^B$$
+   the transpose has type
+   $$\lambda^{-1}: A\timesB \to B $$
+   what happens to be the type of
+   $$1_A \times A \circ \lambda^{-1} f,$$ with
+   $\lambda^{-1}f : A\times B \to B$
+   So the diagram
+   \[
+   \begin{tikzcd}[column sep=normal]
+     \lambda^{-1}(A \arrow{r}{1_A} & A \arrow{r}{f} & B^B) = A \times B \arrow{r}{1_A \times B} & A \times B \arrow{r}{\lambda^{-1} f} & B 
+   \end{tikzcd}
+   \]
+   matches the second axiom.
+
+\item $ (-)^B$ is functorial.
+  For the sake of the argument, we put our knowledge about exponentials being right adjoints to the side and explore, whether the object $B^A$ is a also a functor from scratch.
+  To be functorial, the exponential object must preserve identity arrows and composition.
+  So we start by defining a functor $\beta:B \to C$ by transposing the composite $\beta \circ \epsilon$ with
+  $$ \beta^A: B^A \to C^A$$
+  and
+  $$ \beta^A := \lambda (\beta \circ \epsilon),$$
+  which is made more explicit with the following diagram:
+\[
+\begin{tikzcd}[row sep=huge]
+    C^A                    & C^A \times A \arrow{r}{\epsilon} & C \\
+    B^A \arrow{u}{\beta^A} & B^A \times A \arrow{u}{\beta^A \times 1_A} \arrow{r}{\epsilon} & B \arrow{u}{\beta}
+  \end{tikzcd}
+  \]
+
+  \begin{itemize}
+  \item To show that the exponential object preserves the identity functor, we replace $\beta \quad by \quad 1_B$, what transforms the diagram to:
+    \[
+\begin{tikzcd}[row sep=huge]
+    B^A \times A \arrow{r}{\epsilon} & B \\
+    B^A \times A \arrow{u}{\beta^A \times 1_A} \arrow{r}{\epsilon} & B \arrow{u}{\beta}
+  \end{tikzcd}
+\]
+From which follows $(1_B)^A = 1_{B^A} : B^A \to B^A$ because
+$$ 1_B \circ \epsilon = \epsilon$$
+$$ = \epsilon \circ 1_{B^A \times A}$$
+$$ = \epsilon \circ 1_{B^A} \times 1_A.$$
+\item To show the preservation of the composite, we add another functor $\gamma$:
+  \[
+  \begin{tikzcd}[row sep=huge]
+    B \arrow{r}{\beta} & C \arrow{r}{\gamma} & D
+  \end{tikzcd}
+  \]
+  Having this diagram:
+  \[
+  \begin{tikzcd}[row sep=huge]
+    D^A \times A \arrow{r}{\epsilon} & D \\
+    C^A \times A \arrow{u}{\gamma^A \times 1_A} \arrow{r}{\epsilon} & C \arrow{u}{\gamma} \\
+    B^A \times A \arrow{u}{\beta^A \times 1_A} \arrow{r}{\epsilon} & B \arrow{u}{\beta}
+  \end{tikzcd}
+  \]
+  The identity
+  $$\gamma^A \circ \beta^A = (\gamma \circ \beta)^A. $$ follows from
+  $$\gamma \beta \epsilon = \gamma \epsilon (\beta^A \times 1_A) \ by \ Def. \ of \ \beta^A$$
+  $$=\epsilon (\gamma^A \times 1_A)(\beta^A \times 1_A) \ by \ Def. \ of \ \gamma^A$$
+  $$=\epsilon ((\gamma^A \circ \beta^A) \times 1_A)$$
+
+
+  \end{itemize}
+\end{itemize}
+
+
+\subsection{\textbf{Cat}}
+There is yet another example, which exemplifies the usage of the third part of the equational characterisation to verify cartesian closedness.
+We consider the category of categories with finite products.
+Since the first CCC requirement is given by definition, it remains to show, that the category is equipped with exponential objects. 
+
+  \\
+  So $\forall A,B,C \in \textbf{Cat}$, the exponential object is given as $C^B$, with the evaluation arrow
+  $$\epsilon: C^B \times B \to C $$ and the transposition
+  $$\lambda f: A \to C^B,\forall f:A \times B \to C$$
+  The equation
+  $$f = \epsilon \circ (\lambda f \times 1_B)$$ can be verified with the commuting diagram
+  \[
+  \begin{tikzcd}[row sep=huge]
+    A \arrow{d}{\lambda f} & A \times B \arrow{d}{\lambda f \times 1_B} \arrow{dr}{f} \\
+    C^B                    & C^B \times B \arrow{r}{\epsilon} & C 
+  \end{tikzcd}
+  \]
+  \\
+  For some $g:A\toC^B$, we have the inverse of the transpose
+  $$\lambda^{-1}g: A\times B \to C$$ with
+  $$\lambda^{-1}g:=\epsilon \circ (g\times 1_B)$$
+  and need to show, that
+  $$g = \lambda(\epsilon \circ (g\times 1_B).$$
+  Since we already know, that $(\lambda \circ \lambda^-1) (g) = g$, there is nothing left to show and \textbf{Cat} is cartesian closed. 
+ 
+\section{Further Properties}
+
+Beyond the already seen isomorphism $0 \times A \cong 0$, many identities knwon from common arithmetics,like for instance that of the natural numbers,
+hold for cartesian closed categories.$\forall A, B, C \in $ in some cartesian closed category $\mathcal{A}$ with terminal object "1" and binary products "$\times$": \\
+\begin{itemize}
+\item $A \times (B \times C) \cong (A \times B) \times C$
+\item $A \times B \cong B \times A$
+\item $ 1^A \cong 1 $
+\item $ A^1 \cong A$
+\item $(A \times B)^C \cong A^C \times B^C$
+\item $(A^B)^C \cong A^{B \times C} $
+\end{itemize}
+\\
+If $\mathcal{A}$ is bicartesian closed with initial object "0" and co-product "+", the enumeration of axioms above is extended by: 
+\begin{itemize}
+\item $A+B \cong B+A$
+\item $(A+B)+C \cong A+(B+C)$
+\item $(A+B)\times C \cong A \times C+B \times C$
+\item $A^{B+C} \cong A^B \times A^C $
+\item $0+A \cong A$
+\item $A^0 \cong 1$
+\end{itemize}
+\\
+We are going to show some of these identities by transformations exploiting right or left adjointness.
+Usually it suffices to show, that both sides satisfy the same universal property.
+\begin{itemize}
+\item $$1^A \cong 1.$$
+  holds, because there is only one arrow from every object A $\in ob(\mathcal{A})$ to the terminal object 1 which makes Hom(A,1) containing exactly one arrow. The terminal object itself is merely equipped with the identity $1_1$.
+  So both sides satisfy the universal property and are therefore isomorphic.
+  \\
+
+\item $$(A^B)^C \cong A^{B \times C}.$$
+  Take some X,Y $\in ob(\mathcal{A})$ and set
+  $$ X:=Hom(-, (A^B)^C) \quad and \quad Y:= Hom(-,A^{B\timesC})$$ then
+  $$ Hom(-, (A^B)^C) \cong Hom(-\times C, A^B) $$
+  $$ \cong Hom((- \times C)\times B,A) $$
+  With B, associativity and commutativity of the product
+  $$ Hom(-,A^{B\times C}) \cong Hom(- \times (B\times C),A) $$
+  $$ \cong Hom(-\times (C\times B),A) $$
+  $$ \cong Hom((-\times C)\times B,A) $$
+  So $X \cong Y$, what shows the claim.
+\item $$A^0 \cong 1$$
+  The argument is similar to the one above. There is only one arrow from the initial object 0 to any other object A, so Hom(0,A) is isomorphic to the terminal object 1.
+\end{itemize}
+
+Other equations like distibutivity appear to be more difficult without any further assumptions and hence will be omitted, for there is an easy way using the Yoneda Lemma which is not the topic of this write up.
+
+\\
+Subcategories $\mathcal{B}$ of cartesian closed categories $\mathcal{A}$ are in general not cartesian closed.
+A simple counterexample is the category of categories with finite products\textbf{Cat}, which is cartesian closed with binary products and exponentials. 
+Yet $\textbf{Rel} \in ob(\textbf{Cat})$ is true, whereas \textbf{Rel} is not a CCC. 
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+
+
+
