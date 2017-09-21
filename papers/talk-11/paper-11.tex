@@ -307,9 +307,8 @@ and
   from $\Gamma$ to $\diamond$.
 \end{example}
 \begin{example}
-  We also have the identity context morphism $1$ (from now on we will use $1$
-  as the suitable identity morphism for the surroundings) for any $\Gamma = x_1
-  : A_1, \dots, x_n : A_n$, which is $(x_1, \dots, x_n)$.
+  We also have the identity context morphism $1$ for any $\Gamma = x_1 : A_1,
+  \dots, x_n : A_n$, which is $(x_1, \dots, x_n)$.
 \end{example}
 
 A note on notation: we sometimes write $A\sigma$, where $\Gamma \vdash
@@ -317,7 +316,18 @@ A\sigma~type$, $\Delta \vdash A~type$, and $\sigma \from \Gamma \to \Delta$ for
 some contexts $\Gamma$ and $\Delta$, to denote the application of $\sigma$ on
 the right. That is, $A\sigma$ becomes here a type in the domain context of
 $\sigma$, where $\sigma(A\sigma) = A$. The same notation is sometimes
-analogously used for terms.
+analogously used for terms: $a\sigma$ to denote a term $\Gamma \vdash a\sigma :
+A\sigma$, where $\Delta \vdash a : A$.
+
+Having this notation, we also want the following equations to hold:
+\[
+  A1=A \quad (A\sigma)\tau = A(\sigma\tau) \quad a1=a \quad (a\sigma)\tau=a(\sigma\tau)
+\]
+For readability, we usually omit writing indices to the identity morphism $1$,
+using it as the most suitable identity morphism for the surroundings. We also
+assume correct types in the equations, i.e. $(A\sigma)\tau = A(\sigma\tau)$
+assumes $\sigma \from \Delta \to \Gamma$, $\tau \from \Theta \to \Delta$, and
+$\Gamma \vdash A~type$.
 
 \begin{definition}[Context extension]
   If $\vdash \Gamma~ctxt$ and $\Gamma \vdash A~type$, there is a context
@@ -331,7 +341,8 @@ analogously used for terms.
     \mathbf{p}(\sigma, a) = \sigma \quad \mathbf{q}(\sigma, a) = a \quad (\sigma, a) \tau =
     (\sigma \tau, a \tau) \quad (\mathbf{p}, \mathbf{q}) = 1
   \]
-  (Note that in the last equation $1: \Gamma.A \to \Gamma.A$)
+  Note that in the last equation $1: \Gamma.A \to \Gamma.A$ and that we leave
+  the indices on $\mathbf{p}$ implicit.
 \end{definition}
 
 \section*{Categories with Families}
@@ -361,29 +372,24 @@ A \emph{category with families} is given by ($\cat{C}$,$F$) where:
 
   \item[$\bullet$] $F$ is a functor $F\from \cat{C}^\op \to \fcat{Fam}$; For a
     context $\Gamma$ we write $Ty_F(\Gamma)$ for the indexing set of the family
-    $F(\Gamma)$ and its family as $(Ter_F(\Gamma;A) | A \in Ty_F(\Gamma))$;
+    $F(\Gamma)$ and its family as $(Ter_F(\Gamma;A)~|~A \in Ty_F(\Gamma))$;
     $\Gamma \vdash A~type$ means that $A \in Ty_F(\Gamma)$ and $\Gamma \vdash a
-    : A$ means $a \in Ter_F(\Gamma;A)$. For a context morphism $\sigma \from
-    \Delta \to \Gamma$ the morphism $F(\sigma)$ acts on types $\Gamma \vdash
-    A~type$ as $A\sigma$ and on terms $\Gamma \vdash a : A$ as $a\sigma$. The
-    following equations also hold:
-    \[
-      A1=A \quad (A\sigma)\tau = A(\sigma\tau) \quad a1=a \quad (a\sigma)\tau=a(\sigma\tau)
-    \]
+    : A$ means $a \in Ter_F(\Gamma;A)$. Note that for a context morphism
+    $\sigma \from \Delta \to \Gamma$ the morphism $F(\sigma)$ acts on types
+    $\Gamma \vdash A~type$ as $A\sigma$ and on terms $\Gamma \vdash a : A$ as
+    $a\sigma$.
 \end{itemize}
 \end{definition}
 
-We say that a category with families supports $\Pi$- and $\Sigma$-types if it is
-closed under the corresponding rules shown in previous sections.
-
-We also add the rules for context morphisms:
+A category with families supports $\Pi$- and $\Sigma$-types if it is
+closed under the $\Pi$ and $\Sigma$ rules.
 
 \section*{Presheaf model}
 
-We will now show how any presheaf category gives rise to a category with
-families where the contexts are presheaves.  Let $\cat{C}$ be a small category.
-In the following objects of $\cat{C}$ will be denoted as $I,J,K$ and morphisms
-as $f,g,h$.
+Let us now consider the categories of presheaves and see that they form a
+category with families where the contexts are presheaves.  Let $\cat{C}$ be a
+small category. We will refer to the objects of $\cat{C}$  as $I,J,K$ and
+morphisms as $f,g,h$.
 
 The context $\Gamma$ is then a presheaf on $\cat{C}$, $\Gamma \from
 \cat{C}^\op \to \Set$, that is, we are given a set $\Gamma(I)$ for each
@@ -396,10 +402,9 @@ $f: J \to I$ such that
 for $g: K \to J$ and $f: J \to I$. We write $\Gamma_f$ for $\rho \mapsto \rho
 f$.
 
-The empty context then is a terminal presheaf and a context morphism $\sigma
-\from \Delta \to \Gamma$ is a natural transformation making the diagram
-commute.
-
+The empty context $\diamond$ is a terminal presheaf and a context morphism
+$\sigma \from \Delta \to \Gamma$ is a natural transformation that makes the
+diagram commute.
 \[
   \xymatrix{
     \Delta(I) \ar[r]^{\sigma_I} \ar[d]^{\Delta_f} & \Gamma(I) \ar[d]^{\Gamma_f} \\
@@ -407,8 +412,8 @@ commute.
   }
 \]
 
-If we write $\Gamma_f$ and $\Delta_f$ as $f$ acting on the right, the
-equation becomes:
+In the following, we will omit the indices on $\sigma$; Then if we write
+$\Gamma_f$ and $\Delta_f$ as $f$ acting on the right, the equation becomes:
 \[
   (\sigma \rho) f = \sigma (\rho f)
 \]
