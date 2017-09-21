@@ -1,0 +1,32 @@
+\documentclass[a4paper,oneside,11pt]{scrartcl}
+\usepackage[dvipsnames]{xcolor}
+\input{\pathToRoot headers/sharedHeader}
+
+\usepackage{bm}
+\usepackage{upgreek}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\geometry{margin=2.5cm}
+
+
+% Environments theorem, lemma, definition and corollary.
+% They all use the counter from theorem, except remark which has no counter
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{remark}{Remark}
+
+\usepackage{charter}
+\fontfamily{bch}\selectfont
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../papers/talk-7/paper-7"
+%%% End:
