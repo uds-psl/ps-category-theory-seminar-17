@@ -10,7 +10,7 @@
 
 \section{Products and Coproducts}
 
-\begin{exercise}[Product is unique up-to isomorphism]
+\begin{exercise}[Products are unique up-to isomorphism]
   Prove that for every category $\cat{A}$ and every objects $X, Y \in \cat{A}$
   all products of $X$ and $Y$ are isomorphic. Thus we can speak of \emph{the} product of $X$ and $Y$.
 \end{exercise}
@@ -20,7 +20,7 @@
     Let $X, Y \in \cat{A}$ and $P$ be a product of $X$ and $Y$ together with $p_1 \from P \to X, p_2 \from P \to Y$
     and $P'$ be a product of $X$ and $Y$ together with $p'_1 \from P' \to X, p'_2 \from P' \to Y$.
 
-    Lets reconcider the definition of the \emph{product}:
+    Lets reconsider the definition of the \emph{product}:
     For every object $A \in \cat{A}$ and arrows $f_1 \from A \to X, f_2 \from A \to Y$ we get that there exists a unique map
     $\bar{f} \from A \to P$, such that
     \[ \xymatrix{
@@ -76,7 +76,7 @@
 \end{exercise}
 
 \begin{answer}
-  Let $(A, \le)$ be a poset concidered as a category and $I$ a set.
+  Let $(A, \le)$ be a poset considered as a category and $I$ a set.
   A \demph{lower bound} of a family $(x_i)_{i\in I}$ is an element $a \in A$, s.\,t. $\forall i \in I: a \le x_i$.
   $z \in A$ is a \demph{greatest lower bound} of this family if $\forall a \in A: \text{$a$ is a lower bound} \Rightarrow a \le z$.
 
@@ -164,7 +164,7 @@
 
 \section{Equalizer and Coequalizer}
 
-\begin{definition}{Minus-core of linear maps in vector spaces}
+\begin{definition}{Minus-core of linear maps between vector spaces}
   Let $V, W$ be vector spaces over a field $K$. Let $s, t \from V \to W$ be linear functions.
   We define the linear function $s - t := \lambda v\in V. \; s(v) - t(v)$.
   Remember that for $g \from V \to W$ we have defined $core(g) := \set{ v \in V | g(v) = 0 }$.
@@ -176,7 +176,7 @@
   $\xymatrix{
       X \ar@<.5ex>[r]^s \ar@<-.5ex>[r]_t & Y
   }$
-  be a diagram in $Vect_K$ for a field $K$. Show that $core(s-t)$ is the equalizer for this diagram.
+  be a diagram in $\Vect_K$ for a field $K$. Show that $core(s-t)$ is the equalizer for this diagram.
 \end{exercise}
 
 \begin{answer}
@@ -289,7 +289,7 @@
 
 \begin{answer}
   \begin{proof}
-    We show that $S := P$ is the coproduct of $X$ and $Y$ together with the coprojection functions $p_1$ and $p_2$.
+    We show that $P$ is the coproduct of $X$ and $Y$ together with the coprojection functions $p_1$ and $p_2$.
     Let
     $ \xymatrix{
       X \ar[r]^{f_1} & A & Y \ar[l]_{f_2}
@@ -326,7 +326,7 @@
       Y \ar[r]^{p_2} \ar[drr]_{f_2}& P \ar@{.>}[dr]|{\tilde{f}} & \\
       & & A  \\
     } \]
-    would also commute (because $Z$ is initial) but $\bar{f}$ is unique, hence $\bar{f} = \tilde{f}$.
+      would also commute (because $Z$ is initial), but $\bar{f}$ is unique, hence $\bar{f} = \tilde{f}$.
   \end{proof}
 
 \end{answer}
@@ -474,7 +474,7 @@
           & A \ar[r]^h \ar[d]^j & B \ar[d]^k \\
           & D \ar[r]^m & E
         } \]
-        commutes. We have to show $j \of \bar{f} = f_2$ and $h \of \bar{f} = f_1$. The first equatation holds by assumption.
+        commutes. We have to show $j \of \bar{f} = f_2$ and $h \of \bar{f} = f_1$. The first equation holds by assumption.
 
         Now we define two maps
         \begin{alignat*}{4}
@@ -503,7 +503,7 @@
           & E \ar[r]^n & F
         } \]
         commutes.
-        By showing that this diagram comutes for $\bar{g} = f_1$ and for $\bar{g} = h \of \bar{f}$ we show $h \of \bar{f} = f_2$.
+        By showing that this diagram commutes for $\bar{g} = f_1$ and for $\bar{g} = h \of \bar{f}$ we show $h \of \bar{f} = f_2$.
         \begin{itemize}
           \item[1.]$\bar{g} = f_1$: We have $i \of f_1 = g_1$ by definition and $k \of f_1 = m \of f_2 = m \of j \of \bar{f} = g_2$.
           \item[2.]$\bar{g} = h \of \bar{f}$: We have $(i \of h) \of \bar{f} = i \of f_2$ and $(k \of h) \of \bar{f} = (m \of j) \of \bar{f}$.
@@ -590,7 +590,7 @@
           & D \ar[r]^{n \of m} & F
         } \]
         commutes.
-        The diagram comutes for $\bar{g}$:
+        The diagram commutes for $\bar{g}$:
         \begin{align*}
           i \of h \of \bar{g} = i \of \bar{f} = f_1 \\
           j \of \bar{g} = f_2
