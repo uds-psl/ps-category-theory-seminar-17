@@ -4,6 +4,8 @@
 \usepackage{semantic}
 \usepackage{mathpartir}
 
+\bibliographystyle{plainurl}
+
 \DeclareMathOperator{\core}{core}
 
 % Theorem Environments
@@ -391,11 +393,11 @@ category with families where the contexts are presheaves.  Let $\cat{C}$ be a
 small category. We will refer to the objects of $\cat{C}$  as $I,J,K$ and
 morphisms as $f,g,h$.
 
-The context $\Gamma$ is then a presheaf on $\cat{C}$, $\Gamma \from
-\cat{C}^\op \to \Set$, that is, we are given a set $\Gamma(I)$ for each
-$I$ in $\ob(\cat{C})$, and functions $\Gamma(I) \to \Gamma(J)$, $\rho \mapsto \rho
-f$ (called \emph{restriction} and written as $f$ acting on the right) for each
-$f: J \to I$ such that
+The context $\Gamma$ is then a presheaf on $\cat{C}$, $\Gamma \from \cat{C}^\op
+\to \Set$, that is, we are given a set $\Gamma(I)$ for each $I$ in
+$\ob(\cat{C})$, and functions $\Gamma(I) \to \Gamma(J)$, $\rho \mapsto \rho f$
+(called \emph{restriction} and written as $f$ acting on the right) for each $f:
+J \to I$ such that
 \[
   \rho 1 = \rho \quad \text{and} \quad (\rho f) g = \rho (f g)
 \]
@@ -413,7 +415,8 @@ diagram commute.
 \]
 
 In the following, we will omit the indices on $\sigma$; Then if we write
-$\Gamma_f$ and $\Delta_f$ as $f$ acting on the right, the equation becomes:
+$\Gamma_f$ and $\Delta_f$ as $f$ acting on the right (recall the session on
+presheaves), the equation becomes:
 \[
   (\sigma \rho) f = \sigma (\rho f)
 \]
@@ -528,10 +531,10 @@ $\beta$-equality is readily checked
 \]
 and similarly for $\eta$-equality and other equations.
 
-\begin{example}[Ordinary function type]
+\begin{example}
   Let us consider a term of type $A \to A$, and the elements in $Ty(\Gamma)$
   and $Ter(\Gamma, A \to A)$ for some $\vdash \Gamma~ctxt$, $\Gamma \vdash
-  A~type$.
+  A~type$ in the presheaf model.
 
   For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we give the
   element of $\mathit{Ty}(\Gamma)$ corresponding to the type $A \to A$:
@@ -563,7 +566,12 @@ $\Gamma \vdash (u, v) : \Sigma x:A.B$ of $\Gamma \vdash u : A$ and $\Gamma.A
 $(\mathbf{p}w)\rho = a$ and $(\mathbf{q}w)\rho = b$ for $w\rho = (a, b)$. This
 validates the necessary equations.
 
-\section*{Conclusion}
+\section*{Credits}
+
+Most of the material on the dependent types bases on \cite{Hofmann}, while
+starting from categories with families we closely follow \cite{Huber}.
+
+\bibliography{main}
 
 \end{document}
 
