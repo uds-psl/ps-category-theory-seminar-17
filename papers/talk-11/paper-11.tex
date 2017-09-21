@@ -285,6 +285,55 @@ and
   A \times B := \Sigma x: A. B
 \]
 
+\subsection*{Context morphism}
+
+\begin{definition}[Context morphism]
+  Let $\Gamma$ and $\Delta := x_1: A_1, \dots, x_n : A_n$ be valid contexts. If
+  $\sigma := (a_1, \dots, a_n)$ is a sequence of $n$ valid terms we say that
+  $\sigma \from \Gamma \to \Delta$ is a \emph{context morphism} if the
+  following $n$ judgements hold:
+
+  \begin{align*}
+    &\Gamma \vdash a_1 : A_1\\
+    &\Gamma \vdash a_2 : A_2[a_1/x_1]\\
+    &\dots\\
+    &\Gamma \vdash a_n : A_n[a_1/x_1][a_2/x_2]\dots[a_{n-1}/x_{n-1}]
+  \end{align*}
+\end{definition}
+
+\begin{example}
+  We always have the empty context morphism $()$ from any context $\Gamma$ to
+  $\diamond$, it does not contain any terms and is the only context morphism
+  from $\Gamma$ to $\diamond$.
+\end{example}
+\begin{example}
+  We also have the identity context morphism $1$ (from now on we will use $1$
+  as the suitable identity morphism for the surroundings) for any $\Gamma = x_1
+  : A_1, \dots, x_n : A_n$, which is $(x_1, \dots, x_n)$.
+\end{example}
+
+A note on notation: we sometimes write $A\sigma$, where $\Gamma \vdash
+A\sigma~type$, $\Delta \vdash A~type$, and $\sigma \from \Gamma \to \Delta$ for
+some contexts $\Gamma$ and $\Delta$, to denote the application of $\sigma$ on
+the right. That is, $A\sigma$ becomes here a type in the domain context of
+$\sigma$, where $\sigma(A\sigma) = A$. The same notation is sometimes
+analogously used for terms.
+
+\begin{definition}[Context extension]
+  If $\vdash \Gamma~ctxt$ and $\Gamma \vdash A~type$, there is a context
+  $\Gamma, x:A$ (for brevity also written as $\Gamma.A$ from now on), a context
+  morphism $\mathbf{p}: \Gamma.A \to \Gamma$, and a term $\Gamma.A \vdash
+  \mathbf{q} : A \mathbf{p}$. This should satisfy the following property: for
+  each $\vdash \Delta~ctxt$, a context morphism $\sigma \from \Delta \to
+  \Gamma$, and $\Delta \vdash a : A \sigma$, there is a context morphism
+  $(\sigma, a): \Delta \to \Gamma.A$ called \emph{context extension} such that:
+  \[
+    \mathbf{p}(\sigma, a) = \sigma \quad \mathbf{q}(\sigma, a) = a \quad (\sigma, a) \tau =
+    (\sigma \tau, a \tau) \quad (\mathbf{p}, \mathbf{q}) = 1
+  \]
+  (Note that in the last equation $1: \Gamma.A \to \Gamma.A$)
+\end{definition}
+
 \section*{Categories with Families}
 
 There are several ways to model dependent types with category theory, the one
@@ -302,9 +351,11 @@ we show is using Categories with Families.
 A \emph{category with families} is given by ($\cat{C}$,$F$) where:
 
 \begin{itemize}
-  \item[$\bullet$] $\cat{C}$ is a category, objects: $\Gamma, \Delta, \dots$ are
-    \emph{contexts}, morphisms:  $\sigma, \tau, \dots$ are
-    \emph{substitutions} or context morphisms
+  \item[$\bullet$] $\cat{C}$ is a category, whose
+
+    objects: $\Gamma, \Delta, \dots$ are \emph{contexts}
+
+    morphisms:  $\sigma, \tau, \dots$ are \emph{context morphisms}
 
   \item[$\bullet$] A terminal object $1$ in $\cat{C}$ is the empty context ($\diamond$).
 
@@ -316,24 +367,9 @@ A \emph{category with families} is given by ($\cat{C}$,$F$) where:
     \Delta \to \Gamma$ the morphism $F(\sigma)$ acts on types $\Gamma \vdash
     A~type$ as $A\sigma$ and on terms $\Gamma \vdash a : A$ as $a\sigma$. The
     following equations also hold:
-
     \[
       A1=A \quad (A\sigma)\tau = A(\sigma\tau) \quad a1=a \quad (a\sigma)\tau=a(\sigma\tau)
     \]
-
-  \item[$\bullet$] There is also the operation of \emph{context extension}: if
-    $\vdash \Gamma~ctxt$ and $\Gamma \vdash A~type$, there is a context
-    $\Gamma, x:A$ (for brevity also written as $\Gamma.A$ from now on), a
-    context morphism $\mathbf{p}: \Gamma.A \to \Gamma$, and a term $\Gamma.A
-    \vdash \mathbf{q} : A \mathbf{p}$. This should satisfy the following
-    property: for each $\vdash \Delta~ctxt$ and a context morphism
-    $\sigma \from \Delta \to \Gamma$ and $\Delta \vdash a : A \sigma$, there is
-    a context morphism $(\sigma, a): \Delta \to \Gamma.A$ such that:
-    \[
-      \mathbf{p}(\sigma, a) = \sigma \quad \mathbf{q}(\sigma, a) = a \quad (\sigma, a) \tau =
-      (\sigma \tau, a \tau) \quad (\mathbf{p}, \mathbf{q}) = 1
-    \]
-    Where in the last equation $1: \Gamma.A \to \Gamma.A$
 \end{itemize}
 \end{definition}
 
@@ -341,14 +377,6 @@ We say that a category with families supports $\Pi$- and $\Sigma$-types if it is
 closed under the corresponding rules shown in previous sections.
 
 We also add the rules for context morphisms:
-
-\[
-  \inference{\Gamma \vdash A~type \qquad \sigma \from \Delta \to \Gamma}{\Delta \vdash A\sigma} \qquad
-  \inference{\Gamma \vdash a : A \qquad \sigma \from \Delta \to \Gamma}{\Delta \vdash a\sigma : A\sigma}
-\]
-\[
-  \inference{\sigma \from \Delta \to \Gamma \qquad \Gamma \vdash A \qquad \Delta \vdash a : A\sigma}{(\sigma, a) \from \Delta \to \Gamma.A}
-\]
 
 \section*{Presheaf model}
 
