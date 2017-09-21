@@ -1,5 +1,5 @@
 
-\def\pathToRoot{../}\input{\pathToRoot headers/uebungHeader}
+\def\pathToRoot{../../}\input{\pathToRoot headers/uebungHeader}
 
 
 \begin{document}
@@ -25,9 +25,9 @@ To be cartesian closed, a category $\mathcal{A}$ has to meet two requirements, a
   A Cartesian Closed Category has all finite products and exponentials.
 
 \end{definition}
-\\
+
 While it is required, that the reader knows about products, the idea of exponentials is assumed to be new and needs some more explanations.
-\\
+
 Regarding the products, just assess at this point, that the notion of all finite products is exhaustively described by terminal objects and binary products, because a terminal object represents the empty product, whereas every other product can be constructed with binary products. Since the whole concept of CCC is based on categories, whose functors are again objects, the existence of all finite products follows inductively, as long as it is clear that binary products are again objects.
 
 \section{Exponentials}
@@ -65,12 +65,12 @@ So we obtain the following as a "working definition".
 Now, we have what is necessary to look at a few examples to justify, that there is a need for the abstract concept of CCC. 
 \subsection{\textbf{Sets}}
 \begin{itemize}
-\item \underline{\textit{Products:}} As already argued in the introduction, the cartesian product yields new objects $A\timesB\in ob(\textbf{Sets})$. Furthermore, it delivers the empty product $\emptyset \times \emptyset \to \emptyset$. Because all larger products can be build form binary products, \textbf{Sets} meets the first requirement to be a CCC. 
+\item \underline{\textit{Products:}} As already argued in the introduction, the cartesian product yields new objects $A\times B\in ob(\textbf{Sets})$. Furthermore, it delivers the empty product $\emptyset \times \emptyset \to \emptyset$. Because all larger products can be build form binary products, \textbf{Sets} meets the first requirement to be a CCC. 
 \item  \underline{\textit{Exponentials:}} As exponential, we choose the function space $\forall A, B \in ob(\textbf{Sets}), A^B := \{ f: A \to B| f functional\}$.
   \\ As proof obligation arises, that $\textbf{Sets}(A \times B, C ) \cong \textbf{Sets}(A, C^B), \forall A,B,C \in ob(\textbf{Sets})$ holds; that means that there are two arrows $f:A \times B \to C$ and $f':A \to C^B$ with $f (x,y) = f' (x) (y), \forall x \in A, y \in B$.
   \begin{itemize}
 \item "$\Rightarrow$" : Assume $f: A \times B \to C$ with $f(x,y) \in A \times B \to C, x \in A, y \in B$.
-\\ By fixing $x \in A$, one obtains an arrow $$f_x$$ with $$f_x(y) \in C^B.$$ By unfixing x, $f_x$ is morphed in the curried function $$\mu f:A\toC^B$$ with $$\mu f (x)(y) \in A \to C^B,$$ such that $$\mu f(x)(y)=f(x,y).$$ 
+\\ By fixing $x \in A$, one obtains an arrow $$f_x$$ with $$f_x(y) \in C^B.$$ By unfixing x, $f_x$ is morphed in the curried function $$\mu f:A\to C^B$$ with $$\mu f (x)(y) \in A \to C^B,$$ such that $$\mu f(x)(y)=f(x,y).$$ 
 \item "$\Leftarrow$" : Assume $f': A \to C^B$. One simply defines a cartesian function $$g: A \times B \to C$$ as $$g(x,y) := f(x)(y), x \in A, y \in B$$ and is done.
   \end{itemize}
 \end{itemize}
@@ -83,7 +83,7 @@ Now, we have what is necessary to look at a few examples to justify, that there 
   \item \underline{\textit{Products:}}
     For all elements P, Q $\in ob(\textbf{Posets})$, the arrows are the monotone functions,
     \\ Hom(P,Q) := $\{f: P \to Q \mid f \quad  monotone \}$ with $\forall p,p', p\leq p' \to f p \leq f p'$.
-  We can construct a binary product $P \times Q$, which is again a poset,using pairs $$(p,q) \in ob(P\timesQ)$$ and a partial ordering $$(p,q) \leq (p',q') \quad iff\quad p \leq p' \wedge q \leq q' .$$
+  We can construct a binary product $P \times Q$, which is again a poset,using pairs $$(p,q) \in ob(P\times Q)$$ and a partial ordering $$(p,q) \leq (p',q') \quad iff\quad p \leq p' \wedge q \leq q' .$$
   From this follow monotone projections: \\
 \[
   \begin{tikzcd}
@@ -96,7 +96,7 @@ Now, we have what is necessary to look at a few examples to justify, that there 
 
 \item \underline{\textit{Exponentials}}
   As exponential $Q^P$, we consider a set of monotone functions
-  $$Q^P:=\{f:Q\toP \mid f \quad monotone \}$$
+  $$Q^P:=\{f:Q\to P \mid f \quad monotone \}$$
   with an pointwise ordering, such that $\forall f,g \in Q^P$,
   $$ f \leq g \leftrightarrow f p \leq g p,\forall p \in P.$$
 
@@ -113,7 +113,7 @@ Now, we have what is necessary to look at a few examples to justify, that there 
   $$\leq f'(p') $$
   $$=\epsilon(f',p') $$
   Hence, $\epsilon$ is monotone. To show monotonicity of the transposition, we assume
-  $f:X\timesP\to Q$ to be monotone and $x\leq x'$ for some $x,x' \in X$.
+  $f:X\times P \to Q$ to be monotone and $x\leq x'$ for some $x,x' \in X$.
   $$\lambda f(x) \leq \lambda f(x') \in Q^P$$
   changes for any $p \in P$ to
   $$\lambda f(x)(p)\leq \lambda f(x')(p)$$
@@ -146,7 +146,6 @@ $$ a \Rightarrow b \land a = (\neg a \lor b) \land a$$
 $$ = (\neg a \land a) \lor (b \land a)$$
 $$ = 0 \lor b \land a \leq b$$ what always holds.
 
-\\
 The transpose $$a\leq b \Rightarrow c $$ is monotone as well, as shown by these inequations:
 $$ a \land b \leq c \ to \neg b \lor (a \land b) \leq \neg b \lor c $$
 $$ (\neg b \lor a) \land (\neg b \lor b) \leq b \Rightarrow c$$
@@ -165,7 +164,7 @@ where {$\ast$} denotes the one object, one arrow category, which is isomorphic t
 So in the case of $\boldsymbol{Vect_k}$ with the initial object 0:= ({x},$\lambda \cdot x=x$, x+x=x), the binary product is the direct product of two vectorspaces, but $0 \oplus A \cong A$. Therefore, $\boldsymbol{Vect_k}$ is not cartesian closed.
  \\
 The identity above can be exploited to argue, that pointed categories, where the terminal object is identical to the initial object, are only CCC if they are trivial.
-Because assuming \mathcal{A} to be a pointed category yields $$Hom(A,B) \cong Hom(1,A^B) \cong Hom(0,A^B) \cong 1$$  $\forall A,B \in ob(\mathcal{A})$.
+Because assuming $\mathcal{A}$ to be a pointed category yields $$Hom(A,B) \cong Hom(1,A^B) \cong Hom(0,A^B) \cong 1$$  $\forall A,B \in ob(\mathcal{A})$.
 With this argument, the category of relations \textbf{Rel} or of groups \textbf{Grp} can be ruled out to be a CCC, because both are pointed with the empty set, resp. the trivial group as zero objects. 
  
 
@@ -212,7 +211,7 @@ $$(\lambda^{-1} \circ \lambda)f=\epsilon \circ (\lambda f \times 1_A) =f \quad b
   \end{tikzcd}
    \]
 
-   \\ So we instantiate this with the category $\mathcal{A}$ having exponential objects $B^A, A,B \in ob(\mathcal{A})$ , $\epsilon: B^A \times A \to B$, and an invertible transpose $\lambda$.
+   So we instantiate this with the category $\mathcal{A}$ having exponential objects $B^A, A,B \in ob(\mathcal{A})$ , $\epsilon: B^A \times A \to B$, and an invertible transpose $\lambda$.
    Lets define $$F(Z):=Z \times B, G(Z):= Z^B$$. 
    For g, we take $1_B$, for $\epsilon$ and have
    $$1_B \circ \epsilon: A \times B \to B \to B $$ with the transpose
