@@ -141,7 +141,7 @@ In the following, exponentation is written as $a \Rightarrow b = \neg a \lor b$,
 \\
 So the monotonicity constraint imposes $$ a \Rightarrow b \leq b \Rightarrow c \ iff \ a \leq b \ and \ b \leq c.$$
 Hence $$a \Rightarrow b  \leq a \Rightarrow b$$
-$$ a \Rightarrow b \land \a \leq b$$ by the condition $a \land b \leq c$ iff $a \leq b \Rightarrow c$, which is the evaluation arrow, and it is monotone
+$$ a \Rightarrow b \land a \leq b$$ by the condition $a \land b \leq c$ iff $a \leq b \Rightarrow c$, which is the evaluation arrow, and it is monotone
 $$ a \Rightarrow b \land a = (\neg a \lor b) \land a$$
 $$ = (\neg a \land a) \lor (b \land a)$$
 $$ = 0 \lor b \land a \leq b$$ what always holds.
@@ -223,10 +223,11 @@ $$(\lambda^{-1} \circ \lambda)f=\epsilon \circ (\lambda f \times 1_A) =f \quad b
    \end{tikzcd}
    \]
 
-   \\ For the second axiom, choose $f:A\to B^B$ as and $p:=1_A$.Let $\mu := \lambda^{-1}$
+   
+   For the second axiom, choose $f:A\to B^B$ as and $p:=1_A$.Let $\mu := \lambda^{-1}$
    $$f \circ 1_A : A \to A \to B^B$$
    the transpose has type
-   $$\lambda^{-1}: A\timesB \to B $$
+   $$\lambda^{-1}: A \times B \to B $$
    what happens to be the type of
    $$1_A \times A \circ \lambda^{-1} f,$$ with
    $\lambda^{-1}f : A\times B \to B$
@@ -295,7 +296,7 @@ There is yet another example, which exemplifies the usage of the third part of t
 We consider the category of categories with finite products.
 Since the first CCC requirement is given by definition, it remains to show, that the category is equipped with exponential objects. 
 
-  \\
+  
   So $\forall A,B,C \in \textbf{Cat}$, the exponential object is given as $C^B$, with the evaluation arrow
   $$\epsilon: C^B \times B \to C $$ and the transposition
   $$\lambda f: A \to C^B,\forall f:A \times B \to C$$
@@ -308,7 +309,7 @@ Since the first CCC requirement is given by definition, it remains to show, that
   \end{tikzcd}
   \]
   \\
-  For some $g:A\toC^B$, we have the inverse of the transpose
+  For some $g:A \to C^B$, we have the inverse of the transpose
   $$\lambda^{-1}g: A\times B \to C$$ with
   $$\lambda^{-1}g:=\epsilon \circ (g\times 1_B)$$
   and need to show, that
@@ -318,7 +319,7 @@ Since the first CCC requirement is given by definition, it remains to show, that
 \section{Further Properties}
 
 Beyond the already seen isomorphism $0 \times A \cong 0$, many identities knwon from common arithmetics,like for instance that of the natural numbers,
-hold for cartesian closed categories.$\forall A, B, C \in $ in some cartesian closed category $\mathcal{A}$ with terminal object "1" and binary products "$\times$": \\
+hold for cartesian closed categories.$\forall A, B, C \in $ in some cartesian closed category $\mathcal{A}$ with terminal object "1" and binary products "$\times$": 
 \begin{itemize}
 \item $A \times (B \times C) \cong (A \times B) \times C$
 \item $A \times B \cong B \times A$
@@ -327,7 +328,7 @@ hold for cartesian closed categories.$\forall A, B, C \in $ in some cartesian cl
 \item $(A \times B)^C \cong A^C \times B^C$
 \item $(A^B)^C \cong A^{B \times C} $
 \end{itemize}
-\\
+
 If $\mathcal{A}$ is bicartesian closed with initial object "0" and co-product "+", the enumeration of axioms above is extended by: 
 \begin{itemize}
 \item $A+B \cong B+A$
@@ -337,22 +338,23 @@ If $\mathcal{A}$ is bicartesian closed with initial object "0" and co-product "+
 \item $0+A \cong A$
 \item $A^0 \cong 1$
 \end{itemize}
-\\
+
 We are going to show some of these identities by transformations exploiting right or left adjointness.
 Usually it suffices to show, that both sides satisfy the same universal property.
 \begin{itemize}
 \item $$1^A \cong 1.$$
   holds, because there is only one arrow from every object A $\in ob(\mathcal{A})$ to the terminal object 1 which makes Hom(A,1) containing exactly one arrow. The terminal object itself is merely equipped with the identity $1_1$.
   So both sides satisfy the universal property and are therefore isomorphic.
-  \\
+  
 
 \item $$(A^B)^C \cong A^{B \times C}.$$
   Take some X,Y $\in ob(\mathcal{A})$ and set
-  $$ X:=Hom(-, (A^B)^C) \quad and \quad Y:= Hom(-,A^{B\timesC})$$ then
+  $$ X:=Hom(-, (A^B)^C) \ and \ Y:= Hom(-,A^{B \times C})$$
+  then
   $$ Hom(-, (A^B)^C) \cong Hom(-\times C, A^B) $$
   $$ \cong Hom((- \times C)\times B,A) $$
   With B, associativity and commutativity of the product
-  $$ Hom(-,A^{B\times C}) \cong Hom(- \times (B\times C),A) $$
+  $$ Hom(-,A^{B\times C}) \cong Hom(- \times (B \times C),A) $$
   $$ \cong Hom(-\times (C\times B),A) $$
   $$ \cong Hom((-\times C)\times B,A) $$
   So $X \cong Y$, what shows the claim.
@@ -362,7 +364,7 @@ Usually it suffices to show, that both sides satisfy the same universal property
 
 Other equations like distibutivity appear to be more difficult without any further assumptions and hence will be omitted, for there is an easy way using the Yoneda Lemma which is not the topic of this write up.
 
-\\
+
 Subcategories $\mathcal{B}$ of cartesian closed categories $\mathcal{A}$ are in general not cartesian closed.
 A simple counterexample is the category of categories with finite products\textbf{Cat}, which is cartesian closed with binary products and exponentials. 
 Yet $\textbf{Rel} \in ob(\textbf{Cat})$ is true, whereas \textbf{Rel} is not a CCC. 
