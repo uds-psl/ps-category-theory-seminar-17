@@ -438,7 +438,7 @@ that this way the composition is inherited from $\cat{C}$.
 
 Now we can define $Ty_F(\Gamma)$ as a set of presheaves over $\int \Gamma$.
 Then $A \in Ty_F(\Gamma)$ is a presheaf and for a morphism in $\cat{C}$, $f
-\from J \to I$, $\rho \in \Gamma(I)$, $x \in A(I, \rho)$ we have $A(f, \rho)(x)
+\from J \to I$, $\rho \in \Gamma(I)$, $u \in A(I, \rho)$ we have $A(f, \rho)(u)
 \in A(J, \Gamma_f \rho)$ since $A$ is a functor. For a context morphism $\sigma
 \from \Delta \to \Gamma$ we define a functor $\int \sigma \from \int \Delta \to
 \int \Gamma$ by
@@ -448,8 +448,8 @@ Then $A \in Ty_F(\Gamma)$ is a presheaf and for a morphism in $\cat{C}$, $f
 where $\rho' \in \Delta(I)$.
 
 To define terms of a dependent type $\Gamma \vdash A~type$ we require a family
-of elements $a \rho \in A \rho$ for each $I \in \cat{C}$ and $\rho \in
-\Gamma(I)$. These elements should satisfy for any $f \from J \to I$ the
+of elements $a(I, \rho) \in A(I, \rho)$ for each $I \in \ob(\cat{C})$ and $\rho
+\in \Gamma(I)$. These elements should satisfy for any $f \from J \to I$ the
 equation
 \[
   A(f, \rho)(a(I, \rho)) = a(J, \Gamma_f \rho).
@@ -457,13 +457,16 @@ equation
 The context morphism $\sigma \from \Delta \to \Gamma$ then operates on a term
 $\Delta \vdash a\sigma : A\sigma$ by composition
 \[
-  (a\sigma_I)(I, \rho) = a(I, \sigma_I(\rho)).
+  (a\sigma_I)(I, \rho') = a(I, \sigma_I(\rho')).
 \]
-We define the presheaf $\Gamma.A$ corresponding to a context extension as
+for $\rho' \in \Delta(I)$.
+
+We define the presheaf $\Gamma.A$ corresponding to a context extension for
+objects $I \in \ob(\cat{C})$ as
 \[
   (\Gamma.A)(I) = \{(\rho, u)~|~\rho \in \Gamma(I) \land u \in A(I, \rho)\}
 \]
-for objects $I \in \cat{C}$ and for morphisms $f \from J \to I$ as
+and for morphisms $f \from J \to I$ as
 \[
   (\Gamma.A)_f(\rho, u) = ((\Gamma.A)_f \rho, A(f, \rho)(u)).
 \]
@@ -471,25 +474,25 @@ The projections are then defined by $\mathbf{p} \from \Gamma.A \to \Gamma$,
 $\mathbf{p}(\rho, u) = \rho$, and $\Gamma.A \vdash \mathbf{q} : A\mathbf{p}$ by
 $\mathbf{q}(\rho, u) = u$. Under context morphism $\sigma \from \Delta \to
 \Gamma$ we define an extension of $\Gamma$ with a term $\Delta \vdash a :
-A\sigma$ $(\sigma, a) \from \Delta \to \Gamma.A$ by $(\sigma, a)\rho = (\sigma
-\rho, a \rho)$.
+A\sigma$, $(\sigma, a) \from \Delta \to \Gamma.A$ by
+\[
+  (\sigma, a)\rho = (\sigma \rho, a \rho)
+\]
+for the appropriate subscript on $\sigma$.
+
+The second projection $\mathbf{q}$ here is the one that models the variables in
+an extended context. The application of it returns the current term that
+substitutes the variable. Note the similarity to the variable rule in the ccc
+model of STLC, as it is also modeled by a second projection there.
 
 \subsection*{Dependent product}
 
-So far we know how to represent a type $\Gamma \vdash A~type$ and a dependent
-type $\Gamma.A \vdash B$. Now we want to have a representation for a function
-that corresponds to a type $\Gamma \vdash \Pi A. B$.
-
-To represent the same type in the model with dependent types we will also use
-exponentials, but on the presheaves. Let us consider how to define exponents in
-presheaf categories. Let $\Gamma$ and $\Delta$ be presheaves and suppose we
-already know how the exponent $\Delta^\Gamma$ is constructed. Then we get by
-the Yoneda Lemma and the fact that $-^\Gamma$ should be right adjoint to $-
-\times \Gamma$, that
-\[
-  (\Delta^\Gamma)(I) \cong Hom(\mathbf{y}I, \Delta^\Gamma) \cong Hom(\mathbf{y}I \times \Gamma, \Delta)
-\]
-where $\mathbf{y}$ is the Yoneda embedding.
+So far we have a model for types $\Gamma \vdash A~type$ and $\Gamma.A \vdash
+B~type$. Now we want to find a model for a dependent function type $\Gamma
+\vdash \Pi x:A.B$. This model should connect our representations $A(I, \rho)$
+and $B(\rho, u)$ for these types, where $I \in \ob(\cat{C})$, $\Gamma \in
+\ob(Psh(\cat{C}))$, $\rho \in \Gamma(I)$, $A \in Psh(\int \Gamma)$, $u \in A(I,
+\rho)$.
 
 We can take that as a definition. Then an element $w$ of $(\Delta^\Gamma)(I)$
 is a natural transformation $w \from \mathbf{y}I\times \Gamma \to \Delta$ given
