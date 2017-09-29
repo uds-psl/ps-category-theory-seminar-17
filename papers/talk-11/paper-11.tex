@@ -345,8 +345,7 @@ $\Gamma \vdash A~type$.
     \mathbf{p}(\sigma, a) = \sigma \quad \mathbf{q}(\sigma, a) = a \quad (\sigma, a) \tau =
     (\sigma \tau, a \tau) \quad (\mathbf{p}, \mathbf{q}) = 1
   \]
-  Note that in the last equation $1: \Gamma.A \to \Gamma.A$ and that we leave
-  the indices on $\mathbf{p}$ implicit.
+  Note that in the last equation $1: \Gamma.A \to \Gamma.A$.
 \end{definition}
 
 \section*{Categories with Families}
@@ -416,10 +415,10 @@ where $I, J \in \ob(\cat{C}); \Gamma, \Delta \in Psh(\cat{C}); \sigma
 \from \Delta \to \Gamma$, and $f \from J \to I$. $\Gamma_f$ and $\Delta_f$
 denote the morphisms that we obtain from the morphism $f$ in $\Set$ by the
 functoriality of $\Gamma$ and $\Delta$. For instance, if $\rho \in \Gamma(I)$,
-then we have a morphism $\Gamma_f$ to the corresponding $\rho f \in \Gamma(J)$
-(we write $f$ applied on the right to connect to the initial morphism in
-$\cat{C}$) since the contravariant functor $\Gamma$ preserves morphism
-mappings.
+then we have a morphism $\rho \mapsto \rho f$ written as $\Gamma_f$ to the
+corresponding $\rho f \in \Gamma(J)$, (we write $f$ applied on the right to
+connect to the initial morphism in $\cat{C}$) since the contravariant functor
+$\Gamma$ preserves morphism mappings.
 
 Recall that every context has a morphism from itself to the empty context.
 Hence we set the empty context to be the terminal object in the category of
@@ -449,8 +448,8 @@ where $\rho' \in \Delta(I)$.
 
 To define terms of a dependent type $\Gamma \vdash A~type$ we require a family
 of elements $a(I, \rho) \in A(I, \rho)$ for each $I \in \ob(\cat{C})$ and $\rho
-\in \Gamma(I)$. These elements should satisfy for any $f \from J \to I$ the
-equation
+\in \Gamma(I)$. Additionally, since $A$ is a presheaf these elements should
+satisfy for any $f \from J \to I$ the equation
 \[
   A(f, \rho)(a(I, \rho)) = a(J, \Gamma_f \rho).
 \]
@@ -488,87 +487,78 @@ model of STLC, as it is also modeled by a second projection there.
 
 So far we have a model for types $\Gamma \vdash A~type$ and $\Gamma.A \vdash
 B~type$. Now we want to find a model for a dependent function type $\Gamma
-\vdash \Pi x:A.B$. This model should connect our representations $A(I, \rho)$
-and $B(\rho, u)$ for these types, where $I \in \ob(\cat{C})$, $\Gamma \in
-\ob(Psh(\cat{C}))$, $\rho \in \Gamma(I)$, $A \in Psh(\int \Gamma)$, $u \in A(I,
-\rho)$.
-
-We can take that as a definition. Then an element $w$ of $(\Delta^\Gamma)(I)$
-is a natural transformation $w \from \mathbf{y}I\times \Gamma \to \Delta$ given
-by functions
+\vdash \Pi x:A.B$ that should connect a term $u \in A(I, \rho)$ with a term $v
+\in B(I, (\rho, a))$. In other words, the element $\pi$ of $(\Pi x:A.B)(I, \rho)$
+should satisfy
 \[
-  w_J \from (\mathbf{y}I)(J) \times \Gamma(J) \to \Delta(J),
+  \pi(u) \in B(I, (\rho, u))
 \]
-and the naturality condition becomes $(w_J(f, \rho))g = w_K(fg, \rho g)$ for $f
-\from J \to I$, $\rho \in \Gamma(J)$, and $g \from K \to J$.
+for some $I \in \ob(\cat{C})$, $\Gamma \in \ob(Psh(\cat{C}))$, $\rho \in
+\Gamma(I)$.
 
+However, this condition alone is not enough: since $\Pi x: A.B$ is a presheaf
+we also need to preserve the equalities for the morphisms in $\int \Gamma$
+(which are morphisms in $\cat{C}$). To generalize for the morphism $f \from J
+\to I$ (where $I, J \in \ob(\cat{C}))$) we extend $\pi \in (\Pi x: A.B)(I,
+\rho)$ to a family of functions $\pi = (\pi_f~|~f \from J \to I)$ and require
+the following equation to hold:
+\[
+  \pi_f(u) \in B(J, (\Gamma_f \rho, A(f, \rho)(u)))
+\]
+where $\rho \in \Gamma(I)$ and $u \in A(J, \Gamma_f \rho)$. Notice that since
+$(f, \rho)$ is a morphism in $\int \Gamma$ we have $A(f, \rho)(u) \in A(I,
+\Gamma_f \rho)$. Another point is that if we take $1 \from I \to I$ instead of
+$f$, then we get our above condition immediately.
+
+We also need to respect compositions:
+\[
+  \pi_{fg}(A(g, \Gamma_f \rho)(u)) = B(g, (\Gamma_f \rho, A(f, \rho)(u)))(\pi_f(u))
+\]
+for some $g \from K \to J$.
+
+And define the necessary equality for operations of the morphisms in $\cat{C}$
+on the right
+\[
+  ((\Pi u: A.B)(h, \Gamma_f \rho)(\pi))_f(u) = \pi_{hf}(u)
+\]
+where $h \from I' \to I$, $\pi \in (\Pi x:A.B)(I, \rho)$, $f \from J \to I'$,
+$u \in A(J, \Gamma_f(\Gamma_h \rho))$, and $(\Pi x: A.B)(h, \Gamma_f \rho)(\pi)
+\in (\Pi x: A.B')(I, \Gamma_h \rho)$.
+
+Let us now define terms $\lambda x: A. b$ of a dependent function type. If we
+have some $b \in B(I, (\rho, x))$, then we define $(\lambda x: a.b)(I, \rho)
+\in (\Pi x: A.B)(I, \rho)$ by:
+\[
+  ((\lambda u: A.b)(I, \rho))_f(u) = b(J, (\Gamma_f \rho, u)) \in B(J, (\Gamma_f \rho, u))
+\]
+where $f \from J \to I$ and $u \in A(J, \Gamma_f \rho)$. Note that this
+definition satisfies the required equalities above.
+
+What remains is to define the application of the lambda terms. First let
+$\Gamma \vdash u : \Pi x:A.B$ and $\Gamma \vdash v : A$. The application
+morphism $App$ is then thus defined for some $I \in \ob(\cat{C})$:
+\[
+  App(u, v)(I, \rho) = (u(I, \rho))_1(v(I, \rho)) \in B(I, (\rho, v(I, \rho)))
+\]
+
+Since the necessary elements of $\Pi$-types are in place, we can state the soundness lemma:
 \begin{lemma}
   CwF associated to a presheaf category supports $\Pi$-types.
   \begin{proof}
-    We give a proof sketch as seen in \cite{Huber}. More detailed proof may be
-    found in \cite{Hofmann}.
-
-    Given $\Gamma \vdash A$ and $\Gamma.A \vdash B$ we have to define $\Gamma
-    \vdash \Pi x: A. B~type$, that is, we have to define the set $(\Pi x: A.B)
-    \rho$ for $I \in \cat{C}$ and $\rho \in \Gamma(I)$. The elements $w$ of
-    $(\Pi x:A.B)\rho$ are families $w = (w_f~|~J\in \cat{C}, f \from J \to I)$
-    of (dependent) functions such that
-    \[
-      w_f u \in B(\rho f, u) \qquad \text{for $J \in \cat{C}, f \from J \to I, and u \in A(\rho f)$},
-    \]
-    with the requirement that for $g \from K \to J$
-    \[
-      (w_f u)g = w_{fg}(ug).
-    \]
-
-    For such a family $w \in (\Pi x: A. B)\rho$, the restriction $wf \in (\Pi
-    x:A.B)(\rho f)$ for $f: \from J \to I$ is defined by taking
-    \[
-      (w f)_g u = w_{fg}u \in B(\rho f g, u)
-    \]
-    where $g \from K \to J$ and $u \in A(\rho f g)$. This definition satisfies
-    $w 1 = w$ and $w f g = w(f g)$.
-
-    Now let $\Gamma.A \vdash b : B$; we have to define $\Gamma \vdash \lambda b
-    : \Pi x:A.B$, that is , give $(\lambda b)\rho \in (\Pi x:A.B)\rho$. For $f
-    \from J \to I$ and $u \in A(\rho f)$ we set
-    \[
-      ((\lambda b)\rho)_f u = b (\rho f, u) \in B(\rho f, u)
-    \]
-    This satisfies for $g \from K \to J$
-    \[
-      (((\lambda b)\rho)_f u)g = (b(\rho f, u))g = b(\rho(fg), ug) = ((\lambda b)\rho)_{fg}(ug)
-    \]
-    and defines a term since
-    \[
-      (((\lambda b)\rho)f)_g u = ((\lambda b) \rho)_{fg} u = b(\rho fg, u) = ((\lambda b)(\rho f))_g u.
-    \]
-
-    To define the application let $\Gamma \vdash u : \Pi x:A.B$ and $\Gamma
-    \vdash v : A$, and we set $App(u, v)\rho = (u\rho)_1 (v\rho) \in B(\rho,
-    v\rho)$, thus $App(u, v)\rho \in B(1, v)\rho$ as $(\rho, v \rho) = (1,
-    v)\rho$. $\beta$-equality is readily checked
-    \[
-      App(\lambda b, v)\rho = ((\lambda b)\rho)_1(v\rho)=b(\rho, v\rho)
-    \]
-    and similarly for $\eta$-equality and other equations.
+    Follows after the verification of the $\Pi$-rules on the above equations. A
+    detailed proof is found $\cite{Hofmann}$
   \end{proof}
 \end{lemma}
 
 \begin{example}
-  Let us consider a term of type $A \to A$, and the elements in $Ty(\Gamma)$
-  and $Ter(\Gamma, A \to A)$ for some $\vdash \Gamma~ctxt$, $\Gamma \vdash
-  A~type$ in the presheaf model.
-
-  For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we give the
+  Let us consider a representation of a term of type $A \to A$ for some $\vdash
+  \Gamma~ctxt$, $\Gamma \vdash A~type$ in the presheaf model. For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we give the
   element of $\mathit{Ty}(\Gamma)$ corresponding to the type $A \to A$:
   \[
-    (A \to A)\rho = \{w | w_f u \in A(\rho f), u \in A(\rho f)\} = \{\lambda I f u.u\}
+    (A \to A)\rho = \{\pi~|~\pi_f(u) \in A(\rho f), u \in A(\rho f)\} = \{\lambda I f u.u\}
   \]
-  The required equalities hold trivially for any $g \from K \to J$, $((\lambda
-  I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$.
-
-  $\Gamma, x : A \vdash x : A$ corresponds to $q$ in the model. Thus $\Gamma
+  Note that the required equalities hold trivially for any $g \from K \to J$, $((\lambda
+  I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$. $\Gamma, x : A \vdash x : A$ corresponds to $q$ in the model. Thus $\Gamma
   \vdash \lambda x.x : A -> A$ corresponds to $\lambda q$ being defined as
   follows:
   \[
@@ -577,41 +567,44 @@ and the naturality condition becomes $(w_J(f, \rho))g = w_K(fg, \rho g)$ for $f
 \end{example}
 
 \subsection*{Dependent sum}
-The interpretation of $\Gamma \vdash \Sigma x:A.B~type$ for $\Gamma \vdash
-A~type$ and $\Gamma.A \vdash B~type$ is defined by
+Suppose we have some types $\Gamma \vdash A~type$ and $\Gamma.A \vdash B~type$.
+Then we can define the dependent pair type $\Gamma \vdash \Sigma x:A.B~type$
+for some $I \in \ob(\cat{C})$ by
 \[
-  (\Sigma x :A. B)\rho = \{(a, b)~|~a \in A\rho \land b \in B(\rho, a)\}
+  (\Sigma a :A. B)(I, \rho) = \{(a, b)~|~a \in A(I, \rho) \land b \in B(I, (\rho, a))\}
 \]
-for $\rho \in \Gamma(I), I \in \ob(\cat{C})$.
+where $\rho \in \Gamma(I)$.
+
+Note that as is the case with the dependent product we need to take the
+morphisms in $\cat{C}$ into account if we want $\Sigma x:A.B$ to be a presheaf.
+This leads us to the following equation for some $f \from J \to I$:
+\[
+  \Gamma_f(a, b) = (\Gamma_f a, \Gamma_f b)
+\]
+
+Also, for a pair to be a term, both of its elements should terms in the
+following manner:
+\[
+  (u, v)(I, \rho) = (u(I, \rho), v(I, \rho))
+\]
+where $u \in A(I, \rho)$ and $v \in B(I, (\rho, u))$.
+
+Lastly, we need projection morphisms to be defined:
+\[
+  (\mathbf{p}(w))(I, \rho) = a
+\]
+\[
+  (\mathbf{q}(w)(I, \rho) = b
+\]
+where $w(I, \rho) = (a, b)$.
+
 \begin{lemma}
   CwF associated to a presheaf category supports $\Sigma$-types.
   \begin{proof}
-    Again we give a proof sketch as seen in \cite{Huber}. More detailed proof
-    is also found in \cite{Hofmann}.
-
-    The restrictions are defined componentwise:
-    \[
-      (a, b)f = (af, bf)
-    \]
-    for $f \from J \to I$.
-
-    The pairing operation $\Gamma \vdash (u, v) : \Sigma x:A.B$ of $\Gamma
-    \vdash u : A$ and $\Gamma.A \vdash v : B(1, u)$ is defined by the
-    componentwise pairing:
-    \[
-      (u, v)\rho = (u\rho, v\rho)
-    \]
-
-    Likewise for the projections $\mathbf{p}$ and $\mathbf{q}$,
-    $(\mathbf{p}w)\rho = a$ and $(\mathbf{q}w)\rho = b$ for $w\rho = (a, b)$.
-    This validates the necessary equations.
+    Follows after verification of $\Sigma$-rules. A detailed proof is found in
+    \cite{Hofmann}.
   \end{proof}
 \end{lemma}
-
-\section*{Credits}
-
-Most of the material on the dependent types bases on \cite{Hofmann}, while
-starting from categories with families we closely follow \cite{Huber}.
 
 \bibliography{main}
 
