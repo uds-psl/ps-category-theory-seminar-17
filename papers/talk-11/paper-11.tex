@@ -555,14 +555,14 @@ Since the necessary elements of $\Pi$-types are in place, we can state the sound
   \Gamma~ctxt$, $\Gamma \vdash A~type$ in the presheaf model. For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we give the
   element of $\mathit{Ty}(\Gamma)$ corresponding to the type $A \to A$:
   \[
-    (A \to A)\rho = \{\pi~|~\pi_f(u) \in A(\rho f), u \in A(\rho f)\} = \{\lambda I f u.u\}
+    (A \to A)(I, \rho) = \{\pi~|~\pi_f(u) \in A(I, \Gamma_f \rho), u \in A(I, \Gamma_f \rho)\} = \{\lambda I f u.u\}
   \]
-  Note that the required equalities hold trivially for any $g \from K \to J$, $((\lambda
-  I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$. $\Gamma, x : A \vdash x : A$ corresponds to $q$ in the model. Thus $\Gamma
-  \vdash \lambda x.x : A -> A$ corresponds to $\lambda q$ being defined as
-  follows:
+  Note that the required equalities hold trivially for any $g \from K \to J$,
+  $((\lambda I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$. $\Gamma, x : A
+  \vdash x : A$ corresponds to $q$ in the model. Thus $\Gamma \vdash \lambda
+  x.x : A -> A$ corresponds to $\lambda q$ being defined as follows:
   \[
-    ((\lambda q) \rho)_f u = q(\rho f, u) = u
+    ((\lambda q) (I, \rho))_f u = q(\Gamma_f \rho, u) = u
   \]
 \end{example}
 
