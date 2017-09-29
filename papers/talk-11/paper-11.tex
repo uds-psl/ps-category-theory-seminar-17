@@ -13,6 +13,8 @@
 \newtheorem{example}{Example}
 \newtheorem{lemma}{Lemma}
 
+\newcommand{\Fam}{\fcat{Fam}}
+
 % Title page
 \title{Presheaf Model for Dependent Types}
 
@@ -353,7 +355,7 @@ There are several ways to model dependent types with category theory, the one
 we show is using Categories with Families.
 
 \begin{definition}[Category of families of sets]
-  The category of families of sets, $\fcat{Fam}$, has as objects $(A, B)$ where
+  The category of families of sets, $\Fam$, has as objects $(A, B)$ where
   $A$ is a set and $B = (B_a~|~a \in A)$ is an $A$-indexed family of sets $B_a$,
   $a \in A$. A morphism $(A, B) \to (A', B')$ is given by a pair $(f, g)$ where
   $f: A \to A'$ and $g$ is an $A$-indexed famiy of functions such that $g_a: B_a
@@ -372,7 +374,7 @@ A \emph{category with families} is given by ($\cat{C}$,$F$) where:
 
   \item[$\bullet$] A terminal object $1$ in $\cat{C}$ is the empty context ($\diamond$).
 
-  \item[$\bullet$] $F$ is a functor $F\from \cat{C}^\op \to \fcat{Fam}$; For a
+  \item[$\bullet$] $F$ is a functor $F\from \cat{C}^\op \to \Fam$; For a
     context $\Gamma$ we write $Ty_F(\Gamma)$ for the indexing set of the family
     $F(\Gamma)$ and its family as $(Ter_F(\Gamma;A)~|~A \in Ty_F(\Gamma))$;
     $\Gamma \vdash A~type$ means that $A \in Ty_F(\Gamma)$ and $\Gamma \vdash a
@@ -380,6 +382,8 @@ A \emph{category with families} is given by ($\cat{C}$,$F$) where:
     $\sigma \from \Delta \to \Gamma$ the morphism $F(\sigma)$ acts on types
     $\Gamma \vdash A~type$ as $A\sigma$ and on terms $\Gamma \vdash a : A$ as
     $a\sigma$.
+
+  \item[$\bullet$] There are operations of context extension as defined above.
 \end{itemize}
 \end{definition}
 
@@ -388,85 +392,96 @@ closed under the $\Pi$ and $\Sigma$ rules.
 
 \section*{Presheaf model}
 
-Let us now consider the categories of presheaves and see that they form a
-category with families where the contexts are presheaves.  Let $\cat{C}$ be a
-small category. We will refer to the objects of $\cat{C}$  as $I,J,K$ and
-morphisms as $f,g,h$.
+In the following we will give a presheaf model for dependent types. First
+recall the definition of a presheaf:
 
-The context $\Gamma$ is then a presheaf on $\cat{C}$, $\Gamma \from \cat{C}^\op
-\to \Set$, that is, we are given a set $\Gamma(I)$ for each $I$ in
-$\ob(\cat{C})$, and functions $\Gamma(I) \to \Gamma(J)$, $\rho \mapsto \rho f$
-(called \emph{restriction} and written as $f$ acting on the right) for each $f:
-J \to I$ such that
-\[
-  \rho 1 = \rho \quad \text{and} \quad (\rho f) g = \rho (f g)
-\]
-for $g: K \to J$ and $f: J \to I$. We write $\Gamma_f$ for $\rho \mapsto \rho
-f$.
+\begin{definition}[Presheaf]
+  Let $\cat{C}$ be a category. A \emph{presheaf} on $\cat{C}$ is a functor
+  $\cat{C}^\op \to \Set$.
+\end{definition}
 
-The empty context $\diamond$ is a terminal presheaf and a context morphism
-$\sigma \from \Delta \to \Gamma$ is a natural transformation that makes the
-diagram commute.
+Let us see how the category of presheaves over $\cat{C}$ (we denote it as
+$Psh(\cat{C})$) forms a category of families where presheaves are contexts.  If
+we set presheaves to be the contexts, then the context morphisms are morphisms
+in $[\cat{C}^\op, \Set]$, which are natural transformations between contravariant
+functors. These natural transformations satisfy the following naturality
+condition:
 \[
   \xymatrix{
     \Delta(I) \ar[r]^{\sigma_I} \ar[d]^{\Delta_f} & \Gamma(I) \ar[d]^{\Gamma_f} \\
     \Delta(J) \ar[r]^{\sigma_J} & \Gamma(J)
   }
 \]
+where $I, J \in \ob(\cat{C}); \Gamma, \Delta \in Psh(\cat{C}); \sigma
+\from \Delta \to \Gamma$, and $f \from J \to I$. $\Gamma_f$ and $\Delta_f$
+denote the morphisms that we obtain from the morphism $f$ in $\Set$ by the
+functoriality of $\Gamma$ and $\Delta$. For instance, if $\rho \in \Gamma(I)$,
+then we have a morphism $\Gamma_f$ to the corresponding $\rho f \in \Gamma(J)$
+(we write $f$ applied on the right to connect to the initial morphism in
+$\cat{C}$) since the contravariant functor $\Gamma$ preserves morphism
+mappings.
 
-In the following, we will omit the indices on $\sigma$; Then if we write
-$\Gamma_f$ and $\Delta_f$ as $f$ acting on the right (recall the session on
-presheaves), the equation becomes:
+Recall that every context has a morphism from itself to the empty context.
+Hence we set the empty context to be the terminal object in the category of
+presheaves, the terminal context, which is a functor that maps everything to
+the terminal object in $\Set$, the singleton set. Indeed, we need a unique
+natural transformation from every presheaf to the terminal presheaf. This
+natural transformation is a family of unique morphisms to the terminal object
+in $\Set$.
+
+To define $F$ let us consider a category of elements of a presheaf $\Gamma$,
+denoted by $\int\Gamma$. The objects of $\int \Gamma$ are $(I, \rho)$ where
+$I \in \ob(\cat{C})$ and $\rho \in \Gamma(I)$. For $J, I \in \ob(\cat{C})$ the
+morphism between $(J, \rho')$ and $(I, \rho)$ is a morphism $f \from J \to I$
+in $\cat{C}$ denoted as $(f, \rho)$, such that $\rho' = \Gamma_f \rho$. Note
+that this way the composition is inherited from $\cat{C}$.
+
+Now we can define $Ty_F(\Gamma)$ as a set of presheaves over $\int \Gamma$.
+Then $A \in Ty_F(\Gamma)$ is a presheaf and for a morphism in $\cat{C}$, $f
+\from J \to I$, $\rho \in \Gamma(I)$, $x \in A(I, \rho)$ we have $A(f, \rho)(x)
+\in A(J, \Gamma_f \rho)$ since $A$ is a functor. For a context morphism $\sigma
+\from \Delta \to \Gamma$ we define a functor $\int \sigma \from \int \Delta \to
+\int \Gamma$ by
 \[
-  (\sigma \rho) f = \sigma (\rho f)
+ \int \sigma (I, \rho') = (I, \sigma_I \rho'),
 \]
-for $\rho$ in $\Delta(I)$.
+where $\rho' \in \Delta(I)$.
 
-Now we consider how to give a dependent type $\Gamma \vdash A~type$ in context
-$\Gamma$. For each object $I \in \ob(\cat{C})$ and $\rho \in \Gamma(I)$ we require a
-set $A \rho$, and for each $f \from J \to I$, we require a function $A \rho \to
-A (\rho f)$, written as $a \mapsto af$ satisfying $a1 = a$ and $afg = a (f g)$
-if $g \from K \to J$. The dependence on $I$ in $A\rho$ and on $I$ and $\rho$ in
-$af$ is omitted for brevity. Substitution $\Delta \vdash A \sigma$ with $\sigma
-\from \Delta \to \Gamma$ is simply given $(A \sigma) \rho = A (\sigma \rho)$
-for $\rho \in \Gamma(I)$, together with the induced map
+To define terms of a dependent type $\Gamma \vdash A~type$ we require a family
+of elements $a \rho \in A \rho$ for each $I \in \cat{C}$ and $\rho \in
+\Gamma(I)$. These elements should satisfy for any $f \from J \to I$ the
+equation
 \[
-  (A\sigma)\rho = A (\sigma \rho) \to A ((\sigma \rho)f) = A (\sigma (\rho f)) = (A \sigma) (\rho f)
+  A(f, \rho)(a(I, \rho)) = a(J, \Gamma_f \rho).
 \]
-for $f \from J \to I$.
-
-The definition of a dependent type can be rephrased more categorically: $A$ is
-a presheaf on $\int_C \Gamma$, where $\int_C \Gamma$ is a category of elements
-of the presheaf $\Gamma$, defined as follows:
-\begin{itemize}
-  \item objects are pairs $(I, \rho)$, where $I \in \ob(\cat{C})$ and $\rho \in
-    \Gamma(I)$
-  \item a morphism $(J, \rho') \to (I, \rho)$ is a morphism $f \from J \to I$
-    in $\cat{C}$ such that $\rho' = \Gamma_f \rho$
-\end{itemize}
-
-A term $\Gamma \vdash a : A$ of a dependent type $\Gamma \vdash A~type$ is
-given by a family of elements $a \rho \in A \rho$ for each $I \in \ob(\cat{C})$
-and $\rho \in \Gamma(I)$, such that $a \rho f = a (\rho f)$ for each $f \from J
-\to I$. The substitution $\Delta \vdash a \sigma : A \sigma$ with $\sigma \from
-\Delta \to \Gamma$ is given by the family $(a \sigma) \rho = a (\sigma \rho)$.
-
-For $\Gamma \vdash A~type$ the context extension $\vdash \Gamma.A~ctxt$ is
-defined by
-\begin{align*}
-  &(\Gamma.A)(I) = \{(\rho, u)~|~\rho \in \Gamma(I) \land u \in A \rho\} &&
-  \text{for $I \in \cat{C}$}\\
-  &(\rho, u)f = (\rho f, u f) && \text{for $f \from J \to I$}
-\end{align*}
-and the projections are defined by $\mathbf{p} \from \Gamma.A \to \Gamma$,
-$\mathbf{p}(\rho, u) = \rho$, and $\Gamma.A \vdash \mathbf{q} : Ap$ by
-$\mathbf{q}(\rho, u) = u$.  Now assume $\sigma \from \Delta \to \Gamma$ and
-$\Delta \vdash a : A\sigma$; we define $(\sigma, a) \from \Delta \to \Gamma.A$
-by $(\sigma, a)\rho = (\sigma \rho, a \rho)$.
+The context morphism $\sigma \from \Delta \to \Gamma$ then operates on a term
+$\Delta \vdash a\sigma : A\sigma$ by composition
+\[
+  (a\sigma_I)(I, \rho) = a(I, \sigma_I(\rho)).
+\]
+We define the presheaf $\Gamma.A$ corresponding to a context extension as
+\[
+  (\Gamma.A)(I) = \{(\rho, u)~|~\rho \in \Gamma(I) \land u \in A(I, \rho)\}
+\]
+for objects $I \in \cat{C}$ and for morphisms $f \from J \to I$ as
+\[
+  (\Gamma.A)_f(\rho, u) = ((\Gamma.A)_f \rho, A(f, \rho)(u)).
+\]
+The projections are then defined by $\mathbf{p} \from \Gamma.A \to \Gamma$,
+$\mathbf{p}(\rho, u) = \rho$, and $\Gamma.A \vdash \mathbf{q} : A\mathbf{p}$ by
+$\mathbf{q}(\rho, u) = u$. Under context morphism $\sigma \from \Delta \to
+\Gamma$ we define an extension of $\Gamma$ with a term $\Delta \vdash a :
+A\sigma$ $(\sigma, a) \from \Delta \to \Gamma.A$ by $(\sigma, a)\rho = (\sigma
+\rho, a \rho)$.
 
 \subsection*{Dependent product}
 
-As a motivation for dependent products recall how to define exponents in
+So far we know how to represent a type $\Gamma \vdash A~type$ and a dependent
+type $\Gamma.A \vdash B$. Now we want to have a representation for a function
+that corresponds to a type $\Gamma \vdash \Pi A. B$.
+
+To represent the same type in the model with dependent types we will also use
+exponentials, but on the presheaves. Let us consider how to define exponents in
 presheaf categories. Let $\Gamma$ and $\Delta$ be presheaves and suppose we
 already know how the exponent $\Delta^\Gamma$ is constructed. Then we get by
 the Yoneda Lemma and the fact that $-^\Gamma$ should be right adjoint to $-
@@ -474,62 +489,69 @@ the Yoneda Lemma and the fact that $-^\Gamma$ should be right adjoint to $-
 \[
   (\Delta^\Gamma)(I) \cong Hom(\mathbf{y}I, \Delta^\Gamma) \cong Hom(\mathbf{y}I \times \Gamma, \Delta)
 \]
-where $\mathbf{y}$ is Yoneda embedding.
+where $\mathbf{y}$ is the Yoneda embedding.
 
-The latter can be taken up as a definition. So an element $w$ of
-$(\Delta^\Gamma)(I)$ is a natural transformation $w \from \mathbf{y}I\times
-\Gamma \to \Delta$, so it is given by functions
+We can take that as a definition. Then an element $w$ of $(\Delta^\Gamma)(I)$
+is a natural transformation $w \from \mathbf{y}I\times \Gamma \to \Delta$ given
+by functions
 \[
   w_J \from (\mathbf{y}I)(J) \times \Gamma(J) \to \Delta(J),
 \]
 and the naturality condition becomes $(w_J(f, \rho))g = w_K(fg, \rho g)$ for $f
 \from J \to I$, $\rho \in \Gamma(J)$, and $g \from K \to J$.
 
-We will now show that CwF associated to a presheaf category supports
-$\Pi$-types. Given $\Gamma \vdash A$ and $\Gamma.A \vdash B$ we have to define
-$\Gamma \vdash \Pi x: A. B~type$, that is, we have to define the set $(\Pi x:
-A.B) \rho$ for $I \in \cat{C}$ and $\rho \in \Gamma(I)$. The elements $w$ of
-$(\Pi x:A.B)\rho$ are families $w = (w_f~|~J\in \cat{C}, f \from J \to I)$ of
-(dependent) functions such that
-\[
-  w_f u \in B(\rho f, u) \qquad \text{for $J \in \cat{C}, f \from J \to I, and u \in A(\rho f)$},
-\]
-with the requirement that for $g \from K \to J$
-\[
-  (w_f u)g = w_{fg}(ug).
-\]
+\begin{lemma}
+  CwF associated to a presheaf category supports $\Pi$-types.
+  \begin{proof}
+    We give a proof sketch as seen in \cite{Huber}. More detailed proof may be
+    found in \cite{Hofmann}.
 
-For such a family $w \in (\Pi x: A. B)\rho$, the restriction $wf \in (\Pi
-x:A.B)(\rho f)$ for $f: \from J \to I$ is defined by taking
-\[
-  (w f)_g u = w_{fg}u \in B(\rho f g, u)
-\]
-where $g \from K \to J$ and $u \in A(\rho f g)$. This definition satisfies $w 1
-= w$ and $w f g = w(f g)$.
+    Given $\Gamma \vdash A$ and $\Gamma.A \vdash B$ we have to define $\Gamma
+    \vdash \Pi x: A. B~type$, that is, we have to define the set $(\Pi x: A.B)
+    \rho$ for $I \in \cat{C}$ and $\rho \in \Gamma(I)$. The elements $w$ of
+    $(\Pi x:A.B)\rho$ are families $w = (w_f~|~J\in \cat{C}, f \from J \to I)$
+    of (dependent) functions such that
+    \[
+      w_f u \in B(\rho f, u) \qquad \text{for $J \in \cat{C}, f \from J \to I, and u \in A(\rho f)$},
+    \]
+    with the requirement that for $g \from K \to J$
+    \[
+      (w_f u)g = w_{fg}(ug).
+    \]
 
-Now let $\Gamma.A \vdash b : B$; we have to define $\Gamma \vdash \lambda b :
-\Pi x:A.B$, that is , give $(\lambda b)\rho \in (\Pi x:A.B)\rho$. For $f \from
-J \to I$ and $u \in A(\rho f)$ we set
-\[
-  ((\lambda b)\rho)_f u = b (\rho f, u) \in B(\rho f, u)
-\]
-This satisfies for $g \from K \to J$
-\[
-  (((\lambda b)\rho)_f u)g = (b(\rho f, u))g = b(\rho(fg), ug) = ((\lambda b)\rho)_{fg}(ug)
-\]
-and defines a term since
-\[
-  (((\lambda b)\rho)f)_g u = ((\lambda b) \rho)_{fg} u = b(\rho fg, u) = ((\lambda b)(\rho f))_g u.
-\]
+    For such a family $w \in (\Pi x: A. B)\rho$, the restriction $wf \in (\Pi
+    x:A.B)(\rho f)$ for $f: \from J \to I$ is defined by taking
+    \[
+      (w f)_g u = w_{fg}u \in B(\rho f g, u)
+    \]
+    where $g \from K \to J$ and $u \in A(\rho f g)$. This definition satisfies
+    $w 1 = w$ and $w f g = w(f g)$.
 
-To define the application let $\Gamma \vdash u : \Pi x:A.B$ and $\Gamma \vdash
-v : A$, and we set $App(u, v)\rho = (u\rho)_1 (v\rho) \in B(\rho, v\rho)$, thus
-$App(u, v)\rho \in B(1, v)\rho$ as $(\rho, v \rho) = (1, v)\rho$.
-$\beta$-equality is readily checked
-\[
-  App(\lambda b, v)\rho = ((\lambda b)\rho)_1(v\rho)=b(\rho, v\rho)
-\]
-and similarly for $\eta$-equality and other equations.
+    Now let $\Gamma.A \vdash b : B$; we have to define $\Gamma \vdash \lambda b
+    : \Pi x:A.B$, that is , give $(\lambda b)\rho \in (\Pi x:A.B)\rho$. For $f
+    \from J \to I$ and $u \in A(\rho f)$ we set
+    \[
+      ((\lambda b)\rho)_f u = b (\rho f, u) \in B(\rho f, u)
+    \]
+    This satisfies for $g \from K \to J$
+    \[
+      (((\lambda b)\rho)_f u)g = (b(\rho f, u))g = b(\rho(fg), ug) = ((\lambda b)\rho)_{fg}(ug)
+    \]
+    and defines a term since
+    \[
+      (((\lambda b)\rho)f)_g u = ((\lambda b) \rho)_{fg} u = b(\rho fg, u) = ((\lambda b)(\rho f))_g u.
+    \]
+
+    To define the application let $\Gamma \vdash u : \Pi x:A.B$ and $\Gamma
+    \vdash v : A$, and we set $App(u, v)\rho = (u\rho)_1 (v\rho) \in B(\rho,
+    v\rho)$, thus $App(u, v)\rho \in B(1, v)\rho$ as $(\rho, v \rho) = (1,
+    v)\rho$. $\beta$-equality is readily checked
+    \[
+      App(\lambda b, v)\rho = ((\lambda b)\rho)_1(v\rho)=b(\rho, v\rho)
+    \]
+    and similarly for $\eta$-equality and other equations.
+  \end{proof}
+\end{lemma}
 
 \begin{example}
   Let us consider a term of type $A \to A$, and the elements in $Ty(\Gamma)$
@@ -558,13 +580,31 @@ A~type$ and $\Gamma.A \vdash B~type$ is defined by
 \[
   (\Sigma x :A. B)\rho = \{(a, b)~|~a \in A\rho \land b \in B(\rho, a)\}
 \]
-for $\rho \in \Gamma(I), I \in \ob(\cat{C})$. The restrictions are defined
-componentwise $(a, b)f = (af, bf)$ for $f \from J \to I$. The pairing operation
-$\Gamma \vdash (u, v) : \Sigma x:A.B$ of $\Gamma \vdash u : A$ and $\Gamma.A
-\vdash v : B(1, u)$ is defined by the componentwise pairing: $(u, v)\rho =
-(u\rho, v\rho)$. Likewise for the projections $\mathbf{p}$ and $\mathbf{q}$,
-$(\mathbf{p}w)\rho = a$ and $(\mathbf{q}w)\rho = b$ for $w\rho = (a, b)$. This
-validates the necessary equations.
+for $\rho \in \Gamma(I), I \in \ob(\cat{C})$.
+\begin{lemma}
+  CwF associated to a presheaf category supports $\Sigma$-types.
+  \begin{proof}
+    Again we give a proof sketch as seen in \cite{Huber}. More detailed proof
+    is also found in \cite{Hofmann}.
+
+    The restrictions are defined componentwise:
+    \[
+      (a, b)f = (af, bf)
+    \]
+    for $f \from J \to I$.
+
+    The pairing operation $\Gamma \vdash (u, v) : \Sigma x:A.B$ of $\Gamma
+    \vdash u : A$ and $\Gamma.A \vdash v : B(1, u)$ is defined by the
+    componentwise pairing:
+    \[
+      (u, v)\rho = (u\rho, v\rho)
+    \]
+
+    Likewise for the projections $\mathbf{p}$ and $\mathbf{q}$,
+    $(\mathbf{p}w)\rho = a$ and $(\mathbf{q}w)\rho = b$ for $w\rho = (a, b)$.
+    This validates the necessary equations.
+  \end{proof}
+\end{lemma}
 
 \section*{Credits}
 
