@@ -100,70 +100,69 @@ If $\alpha$ is a natural transformation from $F$ to $G$ we can also write this a
 \end{exmp}
 
 \section*{Functor Category}
-\begin{defn}[Functor Category]
-  Natural transformations, as other types of maps that we have encountered earlier
-  can be composed. That is, for any two categories $\cat{A}$ and $\cat{B}$,
-  functors $F, G, H$ between them, natural transformations $\alpha \from F \to
-  G$ and $\beta \from G \to H$:
-  \vspace{-2ex}
-  \[
-  \xymatrix@C+1.5em{
-  \cat{A}
-  \ruppertwocell<8>^F{\alpha}
-  \ar[r]|G
-  \rlowertwocell<-8>_H{\beta}
-  &
-  \cat{B}
-  },
-  \]
-  \vspace{-3ex}\\
-  there is a composite natural transformation $\beta \of \alpha$
-  \[
-  \xymatrix@C+1.5em{
-  \cat{A} \rtwocell^F_H{\hspace{.8em}\beta\of\alpha} &\cat{B}
-  }
-  \]
-  defined by $(\beta\of\alpha)_A = \beta_A \of \alpha_A$ for all $A \in \cat{A}$.
-  There is also an identity natural transformation
-  \[
-  \xymatrix@C+1em{
-  \cat{A} \rtwocell^F_F{\hspace{.5em}1_F} &\cat{B}
-  }
-  \]
-  on any functor $F$, defined by $(1_F)_A = 1_{F(A)}$.
 
-  This gives rives to a category whose objects are the functors from $\cat{A}$ to
-  $\cat{B}$ and whose maps are the natural transformations between them. This is
-  called the \demph{functor category} from $\cat{A}$ to $\cat{B}$, and written as
-  $\ftrcat{\cat{A}}{\cat{B}}$ or $\cat{B}^\cat{A}$.
+Consider a composition $\beta \of \alpha$ between some natural transformations
+$\alpha \from F \to G$ and $\beta \from G \to H$.
+\[
+  \xymatrix@C+1.5em{
+    \cat{A}
+\ruppertwocell<8>^F{\alpha}
+\ar[r]|G
+\rlowertwocell<-8>_H{\beta}
+&
+\cat{B}
+},
+\]
+\vspace{-3ex}\\
+We can define such composite natural transformation
+\[
+  \xymatrix@C+1.5em{
+    \cat{A} \rtwocell^F_H{\hspace{.8em}\beta\of\alpha} &\cat{B}
+  }
+\]
+with $(\beta\of\alpha)_A = \beta_A \of \alpha_A$ for all $A \in \cat{A}$.
+(Recall that $\beta_A$ and $\alpha_A$ are moprhisms in $\cat{B}$.)
+
+We can also define an identity natural transformation
+\[
+  \xymatrix@C+1em{
+    \cat{A} \rtwocell^F_F{\hspace{.5em}1_F} &\cat{B}
+  }
+\]
+on any functor $F$ with $(1_F)_A = 1_{F(A)}$.
+
+Thus we have a definition of a category:
+
+\begin{defn}[Functor Category]
+  The \demph{functor category} from a category $\cat{A}$ to a category
+  $\cat{B}$ (written as $\ftrcat{\cat{A}}{\cat{B}}$ or $\cat{B}^\cat{A}$) is a
+  category whose objects are the functors from $\cat{A}$ to $\cat{B}$. The maps
+  in this category are the natural transformations between functors.
 \end{defn}
 
-\begin{exmp}
-  Let $2$ be the discrete category with two objects. A functor from $2$ to a
-  category $\cat{B}$ is a pair of objects of $\cat{B}$, and a natural
-  transformation is a pair of maps.  The functor category $\ftrcat{2}{\cat{B}}$
-  is therefore isomorphic to the product category $\cat{B} \times \cat{B}$.
-  This fits well with the alternative notation $\cat{B}^2$ for the functor
-  category.
+\begin{exmp}[Functors from a discrete category]
+  Consider the discrete category with two objects, $2$. Any functor from $2$ to
+  some another category $\cat{B}$ will be a pair of objects in $\cat{B}$. A
+  natural transformation between such functors then is a pair of maps between
+  these objects.  Note that the functor category $\ftrcat{2}{\cat{B}}$ is
+  isomorphic to the product category $\cat{B} \times \cat{B}$ and the
+  superscript notation for the functor category $\cat{B}^2$ reflects this
+  nicely.
 \end{exmp}
 
-\begin{exmp}
-  Take ordered sets $A$ and $B$, viewed as categories. Given order-preserving
-  maps $\parpairi{A}{B}{f}{g}$, viewed as functors, there is at most one
-  natural transformation
-  \[
-  \xymatrix{
-  A \rtwocell^f_g &B,
-  }
-  \]
-  and there is one if and only if $f(a) \leq g(a)$ for all $a \in A$.  (The
-  naturality axiom~\eqref{eq:nat} holds automatically, because in an ordered
-  set, all diagrams commute.)  So $\ftrcat{A}{B}$ is an ordered set too; its
-  elements are the order-preserving maps from $A$ to $B$, and $f \leq g$ if and
-  only if $f(a) \leq g(a)$ for all $a \in A$.
+\begin{exmp}[Maps in ordered sets]
+  Consider ordered sets $A$ and $B$, viewed as categories. The maps
+  $\parpairi{A}{B}{f}{g}$ that preserve order can be then considered as
+  functors. Note that there is at most one natural transformation between such
+  functors and it exists if and only if $f(a) \leq g(a)$ for all $a \in A$.  In
+  this case we have the naturality axiom~\eqref{eq:nat} automatically, since
+  all diagrams commute in an ordered set. Moreover, the functor category
+  $\ftrcat{A}{B}$ is an ordered set itself, where elements are the
+  order-preserving maps from $A$ to $B$, and there a morphism $f \leq g$
+  between $f$ and $g$ if and only if $f(a) \leq g(a)$ for all $a \in A$.
 \end{exmp}
 
-\begin{defn}
+\begin{defn}[Natural isomorphism]
   Let $\cat{A}$ and $\cat{B}$ be categories. A \demph{natural isomorphism}
   between functors from $\cat{A}$ to $\cat{B}$ is an isomorphism in
   $\ftrcat{\cat{A}}{\cat{B}}$.
@@ -207,12 +206,14 @@ $\alpha_A\from F(A) \to G(A)$ is an isomorphism for all $A \in \cat{A}$.
   \end{itemize}
 \end{proof}
 
-Then, we say that functors $F$ and $G$ are \demph{naturally isomorphic} if
-there is a natural isomorphism from $F$ to $G$. Note that this natural
-isomorphism is just isomorphism in $\ftrcat{\cat{A}}{\cat{B}}$, and we already
-have notation for this: $F \iso G$.
+\begin{defn}[Isomorphic functors]
+  We call functors $F$ and $G$ \demph{naturally isomorphic} if there is a
+  natural isomorphism from $F$ to $G$, which is just an isomorphism in
+  $\ftrcat{\cat{A}}{\cat{B}}$. The notation for isomorphic functors is the same
+  as for isomorphic objects: $F \iso G$.
+\end{defn}
 
-\begin{defn}
+\begin{defn}[Isomorphic naturally in an object]
   Given functors $\parpair{\cat{A}}{\cat{B}}{F}{G}$, we say that
   \[
   F(A) \iso G(A) \text{ \demph{naturally in} } A
@@ -220,21 +221,24 @@ have notation for this: $F \iso G$.
   if $F$ and $G$ are naturally isomorphic.
 \end{defn}
 
-This alternative terminology can be understood as follows.  If $F(A) \iso
-G(A)$ naturally in $A$ then certainly $F(A) \iso G(A)$ for each individual
-$A$, but more is true: we can choose isomorphisms $\alpha_A\from F(A) \to
-G(A)$ in such a way that the naturality axiom~\eqref{eq:nat} is satisfied.
+Note that the definition says that we not only have $F(A) \iso G(A)$ for each
+individual $A$, but also there is an isomorphism $\alpha_A\from F(A) \to G(A)$
+that satisfies the naturality axiom~\eqref{eq:nat}.
 
 \begin{exmp}
-  Let $F, G\from \cat{A} \to \cat{B}$ be functors from a discrete category
-  $\cat{A}$ to a category $\cat{B}$.  Then $F \iso G$ if and only if $F(A) \iso
-  G(A)$ for all $A \in \cat{A}$.
+  Consider two functors $F, G\from \cat{A} \to \cat{B}$ where $\cat{A}$ is a
+  discrete category. We have $F \iso G$ if and only if $F(A) \iso G(A)$ for all
+  $A \in \cat{A}$. If it is the case, then we also have that $F(A) \iso G(A)$
+  naturally in $A$ for all $A$.
 
-  So in \emph{this} case, $F(A) \iso G(A)$ naturally in $A$ if and only if
-  $F(A) \iso G(A)$ for all $A$.  But this is only true because $\cat{A}$ is
-  discrete.  In general, it is emphatically false.  There are many examples of
-  categories and functors $\parpairi{\cat{A}}{\cat{B}}{F}{G}$ such that $F(A)
-  \iso G(A)$ for all $A \in \cat{A}$, but not \emph{naturally} in $A$.
+  Be aware that it is not always so: there are examples of categories and
+  functors $\parpairi{A}{B}{F}{G}$ where $F(A) \iso G(A)$ for all $A \in
+  \cat{A}$, but not naturally in $\cat{A}$. One of the examples arises if one
+  considers two functors that take the objects of the category of finite sets
+  and bijections to the sets of permutations and the sets of total orders
+  correspondingly.  There one can find isomorphisms between the sets of
+  permutations and the sets of total orders, but no natural isomorphism between
+  such functors.
 \end{exmp}
 
 \section*{Equivalence of Categories}
