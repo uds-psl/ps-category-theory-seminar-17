@@ -34,9 +34,9 @@ natural numbers, using the classical definition of the list type:
 Writing the case for $Cons$ is easy --- just take the first element of the
 pair.  But what about the case of an empty list? This case is tricky because it
 is not clear what should the result be. Obviously, such function (if we do not
-allow definition of partial functions which is the case in many programming
+allow definitions of partial functions which is the case in many programming
 languages) cannot be well defined on the empty list without taking arbitrary
-decisions. But maybe such problems can be prevent from happening at all?
+decisions. But maybe such problems can be prevented from happening at all?
 
 A solution to this issue is an instance for the application of dependent types.
 Dependent types are such types that include simple types, like products and
@@ -47,7 +47,7 @@ be able to define a type for lists that includes the size of the list:
   List(\NN) = Nil : Unit \to List(0)~|~Cons : \NN \times List(n) \to List(Suc(n))
 \]
 \begin{example}
-  The function to construct a list of length $n$, having only $0$ as elements
+  The function to construct a list of a length $n$, having only $0$ as elements
   would then have the type $\Pi n: \NN.List(n)$, indicating that it accepts a
   natural number and returns a value of a type constructed using that number.
 \end{example}
@@ -64,21 +64,21 @@ the function.
 
 \section*{Formalization}
 
-To formalize dependent types we will use a notion of typing context (which is
-almost the same as typing environment as seen for STLC, with the exception that
-it holds dependent types).
+To formalize dependent types we will use a notion of a typing context (which is
+almost the same as the typing environment as seen for STLC, with the exception
+that it holds dependent types).
 
 \begin{definition}[Context]
   A \emph{context} is a list of bindings that connect variables to types: $x_1: A_1,
   \dots, x_n: A_n$. A context is called well-formed if every variable in it is
   distinct from the other variables and each $A_i$ is a type in the context $x_1
-  : A_1, \dots, x_{n-1} : A_{n-1}$, since our types may now include the variables
-  from the context.
+  : A_1, \dots, x_{n-1} : A_{n-1}$.
 \end{definition}
 
 Note that we extend the notion of a well-formed context from STLC --- in STLC
 we only needed the variables to be distinct, since they had no influence on the
-types.
+types. We require the additional condition because our types may now include
+the variables from the context.
 
 Having contexts, we want to work with the following judgements: $a : A$ (term
 $a$ has type $A$) and $A~type$ ($A$ is a type) and consider definitional
@@ -124,12 +124,11 @@ We also need the structural rules:
   \and
   \inferrule*[right=Subst]{\Gamma, x: C, \Delta \vdash \mathcal{J} \qquad \Gamma \vdash c: C}{\Gamma, \Delta[c/x] \vdash \mathcal{J}[c/x]}
 \end{mathpar}
-
 where $x$ and $y$ in C-Ext and C-Ext-Eq are assumed to be fresh variables and
-$\mathcal{J}$ in Weak and Subst ranges over judgements of the form $a : A,
+$\mathcal{J}$ in Weak and Subst ranges over the judgements of the form $a : A,
 A~type, a = b: A, A = B~type$. $[c/x]$ denotes the same substitution as seen in
 STLC, except that it now also applies to the variables that may be contained in
-types.
+the types.
 \end{definition}
 
 The rules C-Emp and C-Ext give us the empty context ($\diamond$) and allow us
@@ -142,9 +141,10 @@ types are the same in both contexts.
 Var says that if a context contains a variable of a certain type, then the
 judgement that this variable has that type in the context is satisfied.
 
-Rules C-Eq define that context equality is an equivalence relation, very
+Rules C-Eq define that context equality is an equivalence relation. Very
 similar rules for terms and types, stating that their equalities are also
-equivalence relations, are omitted for brevity.
+equivalence relations, are omitted for brevity. One should keep in mind however
+that we implicitly include them too.
 
 The rule Tm-Conv states that equivalent types and equivalent contexts may be
 used in place of each other in judgements on terms, while the rule Ty-Conv
@@ -200,19 +200,19 @@ $\Pi$-former.
 
 To introduce instances of $\Pi$-type we use the rule $\Pi$-I which looks almost
 the same as in the simply-typed case, with the exception that our $\lambda$
-here forms a dependent function type, not the simply-typed one.
+here forms a dependent function type, not a simply-typed one.
 
 The rule $\Pi$-I-Eq serves similar purpose to $\Pi$-Eq and ensures the
 preservation of the definitional equality. The similar equality preservation
 rules henceforth will be omitted for the other rules we introduce, but the
 reader should keep their implicit presence in mind while seeing other term and
-type formers that we introduce.
+type formers.
 
-The rule $\Pi$-E regulates the application of a dependent function to some value
-of the correct type results in the return value of a proper type. Note the rule
-only concerns the resulting type here, not the value and that the bound
-variable $x$ (shown as $[x : A] B$ in subscript) is replaced in the type, not
-the value, which is handled by the next rule.
+The rule $\Pi$-E regulates that the application of a dependent function to some
+value of a correct type results in the return value of a proper type. Note that
+the rule only concerns the resulting type here --- not the value --- and that
+the bound variable $x$ (shown as $[x : A] B$ in subscript) is replaced in the
+type, not the value, which is handled by the next rule.
 
 The rule $\Pi$-C defines the resulting value of a dependent function
 application. It is almost the same $\beta$-conversion rule as in STLC, with the
@@ -244,7 +244,7 @@ dependent pair or $\Sigma$-type).
 \end{definition}
 
 The formation rule $\Sigma$-F follows the same pattern as the rule for
-dependent function, but the introduction is a bit different. Note that we take
+dependent functions, but the introduction is a bit different. Note that we take
 such $b$, where the type contains a variable $x : A$ that is substituted by the
 value $a$. Together the values $a$ and $b$ form a pair, where the type of the
 second element depends on the value of the first. We use the notation $[x : A]
@@ -260,9 +260,9 @@ the elements of the pair will replace the corresponding variables in the body
 of the given term, but not the pair variable itself, such substitution occurs
 only in the type.
 
-We know the projection functions for the simply-typed products in STLC. Let us
-now define the projection functions for the \emph{dependent} products, which we
-call $\mathbf{p}$ for the first projection and $\mathbf{q}$ for the second
+We know the projection functions for the simply-typed pairs in STLC. Let us now
+define the projection functions for the \emph{dependent} pairs, which we call
+$\mathbf{p}$ for the first projection and $\mathbf{q}$ for the second
 projection:
 \[
   \mathbf{p}(a) := R^\Sigma_{[z : \Sigma x: A. B]A}([x : A, y: B]x, a) : A
@@ -273,10 +273,10 @@ projection:
 where $\Gamma \vdash A~type$, $\Gamma, x:A \vdash B~type$, and $\Gamma \vdash a
 : \Sigma x: A. B$.
 
-The analogue to dependent sum in set theory is a disjoint union. For every
-family of sets $(B_i)_{i \in I}$ we can form the set $\Sigma_{i \in I} B_i :=
-\{ (i, b)~|~i \in I \land b \in B_i\}$ whose elements consist of an index $i$
-and an element of the corresponding set $B_i$.
+The analogue to dependent sum in set theory is disjoint union. For every family
+of sets $(B_i)_{i \in I}$ we can form the set $\Sigma_{i \in I} B_i := \{ (i,
+b)~|~i \in I \land b \in B_i\}$ whose elements consist of an index $i$ and an
+element of the corresponding set $B_i$.
 
 It is worth notice that we may define the simply-typed products and functions
 in terms of dependent types: we just need the types to not depend on each
@@ -315,13 +315,13 @@ and
   \dots, x_n : A_n$, which is $(x_1, \dots, x_n)$.
 \end{example}
 
-A note on notation: we sometimes write $A\sigma$, where $\Gamma \vdash
-A\sigma~type$, $\Delta \vdash A~type$, and $\sigma \from \Gamma \to \Delta$ for
-some contexts $\Gamma$ and $\Delta$, to denote the application of $\sigma$ on
-the right. That is, $A\sigma$ becomes here a type in the domain context of
-$\sigma$, where $\sigma(A\sigma) = A$. The same notation is sometimes
-analogously used for terms: $a\sigma$ to denote a term $\Gamma \vdash a\sigma :
-A\sigma$, where $\Delta \vdash a : A$.
+We sometimes write $A\sigma$, where $\Gamma \vdash A\sigma~type$, $\Delta
+\vdash A~type$, and $\sigma \from \Gamma \to \Delta$ for some contexts $\Gamma$
+and $\Delta$, to denote the application of $\sigma$ on the right. That is,
+$A\sigma$ becomes here a type in the domain context of $\sigma$, where
+$\sigma(A\sigma) = A$. The same notation is sometimes analogously used for
+terms: $a\sigma$ denotes a term $\Gamma \vdash a\sigma : A\sigma$, where
+$\Delta \vdash a : A$.
 
 Having this notation, we also want the following equations to hold:
 \[
@@ -329,7 +329,7 @@ Having this notation, we also want the following equations to hold:
 \]
 For readability, we usually omit writing indices to the identity morphism $1$,
 using it as the most suitable identity morphism for the surroundings. We also
-assume correct types in the equations, i.e. $(A\sigma)\tau = A(\sigma\tau)$
+assume the correct types in the equations, i.e. $(A\sigma)\tau = A(\sigma\tau)$
 assumes $\sigma \from \Delta \to \Gamma$, $\tau \from \Theta \to \Delta$, and
 $\Gamma \vdash A~type$.
 
@@ -345,14 +345,13 @@ $\Gamma \vdash A~type$.
     \mathbf{p}(\sigma, a) = \sigma \quad \mathbf{q}(\sigma, a) = a \quad (\sigma, a) \tau =
     (\sigma \tau, a \tau) \quad (\mathbf{p}, \mathbf{q}) = 1
   \]
-  Note that in the last equation $1: \Gamma.A \to \Gamma.A$ and that we leave
-  the indices on $\mathbf{p}$ implicit.
+  Note that in the last equation $1: \Gamma.A \to \Gamma.A$.
 \end{definition}
 
 \section*{Categories with Families}
 
 There are several ways to model dependent types with category theory, the one
-we show is using Categories with Families.
+we show relies on Categories with Families.
 
 \begin{definition}[Category of families of sets]
   The category of families of sets, $\Fam$, has as objects $(A, B)$ where
@@ -387,8 +386,8 @@ A \emph{category with families} is given by ($\cat{C}$,$F$) where:
 \end{itemize}
 \end{definition}
 
-A category with families supports $\Pi$- and $\Sigma$-types if it is
-closed under the $\Pi$ and $\Sigma$ rules.
+A category with families supports $\Pi$- and $\Sigma$-types if it is closed
+under the $\Pi$ and $\Sigma$ rules.
 
 \section*{Presheaf model}
 
@@ -401,29 +400,29 @@ recall the definition of a presheaf:
 \end{definition}
 
 Let us see how the category of presheaves over $\cat{C}$ (we denote it as
-$Psh(\cat{C})$) forms a category of families where presheaves are contexts.  If
+$Psh(\cat{C})$) forms a category of families where presheaves are contexts. If
 we set presheaves to be the contexts, then the context morphisms are morphisms
-in $[\cat{C}^\op, \Set]$, which are natural transformations between contravariant
-functors. These natural transformations satisfy the following naturality
-condition:
+in $[\cat{C}^\op, \Set]$, which are natural transformations between
+contravariant functors. These natural transformations satisfy the following
+naturality condition:
 \[
   \xymatrix{
     \Delta(I) \ar[r]^{\sigma_I} \ar[d]^{\Delta_f} & \Gamma(I) \ar[d]^{\Gamma_f} \\
     \Delta(J) \ar[r]^{\sigma_J} & \Gamma(J)
   }
 \]
-where $I, J \in \ob(\cat{C}); \Gamma, \Delta \in Psh(\cat{C}); \sigma
-\from \Delta \to \Gamma$, and $f \from J \to I$. $\Gamma_f$ and $\Delta_f$
-denote the morphisms that we obtain from the morphism $f$ in $\Set$ by the
-functoriality of $\Gamma$ and $\Delta$. For instance, if $\rho \in \Gamma(I)$,
-then we have a morphism $\Gamma_f$ to the corresponding $\rho f \in \Gamma(J)$
-(we write $f$ applied on the right to connect to the initial morphism in
-$\cat{C}$) since the contravariant functor $\Gamma$ preserves morphism
-mappings.
+where $I, J \in \ob(\cat{C}); \Gamma, \Delta \in Psh(\cat{C}); \sigma \from
+\Delta \to \Gamma$, and $f \from J \to I$. $\Gamma_f$ and $\Delta_f$ denote the
+morphisms that we obtain from the morphism $f$ in $\Set$ by the fact that
+$\Gamma$ and $\Delta$ are functors. For instance, if $\rho \in \Gamma(I)$, then
+we have a morphism $\rho \mapsto \rho f$ written as $\Gamma_f$ to the
+corresponding $\rho f \in \Gamma(J)$, (we write $f$ applied on the right to
+connect to the initial morphism in $\cat{C}$) since the contravariant functor
+$\Gamma$ preserves morphism mappings.
 
 Recall that every context has a morphism from itself to the empty context.
 Hence we set the empty context to be the terminal object in the category of
-presheaves, the terminal context, which is a functor that maps everything to
+presheaves, the terminal context. That is a functor that maps everything to
 the terminal object in $\Set$, the singleton set. Indeed, we need a unique
 natural transformation from every presheaf to the terminal presheaf. This
 natural transformation is a family of unique morphisms to the terminal object
@@ -438,7 +437,7 @@ that this way the composition is inherited from $\cat{C}$.
 
 Now we can define $Ty_F(\Gamma)$ as a set of presheaves over $\int \Gamma$.
 Then $A \in Ty_F(\Gamma)$ is a presheaf and for a morphism in $\cat{C}$, $f
-\from J \to I$, $\rho \in \Gamma(I)$, $x \in A(I, \rho)$ we have $A(f, \rho)(x)
+\from J \to I$, $\rho \in \Gamma(I)$, $u \in A(I, \rho)$ we have $A(f, \rho)(u)
 \in A(J, \Gamma_f \rho)$ since $A$ is a functor. For a context morphism $\sigma
 \from \Delta \to \Gamma$ we define a functor $\int \sigma \from \int \Delta \to
 \int \Gamma$ by
@@ -448,22 +447,25 @@ Then $A \in Ty_F(\Gamma)$ is a presheaf and for a morphism in $\cat{C}$, $f
 where $\rho' \in \Delta(I)$.
 
 To define terms of a dependent type $\Gamma \vdash A~type$ we require a family
-of elements $a \rho \in A \rho$ for each $I \in \cat{C}$ and $\rho \in
-\Gamma(I)$. These elements should satisfy for any $f \from J \to I$ the
-equation
+of elements $a(I, \rho) \in A(I, \rho)$ for each $I \in \ob(\cat{C})$ and $\rho
+\in \Gamma(I)$. Additionally, since $A$ is a presheaf these elements should
+satisfy for any $f \from J \to I$ the equation
 \[
   A(f, \rho)(a(I, \rho)) = a(J, \Gamma_f \rho).
 \]
 The context morphism $\sigma \from \Delta \to \Gamma$ then operates on a term
 $\Delta \vdash a\sigma : A\sigma$ by composition
 \[
-  (a\sigma_I)(I, \rho) = a(I, \sigma_I(\rho)).
+  (a\sigma_I)(I, \rho') = a(I, \sigma_I(\rho')).
 \]
-We define the presheaf $\Gamma.A$ corresponding to a context extension as
+for $\rho' \in \Delta(I)$.
+
+We define the presheaf $\Gamma.A$ corresponding to a context extension for
+objects $I \in \ob(\cat{C})$ as
 \[
   (\Gamma.A)(I) = \{(\rho, u)~|~\rho \in \Gamma(I) \land u \in A(I, \rho)\}
 \]
-for objects $I \in \cat{C}$ and for morphisms $f \from J \to I$ as
+and for morphisms $f \from J \to I$ as
 \[
   (\Gamma.A)_f(\rho, u) = ((\Gamma.A)_f \rho, A(f, \rho)(u)).
 \]
@@ -471,145 +473,138 @@ The projections are then defined by $\mathbf{p} \from \Gamma.A \to \Gamma$,
 $\mathbf{p}(\rho, u) = \rho$, and $\Gamma.A \vdash \mathbf{q} : A\mathbf{p}$ by
 $\mathbf{q}(\rho, u) = u$. Under context morphism $\sigma \from \Delta \to
 \Gamma$ we define an extension of $\Gamma$ with a term $\Delta \vdash a :
-A\sigma$ $(\sigma, a) \from \Delta \to \Gamma.A$ by $(\sigma, a)\rho = (\sigma
-\rho, a \rho)$.
+A\sigma$, $(\sigma, a) \from \Delta \to \Gamma.A$ by
+\[
+  (\sigma, a)(I, \rho') = (\sigma_I \rho', a(I, \rho'))
+\]
+
+The second projection $\mathbf{q}$ here is the one that models the variables in
+an extended context. The application of it returns the current term for the
+variable. Note the similarity to the variable rule in the cartesian closed
+category model of STLC, as it is also modeled by a second projection there.
 
 \subsection*{Dependent product}
 
-So far we know how to represent a type $\Gamma \vdash A~type$ and a dependent
-type $\Gamma.A \vdash B$. Now we want to have a representation for a function
-that corresponds to a type $\Gamma \vdash \Pi A. B$.
-
-To represent the same type in the model with dependent types we will also use
-exponentials, but on the presheaves. Let us consider how to define exponents in
-presheaf categories. Let $\Gamma$ and $\Delta$ be presheaves and suppose we
-already know how the exponent $\Delta^\Gamma$ is constructed. Then we get by
-the Yoneda Lemma and the fact that $-^\Gamma$ should be right adjoint to $-
-\times \Gamma$, that
+So far we have a model for types $\Gamma \vdash A~type$ and $\Gamma.A \vdash
+B~type$. Now we want to find a model for a dependent function type $\Gamma
+\vdash \Pi x:A.B$ that should connect a term $u \in A(I, \rho)$ with a term $v
+\in B(I, (\rho, a))$. In other words, the element $\pi$ of $(\Pi x:A.B)(I, \rho)$
+should satisfy
 \[
-  (\Delta^\Gamma)(I) \cong Hom(\mathbf{y}I, \Delta^\Gamma) \cong Hom(\mathbf{y}I \times \Gamma, \Delta)
+  \pi(u) \in B(I, (\rho, u))
 \]
-where $\mathbf{y}$ is the Yoneda embedding.
+for some $I \in \ob(\cat{C})$, $\Gamma \in \ob(Psh(\cat{C}))$, $\rho \in
+\Gamma(I)$.
 
-We can take that as a definition. Then an element $w$ of $(\Delta^\Gamma)(I)$
-is a natural transformation $w \from \mathbf{y}I\times \Gamma \to \Delta$ given
-by functions
+However, this condition alone is not enough: since $\Pi x: A.B$ is a presheaf
+we also need to preserve the equalities for the morphisms in $\int \Gamma$
+(which are morphisms in $\cat{C}$). To generalize for the morphism $f \from J
+\to I$ (where $I, J \in \ob(\cat{C}))$) we extend $\pi \in (\Pi x: A.B)(I,
+\rho)$ to a family of functions $\pi = (\pi_f~|~f \from J \to I)$ and require
+the following equation to hold:
 \[
-  w_J \from (\mathbf{y}I)(J) \times \Gamma(J) \to \Delta(J),
+  \pi_f(u) \in B(J, (\Gamma_f \rho, A(f, \rho)(u)))
 \]
-and the naturality condition becomes $(w_J(f, \rho))g = w_K(fg, \rho g)$ for $f
-\from J \to I$, $\rho \in \Gamma(J)$, and $g \from K \to J$.
+where $\rho \in \Gamma(I)$ and $u \in A(J, \Gamma_f \rho)$. Notice that since
+$(f, \rho)$ is a morphism in $\int \Gamma$ we have $A(f, \rho)(u) \in A(I,
+\Gamma_f \rho)$. Another point is that if we take $1 \from I \to I$ instead of
+$f$, then we get our above condition immediately.
 
+We also need to respect compositions:
+\[
+  \pi_{fg}(A(g, \Gamma_f \rho)(u)) = B(g, (\Gamma_f \rho, A(f, \rho)(u)))(\pi_f(u))
+\]
+for some $g \from K \to J$.
+
+And define the necessary equality for operations of the morphisms in $\cat{C}$
+on the right
+\[
+  ((\Pi u: A.B)(h, \Gamma_f \rho)(\pi))_f(u) = \pi_{hf}(u)
+\]
+where $h \from I' \to I$, $\pi \in (\Pi x:A.B)(I, \rho)$, $f \from J \to I'$,
+$u \in A(J, \Gamma_f(\Gamma_h \rho))$, and $(\Pi x: A.B)(h, \Gamma_f \rho)(\pi)
+\in (\Pi x: A.B')(I, \Gamma_h \rho)$.
+
+Let us now define terms $\lambda x: A. b$ of a dependent function type. If we
+have some $b \in B(I, (\rho, x))$, then we define $(\lambda x: a.b)(I, \rho)
+\in (\Pi x: A.B)(I, \rho)$ by:
+\[
+  ((\lambda u: A.b)(I, \rho))_f(u) = b(J, (\Gamma_f \rho, u)) \in B(J, (\Gamma_f \rho, u))
+\]
+where $f \from J \to I$ and $u \in A(J, \Gamma_f \rho)$. Note that this
+definition satisfies the required equalities above.
+
+What remains is to define the application of the lambda terms. First let
+$\Gamma \vdash u : \Pi x:A.B$ and $\Gamma \vdash v : A$. The application
+morphism $App$ is then thus defined for some $I \in \ob(\cat{C})$:
+\[
+  App(u, v)(I, \rho) = (u(I, \rho))_1(v(I, \rho)) \in B(I, (\rho, v(I, \rho)))
+\]
+
+Since the necessary elements of $\Pi$-types are in place, we can state the soundness lemma:
 \begin{lemma}
   CwF associated to a presheaf category supports $\Pi$-types.
   \begin{proof}
-    We give a proof sketch as seen in \cite{Huber}. More detailed proof may be
-    found in \cite{Hofmann}.
-
-    Given $\Gamma \vdash A$ and $\Gamma.A \vdash B$ we have to define $\Gamma
-    \vdash \Pi x: A. B~type$, that is, we have to define the set $(\Pi x: A.B)
-    \rho$ for $I \in \cat{C}$ and $\rho \in \Gamma(I)$. The elements $w$ of
-    $(\Pi x:A.B)\rho$ are families $w = (w_f~|~J\in \cat{C}, f \from J \to I)$
-    of (dependent) functions such that
-    \[
-      w_f u \in B(\rho f, u) \qquad \text{for $J \in \cat{C}, f \from J \to I, and u \in A(\rho f)$},
-    \]
-    with the requirement that for $g \from K \to J$
-    \[
-      (w_f u)g = w_{fg}(ug).
-    \]
-
-    For such a family $w \in (\Pi x: A. B)\rho$, the restriction $wf \in (\Pi
-    x:A.B)(\rho f)$ for $f: \from J \to I$ is defined by taking
-    \[
-      (w f)_g u = w_{fg}u \in B(\rho f g, u)
-    \]
-    where $g \from K \to J$ and $u \in A(\rho f g)$. This definition satisfies
-    $w 1 = w$ and $w f g = w(f g)$.
-
-    Now let $\Gamma.A \vdash b : B$; we have to define $\Gamma \vdash \lambda b
-    : \Pi x:A.B$, that is , give $(\lambda b)\rho \in (\Pi x:A.B)\rho$. For $f
-    \from J \to I$ and $u \in A(\rho f)$ we set
-    \[
-      ((\lambda b)\rho)_f u = b (\rho f, u) \in B(\rho f, u)
-    \]
-    This satisfies for $g \from K \to J$
-    \[
-      (((\lambda b)\rho)_f u)g = (b(\rho f, u))g = b(\rho(fg), ug) = ((\lambda b)\rho)_{fg}(ug)
-    \]
-    and defines a term since
-    \[
-      (((\lambda b)\rho)f)_g u = ((\lambda b) \rho)_{fg} u = b(\rho fg, u) = ((\lambda b)(\rho f))_g u.
-    \]
-
-    To define the application let $\Gamma \vdash u : \Pi x:A.B$ and $\Gamma
-    \vdash v : A$, and we set $App(u, v)\rho = (u\rho)_1 (v\rho) \in B(\rho,
-    v\rho)$, thus $App(u, v)\rho \in B(1, v)\rho$ as $(\rho, v \rho) = (1,
-    v)\rho$. $\beta$-equality is readily checked
-    \[
-      App(\lambda b, v)\rho = ((\lambda b)\rho)_1(v\rho)=b(\rho, v\rho)
-    \]
-    and similarly for $\eta$-equality and other equations.
+    Follows after the verification of the $\Pi$-rules on the above equations. A
+    detailed proof is found $\cite{Hofmann}$
   \end{proof}
 \end{lemma}
 
 \begin{example}
-  Let us consider a term of type $A \to A$, and the elements in $Ty(\Gamma)$
-  and $Ter(\Gamma, A \to A)$ for some $\vdash \Gamma~ctxt$, $\Gamma \vdash
-  A~type$ in the presheaf model.
-
-  For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we give the
+  Let us consider a representation of a term of type $A \to A$ for some $\vdash
+  \Gamma~ctxt$, $\Gamma \vdash A~type$ in the presheaf model. For a CwF $(\cat{C}, F), I, J \in ob(\cat{C}), f \from J \to I$ we give the
   element of $\mathit{Ty}(\Gamma)$ corresponding to the type $A \to A$:
   \[
-    (A \to A)\rho = \{w | w_f u \in A(\rho f), u \in A(\rho f)\} = \{\lambda I f u.u\}
+    (A \to A)(I, \rho) = \{\pi~|~\pi_f(u) \in A(I, \Gamma_f \rho), u \in A(I, \Gamma_f \rho)\} = \{\lambda I f u.u\}
   \]
-  The required equalities hold trivially for any $g \from K \to J$, $((\lambda
-  I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$.
-
-  $\Gamma, x : A \vdash x : A$ corresponds to $q$ in the model. Thus $\Gamma
-  \vdash \lambda x.x : A -> A$ corresponds to $\lambda q$ being defined as
-  follows:
+  Note that the required equalities hold trivially for any $g \from K \to J$,
+  $((\lambda I f u.u)_f u) g = (\lambda I f u.u)_{fg} (ug)$. $\Gamma, x : A
+  \vdash x : A$ corresponds to $q$ in the model. Thus $\Gamma \vdash \lambda
+  x.x : A -> A$ corresponds to $\lambda q$ being defined as follows:
   \[
-    ((\lambda q) \rho)_f u = q(\rho f, u) = u
+    ((\lambda q) (I, \rho))_f u = q(\Gamma_f \rho, u) = u
   \]
 \end{example}
 
 \subsection*{Dependent sum}
-The interpretation of $\Gamma \vdash \Sigma x:A.B~type$ for $\Gamma \vdash
-A~type$ and $\Gamma.A \vdash B~type$ is defined by
+Suppose we have some types $\Gamma \vdash A~type$ and $\Gamma.A \vdash B~type$.
+Then we can define the dependent pair type $\Gamma \vdash \Sigma x:A.B~type$
+for some $I \in \ob(\cat{C})$ by
 \[
-  (\Sigma x :A. B)\rho = \{(a, b)~|~a \in A\rho \land b \in B(\rho, a)\}
+  (\Sigma a :A. B)(I, \rho) = \{(a, b)~|~a \in A(I, \rho) \land b \in B(I, (\rho, a))\}
 \]
-for $\rho \in \Gamma(I), I \in \ob(\cat{C})$.
+where $\rho \in \Gamma(I)$.
+
+Note that as is the case with the dependent product we need to take the
+morphisms in $\cat{C}$ into account if we want $\Sigma x:A.B$ to be a presheaf.
+This leads us to the following equation for some $f \from J \to I$:
+\[
+  \Gamma_f(a, b) = (\Gamma_f a, \Gamma_f b)
+\]
+
+Also, for a pair to be a term, both of its elements should terms in the
+following manner:
+\[
+  (u, v)(I, \rho) = (u(I, \rho), v(I, \rho))
+\]
+where $u \in A(I, \rho)$ and $v \in B(I, (\rho, u))$.
+
+Lastly, we need projection morphisms to be defined:
+\[
+  (\mathbf{p}(w))(I, \rho) = a
+\]
+\[
+  (\mathbf{q}(w))(I, \rho) = b
+\]
+where $w(I, \rho) = (a, b)$.
+
 \begin{lemma}
   CwF associated to a presheaf category supports $\Sigma$-types.
   \begin{proof}
-    Again we give a proof sketch as seen in \cite{Huber}. More detailed proof
-    is also found in \cite{Hofmann}.
-
-    The restrictions are defined componentwise:
-    \[
-      (a, b)f = (af, bf)
-    \]
-    for $f \from J \to I$.
-
-    The pairing operation $\Gamma \vdash (u, v) : \Sigma x:A.B$ of $\Gamma
-    \vdash u : A$ and $\Gamma.A \vdash v : B(1, u)$ is defined by the
-    componentwise pairing:
-    \[
-      (u, v)\rho = (u\rho, v\rho)
-    \]
-
-    Likewise for the projections $\mathbf{p}$ and $\mathbf{q}$,
-    $(\mathbf{p}w)\rho = a$ and $(\mathbf{q}w)\rho = b$ for $w\rho = (a, b)$.
-    This validates the necessary equations.
+    Follows after verification of the $\Sigma$-rules. A detailed proof is found
+    in \cite{Hofmann}.
   \end{proof}
 \end{lemma}
-
-\section*{Credits}
-
-Most of the material on the dependent types bases on \cite{Hofmann}, while
-starting from categories with families we closely follow \cite{Huber}.
 
 \bibliography{main}
 
